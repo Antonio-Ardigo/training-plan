@@ -1,0 +1,6 @@
+.mcpb-cache/
+.DS_Store
+*.swp
+node_modules/
+__pycache__/
+*.pyc

@@ -12,9 +12,10 @@ Takes a free-form learning goal and produces:
 
 1. A **Principle Extraction** of the domain (3-5 core principles)
 2. A refined **SMART Goal** (max 15 words)
-3. **N sub-goals** decomposed across 5 axes, each mapped to principles
-4. A **prerequisite graph** with hard dependencies
-5. A suggested **sequence** derived from the prerequisite graph
+3. A plan-level **Motivation & Course Overview (VOC)** — a learner-editable bird's-eye view (why it matters, course arc, core-principles digest, completion outcomes)
+4. **N sub-goals** decomposed across 5 axes, each mapped to principles
+5. A **prerequisite graph** with hard dependencies
+6. A suggested **sequence** derived from the prerequisite graph
 
 ---
 
@@ -205,6 +206,18 @@ When decomposing a goal, produce this structure:
 
 ## SMART Goal
 <15-word refined statement>
+
+## Motivation & Course Overview (VOC)
+> _Editable by the learner. Bird's-eye view and voice-of-customer anchor;
+> feedback on it may restructure the plan._
+
+**Why this matters:** <1-3 sentences — real-world stakes and relevance>
+
+**Bird's-eye view of the course:** <2-4 sentences — end-to-end scope and how the sub-goals connect>
+
+**Core principles & key facts:** <plain-language digest of the Principle Extraction table above>
+
+**What you'll be able to do on completion:** <concrete capabilities tied to the SMART Goal and Verification sub-goal(s)>
 
 ## Sub-Goals
 

@@ -148,6 +148,10 @@ Rules:
 - If a `requires` prerequisite is NOT in the learner profile, flag it as a WARNING
 - Every dependency in the Sequence must trace to a graph edge -- no intuited dependencies
 
+### Motivation / VOC Overview
+
+After decomposition, compose a plan-level **Motivation & Course Overview (VOC)** — the course's bird's-eye view and voice-of-customer anchor. It has four parts: *Why this matters*, *Bird's-eye view of the course*, *Core principles & key facts* (a plain-language digest of the Principle Extraction table), and *What you'll be able to do on completion* (concrete capabilities tied to the SMART Goal and Verification SG). It is plan-level and **distinct from the SG-1 Motivation session blueprint** — informative, not teaching content, and explicitly **editable by the learner**. If the learner revises it or gives feedback on it, re-evaluate whether the decomposition still matches the stated scope/outcomes and **offer to re-decompose (restructure) the plan**, then refresh the VOC digest.
+
 ## TTT Session Protocol
 
 ### When DESIGNING sessions (for /create-training-plan):
@@ -192,7 +196,7 @@ Follow these phases in order:
 6. **EVALUATE FINAL**
    - PASS -> RECORD
    - FAIL -> Loop back to TEACH (narrower focus, max 2 loops total)
-7. **RECORD** -- Update plan file + write transcript + delete checkpoint + update learner profile + export concept file
+7. **RECORD** -- Update plan file + write transcript + delete checkpoint + update learner profile + export concept file + (if the sub-goal work naturally yielded one) produce a deliverable artefact `<topic>_artefact_SG<N>_<slug>.md` + register every artefact produced in the Artefacts Register
 
 ## Output File Formats
 
@@ -207,6 +211,22 @@ Generated: <date> | Status: in-progress
 
 ## SMART Goal
 <15-word refinement>
+
+## Motivation & Course Overview (VOC)
+> _Editable by the learner. This is the course's bird's-eye view and
+> voice-of-customer anchor. If you change anything here, tell me — your
+> feedback may restructure the plan (re-decomposition of sub-goals)._
+
+**Why this matters:** <1-3 sentences — real-world stakes and relevance>
+
+**Bird's-eye view of the course:** <2-4 sentences — what the course covers
+end to end and how the sub-goals connect into one arc>
+
+**Core principles & key facts:** <plain-language digest of the 3-5 core
+principles from Principle Extraction plus any load-bearing facts>
+
+**What you'll be able to do on completion:** <bulleted concrete capabilities
+tied to the SMART Goal and the Verification sub-goal(s)>
 
 ## Principle Extraction
 
@@ -288,9 +308,23 @@ Generated: <date> | Status: in-progress
 
 (repeat for every sub-goal — Core Principle SGs include the Worked Example field, others do not)
 
+## Artefacts Register
+> _Visible anchor for every artefact this course produces. Seeded at plan
+> creation and updated as sessions run — each artefact is reusable context._
+
+| Artefact | Type | Source | Path | Status |
+|----------|------|--------|------|--------|
+| <plan title> | plan | — | <topic>_training_plan.md | current |
+
 ## Progress Log
 (updated by /run-session)
 ```
+
+Artefact types: `plan` / `concept-file` / `transcript` / `deliverable` / `profile`.
+Seed the register with the plan file (and the learner profile if one exists).
+The RECORD phase of `/run-session` appends a row for every artefact a session
+produces — including any deliverable artefact stored as
+`<topic>_artefact_SG<N>_<slug>.md`.
 
 ### Session Transcript File (`<topic>_session_SG<N>.md`)
 
@@ -344,6 +378,9 @@ Date: <date>
 - ALWAYS update the learner profile during the RECORD phase of /run-session
 - ALWAYS check the learner profile (if it exists) when creating a new training plan via /create-training-plan
 - ALWAYS export a concept file during RECORD if teaching occurred
+- ALWAYS register every artefact a session produces (transcript, concept file, deliverable) as a row in the Artefacts Register during RECORD -- this keeps the visible anchor authoritative
+- MAY produce a deliverable artefact (`<topic>_artefact_SG<N>_<slug>.md`) during RECORD when the sub-goal work naturally yields one (e.g., a filled-in template, worked calculation sheet, checklist, or reference the learner builds) -- store it and register it
+- When the learner edits or gives feedback on the Motivation & Course Overview (VOC), re-evaluate the decomposition and OFFER to restructure the plan (never restructure silently); refresh the VOC digest after any restructure
 - MENTION the deep-dive option once after the first teaching block -- never repeat the offer
 - OPTIONALLY offer a concept map after the TEACH phase -- never insist, just offer once
 - Use /training-status to show the learner their cross-plan analytics

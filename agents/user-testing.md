@@ -255,11 +255,13 @@ Read ALL generated artifacts and run the complete checklist. Write the report to
 - [ ] `# Training Plan:` header with Generated date and Status
 - [ ] `## Learning Goal` present with content
 - [ ] `## SMART Goal` present, max 15 words
+- [ ] `## Motivation & Course Overview (VOC)` present with all four labelled parts (Why this matters, Bird's-eye view of the course, Core principles & key facts, What you'll be able to do on completion)
 - [ ] `## Principle Extraction` table with 4 columns (Principle, Statement, Formally, Prerequisites)
 - [ ] `## Sub-Goals` table present
 - [ ] `## Prerequisite Graph` present
 - [ ] `## Sequence` present
 - [ ] `## Session Blueprints` present (one per sub-goal)
+- [ ] `## Artefacts Register` table present with 5 columns (Artefact, Type, Source, Path, Status)
 - [ ] `## Progress Log` present
 
 #### Sub-Goals Table (7 checks)
@@ -305,6 +307,11 @@ Read ALL generated artifacts and run the complete checklist. Write the report to
 
 #### CTQ Taxonomy (1 check)
 - [ ] All failure modes used are from: conflation, overgeneralization, missing-prerequisite, procedural-without-conceptual, verbal-without-formal, formal-without-intuitive
+
+#### Motivation / VOC Overview (3 checks)
+- [ ] All four parts populated (not placeholders)
+- [ ] "Core principles & key facts" digest is consistent with the Principle Extraction table (no principle contradicted or invented)
+- [ ] "What you'll be able to do on completion" outcomes trace to the SMART Goal and Verification sub-goal(s)
 
 ### B. Transcript Protocol Compliance (per transcript)
 
@@ -373,6 +380,8 @@ Calculate for each session:
 - [ ] Profile session history matches transcript files
 - [ ] No orphaned checkpoint files (checkpoint exists but session is recorded as complete)
 - [ ] Concept files reference correct plan and session number
+- [ ] Artefacts Register seeded with the plan file (and the learner profile if it exists)
+- [ ] Every artefact written to disk by a session (transcript, concept file, deliverable) appears as a row in the Artefacts Register, and every register Path resolves to a file that exists
 
 ---
 

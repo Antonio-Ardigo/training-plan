@@ -5,7 +5,7 @@ Generate customized learning paths using **Test-Teach-Test (TTT)** methodology w
 ## How It Works
 
 1. You provide a learning goal
-2. The plugin decomposes it into testable sub-goals with CTQ mastery criteria
+2. The plugin decomposes it into testable sub-goals with CTQ mastery criteria, and writes a plan-level **Motivation & Course Overview (VOC)** — a bird's-eye view of the course, its core principles and key facts, and what you'll be able to do on completion. You can edit this overview, and your feedback on it can restructure the plan.
 3. For each sub-goal, you run a TTT session:
    - **Test** -- face a practical case immediately (no theory first)
    - **Teach** -- get principle-first concept explanations for your gaps (adaptive: abbreviated for simple gaps, full 7-section with LaTeX, Worked Examples, and CTQ for complex gaps, comparison for conflation)
@@ -14,6 +14,7 @@ Generate customized learning paths using **Test-Teach-Test (TTT)** methodology w
 5. Sessions save checkpoints -- if interrupted, resume from where you left off
 6. A learner profile tracks your progress, strengths, and gap patterns across all plans
 7. A concept library tracks your learning artifacts across all sessions
+8. An **Artefacts Register** in each plan is a visible anchor listing every artefact the course produces (transcripts, concept files, and on-demand deliverables), updated as sessions run
 
 ## Commands
 
@@ -74,6 +75,7 @@ Example:
 | `<topic>-socratic_training_plan.md` | Socratic plan + progress tracking |
 | `<topic>_session_SG<N>.md` | Session transcript per sub-goal |
 | `<topic>_checkpoint_SG<N>.md` | In-progress session checkpoint (deleted on completion) |
+| `<topic>_artefact_SG<N>_<slug>.md` | Deliverable artefact produced by a session when the work yields one (registered in the plan's Artefacts Register) |
 | `learner_profile.md` | Persistent learner profile across all plans |
 | `concept-<domain>-<topic>.md` | Concept file from Teach phase (per session with gaps) |
 

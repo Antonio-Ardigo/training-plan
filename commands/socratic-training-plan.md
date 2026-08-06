@@ -151,6 +151,21 @@ If the learner profile indicated strengths or gap patterns relevant to a sub-goa
 - **Profile note (strength):** "Learner has prior mastery in [topic] -- set Initial Test at elevated difficulty"
 - **Profile note (gap pattern):** "Learner has recurring gap in [pattern] -- include proactive Quick Check in Teach Topics even if not identified in Initial Test"
 
+### Step 3.5: Compose the Motivation / VOC Overview
+
+After decomposition and blueprint design (so the digest and outcomes are accurate), compose a plan-level **Motivation & Course Overview (VOC)** — a bird's-eye view that anchors the whole course. This is the "voice of customer" section: informative, plain-language, and **editable by the learner**.
+
+Write four parts:
+- **Why this matters:** 1-3 sentences on real-world stakes and relevance.
+- **Bird's-eye view of the course:** 2-4 sentences on what the course covers end to end and how the sub-goals connect into one arc.
+- **Core principles & key facts:** a plain-language digest of the 3-5 core principles from the Principle Extraction table (Step 1.75), plus any load-bearing facts.
+- **What you'll be able to do on completion:** a bulleted list of concrete capabilities tied to the SMART Goal and the Verification sub-goal(s).
+
+Rules:
+- This is a plan-level overview, **distinct from the SG-1 Motivation session blueprint** (which stays a Socratic TTT session on "why this matters").
+- Keep it informative — **not** teaching content, no test, no theory. (The overview names *what* is discovered; it does not spoil the Discovery Questions.)
+- It goes near the top of the plan file (see Step 4 template), so the learner sees the big picture before the details.
+
 ### Step 4: Write the Plan File
 
 Use the Write tool to create `<topic>-socratic_training_plan.md` in the current directory. Use this exact format:
@@ -175,6 +190,22 @@ Each session follows a **Question → Tension → Resolution → Test** arc:
 4. **Test** — the learner demonstrates they can reconstruct the reasoning, not just repeat the answer.
 
 **Socratic Guidance Chains** are provided in each blueprint: sequences of 3-6 questions the instructor asks if the learner is stuck. Each question narrows the search space without giving the answer. The chain is designed so that answering the last question makes the conclusion inescapable.
+
+## Motivation & Course Overview (VOC)
+> _Editable by the learner. This is the course's bird's-eye view and
+> voice-of-customer anchor. If you change anything here, tell me — your
+> feedback may restructure the plan (re-decomposition of sub-goals)._
+
+**Why this matters:** <1-3 sentences — real-world stakes and relevance>
+
+**Bird's-eye view of the course:** <2-4 sentences — what the course covers
+end to end and how the sub-goals connect into one arc>
+
+**Core principles & key facts:** <plain-language digest of the 3-5 core
+principles from Principle Extraction plus any load-bearing facts>
+
+**What you'll be able to do on completion:** <bulleted concrete capabilities
+tied to the SMART Goal and the Verification sub-goal(s)>
 
 ## Principle Extraction
 
@@ -266,14 +297,28 @@ Each session follows a **Question → Tension → Resolution → Test** arc:
 
 (repeat for every sub-goal)
 
+## Artefacts Register
+> _Visible anchor for every artefact this course produces. Seeded at plan
+> creation and updated as sessions run — each artefact is reusable context._
+
+| Artefact | Type | Source | Path | Status |
+|----------|------|--------|------|--------|
+| <plan title> | plan | — | <topic>-socratic_training_plan.md | current |
+
 ## Progress Log
 (updated by /run-session)
 ```
+
+Seed the **Artefacts Register** with the plan file itself. If a `learner_profile.md`
+exists in the directory, add a row for it too (`profile` type). Session artefacts
+(transcripts, concept files, and any deliverables) are appended by `/run-session`
+during its RECORD phase.
 
 ### Step 5: Confirm to the User
 
 After writing the file, present a summary:
 - The SMART goal
+- The Motivation & Course Overview (VOC) — and **invite the learner to review and edit it**. State that edits are welcome and that feedback on it may **restructure the course**.
 - The principle extraction table
 - The sub-goals table (note the "Discover" framing)
 - The Socratic method explanation (Question → Tension → Resolution → Test)
@@ -281,6 +326,8 @@ After writing the file, present a summary:
 - The suggested starting sub-goal
 - Any learner profile notes that influenced the plan
 - Remind the user to run `/run-session SG-<N>` to start learning
+
+**VOC feedback → restructure rule:** If the learner revises the Motivation & Course Overview (or gives feedback on it), re-evaluate whether the current sub-goal decomposition still matches the stated scope and outcomes. If it no longer matches, **offer to re-decompose (restructure) the plan** using the normal decomposition rules — update the Sub-Goals table, Prerequisite Graph, and Sequence — then refresh the VOC digest so it stays consistent with the revised plan.
 
 ## Important
 

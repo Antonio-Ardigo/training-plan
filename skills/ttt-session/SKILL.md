@@ -233,7 +233,17 @@ Evaluate the Final Test response:
 
 ### Phase 6: RECORD
 
-Update the training plan file, write the session transcript, delete checkpoint, update learner profile, export concept file, and suggest next step.
+Update the training plan file, write the session transcript, delete checkpoint, update learner profile, export concept file, register artefacts, and suggest next step.
+
+**Deliverable artefacts (as required):** if the sub-goal work naturally yielded a reusable output — a filled-in template, a worked calculation sheet, a checklist, or a reference the learner built — write it to disk as `<topic>_artefact_SG<N>_<slug>.md`. Not every session produces one; create it only when the work genuinely calls for it.
+
+**Register every artefact:** for each artefact this session wrote (transcript, concept file, and any deliverable), append a row to the plan file's **Artefacts Register** via the `Edit` tool:
+
+| Artefact | Type | Source | Path | Status |
+|----------|------|--------|------|--------|
+| <name> | transcript / concept-file / deliverable | SG-<N> | <relative path> | current |
+
+The Artefacts Register is the course's visible anchor — it must stay authoritative, so registration is mandatory whenever an artefact is produced.
 
 ---
 

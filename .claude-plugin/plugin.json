@@ -1,7 +1,7 @@
 {
   "name": "training-plan",
-  "version": "2.4.0",
-  "description": "Generate customized learning paths using Test-Teach-Test methodology with integrated concept-builder pedagogy. Decompose goals into Core Principles (foundational truths with worked examples) and Key Concepts (operational knowledge), design sessions, run interactive TTT loops with principle-first teaching (LaTeX, fully developed worked examples, CTQ mastery criteria, concept maps, comparison, deep-dive), concept file export, and a concept library. Each plan opens with an editable Motivation & Course Overview (VOC) bird's-eye view whose feedback can restructure the plan, and maintains an Artefacts Register anchoring every artefact sessions produce. Includes Socratic Discovery mode (Question-Tension-Resolution-Test arc with Socratic Guidance Chains), mid-session checkpointing, persistent learner profiles, and cross-plan analytics.",
+  "version": "3.0.0",
+  "description": "Generate customized learning paths using Test-Teach-Test methodology with integrated concept-builder pedagogy. Decompose goals into Core Principles (foundational truths with worked examples) and Key Concepts (operational knowledge), design sessions, run interactive TTT loops with principle-first teaching (LaTeX, fully developed worked examples, CTQ mastery criteria, concept maps, comparison, deep-dive), concept file export, and a concept library. Each plan opens with an editable Motivation & Course Overview (VOC) bird's-eye view whose feedback can restructure the plan, and maintains an Artefacts Register anchoring every artefact sessions produce. Built for difficult subjects: every plan is pitched at a target level (High school, Master's or Advanced), carries five required elements (core principles, key facts, motivation, breakthrough, method), and flags its hard-core principles, which are taught through an aha moment and a climb through the levels with fully worked exercises, in sessions, in the plan, in an exercise book and on demand. Includes Socratic Discovery mode (Question-Tension-Resolution-Test arc with Socratic Guidance Chains), mid-session checkpointing, persistent learner profiles, and cross-plan analytics.",
   "author": {
     "name": "Anton Ardigo"
   },
@@ -31,6 +31,12 @@
     "socratic-discovery",
     "guided-inquiry",
     "voice-of-customer",
-    "artefacts"
+    "artefacts",
+    "levels",
+    "worked-exercises",
+    "key-facts",
+    "breakthrough",
+    "threshold-concepts",
+    "aha-moment"
   ]
 }

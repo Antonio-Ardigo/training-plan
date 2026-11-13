@@ -1,49 +1,94 @@
 # Training Plan Plugin
 
-Generate customized learning paths using **Test-Teach-Test (TTT)** methodology with integrated concept-builder pedagogy.
+Generate customized learning paths using **Test-Teach-Test (TTT)** methodology with integrated concept-builder pedagogy. Built for difficult subjects: the hardest principles of a topic get an explanation designed around an aha moment, taught at three levels, with fully worked exercises.
 
 ## How It Works
 
-1. You provide a learning goal
-2. The plugin decomposes it into testable sub-goals with CTQ mastery criteria, and writes a plan-level **Motivation & Course Overview (VOC)** — a bird's-eye view of the course, its core principles and key facts, and what you'll be able to do on completion. You can edit this overview, and your feedback on it can restructure the plan.
+1. You provide a learning goal and a **target level**: High school, Master's or Advanced (the plugin asks if you do not say)
+2. The plugin identifies the domain's **core principles** and **key facts**, records the topic's **breakthrough** (what the situation was before the key intuition, and what the topic solved), flags the **hard core** (the principles that are hardest to grasp), and decomposes the goal into testable sub-goals with CTQ mastery criteria, all written for your level. It also writes a plan-level **Motivation & Course Overview (VOC)** — a bird's-eye view of the course, its core principles and key facts, and what you'll be able to do on completion. You can edit this overview, and your feedback on it can restructure the plan. You can also change the hard-core list.
 3. For each sub-goal, you run a TTT session:
    - **Test** -- face a practical case immediately (no theory first)
-   - **Teach** -- get principle-first concept explanations for your gaps (adaptive: abbreviated for simple gaps, full 7-section with LaTeX, Worked Examples, and CTQ for complex gaps, comparison for conflation)
+   - **Teach** -- get principle-first concept explanations for your gaps (adaptive: abbreviated for simple gaps, full 7-section with LaTeX, Worked Examples, and CTQ for complex gaps, comparison for conflation, a climb through the levels for hard-core principles)
    - **Test** -- prove mastery with a new case
-4. Each Teach phase generates a concept file documenting what was taught
-5. Sessions save checkpoints -- if interrupted, resume from where you left off
-6. A learner profile tracks your progress, strengths, and gap patterns across all plans
-7. A concept library tracks your learning artifacts across all sessions
-8. An **Artefacts Register** in each plan is a visible anchor listing every artefact the course produces (transcripts, concept files, and on-demand deliverables), updated as sessions run
+4. Every explanation pairs a solved example with an exercise you attempt and then see solved in full
+5. Each Teach phase generates a concept file documenting what was taught, and each session adds fully solved exercises to that sub-goal's **exercise book**
+6. Sessions save checkpoints -- if interrupted, resume from where you left off
+7. A learner profile tracks your progress, strengths, and gap patterns across all plans
+8. A concept library tracks your learning artifacts across all sessions
+9. An **Artefacts Register** in each plan is a visible anchor listing every artefact the course produces (transcripts, concept files, exercise books and other deliverables), updated as sessions run
+
+## What Every Plan Includes
+
+Every plan, standard or Socratic, carries five elements, each in a fixed place. Plan creation checks for them after writing the file.
+
+| Element | What it gives the learner | Where it lives in the plan |
+|---------|---------------------------|----------------------------|
+| **Core principles identification** | The 3-5 foundational truths of the domain, identified before any sub-goal is written | `Principle Extraction`, plus one Core Principle sub-goal per principle |
+| **Key facts identification** | What must simply be known (definitions, constants, conventions), each tied to the sub-goals that use it | `Key Facts` |
+| **Motivation** | Why the topic matters and where the course leads | `Motivation & Course Overview (VOC)`, plus the Motivation sub-goal |
+| **Breakthrough** | What the situation was before the key intuition, and what the topic solved | `Breakthrough` |
+| **Test-Teach-Test / Socratic** | How every session runs: test first, teach only the gaps, test again, by direct explanation or by Socratic discovery | `Pedagogical Method`, plus the tests in every blueprint |
+
+## Levels and the Hard Core
+
+**Three levels.** A plan is pitched at one target level, fixed when it is created. The goal, every sub-goal and every test are written for it.
+
+| Level | Assumes | Explains with |
+|-------|---------|---------------|
+| **High school** | School mathematics, no earlier exposure to the topic | Plain words, a picture, concrete numbers |
+| **Master's** | The field's standard tools and notation | The formal statement, where it comes from, symbols then numbers |
+| **Advanced** | The Master's level, mastered | Full generality: proofs, limits of validity, competing formulations |
+
+**The hard core.** Some principles are much harder to grasp than the rest: they are counter-intuitive, need a new abstraction, or run into a misconception that survives being told. The plan flags them (usually 1-3, and you can change the list) and designs their explanation ahead of the session:
+
+1. **Predict.** The test is built so that the natural approach gives a confident wrong answer.
+2. **Reveal.** The explanation starts from that failure: the insight in one sentence, one picture, and the smallest example that shows it.
+3. **Climb.** The principle is then taught rung by rung, from High school up to the plan's level. Each rung has a solved exercise and ends with "your turn". A failed rung gets a short bridge one level down, and the session records the level reached.
+
+A learner who passes the test outright gets a short recap and the offer of the full climb or the next level up.
+
+**Fully worked exercises** come four ways: in every explanation; inside the plan, for each hard-core principle; in an exercise book written after each session; and on demand with `/worked-exercises`. Every solution ends with a check that confirms the result a second way.
 
 ## Commands
 
 ### `/create-training-plan <learning goal>`
 
-Creates a full training plan with sub-goals, session blueprints, CTQ criteria, and depth levels. If a learner profile exists, it informs the plan design (harder tests for known strengths, proactive coverage for known weaknesses).
+Creates a full training plan at your target level, with sub-goals, session blueprints and CTQ criteria. State the level in the goal, or the command asks once. If a learner profile exists, it informs the plan design (harder tests for known strengths, proactive coverage for known weaknesses). An existing plan of the same name is never overwritten without asking.
 
 Example:
 ```
 /create-training-plan I want to learn cost estimation for EPC construction projects
+/create-training-plan Understand quantum measurement for one qubit, at master's level
 ```
 
 ### `/socratic-training-plan <learning goal>`
 
-Creates a Socratic training plan using the same goal decomposition structure as `/create-training-plan` (SMART goal, principle extraction, 5-axis decomposition, prerequisite graph) with a **Socratic Discovery** layer. Each session follows a **Question -> Tension -> Resolution -> Test** arc where concepts emerge as inevitable discoveries rather than delivered facts. Blueprints include Discovery Questions, designed "wrong paths," Socratic Guidance Chains (3-6 progressively narrowing questions), and "reconstruct the reasoning" final tests.
+Creates a Socratic training plan using the same goal decomposition structure as `/create-training-plan` (SMART goal, target level, principle extraction, key facts, breakthrough, hard core, 5-axis decomposition, prerequisite graph) with a **Socratic Discovery** layer. Each session follows a **Question -> Tension -> Resolution -> Test** arc, a Socratic form of Test-Teach-Test, where concepts emerge as inevitable discoveries rather than delivered facts. Blueprints include Discovery Questions, designed "wrong paths," Socratic Guidance Chains (3-6 progressively narrowing questions), and "reconstruct the reasoning" final tests.
 
 Example:
 ```
 /socratic-training-plan Derive quantum mechanics from experimental spectra
 ```
 
-### `/run-session <sub-goal>`
+### `/run-session <sub-goal> [level]`
 
-Runs an interactive TTT session for one sub-goal. Teaches using concept-builder methodology (Problem, Principles, Innovations, Worked Example, Formalization, CTQ, Conceptual Map). Saves checkpoints after each phase. Exports a concept file on completion.
+Runs an interactive TTT session for one sub-goal. Teaches using concept-builder methodology (Problem, Principles, Innovations, Worked Example, Formalization, CTQ, Conceptual Map), and teaches hard-core principles as a climb through the levels. Saves checkpoints after each phase. On completion it exports a concept file, adds solved exercises to the sub-goal's exercise book, and registers what it wrote in the plan's Artefacts Register. Name a level to run one session at a different level from the plan's without changing the plan.
 
 Example:
 ```
 /run-session SG-2
 /run-session unit-rate estimation
+/run-session SG-3 advanced
+```
+
+### `/worked-exercises <sub-goal or concept> [level]`
+
+Produces three fresh, fully solved exercises at the level you name (default: the sub-goal's level) and adds them to the exercise book. You see the statements first; the solutions follow when you send an attempt or ask for them.
+
+Example:
+```
+/worked-exercises SG-3
+/worked-exercises change of basis advanced
 ```
 
 ### `/training-status`
@@ -61,11 +106,15 @@ Example:
 /concept-library path "cost classification" "earned value"
 ```
 
+### `/user-testing <learning goal>` or `/user-testing inspect`
+
+A developer tool. It creates a plan, simulates a learner through the sessions and checks every artefact against the plugin's own rules, or inspects the files already in the folder.
+
 ## Architecture
 
-- **1 agent**: `training-planner` (orchestrator)
-- **5 skills**: `goal-decomposer`, `ttt-session`, `content-builder`, `concept-explainer`, `learner-analytics`
-- **5 commands**: `/create-training-plan`, `/socratic-training-plan`, `/run-session`, `/training-status`, `/concept-library`
+- **3 agents**: `training-planner` (orchestrator), `term-clarifier` (defines a term during a test without leaking the answer), `user-testing` (QA)
+- **6 skills**: `goal-decomposer`, `ttt-session`, `content-builder`, `concept-explainer`, `concept-map`, `learner-analytics`
+- **7 commands**: `/create-training-plan`, `/socratic-training-plan`, `/run-session`, `/worked-exercises`, `/training-status`, `/concept-library`, `/user-testing`
 
 ## Output Files
 
@@ -75,7 +124,8 @@ Example:
 | `<topic>-socratic_training_plan.md` | Socratic plan + progress tracking |
 | `<topic>_session_SG<N>.md` | Session transcript per sub-goal |
 | `<topic>_checkpoint_SG<N>.md` | In-progress session checkpoint (deleted on completion) |
-| `<topic>_artefact_SG<N>_<slug>.md` | Deliverable artefact produced by a session when the work yields one (registered in the plan's Artefacts Register) |
+| `<topic>_artefact_SG<N>_exercises.md` | Exercise book: fully solved exercises for a sub-goal, per level, added to after each session and by `/worked-exercises` (registered in the plan's Artefacts Register) |
+| `<topic>_artefact_SG<N>_<slug>.md` | Any other deliverable artefact produced by a session when the work yields one (registered in the plan's Artefacts Register) |
 | `learner_profile.md` | Persistent learner profile across all plans |
 | `concept-<domain>-<topic>.md` | Concept file from Teach phase (per session with gaps) |
 
@@ -86,15 +136,19 @@ The Teach phase uses a principle-first approach adapted from the concept-builder
 1. **The Problem** -- why the gap matters (framed in learner's context)
 2. **Core Principles** -- foundational truths (with LaTeX at the Master's level and above)
 3. **Key Innovations** -- breakthroughs and techniques
-3.5. **Worked Example** -- fully developed step-by-step example with every intermediate step shown and annotated (always included)
+3.5. **Worked Example** -- fully developed step-by-step example with every intermediate step shown and annotated, ending with a check of the result (always included)
 4. **Intuitive Formalization** -- minimum math needed for prediction
 5. **CTQ Mapping** -- mastery criteria with failure mode awareness
 6. **Conceptual Map** -- visual structure of learned concepts
 
-Teaching is **adaptive**: simple gaps get abbreviated treatment (Problem + Principles + Worked Example + Quick Check), complex gaps get the full 7-section explanation, and conflation gaps get a side-by-side comparison.
+Teaching is **adaptive**: simple gaps get abbreviated treatment (Problem + Principles + Worked Example + Quick Check), complex gaps get the full 7-section explanation, conflation gaps get a side-by-side comparison, and a gap on a hard-core principle gets the climb through the levels. After every Quick Check the learner sees the complete worked solution. A failed Quick Check is re-explained one level down.
 
 During a session, learners can request a **deep-dive** into any taught principle for a full expanded explanation.
 
+## Plans From Earlier Versions
+
+Plans created before version 3.0 still run. Sessions read their depth names (introductory / intermediate / advanced) as High school / Master's / Advanced, and a plan without hard-core blueprints is taught as before. Such plans lack the newer sections (method, breakthrough, hard core, key facts), which `/user-testing inspect` reports as missing.
+
 ## Learning Science
 
-See [PRINCIPLES.md](PRINCIPLES.md) for the cognitive science behind TTT and how this plugin addresses common learning risks (testing effect, desirable difficulty, fluency illusion, metacognitive blindness).
+See [PRINCIPLES.md](PRINCIPLES.md) for the cognitive science behind TTT, how this plugin addresses common learning risks (testing effect, desirable difficulty, fluency illusion, metacognitive blindness), and the reasons behind what every plan contains and how the hard core is taught.

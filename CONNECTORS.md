@@ -6,11 +6,11 @@ This plugin is self-contained and works without external connections.
 
 | System | Purpose | Notes |
 |--------|---------|-------|
-| File system | Read/write training plans, transcripts, checkpoints, learner profiles, concept files | Required for all operations |
+| File system | Read/write training plans, transcripts, checkpoints, learner profiles, concept files, exercise books | Required for all operations |
 
 ## Currently Active
 
-- **File system**: Training plans, session transcripts, checkpoint files, learner profiles, and concept files are saved to the current working directory as Markdown
+- **File system**: Training plans, session transcripts, checkpoint files, learner profiles, concept files, and exercise books are saved to the current working directory as Markdown
 
 ## Concept-Builder Integration (Fully Integrated)
 

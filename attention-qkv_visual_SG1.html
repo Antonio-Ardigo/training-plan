@@ -92,6 +92,8 @@ h3{font-family:var(--display);font-size:1.05rem;margin:8px 0 0;color:var(--label
 .words span{width:16px;height:22px;border-radius:3px;background:var(--ink);opacity:.8}
 .words .arrow{background:none;width:auto;height:auto;color:var(--muted);opacity:1;padding:0 8px}
 .words .slot{width:30px;height:30px;background:var(--value);opacity:1}
+.opts button.wrong{border-color:#e58f8f;color:var(--muted);text-decoration:line-through}
+.stuck{align-self:flex-start}
 </style>
 
 <div class="wrap">
@@ -197,11 +199,15 @@ function frame(html){
 function complete(d){const b=d.querySelector("#next");b.disabled=false;bar();b.focus({preventScroll:true})}
 function choice(key,title,qn,opts,onWrong,onRight){
   const d=frame("<h2>"+title+"</h2>"+qn+"<div class='opts'></div><p class='fb' aria-live='polite'></p>");
-  let tries=0;const fb=d.querySelector(".fb"),was=R.steps[key];
+  let tries=0,reveal=null;const fb=d.querySelector(".fb"),was=R.steps[key];
   opts.forEach(o=>{const b=document.createElement("button");b.type="button";b.textContent=o.t;
-    const right=()=>{b.classList.add("right");fb.className="fb ok";fb.textContent=onRight(o)||"";d.querySelectorAll(".opts button").forEach(x=>x.disabled=true)};
-    b.onclick=()=>{tries++;if(o.ok){right();R.steps[key]={answer:o.t,tries};save();complete(d)}else{fb.className="fb";fb.textContent=onWrong(o)}};
+    const right=()=>{b.classList.add("right");fb.className="fb ok";fb.textContent=onRight(o)||"";d.querySelectorAll(".opts button").forEach(x=>x.disabled=true);const h=d.querySelector(".stuck");if(h)h.remove()};
+    if(o.ok)reveal=()=>{right();fb.textContent="The answer is marked in green. "+fb.textContent.replace(/^Yes\. /,"");R.steps[key]={answer:o.t,tries,shown:true};save();complete(d)};
+    b.onclick=()=>{tries++;if(o.ok){right();R.steps[key]={answer:o.t,tries};save();complete(d)}
+      else{b.disabled=true;b.classList.add("wrong");fb.className="fb";fb.textContent="Not this one. "+onWrong(o);stuck(d,fb,reveal)}};
     d.querySelector(".opts").appendChild(b);if(was&&o.ok)setTimeout(right,0)});return d}
+/* a wrong answer never blocks: a hint first, and always a way to see the answer and go on */
+function stuck(d,fb,reveal){if(d.querySelector(".stuck"))return;const b=document.createElement("button");b.type="button";b.className="quiet stuck";b.textContent="Show me the answer and go on";b.onclick=()=>{b.remove();reveal()};fb.after(b)}
 
 /* ---------- 1-2: motivation and historical context ---------- */
 function sWhy(){fig.innerHTML=COVER.replace("BODY",'<text x="400" y="150" fill="#9aa7b5" font-family="Space Grotesk,sans-serif" font-size="40" font-weight="700" text-anchor="middle">?</text><text x="400" y="186" fill="#9aa7b5" font-family="Inter,sans-serif" font-size="15" text-anchor="middle">the mechanism this course uncovers</text>');
@@ -240,7 +246,8 @@ function sSummary(){const was=R.steps.summary;
   const goq=()=>{tries++;let t=inp.value.trim().replace(",","."),v;
     if(/^\d+\s*\/\s*\d+$/.test(t)){const a=t.split("/");v=a[0]/a[1]}else v=parseFloat(t);
     if(Math.abs(v-0.1)<0.005){okmsg();R.steps.summary={answer:t,tries};save();complete(d)}
-    else{fb.className="fb";fb.textContent=Math.abs(v-10)<0.01?"That is words per number. The question asks numbers per word.":Math.abs(v-1)<0.01?"That is the 4-word sentence. Move the slider to 40.":"Divide the 4 numbers of the summary among the 40 words."}};
+    else{fb.className="fb";fb.textContent="Not yet. "+(Math.abs(v-10)<0.01?"That is words per number. The question asks numbers per word: divide 4 by 40.":Math.abs(v-1)<0.01?"That is the 4-word sentence. For 40 words, divide 4 by 40.":"Hint: divide the 4 numbers of the summary among the 40 words, 4 ÷ 40.");
+      stuck(d,fb,()=>{inp.value="0.1";okmsg();fb.textContent="The answer is 4 ÷ 40 = 0.1. "+fb.textContent;R.steps.summary={answer:"0.1",tries,shown:true};save();complete(d)})}};
   d.querySelector("#qb").onclick=goq;inp.addEventListener("keydown",e=>{if(e.key==="Enter")goq()})}
 function sShares(){
   const was=R.steps.shares,w0=was?was.answer.split(",").map(Number):[0,1,0];
@@ -253,7 +260,10 @@ function sShares(){
     if(nn.every(i=>i.k==="e")){fb.className="fb ok";fb.textContent="There: with these shares Apple sits among the electronics. You chose them because you know what the shopper means.";
       R.steps.shares={answer:w.map(f2).join(", "),tries:1};if(!ok){ok=true;save();complete(d)}}
     else if(!ok)fb.textContent=""};
-  [0,1,2].forEach(i=>{document.getElementById("s"+i).addEventListener("input",upd);document.getElementById("s"+i).addEventListener("change",()=>{if(ok)save()})});upd()}
+  [0,1,2].forEach(i=>{document.getElementById("s"+i).addEventListener("input",upd);document.getElementById("s"+i).addEventListener("change",()=>{if(ok)save()})});upd();
+  if(!ok){const h=document.createElement("p");h.className="hint";h.textContent="Hint: Apple has to move towards Phones on the map, so raise the share of Phones and lower the others.";fb.after(h);
+    const b=document.createElement("button");b.type="button";b.className="quiet stuck";b.textContent="Set shares that work for me";
+    b.onclick=()=>{[10,20,70].forEach((v,i)=>document.getElementById("s"+i).value=v);upd();if(R.steps.shares)R.steps.shares.shown=true;save();b.remove()};h.after(b)}}
 function sOrder(){show(orig());
   choice("order","The same words, reordered","<p>You gave Phones a large share. Now the shopper types the same three words in another order: “Phones Love Apple”. Phones is no longer next to Apple.</p><p><b>Question.</b> For rewriting Apple, what should happen to the share of Phones? Pick one.</p>",
    [{t:"It should drop, because Phones is farther away"},{t:"It should stay the same",ok:1},{t:"It should rise"}],
@@ -276,7 +286,8 @@ function sIdea(){show(own());
     const j=await ask("You are a Socratic tutor inside a learning page on what problem attention was invented to solve. The learner has just found, on a 2-D embedding map of the query 'Love Apple Phones': (F1) a lookup table gives Apple the same vector in every sentence; (F2) a fixed-size sentence summary leaves less room per word as the sentence grows; (F3) blending Apple with its neighbours using suitable shares moves it to the right meaning; (F4) reordering the same words must not change a word's share; (F5) each word needs its own set of shares.\nTarget idea: each word gets its OWN blend of the sentence's word vectors, with shares that depend on WHAT the words are (content), not on position or a fixed rule.\nLearner's statement: \""+q(t)+"\"\nJudge generously on wording: ok is true if the statement contains both (1) a per-word or 'for Apple' weighted blend of the words and (2) shares depending on the words/meaning/relevance. Reply with JSON only: {\"ok\":true|false,\"say\":\"...\"}. If ok: 'say' confirms in one sentence using their own words. If not ok: do NOT state the idea; 'say' is ONE short, clear question that points to the one finding among F1-F5 their statement leaves out. Max 35 words. Do not use the words query, key or value. Address the learner as 'you'.",true);
     b.disabled=false;
     if(j&&j.ok){fb.className="fb ok";fb.textContent=R.ideaSay=j.say||"Yes.";R.ideaOk=true;save();complete(d)}
-    else if(j&&R.ideaTries<3&&!("ideaOk" in R)){fb.textContent=j.say||"Which of your findings is missing?";b.textContent="Send again"}
+    else if(j&&R.ideaTries<3&&!("ideaOk" in R)){fb.textContent=(j.say||"Which of your findings is missing?")+" You can send a new version, or go on.";b.textContent="Send again";
+      stuck(d,fb,()=>{R.ideaOk=false;R.ideaSay=j.say||"";save();fb.textContent="Fine. The next step sums up what the questions were leading to.";complete(d)});d.querySelector(".stuck").textContent="Go on to the summary"}
     else{fb.textContent=R.ideaSay=j?(j.say||""):"Saved. The next step sums up what the questions were leading to.";if(!R.ideaOk)R.ideaOk=j?false:null;save();complete(d)}}}
 
 const SPEC=[["Per word","The same shares for every word give every word the same blend. Each word needs its own."],["By content","The same words in another order must get the same shares, so position alone cannot set them."],["Any length","A summary of fixed size leaves less room per word as the sentence grows. Keeping every word's vector avoids that."],["Learned","You set the sliders by hand because you know what Apple means here. The system must find such shares itself, for every sentence."]];

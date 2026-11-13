@@ -86,7 +86,8 @@ When running a session, follow this exact protocol:
 Present the practical case from the session blueprint to the learner.
 
 Rules:
-- No preamble, no warm-up, no theory introduction
+- The session has opened with motivation and historical context (Phase 0 of `/run-session`): why the sub-goal matters and the real situation it came out of, with no answer given. After that: no theory, no hint, no warm-up
+- Every question is clear (one thing asked, the form of the answer stated) and every case is real (never an invented method)
 - Present the scenario and the task directly
 - Ask the learner to respond
 - Wait for the learner's response before proceeding

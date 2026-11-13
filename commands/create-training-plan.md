@@ -117,7 +117,7 @@ Rules:
 - If the topic has no single historical moment (a practical skill, a tool, a procedure), "before" is how the work is done *without* this knowledge and where that breaks down
 - Tell a story, not a lesson: no derivations, no formulas, no worked steps. Those belong to the sessions.
 - Name people and dates only when you are certain of them; otherwise describe the shift without attribution
-- Do not reuse the Breakthrough story as a test case: the SG-1 Motivation tests must use different cases
+- The Breakthrough is the real history. The Motivation sub-goal (SG-1) builds its questions and tests on that same history: they ask the learner to predict or explain what the earlier approaches really do, never to recite the story, and never on an invented substitute
 
 ### Step 2: Decompose into Sub-Goals
 
@@ -195,6 +195,7 @@ For each sub-goal, design a TTT session blueprint. Every test is written at the 
 
 #### Standard blueprint (Key Concept, Tools, Motivation, Verification SGs):
 
+- **Context**: the session's opening, shown BEFORE the Discovery Question or the Initial Test. Two short parts. *Why it matters*: one or two sentences on what this sub-goal lets the learner do. *Historical context*: two to four sentences on the real situation this idea came out of: what was done before, where it broke down, who changed it and when (names and dates only when certain). It sets the scene and stops before the idea itself: it states no answer to the session's questions.
 - **Initial Test**: A practical case the learner must solve immediately (no theory first). Describe the scenario and the task.
 - **Pass Criteria**: Concrete, measurable threshold (e.g., "identifies 8 of 10 categories", "calculation within 5%")
 - **Estimated Depth**: the plan's Target level (High school / Master's / Advanced)
@@ -246,6 +247,13 @@ If the learner profile indicated strengths or gap patterns relevant to a sub-goa
 - **Profile note (gap pattern):** "Learner has recurring gap in [pattern] -- include proactive Quick Check in Teach Topics even if not identified in Initial Test"
 
 **Key facts in tests:** when a test or exercise depends on a fact, that fact must be in the Key Facts table from Step 1.8. If it is missing, add it.
+
+**Test quality rules** (every Discovery Question, test, check and Guidance Chain question):
+- **A clear question.** Each question asks one thing, says plainly what is asked, and says in what form the answer is expected (a number, a choice, one sentence). A reader who knows the answer must be able to tell that it answers the question. No question depends on guessing what the author had in mind.
+- **A true case.** A case is built on something that really was done or really is done: a method that was in use, a real system's behaviour, a real engineering decision. Never invent a method nobody uses in order to knock it down. Every statement the case makes must be true outside the toy example; when a toy simplifies, say what was simplified.
+- **The Motivation sub-goal uses the real history.** Its questions and tests are built on the actual problem the topic solved, as the Breakthrough tells it, with the earlier approaches named as they were. Its questions ask the learner to predict or explain what those real approaches do, not to recite the story.
+
+**Every blueprint, of every kind, starts with a `Context` field** (defined above), written before its other fields.
 
 ### Step 3.5: Compose the Motivation / VOC Overview
 
@@ -376,6 +384,7 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
 > tests work best unseen. The solved exercises are there to study afterwards._
 
 ### SG-1: <Motivation short title>
+- **Context:** <why it matters · the real situation before this idea>
 - **Initial Test:** <practical case description>
 - **Pass Criteria:** <measurable threshold>
 - **Estimated Depth:** <Target level>
@@ -389,6 +398,7 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
 - **Final Test:** <different case, same competencies>
 
 ### SG-2: <Core Principle short title>
+- **Context:** <why it matters · the real situation before this idea>
 - **Principle:** <principle name> — <principle statement>
 - **Worked Example (foundational):**
   **Given:** <simplest possible scenario with concrete numbers>
@@ -410,6 +420,7 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
 - **Final Test:** <different simple scenario testing same principle>
 
 ### SG-3: <Hard-core principle short title>
+- **Context:** <why it matters · the real situation before this idea>
 - **Principle:** <principle name> — <principle statement>
 - **Tempting answer:** <the natural, confident, wrong answer to the Initial Test, and why it feels right>
 - **Insight:** <the one sentence that makes it click>
@@ -448,6 +459,7 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
 - **Final Test:** <different case in which the same tempting reasoning is again available>
 
 ### SG-N: <Key Concept short title>
+- **Context:** <why it matters · the real situation before this idea>
 - **Initial Test:** <practical case description>
 - **Pass Criteria:** <measurable threshold>
 - **Estimated Depth:** <Target level>
@@ -487,7 +499,8 @@ Read back the file you just wrote: from the top through the Sub-Goals table, the
 |---------|--------------|
 | Core principles identification | Every row of `## Principle Extraction` has exactly one Core Principle row in `## Sub-Goals`, and every Core Principle row names a principle from that table |
 | Key facts identification | `## Key Facts` has at least one row, and every `Used in` cell names sub-goals that exist |
-| Motivation | `## Motivation & Course Overview (VOC)` has its four parts filled in, and SG-1 is on the Motivation axis |
+| Motivation | `## Motivation & Course Overview (VOC)` has its four parts filled in, SG-1 is on the Motivation axis and is built on the real history, and every blueprint starts with a `Context` (why it matters, historical context) that gives no answer away |
+| Test quality | Every question asks one thing and says what form the answer takes; every case is something really done, with no invented method to knock down |
 | Breakthrough | `## Breakthrough` has its three labelled parts filled in and one table row for each principle in `## Principle Extraction` |
 | Method | `## Pedagogical Method: Test-Teach-Test` is present with its three steps and its teaching-style line, and every blueprint has an Initial Test and a Final Test |
 | Levels | The header line has a `Target level:` of High school, Master's or Advanced, and every Depth cell and every Estimated Depth is that level |
@@ -523,6 +536,6 @@ After writing the file, present a summary:
 - The Target level is fixed for the plan: every sub-goal, test and pass criterion is written for it, and nothing above it is written into the plan
 - Do NOT overwrite an existing plan file without asking (Step 4)
 - Do NOT skip the session blueprint for any sub-goal
-- Practical cases must be realistic scenarios, not abstract questions
+- Practical cases must be real: built on something that was or is really done, never on an invented method. Every question must be clear: one thing asked, the form of the answer stated
 - The `<topic>` in the filename should be a short kebab-case slug derived from the goal (e.g., `cost-estimation`, `python-data-analysis`)
 - Every sub-goal dependency must trace to the prerequisite graph -- no intuited dependencies

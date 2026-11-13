@@ -47,7 +47,7 @@ Every plan, standard or Socratic, carries five elements, each in a fixed place. 
 | **Key facts identification** | What must simply be known (definitions, constants, conventions), each tied to the sub-goals that use it | `Key Facts` |
 | **Motivation** | Why the topic matters and where the course leads | `Motivation & Course Overview (VOC)`, plus the Motivation sub-goal |
 | **Breakthrough** | What the situation was before the key intuition, and what the topic solved | `Breakthrough` |
-| **Test-Teach-Test / Socratic** | How every session runs: test first, teach only the gaps, test again, by direct explanation or by Socratic discovery | `Pedagogical Method`, plus the tests in every blueprint |
+| **Test-Teach-Test / Socratic** | How every session runs: motivation and historical context, then test, teach only the gaps, test again, by direct explanation or by Socratic discovery | `Pedagogical Method`, plus the tests in every blueprint |
 
 ## Levels and the Hard Core
 

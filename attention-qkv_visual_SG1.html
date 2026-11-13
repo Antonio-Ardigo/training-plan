@@ -145,7 +145,7 @@ function s0(){show(orig());
 function s1(){show(orig());
   choice(2,"q1","Where do the three dots go?","The fix replaces each token's vector by the plain average of the three. Where are the three dots afterwards?",
    [{t:"Apple moves next to Phones; Love and Phones stay"},{t:"All three move closer but stay three different points"},{t:"All three are on the same point",ok:1}],
-   o=>{show({Love:avg,Apple:avg,Phones:avg});return "The map above now shows the fix. Look at it, then choose again."},
+   o=>{show({Love:avg,Apple:avg,Phones:avg});return "The map above has just run the fix. How many separate green dots do you count now? Choose again."},
    o=>{const nn=show({Love:avg,Apple:avg,Phones:avg});return "Yes. One point for all three, and its nearest items are "+nn.map(i=>i.n).join(", ")+"."},s2)}
 function s2(){
   const d=step(3,"<h2>Set the shares yourself</h2><p>Now only Apple is rewritten, as a blend of the three original vectors. Move the sliders until Apple's three nearest items are electronics.</p>"+
@@ -254,4 +254,13 @@ document.getElementById("hb").onclick=async()=>{const t=document.getElementById(
   a.textContent=r||"The helper is not available here. Ask in the chat."};
 document.getElementById("hq").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("hb").click()});
 s0();
+/* ---------- resume a session that was interrupted ---------- */
+ready.then(async()=>{if(!db)return;let old;try{const sn=await db.doc("sessions/sg1").get();old=sn.exists?sn.data():null}catch(e){return}
+  if(!old||!old.steps||!old.steps.q1||(old.final&&old.final.done))return;
+  const st=old.steps,w=st.shares?st.shares.answer.split(",").map(Number):null;
+  const at=st.check?[s10,11]:("ideaOk" in old)?[s8,9]:st.q5?[s7,8]:st.q4?[s6,7]:st.q3?[s5,6]:st.q2?[s4,5]:w?[()=>s3(w),4]:[s2,3];
+  const c=document.getElementById("card");if(!c||!c.querySelector("h2")||!c.querySelector("h2").textContent.startsWith("Run the"))return;
+  const btn=document.createElement("button");btn.type="button";btn.textContent="Continue where you stopped (step "+at[1]+")";
+  btn.onclick=()=>{Object.assign(R,old);delete R.updated;at[0]()};c.insertBefore(btn,c.querySelector("button"));
+  c.querySelector("button:last-of-type").className="quiet";c.querySelector("button:last-of-type").textContent="Start again from step 1"});
 </script>

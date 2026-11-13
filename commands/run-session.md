@@ -6,6 +6,7 @@ allowed_tools:
   - Write
   - Edit
   - Glob
+  - Bash(rm:*)
 ---
 
 You are running an interactive **Test-Teach-Test (TTT)** learning session.
@@ -34,6 +35,8 @@ From the user's input (`$ARGUMENTS`), determine which sub-goal to run:
 ## Step 1.5: Check for Existing Checkpoint
 
 Use Glob to look for `<topic>_checkpoint_SG<N>.md` in the current directory (where `<topic>` and `<N>` match the current plan and sub-goal).
+
+A checkpoint whose phase is `CLOSED` belongs to a finished session: treat it as no checkpoint.
 
 If a checkpoint file exists:
 1. Read it
@@ -257,7 +260,7 @@ Unless the session runs in `chat` delivery, the learner works on ONE interactive
 | 2. Teach | After the Initial Test is evaluated | One section per gap. In a Socratic session each section opens with the Guidance Chain on the picture, then the learner's own statement of the idea, then the consolidation (picture, solved example, checks). The climb of a hard-core principle has one tab per rung. | The **results block** |
 | 3. Final Test | After the results block is read and confirmed | The Final Test on the same picture, with one answer box per part (and Part B in a Socratic session), and the two mandatory notes | The **answers block** |
 
-- **No copying, no chat during the session.** Wherever a published page can ask the model a question and save data the session can read back, build the page as the visual-explainer skill's "The whole session on the page" describes: all three stages at once, one step on screen at a time under a pinned picture, written answers judged in place against the blueprint's pass criteria, everything saved by the page. A wrong answer never blocks the page: a hint after the first wrong answer, then always a "Show me the answer and go on" button, with a shown answer saved as shown and counted as a gap. The page also gives a Back button on every step, a Contents index of the steps and of the course, a Manual that grows with the finished steps and can be saved as a file, a note box per step, and it reopens at the first unfinished step. The learner returns to chat only at the end, writes `done`, and the session reads the saved record, confirms the verdicts and goes to RECORD. The three-stage table above, with its answers and results blocks, is the fall-back for an environment where the page can neither ask nor save.
+- **No copying, no chat during the session.** Wherever a published page can ask the model a question and save data the session can read back, build the page as the visual-explainer skill's "The whole session on the page" describes: all three stages at once, one step on screen at a time under a pinned picture, written answers judged in place against the blueprint's pass criteria, everything saved by the page. Next is never a dead button: on an unfinished step it says what is left to do and shows the way forward. A wrong answer never blocks the page: a hint after the first wrong answer, then always a "Show me the answer and go on" button, with a shown answer saved as shown and counted as a gap. The page also gives a Back button on every step, a Contents index of the steps and of the course, a Manual that grows with the finished steps and can be saved as a file, a note box per step, and it reopens at the first unfinished step. The learner returns to chat only at the end, writes `done`, and the session reads the saved record, confirms the verdicts and goes to RECORD. The three-stage table above, with its answers and results blocks, is the fall-back for an environment where the page can neither ask nor save.
 - **The picture.** When the plan has a course diagram or a `Diagram focus` line for the sub-goal, every stage is drawn on that diagram, with the named part lit and the rest dimmed or covered. Otherwise choose the objects as the visual-explainer skill describes. The same picture is used in all three stages.
 - **Stage 1 shows nothing that teaches.** No hint, no expected answer, no designed wrong path named, no part of the picture that the test asks the learner to work out. The given values of the test are drawn as objects the learner can read and operate.
 - **The Socratic chain on the page.** Each Guidance Chain question appears alone, tied to the part of the picture it is about, and the next one appears only after an answer. Put each question as something to do on the picture wherever the question allows it: a value to enter, an object to move, a cell to pick, a choice among answers a learner would really give. A wrong answer is not corrected: the page shows what that answer predicts on the picture, lets the prediction fail, and asks again. The concept is never stated before the last question. After the last question the learner writes the idea in their own words in a text box; only then does the consolidation open. The learner's statement goes into the results block and is judged in chat.
@@ -402,6 +405,9 @@ Do the following, in this order. If the session is resumed during RECORD, skip a
 # Session Transcript: SG-<N> -- <title>
 Date: <date>
 
+## Motivation and Historical Context
+<what Phase 0 said: why it matters, the historical context; and, if the blueprint had no Context, that it was written in the session>
+
 ## Initial Test
 **Case:** <what was presented>
 **Learner response:** <what they said>
@@ -412,7 +418,7 @@ Date: <date>
 ### Gap: <name> [<failure mode>]
 **Format:** <abbreviated/full/comparison/ladder>
 **Delivery:** <chat / visual: <page filename>, with the results block the learner returned>
-**Content:** <summary of what was taught -- for full explanations, summarize the 6 sections; for a climb, the start rung and what the reveal showed>
+**Content:** <summary of what was taught -- for full explanations, summarize the 7 sections; for a climb, the start rung and what the reveal showed>
 **Quick Check:** <question> -> Learner: <answer> -> <correct/incorrect>
 **Rungs:** <for a climb only, one line per rung: <level> -- your turn: <question> -> Learner: <answer> -> <held/bridge/not held>>
 **Deep-dive:** <if requested, summary of expanded principle>
@@ -467,7 +473,7 @@ If the sub-goal work naturally yielded a reusable output (a filled-in template, 
 
 If the plan has no Artefacts Register (a plan created before it existed), skip this step.
 
-**H) Delete the checkpoint file.** The session is complete and the final transcript supersedes the checkpoint. Remove `<topic>_checkpoint_SG<N>.md`. This comes last among the writes, so that an interrupted RECORD can be resumed.
+**H) Delete the checkpoint file.** The session is complete and the final transcript supersedes the checkpoint. Remove `<topic>_checkpoint_SG<N>.md`. This comes last among the writes, so that an interrupted RECORD can be resumed. Delete it with `rm` (Bash). If no tool can delete it, overwrite it with a single line `## Current Phase: CLOSED`; Step 1.5 treats a CLOSED checkpoint as no checkpoint.
 
 **I) Suggest next step:** Tell the learner which sub-goal to run next (the next pending one in sequence). Mention `/worked-exercises SG-<N>` for more solved practice on this sub-goal, `/training-status` for overall progress and `/concept-library` to browse saved concept files.
 

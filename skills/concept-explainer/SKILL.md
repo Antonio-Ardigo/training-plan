@@ -86,6 +86,7 @@ $$[Final result with units]$$
 - Every variable must be defined on first use with its units.
 - The "Why" annotation explains the REASONING, not just restates the math in words.
 - The "Note" annotation flags traps: unit mismatches, sign conventions, boundary conditions.
+- ALWAYS end with a **Check** that confirms the result a second way: units or dimensions, a limiting or special case, substituting the result back, an independent method, or an order-of-magnitude estimate. A line that only restates the result is not a Check. This applies to every worked example and to every worked solution of an exercise.
 - At the High school level: use concrete numbers throughout, minimize symbols.
 - At the Master's level: start with symbols, substitute numbers, show both.
 - At the Advanced level: prove each step, show alternative approaches, discuss edge cases.
@@ -388,6 +389,8 @@ Quick Checks are now derived from CTQ mastery tests:
 
 The Quick Check question comes directly from the CTQ table's "Mastery Test" column. The "Watch for" line alerts the evaluator to the most likely failure mode for this specific check.
 
+The "Expected answer" and "Watch for" lines are the evaluator's notes: they are never shown before the learner responds. **After the learner responds, reveal a complete worked solution, not just the expected answer**: every step shown and annotated as in a worked example (Section 3.5), ending with a Check. When the Quick Check asks for an explanation rather than a calculation, the worked solution is the full chain of reasoning, step by step.
+
 ---
 
 ## Concept Comparison Protocol
@@ -412,6 +415,9 @@ Triggered when a gap is classified as **conflation** -- the learner confused two
 | Core assumption | [what A assumes] | [what B assumes] |
 | Primary strength | [where A excels] | [where B excels] |
 | Typical use case | [when to use A] | [when to use B] |
+
+### Worked Example: One Case, Both Concepts
+[One concrete case worked step by step under [Concept A] and then under [Concept B], in the Section 3.5 format, so that the difference shows up in the result. Ends with a Check.]
 
 ### CTQ: The Critical Distinction
 | CTQ | Mastery Test | Failure Mode |

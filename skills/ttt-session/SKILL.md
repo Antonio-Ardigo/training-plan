@@ -185,8 +185,9 @@ For each identified gap, generate a concept explanation using the `content-build
 
 3. **Deliver the concept explanation**:
    - ONE explanation per gap, delivered sequentially
-   - After each Quick Check (CTQ-derived), wait for the learner's answer
-   - If Quick Check fails: re-explain using a different angle, give one more CTQ check
+   - Whatever the format (abbreviated, full or comparison), the explanation contains one fully worked example ending with a Check
+   - After each Quick Check (CTQ-derived), wait for the learner's answer, then reveal the complete worked solution
+   - If Quick Check fails: re-explain one level down (a different picture if already at the High school level), give one more CTQ check at the original level
    - If second check fails: note as persistent gap, proceed
 
 4. **After the first teaching block**, mention once:
@@ -198,10 +199,10 @@ For each identified gap, generate a concept explanation using the `content-build
 Rules:
 - Deliver ONE explanation at a time
 - Every Quick Check MUST end with: `*If any term in this question is unclear, ask for a **clarification**.*`
-- **NEVER show expected answers or "Watch for" hints before the learner responds to a Quick Check.** Present the question + clarification note, wait for the learner's answer, THEN reveal the expected answer and evaluate.
+- **NEVER show expected answers or "Watch for" hints before the learner responds to a Quick Check.** Present the question + clarification note, wait for the learner's answer, THEN reveal the complete worked solution (every step shown and annotated, ending with a Check that confirms the result a second way) and evaluate.
 - If the learner asks for a clarification during a Quick Check: invoke the term-clarifier agent (same protocol as during tests)
 - Wait for the learner to complete the Quick Check before moving to the next
-- If the Quick Check fails, re-explain that specific point before moving on
+- If the Quick Check fails, re-explain that specific point one level down before moving on: a Master's-level block at the High school level, an Advanced block at the Master's level, a High school block with a different picture or example
 - After ALL gaps are taught, proceed to Phase 3.5
 
 ### Phase 3.5: OPTIONAL CONCEPT MAP
@@ -293,9 +294,11 @@ For each gap:
    - Or: "You just showed that [their reasoning]. This is exactly [concept name]."
    - NEVER state a concept before the learner has attempted to derive it
 
-4. **Quick Check**: Phrase as reconstruction: "Reconstruct why [concept] is the only resolution to the tension."
+4. **Solved example**: once the learner has stated the concept, consolidate it with one fully worked example ending with a Check. It comes after the resolution, never before it.
 
-5. **On Quick Check failure**: Do NOT re-explain declaratively. Return to the Guidance Chain at the break point. Ask a different narrowing question.
+5. **Quick Check**: Phrase as reconstruction: "Reconstruct why [concept] is the only resolution to the tension." After the learner responds, reveal the complete worked solution.
+
+6. **On Quick Check failure**: Do NOT re-explain declaratively. Return to the Guidance Chain at the break point. Ask a different narrowing question, pitched one level down when the session is above the High school level.
 
 **Anti-patterns (NEVER do these in Socratic mode):**
 - "The answer is X because Y" (declarative — the learner should derive X)

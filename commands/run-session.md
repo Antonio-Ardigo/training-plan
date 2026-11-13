@@ -152,7 +152,9 @@ For EACH identified gap, deliver a concept explanation using the content-builder
 **Step 1: Assess gap complexity** (from the failure mode classification in Phase 2):
 - Simple gap (no failure mode tag) -> **Abbreviated Concept Explanation** (Problem + Principles + Worked Example + CTQ Quick Check)
 - Complex gap (has failure mode tag) -> **Full Concept Explanation** (7 sections from concept-explainer, including Worked Example)
-- Conflation gap -> **Concept Comparison** (shared principles + divergences + CTQ distinction)
+- Conflation gap -> **Concept Comparison** (shared principles + divergences + one case worked under both concepts + CTQ distinction)
+
+Whatever the format, the explanation contains one fully worked example, and every worked example ends with a Check that confirms the result a second way.
 
 **Step 2: Determine depth level**
 Use the sub-goal's blueprint Estimated Depth: High school, Master's or Advanced (defined in the concept-explainer skill's Depth Levels). Plans created before these names existed say introductory / intermediate / advanced; read those as High school / Master's / Advanced. Default when the blueprint gives none: Master's.
@@ -160,9 +162,9 @@ Use the sub-goal's blueprint Estimated Depth: High school, Master's or Advanced 
 **Step 3: Deliver the concept explanation**
 - ONE explanation per gap, delivered sequentially
 - Every Quick Check MUST end with: `*If any term in this question is unclear, ask for a **clarification**.*`
-- **NEVER show the expected answer or "Watch for" hint before the learner responds.** Present ONLY the question + clarification note. After the learner answers, reveal the expected answer, evaluate, and proceed.
+- **NEVER show the expected answer or "Watch for" hint before the learner responds.** Present ONLY the question + clarification note. After the learner answers, reveal the **complete worked solution** (every step shown and annotated as in a worked example, ending with a Check), not just the expected answer; then evaluate and proceed.
 - If the learner asks for a clarification during a Quick Check: invoke the term-clarifier agent (same protocol as during tests)
-- If they get the Quick Check wrong: re-explain using a different angle, give one more CTQ check
+- If they get the Quick Check wrong: re-explain **one level down** (a Master's-level explanation at the High school level, an Advanced one at the Master's level; if already at the High school level, use a different picture or example), then give one more CTQ check at the original level
 - If they fail the second check: note as persistent gap, proceed to next gap
 
 **Step 4: Deep-dive option**
@@ -196,9 +198,11 @@ For EACH identified gap:
    - Say: "So the only operation on psi that gives a non-negative number summing to 1 is... what?" (let them say it)
    - Or: "You just showed that [their reasoning]. This is exactly [concept name]."
 
-4. **Quick Check**: Same as standard — CTQ-derived, wait for response, clarification note. But phrase the Quick Check as: "Now reconstruct why [concept] is the only resolution to the tension we started with."
+4. **Solved example**: Once the learner has stated the concept (or the chain has ended), consolidate it with one fully worked example in the concept-explainer format, ending with a Check. It comes after the resolution, never before it.
 
-5. **If Quick Check fails**: Do NOT re-explain declaratively. Instead, return to the Guidance Chain at the point where the learner's reasoning broke down. Ask a different narrowing question targeting that specific break.
+5. **Quick Check**: Same as standard — CTQ-derived, wait for response, clarification note, then the complete worked solution. But phrase the Quick Check as: "Now reconstruct why [concept] is the only resolution to the tension we started with."
+
+6. **If Quick Check fails**: Do NOT re-explain declaratively. Instead, return to the Guidance Chain at the point where the learner's reasoning broke down. Ask a different narrowing question targeting that specific break, pitched one level down (plainer words, concrete numbers) when the session is above the High school level.
 
 **Key Socratic rules for Phase 3:**
 - NEVER state a concept before the learner has attempted to derive it
@@ -335,7 +339,7 @@ Write a concept file to the current directory using the concept-explainer skill'
 ## Important Rules
 
 - ALWAYS append the "not familiar" note AND the "clarification" note at the end of EVERY test (Initial Test and Final Test) -- these two notes are NON-NEGOTIABLE
-- NEVER reveal expected answers or "Watch for" hints BEFORE the learner responds -- this applies to ALL questions (Initial Test, Quick Checks, Final Test). Present the question, wait, THEN show the answer.
+- NEVER reveal expected answers or "Watch for" hints BEFORE the learner responds -- this applies to ALL questions (Initial Test, Quick Checks, Final Test). Present the question, wait, THEN show the answer -- for a Quick Check, as a complete worked solution ending with a Check.
 - NEVER teach before testing -- the Initial Test ALWAYS comes first
 - NEVER skip evaluation -- always explicitly state PASS/FAIL with reasons and failure mode classifications
 - NEVER combine multiple gaps into one explanation -- one gap, one concept explanation

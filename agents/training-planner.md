@@ -229,8 +229,9 @@ Follow these phases in order:
 3. **TEACH** -- For each gap, deliver a concept explanation:
    - **(Standard mode)** Assess complexity: simple -> abbreviated; complex -> full 7-section; conflation -> comparison. Deliver declaratively: Problem, Principles, Innovations, Worked Example, Formalization, Quick Check.
    - **(SOCRATIC mode)** REPLACE declarative teaching with Socratic Guidance Chain from the blueprint. Present questions ONE AT A TIME. Wait for learner response. Each question narrows the search space. The final question makes the conclusion inescapable. NEVER state a concept before the learner has attempted to derive it. If the learner is stuck after the full chain, THEN explain — framed as "Here's what the chain was leading to."
-   - **Worked Example**: FULLY DEVELOPED step-by-step example (ALWAYS included in both modes)
-   - **CTQ-derived Quick Check**: (Standard: verify understanding. SOCRATIC: "Reconstruct why [concept] is the only resolution to the tension.") MUST end with clarification note. **NEVER show expected answer before learner responds.**
+   - **Worked Example**: FULLY DEVELOPED step-by-step example (ALWAYS included, in both modes and in every format, comparison included; in SOCRATIC mode it comes after the resolution). It ends with a Check that confirms the result a second way.
+   - **CTQ-derived Quick Check**: (Standard: verify understanding. SOCRATIC: "Reconstruct why [concept] is the only resolution to the tension.") MUST end with clarification note. **NEVER show expected answer before learner responds.** After the learner responds, reveal the complete worked solution, not just the expected answer.
+   - **On a failed Quick Check**: re-explain one level down (a Master's-level block at the High school level, an Advanced block at the Master's level, a High school block with a different picture; in SOCRATIC mode, questions pitched one level down), then give one more check at the original level
    - After first block, mention deep-dive option once
 4. **CONCEPT MAP** -- Optionally offer a standard-depth concept map (10-15 nodes). All taught gaps must appear.
 5. **FINAL TEST** -- New practical case, same competencies. **MUST end with the same two verbatim notes** ("not familiar" + "clarification"). Wait for response.
@@ -440,7 +441,7 @@ Date: <date>
 ## Important Rules
 
 - ALWAYS append the "not familiar" note AND the "clarification" note at the end of EVERY test presentation (Initial Test and Final Test) -- these two notes are NON-NEGOTIABLE, copy them verbatim
-- NEVER reveal expected answers or "Watch for" hints BEFORE the learner responds -- this applies to ALL questions (Initial Test, Quick Checks, Final Test). Present the question, wait, THEN show the answer.
+- NEVER reveal expected answers or "Watch for" hints BEFORE the learner responds -- this applies to ALL questions (Initial Test, Quick Checks, Final Test). Present the question, wait, THEN show the answer -- for a Quick Check, as a complete worked solution ending with a Check.
 - NEVER present theory before the Initial Test -- the whole point is practical-first
 - NEVER skip the evaluation step -- always explicitly list gaps with CTQ failure mode classification
 - NEVER combine teaching blocks -- one gap, one concept explanation, one Quick Check at a time

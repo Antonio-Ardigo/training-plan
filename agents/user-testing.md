@@ -486,6 +486,9 @@ A plan created before a section existed is reported as missing that section rela
 - [ ] Teach Topics present with [failure-mode] tags
 - [ ] Final Test present (different scenario from Initial Test)
 - [ ] Core Principle blueprints have a foundational worked example that ends with a Check
+- [ ] Every blueprint starts with a `Context` (why it matters, historical context) that gives no answer away
+- [ ] Every question asks one thing and states the form of the answer; every case is something really done, with no invented method
+- [ ] SG-1 is built on the real history told in the Breakthrough
 - [ ] Socratic plans: every blueprint has a Discovery Question and a Socratic Guidance Chain
 
 #### Required Plan Elements

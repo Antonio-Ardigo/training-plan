@@ -82,6 +82,16 @@ h3{font-family:var(--display);font-size:1.05rem;margin:8px 0 0;color:var(--label
 .man{display:flex;flex-direction:column;gap:10px}
 .man .lock{color:var(--muted);font-style:italic}
 .man ul{margin:0;padding-left:1.2em}
+.tl{display:flex;gap:8px;flex-wrap:wrap}
+.tl button{flex:1 1 45%;min-width:0}
+.tl button.on{border-color:var(--out);color:var(--out)}
+.tl button.seen::after{content:" ✓";color:var(--out)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px}
+.kv b{color:var(--label);font-weight:600}
+.words{display:flex;gap:3px;flex-wrap:wrap;padding:16px;align-items:center}
+.words span{width:16px;height:22px;border-radius:3px;background:var(--ink);opacity:.8}
+.words .arrow{background:none;width:auto;height:auto;color:var(--muted);opacity:1;padding:0 8px}
+.words .slot{width:30px;height:30px;background:var(--value);opacity:1}
 </style>
 
 <div class="wrap">
@@ -109,7 +119,7 @@ const items=[
  {n:"pear",x:6,y:1.5,k:"f"},{n:"orange",x:5.5,y:0.4,k:"f"},{n:"banana",x:4.2,y:1.7,k:"f"},
  {n:"charger",x:8.5,y:5,k:"e"},{n:"laptop",x:7,y:6.8,k:"e"},{n:"headset",x:8.9,y:6.9,k:"e"},
  {n:"gift card",x:1,y:5,k:"c"},{n:"greeting card",x:2.3,y:6.9,k:"c"},{n:"flowers",x:0.8,y:7,k:"c"}];
-const base={Love:[1.5,6],Apple:[5,1],Phones:[8,6]},names=["Love","Apple","Phones"];
+const base={Love:[1.5,6],Apple:[5,1],Phones:[8,6],Pie:[3.2,3.3]},names=["Love","Apple","Phones"],DOTS=["Love","Apple","Phones","Pie"];
 const mix=w=>[0,1].map(d=>names.reduce((s,n,i)=>s+w[i]*base[n][d],0));
 const nearest=p=>items.map(i=>({i,d:Math.hypot(i.x-p[0],i.y-p[1])})).sort((a,b)=>a.d-b.d).slice(0,3).map(o=>o.i);
 const nn3=w=>nearest(mix(w)).map(i=>i.n).join(", ");
@@ -120,58 +130,62 @@ const fig=document.getElementById("fig"),nearEl=document.getElementById("near");
 let svg,lines,dots;
 function mapOn(){
   if(svg&&fig.contains(svg))return;
-  svg=el("svg",{viewBox:"0 0 800 420",role:"img","aria-label":"Embedding map: three tokens and nine catalogue items"});
+  svg=el("svg",{viewBox:"0 0 800 420",role:"img","aria-label":"Embedding map: the words of the query and nine catalogue items"});
   lines=el("g",{});svg.appendChild(lines);dots={};
   items.forEach(i=>{svg.appendChild(el("circle",{cx:X(i.x),cy:Y(i.y),r:6,fill:"#6b7788"}));
     svg.appendChild(el("text",{x:X(i.x)+10,y:Y(i.y)+5,fill:"#9aa7b5","font-size":15,"font-family":"Inter,sans-serif"},i.n))});
-  names.forEach(n=>{const g=el("g",{class:"dot"});g.appendChild(el("circle",{r:11,fill:"#7dea9c"}));
+  DOTS.forEach(n=>{const g=el("g",{class:"dot"});g.appendChild(el("circle",{r:11,fill:"#7dea9c"}));
     g.appendChild(el("text",{y:-18,fill:"#fff","font-size":18,"font-weight":700,"font-family":"Space Grotesk,sans-serif","text-anchor":"middle"},n));
     g.style.transition="transform .7s";svg.appendChild(g);dots[n]=g});
   fig.replaceChildren(svg)}
-function show(pos,focus){mapOn();
-  const same=names.every(n=>Math.hypot(pos[n][0]-pos.Apple[0],pos[n][1]-pos.Apple[1])<1e-6);
-  names.forEach((n,k)=>{dots[n].style.transform="translate("+X(pos[n][0])+"px,"+Y(pos[n][1])+"px)";
-    dots[n].querySelector("text").setAttribute("y",same?-18-(2-k)*19:-18)});
-  const f=focus||"Apple",p=pos[f],nn=nearest(p);
+function show(pos){mapOn();
+  const on=DOTS.filter(n=>pos[n]),same=on.length>1&&on.every(n=>Math.hypot(pos[n][0]-pos.Apple[0],pos[n][1]-pos.Apple[1])<1e-6);
+  DOTS.forEach(n=>{dots[n].style.display=pos[n]?"":"none";if(!pos[n])return;
+    dots[n].style.transform="translate("+X(pos[n][0])+"px,"+Y(pos[n][1])+"px)";
+    dots[n].querySelector("text").setAttribute("y",same?-18-(on.length-1-on.indexOf(n))*19:-18)});
+  const p=pos.Apple,nn=nearest(p);
   lines.replaceChildren(...nn.map(i=>el("line",{x1:X(p[0]),y1:Y(p[1]),x2:X(i.x),y2:Y(i.y),stroke:"#8fd3ff","stroke-width":1.5,"stroke-dasharray":"4 4"})));
-  nearEl.innerHTML="Nearest to <b>"+f+"</b>: "+nn.map(i=>i.n).join(", ");return nn}
+  nearEl.innerHTML="Nearest to <b>Apple</b>: "+nn.map(i=>i.n).join(", ");return nn}
 const orig=()=>({Love:base.Love,Apple:base.Apple,Phones:base.Phones});
-const all=p=>({Love:p,Apple:p,Phones:p});
-const avg=mix([1/3,1/3,1/3]),OWN={Love:[0.8,0.1,0.1],Apple:[0.1,0.2,0.7],Phones:[0.1,0.1,0.8]};
+const pieS=()=>({Love:base.Love,Apple:base.Apple,Pie:base.Pie});
+const OWN={Love:[0.8,0.1,0.1],Apple:[0.1,0.2,0.7],Phones:[0.1,0.1,0.8]};
+const own=()=>({Love:mix(OWN.Love),Apple:mix(OWN.Apple),Phones:mix(OWN.Phones)});
+const COVER='<svg viewBox="0 0 800 300" role="img" aria-label="The course picture with its mechanism covered"><text x="400" y="40" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="24" font-weight="700" font-style="italic" text-anchor="middle">“Love Apple Phones”</text><rect x="110" y="60" width="580" height="160" rx="6" fill="#1b2230" stroke="#3a4558" stroke-dasharray="7 6"/>BODY<text x="400" y="272" fill="#7dea9c" font-family="Space Grotesk,sans-serif" font-size="30" font-weight="700" text-anchor="middle">E′<tspan font-size="17" dy="7">Apple</tspan></text></svg>';
 
 /* ---------- saving and asking Claude ---------- */
-let R={steps:{},idea:"",ideaTries:0,final:{},questions:[],notes:{}};
+const BLANK=()=>({steps:{},idea:"",ideaTries:0,final:{},questions:[],notes:{},seen:{}});
+let R=BLANK();const DOC="sessions/sg1v2";
 let db=null,sample=null,dl=null,saving=Promise.resolve();
 const ready=(async()=>{for(const [k,f] of [["db",v=>db=v],["sample",v=>sample=v],["downloads",v=>dl=v]]){try{f(await window.claude?.use(k)??null)}catch(e){}}})();
 function save(){const snap=JSON.parse(JSON.stringify(R));snap.updated=new Date().toISOString();
-  saving=saving.then(()=>ready).then(()=>db?db.doc("sessions/sg1").set(snap):null).catch(()=>{})}
+  saving=saving.then(()=>ready).then(()=>db?db.doc(DOC).set(snap):null).catch(()=>{})}
 async function ask(prompt,json){await ready;if(!sample)return null;
   try{return json?await sample.json(prompt,{cache:false}):(await sample(prompt,{cache:false})).text}catch(e){return null}}
 const q=s=>String(s).replace(/"/g,"'"),esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
 
 /* ---------- steps: registry, navigation ---------- */
 const STEPS=[
- {id:"intro",t:"Start",done:()=>R.started,fn:sIntro},
- {id:"q1",t:"Where do the three dots go?",done:()=>R.steps.q1,fn:sQ1},
- {id:"shares",t:"Set the shares yourself",done:()=>R.steps.shares,fn:sShares},
- {id:"q2",t:"Who chose the shares?",done:()=>R.steps.q2,fn:sQ2},
- {id:"q3",t:"A longer query",done:()=>R.steps.q3,fn:sQ3},
- {id:"q4",t:"The same words, reordered",done:()=>R.steps.q4,fn:sQ4},
- {id:"q5",t:"One set of shares, or one per token?",done:()=>R.steps.q5,fn:sQ5},
+ {id:"why",t:"Why this matters",done:()=>R.seen.why,fn:sWhy},
+ {id:"history",t:"How we got here",done:()=>R.seen.history,fn:sHistory},
+ {id:"static",t:"One vector per word",done:()=>R.steps.static,fn:sStatic},
+ {id:"summary",t:"One vector per sentence",done:()=>R.steps.summary,fn:sSummary},
+ {id:"shares",t:"Keep every word, and blend",done:()=>R.steps.shares,fn:sShares},
+ {id:"order",t:"The same words, reordered",done:()=>R.steps.order,fn:sOrder},
+ {id:"own",t:"One set of shares, or one per word?",done:()=>R.steps.own,fn:sOwn},
  {id:"idea",t:"In your own words",done:()=>"ideaOk" in R,fn:sIdea},
- {id:"found",t:"What you found",done:()=>R.seenFound,fn:sFound},
+ {id:"found",t:"What you found",done:()=>R.seen.found,fn:sFound},
  {id:"check",t:"Quick check",done:()=>R.steps.check,fn:sCheck},
  {id:"final",t:"Final test",done:()=>R.final&&R.final.done,fn:sFinal}];
 const TOTAL=STEPS.length;let cur=0;
 const reached=()=>{let i=0;while(i<TOTAL-1&&STEPS[i].done())i++;return i};
 const stepview=document.getElementById("stepview"),panel=document.getElementById("panel");
-function go(i){i=Math.max(0,Math.min(i,reached()));cur=i;panel.hidden=true;stepview.hidden=false;STEPS[i].fn();try{localStorage.setItem("sg1-step",i)}catch(e){}}
+const bar=()=>document.getElementById("bar").style.width=(100*STEPS.filter(s=>s.done()).length/TOTAL)+"%";
+function go(i){i=Math.max(0,Math.min(i,reached()));cur=i;panel.hidden=true;stepview.hidden=false;STEPS[i].fn()}
 function frame(html){
-  const i=cur,S=STEPS[i];
-  document.getElementById("bar").style.width=(100*STEPS.filter(s=>s.done()).length/TOTAL)+"%";
+  const i=cur,S=STEPS[i];bar();
   const d=document.createElement("div");d.id="card";
   d.innerHTML="<p class='hint' style='margin:0'>Step "+(i+1)+" of "+TOTAL+"</p>"+html+
-    "<div class='nav'><button type='button' class='quiet' id='back'"+(i===0?" hidden":"")+">Back</button><span class='sp'></span><button type='button' id='next' disabled>"+(i===TOTAL-1?"See result":i===0?"Start":"Next")+"</button></div>"+
+    "<div class='nav'><button type='button' class='quiet' id='back'"+(i===0?" hidden":"")+">Back</button><span class='sp'></span><button type='button' id='next' disabled>"+(i===TOTAL-1?"See result":"Next")+"</button></div>"+
     "<details class='note'"+(R.notes[S.id]?" open":"")+"><summary>My note for this step</summary><textarea id='note' aria-label='My note for this step' placeholder='Goes into your manual'></textarea></details>";
   document.getElementById("card").replaceWith(d);
   d.querySelector("#note").value=R.notes[S.id]||"";
@@ -180,104 +194,119 @@ function frame(html){
   d.querySelector("#next").onclick=()=>{if(i===TOTAL-1)showEnd();else go(i+1)};
   if(S.done())d.querySelector("#next").disabled=false;
   window.scrollTo({top:0,behavior:"smooth"});return d}
-function complete(d){const b=d.querySelector("#next");b.disabled=false;document.getElementById("bar").style.width=(100*STEPS.filter(s=>s.done()).length/TOTAL)+"%";b.focus({preventScroll:true})}
+function complete(d){const b=d.querySelector("#next");b.disabled=false;bar();b.focus({preventScroll:true})}
 function choice(key,title,qn,opts,onWrong,onRight){
-  const d=frame("<h2>"+title+"</h2><p>"+qn+"</p><div class='opts'></div><p class='fb' aria-live='polite'></p>");
+  const d=frame("<h2>"+title+"</h2>"+qn+"<div class='opts'></div><p class='fb' aria-live='polite'></p>");
   let tries=0;const fb=d.querySelector(".fb"),was=R.steps[key];
   opts.forEach(o=>{const b=document.createElement("button");b.type="button";b.textContent=o.t;
     const right=()=>{b.classList.add("right");fb.className="fb ok";fb.textContent=onRight(o)||"";d.querySelectorAll(".opts button").forEach(x=>x.disabled=true)};
     b.onclick=()=>{tries++;if(o.ok){right();R.steps[key]={answer:o.t,tries};save();complete(d)}else{fb.className="fb";fb.textContent=onWrong(o)}};
-    d.querySelector(".opts").appendChild(b);if(was&&o.ok)setTimeout(right,0)})}
+    d.querySelector(".opts").appendChild(b);if(was&&o.ok)setTimeout(right,0)});return d}
 
-function sIntro(){show(orig());
-  const d=frame("<h2>Run the developer's fix yourself</h2><p>You said Apple should move towards the phones. Here you test whether the developer's average does that.</p><p class='hint'>The map above is the search team's embedding space. Grey dots are catalogue items. Right now Apple's nearest items are fruit. Your answers are checked here and saved automatically. <b>Back</b> returns to any earlier step, <b>Contents</b> lists all steps, and <b>Manual</b> collects what you have found so far.</p>");
-  d.querySelector("#next").disabled=false;d.querySelector("#next").onclick=()=>{R.started=true;save();go(1)}}
-function sQ1(){show(R.steps.q1?all(avg):orig());
-  choice("q1","Where do the three dots go?","The fix replaces each token's vector by the plain average of the three. Where are the three dots afterwards?",
-   [{t:"Apple moves next to Phones; Love and Phones stay"},{t:"All three move closer but stay three different points"},{t:"All three are on the same point",ok:1}],
-   o=>{show(all(avg));return "The map above has just run the fix. How many separate green dots do you count now? Choose again."},
-   o=>{const nn=show(all(avg));return "Yes. One point for all three, and its nearest items are "+nn.map(i=>i.n).join(", ")+"."})}
+/* ---------- 1-2: motivation and historical context ---------- */
+function sWhy(){fig.innerHTML=COVER.replace("BODY",'<text x="400" y="150" fill="#9aa7b5" font-family="Space Grotesk,sans-serif" font-size="40" font-weight="700" text-anchor="middle">?</text><text x="400" y="186" fill="#9aa7b5" font-family="Inter,sans-serif" font-size="15" text-anchor="middle">the mechanism this course uncovers</text>');
+  nearEl.textContent="The course picture. Today only the sentence and the result are uncovered.";
+  const d=frame("<h2>Why this matters</h2><p>Every language model in use today repeats one operation in every layer: <b>attention</b>. It rewrites each word of a sentence using the other words.</p><p>By the end of this course you will compute that operation by hand on one picture, and explain why it uses three kinds of vector: query, key and value.</p><p>This first session asks what problem attention was invented to solve. You need no formula today.</p><p class='hint'>About 15 minutes. Your answers are checked here and saved automatically. <b>Back</b> returns to any earlier step, <b>Contents</b> lists all steps, and <b>Manual</b> collects what you have found so far.</p>");
+  if(!R.seen.why){R.seen.why=true;save()}complete(d)}
+const HIST=[
+ ["2013","One vector per word","Word-embedding methods such as word2vec learn one vector for each word from large collections of text. Words that are used alike get vectors that lie close together.","Models stopped treating words as unrelated symbols: similar words became neighbours.","Each word has a single vector, whatever sentence it stands in."],
+ ["2014","One vector per sentence","Encoder-decoder models (Sutskever, Vinyals and Le; Cho and colleagues) read a sentence word by word and hand the decoder one summary vector of fixed size.","A whole sentence could be translated by a single neural network.","Translation quality fell as sentences grew longer."],
+ ["2014","Looking back at every word","Bahdanau, Cho and Bengio keep the vector of every source word. For each word it writes, the decoder weighs all of them afresh. They called this attention.","Long sentences stopped being a wall.","The model still reads one word after another, so training is slow."],
+ ["2017","Attention only","Vaswani and colleagues (“Attention Is All You Need”) drop the word-by-word reading. Every word of a sentence looks at every other word, all at once. This is the Transformer.","All words are processed in parallel, which made training on very large text collections practical. Today's language models are built on it.","This is the operation in the course picture."]];
+function sHistory(){
+  const d=frame("<h2>How we got here</h2><p>Four moments. Open each one.</p><div class='tl'>"+HIST.map((h,i)=>"<button type='button' class='quiet' data-h='"+i+"'>"+h[0]+" · "+h[1]+"</button>").join("")+"</div><div id='hbody' class='kv'></div>");
+  const seen=new Set(R.seen.history?[0,1,2,3]:[]);
+  const pick=i=>{const h=HIST[i];seen.add(i);
+    d.querySelectorAll(".tl button").forEach((b,k)=>{b.classList.toggle("on",k===i);b.classList.toggle("seen",seen.has(k))});
+    d.querySelector("#hbody").innerHTML="<b>What was done</b><span>"+h[2]+"</span><b>What it solved</b><span>"+h[3]+"</span><b>"+(i===3?"Where it leads":"Where it stopped")+"</b><span>"+h[4]+"</span>";
+    fig.innerHTML='<svg viewBox="0 0 800 150" role="img" aria-label="Timeline 2013 to 2017"><line x1="80" y1="70" x2="720" y2="70" stroke="#3a4558" stroke-width="3"/>'+HIST.map((x,k)=>'<circle cx="'+(80+k*213)+'" cy="70" r="'+(k===i?16:10)+'" fill="'+(k===i?"#7dea9c":seen.has(k)?"#8fd3ff":"#3a4558")+'"/><text x="'+(80+k*213)+'" y="36" fill="#e8eef5" font-family="Space Grotesk,sans-serif" font-size="19" font-weight="700" text-anchor="middle">'+x[0]+'</text><text x="'+(80+k*213)+'" y="112" fill="#9aa7b5" font-family="Inter,sans-serif" font-size="14" text-anchor="middle">'+x[1]+'</text>').join("")+'</svg>';
+    nearEl.textContent="From one vector per word to attention.";
+    if(seen.size===4){if(!R.seen.history){R.seen.history=true;save()}complete(d)}};
+  d.querySelectorAll(".tl button").forEach(b=>b.onclick=()=>pick(+b.dataset.h));pick(0)}
+
+/* ---------- 3-7: the questions ---------- */
+function sStatic(){show(orig());
+  const d=choice("static","2013: one vector per word","<p>The map shows the 2013 vectors of a shop's search engine. Grey dots are catalogue items. For “Love Apple Phones”, the items nearest to Apple are fruit.</p><p><b>Question.</b> The shopper types “Love Apple Pie” instead. With one vector per word, which items are nearest to Apple in the two queries? Pick one.</p><div class='row'><button type='button' class='quiet' id='tg'>Show “Love Apple Pie” on the map</button></div>",
+   [{t:"Fruit for “Apple Pie”, electronics for “Apple Phones”"},{t:"Fruit in both queries",ok:1},{t:"Electronics in both queries"}],
+   o=>{pie=true;show(pieS());tg.textContent="Show “Love Apple Phones” on the map";return "The map now shows “Love Apple Pie”. Switch back and forth with the button and watch Apple's dot. Then choose again."},
+   o=>"Yes. The table gives Apple the same vector in both queries, so its neighbours are the same: "+nn3([0,1,0])+". Nothing in that vector says which Apple is meant.");
+  let pie=false;const tg=d.querySelector("#tg");tg.onclick=()=>{pie=!pie;show(pie?pieS():orig());tg.textContent="Show “Love Apple "+(pie?"Phones":"Pie")+"” on the map"}}
+function sSummary(){const was=R.steps.summary;
+  const draw=n=>{fig.innerHTML="<div class='words'>"+Array.from({length:n},()=>"<span></span>").join("")+"<span class='arrow'>→</span>"+"<span class='slot'></span>".repeat(4)+"</div>";nearEl.textContent=n+" words go into a summary of 4 numbers."};
+  const d=frame("<h2>2014: one vector per sentence</h2><p>An encoder-decoder model squeezes the whole sentence into one summary vector. Say it has 4 numbers. Above: each blue bar is a word, each pink square one number of the summary.</p><div class='sl' style='grid-template-columns:110px 1fr 40px'><label for='nw' style='margin:0'>Sentence length</label><input type='range' id='nw' min='4' max='40' value='4'><span id='nv'>4</span></div><p><b>Question.</b> For a 40-word sentence, how many numbers of the summary are there per word? Give a number.</p><div class='row'><input type='text' id='qi' aria-label='Numbers per word' placeholder='e.g. 2'><button type='button' id='qb'>Check</button></div><p class='fb' aria-live='polite'></p>");
+  draw(4);d.querySelector("#nw").addEventListener("input",e=>{d.querySelector("#nv").textContent=e.target.value;draw(+e.target.value)});
+  let tries=0;const fb=d.querySelector(".fb"),inp=d.querySelector("#qi"),okmsg=()=>{fb.className="fb ok";fb.textContent="One tenth of a number per word, against one per word for a 4-word sentence. The summary cannot grow with the sentence, and in 2014 translation quality did fall on long sentences.";d.querySelector("#qb").disabled=true};
+  if(was){inp.value=was.answer;okmsg()}
+  const goq=()=>{tries++;let t=inp.value.trim().replace(",","."),v;
+    if(/^\d+\s*\/\s*\d+$/.test(t)){const a=t.split("/");v=a[0]/a[1]}else v=parseFloat(t);
+    if(Math.abs(v-0.1)<0.005){okmsg();R.steps.summary={answer:t,tries};save();complete(d)}
+    else{fb.className="fb";fb.textContent=Math.abs(v-10)<0.01?"That is words per number. The question asks numbers per word.":Math.abs(v-1)<0.01?"That is the 4-word sentence. Move the slider to 40.":"Divide the 4 numbers of the summary among the 40 words."}};
+  d.querySelector("#qb").onclick=goq;inp.addEventListener("keydown",e=>{if(e.key==="Enter")goq()})}
 function sShares(){
-  const was=R.steps.shares,w0=was?was.answer.split(",").map(Number):[1/3,1/3,1/3];
-  const d=frame("<h2>Set the shares yourself</h2><p>Now only Apple is rewritten, as a blend of the three original vectors. Move the sliders until Apple's three nearest items are electronics.</p>"+
+  const was=R.steps.shares,w0=was?was.answer.split(",").map(Number):[0,1,0];
+  const d=frame("<h2>Keep every word, and blend</h2><p>The way out found in 2014: keep the vector of every word, and let a word take a blend of them. Each word of the sentence gets a <b>share</b>; the shares sum to 1.</p><p><b>Task.</b> Rewrite Apple as a blend of Love, Apple and Phones. Move the sliders until Apple's three nearest items are all electronics.</p>"+
    names.map((n,i)=>"<div class='sl'><label for='s"+i+"' style='margin:0'>"+n+"</label><input type='range' id='s"+i+"' min='0' max='100' value='"+Math.round(w0[i]*100)+"'><span id='v"+i+"'></span></div>").join("")+"<p class='fb' aria-live='polite'></p>");
   const fb=d.querySelector(".fb");let ok=!!was;
   const upd=()=>{const r=[0,1,2].map(i=>+document.getElementById("s"+i).value),t=r[0]+r[1]+r[2]||1,w=r.map(v=>v/t);
     w.forEach((v,i)=>document.getElementById("v"+i).textContent=f2(v));
     const nn=show({Love:base.Love,Phones:base.Phones,Apple:mix(w)});
-    if(nn.every(i=>i.k==="e")){fb.className="fb ok";fb.textContent="There: Apple now sits among the electronics.";
+    if(nn.every(i=>i.k==="e")){fb.className="fb ok";fb.textContent="There: with these shares Apple sits among the electronics. You chose them because you know what the shopper means.";
       R.steps.shares={answer:w.map(f2).join(", "),tries:1};if(!ok){ok=true;save();complete(d)}}
     else if(!ok)fb.textContent=""};
   [0,1,2].forEach(i=>{document.getElementById("s"+i).addEventListener("input",upd);document.getElementById("s"+i).addEventListener("change",()=>{if(ok)save()})});upd()}
-function sQ2(){const w=R.steps.shares.answer.split(",").map(Number);show({Love:base.Love,Phones:base.Phones,Apple:mix(w)});
-  choice("q2","Who chose the shares?","You gave Phones the largest share ("+f2(w[2])+") because you know what the shopper means. In the developer's average, what decides the three shares?",
-   [{t:"The words of the sentence"},{t:"The token being rewritten"},{t:"Nothing in the sentence: one third each, whatever the words",ok:1}],
-   o=>"Test it: swap Phones for Pie. What shares does a plain average give now? Choose again.",
-   o=>"Yes. Yours were "+w.map(f2).join(", ")+"; the average's are 0.33, 0.33, 0.33 for any three words.")}
-function sQ3(){show(all(avg));const was=R.steps.q3;
-  const d=frame("<h2>A longer query</h2><p>Ten words, one of them about phones, plain average. What share does the phone word get?</p>"+
-   "<div class='cells'>"+Array.from({length:10},(_,i)=>"<span"+(i===6?" class='on'":"")+"></span>").join("")+"</div>"+
-   "<div class='row'><input type='text' id='q3i' aria-label='Share of the phone word' placeholder='e.g. 0.5'><button type='button' id='q3b'>Check</button></div><p class='fb' aria-live='polite'></p>");
-  let tries=0;const fb=d.querySelector(".fb"),inp=d.querySelector("#q3i"),okmsg=()=>{fb.className="fb ok";fb.textContent="One tenth. The longer the query, the less the useful word counts.";d.querySelector("#q3b").disabled=true};
-  if(was){inp.value=was.answer;okmsg()}
-  const goq=()=>{tries++;let t=inp.value.trim().replace(",","."),v;
-    if(/^\d+\s*\/\s*\d+$/.test(t)){const a=t.split("/");v=a[0]/a[1]}else if(t.endsWith("%"))v=parseFloat(t)/100;else v=parseFloat(t);
-    if(Math.abs(v-0.1)<0.005){okmsg();R.steps.q3={answer:t,tries};save();complete(d)}
-    else{fb.className="fb";fb.textContent=Math.abs(v-1/3)<0.01?"That is the share with three words. Count the cells.":"Each cell is one word with an equal share. Count the cells."}};
-  d.querySelector("#q3b").onclick=goq;inp.addEventListener("keydown",e=>{if(e.key==="Enter")goq()})}
-function sQ4(){show(orig());
-  choice("q4","The same words, reordered","The shopper types “Phones Love Apple”. Phones is now two places from Apple. For rewriting Apple, what should happen to the share of Phones?",
-   [{t:"It should drop: Phones is farther away"},{t:"It should stay the same",ok:1},{t:"It should rise"}],
+function sOrder(){show(orig());
+  choice("order","The same words, reordered","<p>You gave Phones a large share. Now the shopper types the same three words in another order: “Phones Love Apple”. Phones is no longer next to Apple.</p><p><b>Question.</b> For rewriting Apple, what should happen to the share of Phones? Pick one.</p>",
+   [{t:"It should drop, because Phones is farther away"},{t:"It should stay the same",ok:1},{t:"It should rise"}],
    o=>{if(o.t.startsWith("It should drop")){const nn=show({Love:base.Love,Phones:base.Phones,Apple:mix([0.3,0.6,0.1])});
-        return "The map shows that: Phones at 0.10. Apple's nearest items are "+nn.map(i=>i.n).join(", ")+". Same words, same shopper. Choose again."}
-      return "Then moving Phones back would lower it again: same words, two results. Choose again."},
-   o=>"Yes. The share cannot be read from where a word stands.")}
-function sQ5(){show(orig());
-  choice("q5","One set of shares, or one per token?","Suppose good shares exist for this sentence. One set for the whole sentence, applied to every token? Or a set for each token?",
-   [{t:"One set for the whole sentence"},{t:"Each token has its own set",ok:1}],
-   o=>{show(all(mix([0.05,0.25,0.7])));return "The map shows one set applied to all three. You have seen this picture before. Choose again."},
-   o=>{show({Love:mix(OWN.Love),Apple:mix(OWN.Apple),Phones:mix(OWN.Phones)});return "Yes. The map shows each token blended with its own shares."})}
+        return "The map shows Apple with the share of Phones lowered to 0.10: its nearest items are "+nn.map(i=>i.n).join(", ")+". Same words, same shopper. Choose again."}
+      return "Then typing the words in the first order again would lower it: the same words would give two different results. Choose again."},
+   o=>"Yes. The share has to come from what the words are, not from where they stand.")}
+function sOwn(){show(orig());
+  choice("own","One set of shares, or one per word?","<p>Love and Phones must be rewritten too.</p><p><b>Question.</b> Should all three words use the shares you found for Apple, or should each word have its own shares? Pick one.</p>",
+   [{t:"All three use the same shares"},{t:"Each word has its own shares",ok:1}],
+   o=>{const p=mix([0.05,0.25,0.7]);show({Love:p,Apple:p,Phones:p});return "The map shows the same shares (0.05, 0.25, 0.70) used for all three words: the same blend gives the same vector, so the three dots coincide. Choose again."},
+   o=>{show(own());return "Yes. The map shows each word blended with its own shares: Love stays with the cards, Apple and Phones sit with the electronics."})}
 
-function sIdea(){show({Love:mix(OWN.Love),Apple:mix(OWN.Apple),Phones:mix(OWN.Phones)});
-  const d=frame("<h2>Now say it in your own words</h2><p>What must the missing mechanism compute for Apple, and what must it depend on?</p><textarea id='idea' aria-label='Your statement'></textarea><div class='row'><button type='button' id='send'>Send</button></div><p class='fb' aria-live='polite'></p>");
+function sIdea(){show(own());
+  const d=frame("<h2>Now say it in your own words</h2><p><b>Question.</b> In one or two sentences: what must the missing mechanism compute for Apple, and what must the shares depend on?</p><textarea id='idea' aria-label='Your statement'></textarea><div class='row'><button type='button' id='send'>Send</button></div><p class='fb' aria-live='polite'></p>");
   const fb=d.querySelector(".fb"),b=d.querySelector("#send"),ta=d.querySelector("#idea");ta.value=R.idea||"";
   if("ideaOk" in R){fb.className=R.ideaOk?"fb ok":"fb";fb.textContent=R.ideaSay||"";b.textContent="Send a new version"}
   b.onclick=async()=>{const t=ta.value.trim();if(t.length<8){ta.focus();return}
     R.idea=t;R.ideaTries++;save();b.disabled=true;fb.className="fb";fb.textContent="Reading your answer…";
-    const j=await ask("You are a Socratic tutor inside a learning page about why a token needs context (the step before attention). The learner has just seen, on a 2-D embedding map of the query 'Love Apple Phones': (Q1) a plain average puts all three tokens on the same point; (Q2) the average's shares are one third each whatever the words; (Q3) in a ten-word query the useful word gets one tenth; (Q4) reordering the same words must not change a word's share; (Q5) each token needs its own set of shares.\nTarget idea: each token gets its OWN blend of the sentence's vectors, with shares that depend on WHAT the words are (content), not on position or a fixed rule.\nLearner's statement: \""+q(t)+"\"\nJudge generously on wording: ok is true if the statement contains both (1) a per-token or 'for Apple' weighted blend of the neighbours and (2) shares depending on the words/meaning/relevance. Reply with JSON only: {\"ok\":true|false,\"say\":\"...\"}. If ok: 'say' confirms in one sentence using their own words. If not ok: do NOT state the idea; 'say' is ONE short question that points to the one finding among Q1-Q5 their statement leaves out. Max 35 words. Do not use the words query, key or value. Address the learner as 'you'.",true);
+    const j=await ask("You are a Socratic tutor inside a learning page on what problem attention was invented to solve. The learner has just found, on a 2-D embedding map of the query 'Love Apple Phones': (F1) a lookup table gives Apple the same vector in every sentence; (F2) a fixed-size sentence summary leaves less room per word as the sentence grows; (F3) blending Apple with its neighbours using suitable shares moves it to the right meaning; (F4) reordering the same words must not change a word's share; (F5) each word needs its own set of shares.\nTarget idea: each word gets its OWN blend of the sentence's word vectors, with shares that depend on WHAT the words are (content), not on position or a fixed rule.\nLearner's statement: \""+q(t)+"\"\nJudge generously on wording: ok is true if the statement contains both (1) a per-word or 'for Apple' weighted blend of the words and (2) shares depending on the words/meaning/relevance. Reply with JSON only: {\"ok\":true|false,\"say\":\"...\"}. If ok: 'say' confirms in one sentence using their own words. If not ok: do NOT state the idea; 'say' is ONE short, clear question that points to the one finding among F1-F5 their statement leaves out. Max 35 words. Do not use the words query, key or value. Address the learner as 'you'.",true);
     b.disabled=false;
     if(j&&j.ok){fb.className="fb ok";fb.textContent=R.ideaSay=j.say||"Yes.";R.ideaOk=true;save();complete(d)}
-    else if(j&&R.ideaTries<3&&!("ideaOk" in R)){fb.textContent=j.say||"Which of the five findings is missing?";b.textContent="Send again"}
-    else{fb.textContent=R.ideaSay=j?(j.say||""):"Saved. The next step shows what the five questions were leading to.";if(!R.ideaOk)R.ideaOk=j?false:null;save();complete(d)}}}
+    else if(j&&R.ideaTries<3&&!("ideaOk" in R)){fb.textContent=j.say||"Which of your findings is missing?";b.textContent="Send again"}
+    else{fb.textContent=R.ideaSay=j?(j.say||""):"Saved. The next step sums up what the questions were leading to.";if(!R.ideaOk)R.ideaOk=j?false:null;save();complete(d)}}}
 
-const SPEC=[["Per token","One shared blend put the three dots on one point."],["By content","Equal shares left Apple among the fruit; a share tied to position changed when the same words were reordered."],["Any length","With equal shares the useful word fades as the query grows."],["Learned","You set the sliders by hand because you know what Apple means here. The system must find such shares itself."]];
-const WX=[["Apple, plain average",[1/3,1/3,1/3]],["Love, plain average",[1/3,1/3,1/3]],["Apple, own shares",OWN.Apple],["Love, own shares",OWN.Love]];
+const SPEC=[["Per word","The same shares for every word give every word the same blend. Each word needs its own."],["By content","The same words in another order must get the same shares, so position alone cannot set them."],["Any length","A summary of fixed size leaves less room per word as the sentence grows. Keeping every word's vector avoids that."],["Learned","You set the sliders by hand because you know what Apple means here. The system must find such shares itself, for every sentence."]];
+const WX=[["Apple, table vector (2013)",[0,1,0]],["Apple, own shares",OWN.Apple],["Love, own shares",OWN.Love]];
 const wxRow=r=>{const p=mix(r[1]);return [r[0],r[1].map(f2).join(", "),"("+f2(p[0])+", "+f2(p[1])+")",nearest(p).map(i=>i.n).join(", ")]};
-const wxNote=()=>{const a=mix(OWN.Apple);return "Apple, first coordinate: 0.10·1.5 + 0.20·5 + 0.70·8 = "+f2(a[0])+". Second: 0.10·6 + 0.20·1 + 0.70·6 = "+f2(a[1])+". Check: the shares sum to 1, so the result must lie between the originals: 1.5 ≤ "+f2(a[0])+" ≤ 8 and 1 ≤ "+f2(a[1])+" ≤ 6."};
+const wxNote=()=>{const a=mix(OWN.Apple);return "Apple with its own shares, first coordinate: 0.10·1.5 + 0.20·5 + 0.70·8 = "+f2(a[0])+". Second: 0.10·6 + 0.20·1 + 0.70·6 = "+f2(a[1])+". Check: the shares sum to 1, so each coordinate must lie between the smallest and largest of the three originals: 1.5 ≤ "+f2(a[0])+" ≤ 8 and 1 ≤ "+f2(a[1])+" ≤ 6."};
 function sFound(){
-  fig.innerHTML='<svg viewBox="0 0 800 300" role="img" aria-label="Course picture: the covered area now carries its four requirements"><text x="400" y="40" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="24" font-weight="700" font-style="italic" text-anchor="middle">“Love Apple Phones”</text><rect x="110" y="60" width="580" height="160" rx="6" fill="#1b2230" stroke="#7dea9c" stroke-dasharray="7 6"/><g fill="#e8eef5" font-family="Inter,sans-serif" font-size="17"><text x="140" y="96">1 · one result per token, each with its own shares</text><text x="140" y="130">2 · shares set by content, not by position</text><text x="140" y="164">3 · works for any sentence length</text><text x="140" y="198">4 · the rule for the shares is learned</text></g><text x="400" y="272" fill="#7dea9c" font-family="Space Grotesk,sans-serif" font-size="30" font-weight="700" text-anchor="middle">E′<tspan font-size="17" dy="7">Apple</tspan></text></svg>';
+  fig.innerHTML=COVER.replace("#3a4558","#7dea9c").replace("BODY",'<g fill="#e8eef5" font-family="Inter,sans-serif" font-size="17"><text x="140" y="96">1 · one result per word, each with its own shares</text><text x="140" y="130">2 · shares set by content, not by position</text><text x="140" y="164">3 · works for any sentence length</text><text x="140" y="198">4 · the rule for the shares is learned</text></g>');
   nearEl.textContent="The course picture: the covered part now has its specification.";
-  const d=frame("<h2>What you found</h2><ul class='spec'>"+SPEC.map(x=>"<li><b>"+x[0]+".</b> "+x[1]+"</li>").join("")+"</ul>"+
-   "<p><b>Worked example.</b> Apple and Love, each with its own shares, against the average:</p><div class='tw'><table><tr><th>Token, scheme</th><th>Shares</th><th>New vector</th><th>Nearest</th></tr>"+
-   WX.map(r=>"<tr><td>"+wxRow(r).join("</td><td>")+"</td></tr>").join("")+"</table></div><p class='hint'>"+wxNote()+"</p>");
-  if(!R.seenFound){R.seenFound=true;save()}complete(d)}
-function sCheck(){show({Love:mix(OWN.Love),Apple:mix(OWN.Apple),Phones:mix(OWN.Phones)});
-  choice("check","Quick check","The same shopper types “Love Apple Phones” and then “Phones Love Apple”. Which scheme gives Phones the same share for rewriting Apple in both, and a useful one?",
-   [{t:"The nearest word gets the largest share"},{t:"Every word gets an equal share"},{t:"The share comes from comparing what Apple is with what each word is",ok:1}],
-   o=>o.t.startsWith("The nearest")?"In the second order Phones is no longer nearest, so its share changes. Choose again.":"The same in both, yes. But step 3 showed where equal shares leave Apple. Choose again.",
-   o=>"Yes. The words are the same in both orders, so a share computed from the words is the same. The other two read position, or read nothing.")}
+  const d=frame("<h2>What you found</h2><p>The mechanism under the cover must give each word a blend of the sentence, with shares that are:</p><ul class='spec'>"+SPEC.map(x=>"<li><b>"+x[0]+".</b> "+x[1]+"</li>").join("")+"</ul>"+
+   "<p><b>Worked example.</b> Shares are listed for Love, Apple, Phones.</p><div class='tw'><table><tr><th>Word</th><th>Shares</th><th>New vector</th><th>Nearest items</th></tr>"+
+   WX.map(r=>"<tr><td>"+wxRow(r).join("</td><td>")+"</td></tr>").join("")+"</table></div><p class='hint'>"+wxNote()+"</p><p class='hint'>A simplification to keep in mind: this map has 2 dimensions and 9 items. Real embeddings have hundreds of dimensions.</p>");
+  if(!R.seen.found){R.seen.found=true;save()}complete(d)}
+function sCheck(){show(own());
+  choice("check","Quick check","<p>The same shopper types “Love Apple Phones” and then “Phones Love Apple”.</p><p><b>Question.</b> Which rule gives Phones the same share for rewriting Apple in both queries, and moves Apple to the electronics? Pick one.</p>",
+   [{t:"The nearest word in the sentence gets the largest share"},{t:"Every word gets an equal share"},{t:"The share comes from comparing what Apple is with what each word is",ok:1}],
+   o=>o.t.startsWith("The nearest")?"In the second query Phones is no longer the nearest word, so its share changes. Choose again.":"The share is the same in both queries, yes. But with equal shares Apple's nearest items are "+nn3([1/3,1/3,1/3])+". Choose again.",
+   o=>"Yes. The words are the same in both orders, so a share computed from the words is the same. One of the other rules reads position; the other reads nothing.")}
 
 /* ---------- final test ---------- */
 function tiles(order){fig.innerHTML="<div class='tiles'>"+order.map(w=>"<div class='tile"+(w==="Apple"?" me":"")+"'>"+w+"<small>"+(w==="Apple"?"being rewritten":"&nbsp;")+"</small></div>").join("")+"</div>";
-  nearEl.textContent="Fixed shares by position: 0.25 left neighbour · 0.50 the token itself · 0.25 right neighbour."}
+  nearEl.textContent="Fixed window: 0.25 left neighbour · 0.50 the word itself · 0.25 right neighbour.";}
 function sFinal(){
   let order=["Love","Apple","Phones"];tiles(order);const F=R.final||{};
-  const d=frame("<h2>Final test</h2><p>A support-ticket router must send “Love Apple Phones” to the electronics desk. A colleague proposes fixed shares by position: 0.25 for the left neighbour, 0.5 for the token itself, 0.25 for the right neighbour.</p>"+
+  const d=frame("<h2>Final test</h2><p>A fixed window is a real alternative to attention: each word is rewritten from its neighbours with weights fixed by position, as a convolution filter does. Take 0.25 for the left neighbour, 0.5 for the word itself, 0.25 for the right neighbour.</p>"+
    "<div class='row'><button type='button' class='quiet' id='sw'>Show the other word order</button></div>"+
-   "<div><label for='fa1'>(a) Share of Phones when rewriting Apple in “Love Apple Phones”</label><input type='text' id='fa1'></div>"+
-   "<div><label for='fa2'>and in “Apple Love Phones”</label><input type='text' id='fa2'></div>"+
-   "<div><label for='fb1'>(b) Why is this result unacceptable?</label><textarea id='fb1'></textarea></div>"+
-   "<div><label for='fc1'>(c) Start from the failure of the lookup table. State, in order, the requirements that lead to “each token computes its own content-dependent shares”, and say which requirement each rejected scheme breaks.</label><textarea id='fc1'></textarea></div>"+
+   "<div><label for='fa1'>(a) Share of Phones when rewriting Apple in “Love Apple Phones”. Give a number.</label><input type='text' id='fa1'></div>"+
+   "<div><label for='fa2'>The same in “Apple Love Phones”. Give a number.</label><input type='text' id='fa2'></div>"+
+   "<div><label for='fb1'>(b) In one or two sentences: why is this result not acceptable for the shopper?</label><textarea id='fb1'></textarea></div>"+
+   "<div><label for='fc1'>(c) The 2013 lookup table and the fixed window each lack something that the shares of attention must have. Name what each one lacks, in a short phrase each.</label><textarea id='fc1'></textarea></div>"+
    "<div class='row'><button type='button' id='hand'>"+(F.done?"Hand in again":"Hand in")+"</button></div><p class='fb' aria-live='polite'></p>");
   [["fa1","a1"],["fa2","a2"],["fb1","b"],["fc1","c"]].forEach(x=>d.querySelector("#"+x[0]).value=F[x[1]]||"");
   d.querySelector("#sw").onclick=()=>{order=order[0]==="Love"?["Apple","Love","Phones"]:["Love","Apple","Phones"];tiles(order)};
@@ -287,7 +316,7 @@ function sFinal(){
     const num=t=>{t=t.replace(",",".");return t.endsWith("%")?parseFloat(t)/100:parseFloat(t)};
     R.final={a1:g("fa1"),a2:g("fa2"),b:g("fb1"),c:g("fc1"),a_ok:Math.abs(num(g("fa1"))-0.25)<0.005&&Math.abs(num(g("fa2")))<0.005,tries:(F.tries||0)+1};
     save();b.disabled=true;fb.className="fb";fb.textContent="Reading your answers…";
-    const j=await ask("You are grading a short learning test. Context: tokens of 'Love Apple Phones' have fixed lookup-table vectors; a colleague proposes fixed shares by position (0.25 left neighbour, 0.5 self, 0.25 right neighbour) for rewriting a token.\nRubric for (b): acceptable if it says the share of Phones for Apple changes (0.25 to 0) when the same words are reordered, or that the share is set by position and not by what the words are, or that the relevant word is ignored.\nRubric for (c): acceptable if it gives a chain with at least three of these four requirements and links at least two rejected schemes to the requirement they break: result differs per token (plain average breaks it: all tokens identical); shares depend on content not position (position scheme breaks it); works for any length (average dilutes the useful word); shares are learned. The lookup table fails because one fixed vector cannot change with the sentence.\nLearner (b): \""+q(R.final.b)+"\"\nLearner (c): \""+q(R.final.c)+"\"\nJudge on substance, be tolerant of spelling and brevity. Reply with JSON only: {\"b_ok\":true|false,\"c_ok\":true|false,\"say\":\"...\"}. 'say': at most 60 words, addressed to 'you', naming what is right and exactly what is missing if anything. Do not use the words query, key or value.",true);
+    const j=await ask("You are grading a short learning test on what problem attention was invented to solve. Context: words of 'Love Apple Phones' have fixed lookup-table vectors; a fixed window rewrites a word with weights fixed by position (0.25 left neighbour, 0.5 self, 0.25 right neighbour).\nRubric for (b): acceptable if it says the share of Phones for Apple changes (0.25 to 0) when the same words are reordered, or that the share is set by position and not by what the words are, or that the relevant word is ignored.\nRubric for (c): acceptable if BOTH are named in substance: the lookup table lacks any dependence on the sentence or context (one fixed vector per word; no shares at all), AND the fixed window lacks dependence on content (its weights depend on position only, not on what the words are). 'Per word' or 'learned' may be accepted for one of the two if clearly argued.\nLearner (b): \""+q(R.final.b)+"\"\nLearner (c): \""+q(R.final.c)+"\"\nJudge on substance, be tolerant of spelling and brevity. Reply with JSON only: {\"b_ok\":true|false,\"c_ok\":true|false,\"say\":\"...\"}. 'say': at most 60 words, addressed to 'you', naming what is right and exactly what is missing if anything. Do not use the words query, key or value.",true);
     if(j){R.final.b_ok=!!j.b_ok;R.final.c_ok=!!j.c_ok;R.final.say=j.say||"";R.final.judged=true}
     R.final.done=true;save();await saving;showEnd()}}
 const passed=()=>R.final.judged&&R.final.a_ok&&R.final.b_ok&&R.final.c_ok;
@@ -314,20 +343,20 @@ function openToc(){const r=reached();
   panel.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(+b.dataset.go))}
 
 /* ---------- the manual: grows with the finished steps ---------- */
-const GLOSS=[["Token","One unit of the text; here, one word of the query."],["Embedding","The list of numbers (vector) that stands for a token."],["Lookup table","The table that gives each token its one fixed embedding."],["Share (weight)","How much one token counts in a blend; the shares of a blend sum to 1."],["Blend (weighted average)","A new vector made by adding the tokens' vectors, each multiplied by its share."],["Nearest items","The catalogue items whose vectors are closest to a given vector."]];
+const GLOSS=[["Token","One unit of the text; here, one word of the query."],["Embedding","The list of numbers (vector) that stands for a word."],["Lookup table","The table that gives each word its one fixed embedding."],["Encoder-decoder","A model in two parts: one reads the input sentence, the other writes the output sentence."],["Share (weight)","How much one word counts in a blend; the shares of a blend sum to 1."],["Blend (weighted average)","A new vector made by adding the words' vectors, each multiplied by its share."],["Attention","Rewriting a word as a blend of the words of the sentence, with shares computed from the words themselves."]];
 function manual(){const S=R.steps,sec=[],L="Finish this step to add it to your manual.";
   const add=(h,done,body)=>sec.push({h,body:done?body:null});
-  sec.push({h:"The case",body:["A product-search team gives each token of “Love Apple Phones” one fixed vector from a lookup table. The nearest catalogue items to Apple are fruit: "+nn3([0,1,0])+".","A developer proposes to replace each token's vector by the plain average of the three."]});
-  add("1. A plain average puts every token on one point",S.q1,["After the fix, Love, Apple and Phones all have the vector ("+f2(avg[0])+", "+f2(avg[1])+").","Its nearest items are "+nn3([1/3,1/3,1/3])+": Apple has not reached the phones, and the three tokens can no longer be told apart."]);
-  add("2. With the right shares, Apple does reach the phones",S.shares,S.shares?["Your shares for Love, Apple, Phones: "+S.shares.answer+".","Nearest items to the rewritten Apple: "+nn3(S.shares.answer.split(",").map(Number))+"."]:0);
-  add("3. In the average, nothing in the sentence sets the shares",S.q2,["The average gives 0.33, 0.33, 0.33 to any three words. You chose yours because you know what the shopper means."]);
-  add("4. Equal shares dilute the useful word",S.q3,["In a ten-word query each word gets 1/10. The longer the query, the less the one useful word counts."]);
-  add("5. Position must not decide the share",S.q4,["“Love Apple Phones” and “Phones Love Apple” are the same words from the same shopper. A share that changes with where Phones stands gives two different results for them."]);
-  add("6. Each token needs its own shares",S.q5,["One set of shares applied to every token puts all three on one point again. Each token must have its own set."]);
-  add("7. The idea, in my words","ideaOk" in R,[R.idea?"“"+R.idea+"”":"",R.ideaSay||""].filter(Boolean));
-  add("8. What the missing mechanism must do",R.seenFound,SPEC.map(x=>x[0]+". "+x[1]).concat([{table:[["Token, scheme","Shares (Love, Apple, Phones)","New vector","Nearest items"]].concat(WX.map(wxRow))},wxNote()]));
-  add("9. Quick check",S.check,["A share computed by comparing what Apple is with what each word is stays the same when the words are reordered. “Nearest word” reads position; “equal shares” reads nothing."]);
-  add("10. Final test",R.final&&R.final.done,R.final&&R.final.done?["Fixed shares by position (0.25, 0.50, 0.25). Share of Phones for Apple: "+R.final.a1+" in “Love Apple Phones”, "+R.final.a2+" in “Apple Love Phones” (correct: 0.25, then 0).","(b) "+R.final.b,"(c) "+R.final.c,R.final.say?"Feedback: "+R.final.say:""].filter(Boolean):0);
+  add("Why this matters",R.seen.why,["Every current language model repeats one operation in every layer: attention, which rewrites each word of a sentence using the other words.","This session asks what problem attention was invented to solve."]);
+  add("How we got here",R.seen.history,HIST.map(h=>h[0]+", "+h[1].toLowerCase()+". "+h[2]+" Solved: "+h[3]+" "+(h===HIST[3]?"":"Limit: ")+h[4]));
+  add("1. One vector per word cannot follow the sentence",S.static,["A lookup table gives Apple the same vector in “Love Apple Phones” and in “Love Apple Pie”.","Its nearest catalogue items are therefore the same in both: "+nn3([0,1,0])+"."]);
+  add("2. One vector per sentence runs out of room",S.summary,["A summary of 4 numbers gives 1 number per word to a 4-word sentence and 0.1 to a 40-word sentence.","The summary cannot grow with the sentence; in 2014, translation quality fell on long sentences."]);
+  add("3. Keeping every word and blending works",S.shares,S.shares?["My shares for Love, Apple, Phones: "+S.shares.answer+".","Nearest items to the rewritten Apple: "+nn3(S.shares.answer.split(",").map(Number))+"."]:0);
+  add("4. Position must not set the shares",S.order,["“Love Apple Phones” and “Phones Love Apple” are the same words from the same shopper. The share of Phones for Apple must be the same in both, so it has to come from what the words are."]);
+  add("5. Each word needs its own shares",S.own,["The same shares give the same blend, so every word would get the same vector. Each word has its own set."]);
+  add("6. The idea, in my words","ideaOk" in R,[R.idea?"“"+R.idea+"”":"",R.ideaSay||""].filter(Boolean));
+  add("7. What the missing mechanism must do",R.seen.found,SPEC.map(x=>x[0]+". "+x[1]).concat([{table:[["Word","Shares (Love, Apple, Phones)","New vector","Nearest items"]].concat(WX.map(wxRow))},wxNote()]));
+  add("8. Quick check",S.check,["A share computed by comparing what Apple is with what each word is stays the same when the words are reordered. “Nearest word” reads position; “equal shares” reads nothing."]);
+  add("9. Final test",R.final&&R.final.done,R.final&&R.final.done?["Fixed window (0.25, 0.50, 0.25). Share of Phones for Apple: "+R.final.a1+" in “Love Apple Phones”, "+R.final.a2+" in “Apple Love Phones” (correct: 0.25, then 0).","(b) "+R.final.b,"(c) "+R.final.c,R.final.say?"Feedback: "+R.final.say:""].filter(Boolean):0);
   sec.push({h:"Glossary",body:GLOSS.map(g=>g[0]+": "+g[1])});
   const notes=STEPS.filter(s=>R.notes[s.id]).map(s=>s.t+": "+R.notes[s.id]);if(notes.length)sec.push({h:"My notes",body:notes});
   return {sec,L}}
@@ -346,14 +375,13 @@ document.getElementById("bToc").onclick=openToc;document.getElementById("bMan").
 /* ---------- term help ---------- */
 document.getElementById("hb").onclick=async()=>{const t=document.getElementById("hq").value.trim(),a=document.getElementById("ha");if(t.length<2)return;
   a.textContent="…";R.questions.push(t);save();
-  const r=await ask("A learner in a session on 'why a token needs context' (the step before attention; sentence 'Love Apple Phones'; an embedding map with catalogue items) asks about a term: \""+q(t)+"\". Explain the term in at most 45 plain words. Do NOT answer or hint at any exercise: do not say what averaging does to the vectors, what the shares should depend on, or anything about position versus content. If the question asks for a solution rather than a term, say you can only explain terms here.");
+  const r=await ask("A learner in a session on what problem attention was invented to solve (sentence 'Love Apple Phones'; an embedding map with catalogue items; history from word2vec to the Transformer) asks about a term: \""+q(t)+"\". Explain the term in at most 45 plain words. Do NOT answer or hint at any exercise: do not say what the shares should depend on, or anything about position versus content. If the question asks for a solution rather than a term, say you can only explain terms here.");
   a.textContent=r||"The helper is not available here. Ask in the chat."};
 document.getElementById("hq").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("hb").click()});
 
 /* ---------- start, and pick up a saved session ---------- */
 go(0);
-ready.then(async()=>{if(!db)return;let old;try{const sn=await db.doc("sessions/sg1").get();old=sn.exists?sn.data():null}catch(e){return}
-  if(!old||!old.steps||!old.steps.q1||cur!==0||R.started)return;
-  R=Object.assign({steps:{},idea:"",ideaTries:0,final:{},questions:[],notes:{}},old);delete R.updated;R.started=true;
-  go(R.final&&R.final.done?TOTAL-1:reached())});
+ready.then(async()=>{if(!db)return;let old;try{const sn=await db.doc(DOC).get();old=sn.exists?sn.data():null}catch(e){return}
+  if(!old||!old.seen||!old.seen.history||cur!==0)return;
+  R=Object.assign(BLANK(),old);delete R.updated;go(R.final&&R.final.done?TOTAL-1:reached())});
 </script>

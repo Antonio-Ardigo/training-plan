@@ -51,12 +51,27 @@ If no checkpoint exists, proceed normally.
 
 Follow this protocol EXACTLY:
 
+### Phase 0: MOTIVATION AND HISTORICAL CONTEXT
+
+Every session opens with this, before the Discovery Question and before the Initial Test. It takes one or two minutes.
+
+1. **Why it matters**: what this sub-goal lets the learner do, and where it sits in the course (one or two sentences).
+2. **Historical context**: the real situation this idea came out of: what was done before, where it broke down, who changed it and when. Take it from the blueprint's `Context`, the plan's Breakthrough and its Motivation & Course Overview. Names and dates only when certain.
+
+Rules:
+- It sets the scene and stops before the idea: it states no answer to the session's questions and solves no test case.
+- It is true. No invented method, no simplified history presented as fact.
+- A blueprint with no `Context` (a plan created before the field existed): write one from the Breakthrough and the Motivation & Course Overview, and say so.
+- In graphic delivery it is the first steps of the page: a "Why this matters" step and a "How we got here" step the learner can operate (a timeline, a before and after), then the first question.
+
 ### Phase 1: INITIAL TEST
 
 Present the practical case from the session blueprint. In graphic delivery (the default) it is presented as stage 1 of the session's page, not as chat text: build and deliver the page first, and say in chat only what the page is and that the answers block comes back. Every rule below applies to the page as it applies to chat.
 
 Rules:
-- **No preamble.** No "Let's learn about X." No theory. No warm-up.
+- **Context first, then the test.** Phase 0 has set the scene. Add nothing more: no theory, no hint, no warm-up exercise.
+- **A clear question.** Each part asks one thing and says in what form the answer is expected. Rewrite a blueprint question that does not, keeping what it tests.
+- **A true case.** If a blueprint case rests on an invented method or on a statement that is not true outside the toy example, replace it with the real case from the history and note the change in the Progress Log.
 - Start directly with the scenario and task
 - Format it clearly with a header and the task in bold
 - Wait for the learner to respond -- do NOT continue until they answer
@@ -238,7 +253,7 @@ Unless the session runs in `chat` delivery, the learner works on ONE interactive
 
 | Stage | Built when | The page shows | What comes back to chat |
 |-------|-----------|----------------|-------------------------|
-| 1. Opening | At the start of the session, before anything else | The session's picture, the Discovery Question (Socratic plans), the Initial Test with one answer box per part, and the two mandatory notes | The **answers block** |
+| 1. Opening | At the start of the session, before anything else | Why it matters and the historical context (Phase 0), then the session's picture, the Discovery Question (Socratic plans), the Initial Test with one answer box per part, and the two mandatory notes | The **answers block** |
 | 2. Teach | After the Initial Test is evaluated | One section per gap. In a Socratic session each section opens with the Guidance Chain on the picture, then the learner's own statement of the idea, then the consolidation (picture, solved example, checks). The climb of a hard-core principle has one tab per rung. | The **results block** |
 | 3. Final Test | After the results block is read and confirmed | The Final Test on the same picture, with one answer box per part (and Part B in a Socratic session), and the two mandatory notes | The **answers block** |
 
@@ -460,7 +475,8 @@ If the plan has no Artefacts Register (a plan created before it existed), skip t
 
 - ALWAYS append the "not familiar" note AND the "clarification" note at the end of EVERY test (Initial Test and Final Test) -- these two notes are NON-NEGOTIABLE
 - NEVER reveal expected answers or "Watch for" hints BEFORE the learner responds -- this applies to ALL questions (Initial Test, Quick Checks, Final Test). Present the question, wait, THEN show the answer -- for a Quick Check, as a complete worked solution ending with a Check.
-- NEVER teach before testing -- the Initial Test ALWAYS comes first
+- ALWAYS open with motivation and historical context (Phase 0), then test before teaching: Phase 0 sets the scene and gives no answer, and the Initial Test comes before any explanation of the idea
+- NEVER present a question that is unclear or a case built on an invented method: fix it first
 - Unless the session runs in `chat`, ALWAYS open with the page: the Discovery Question and the Initial Test are never sent as chat text when a page can be delivered
 - NEVER skip evaluation -- always explicitly state PASS/FAIL with reasons and failure mode classifications
 - NEVER combine multiple gaps into one explanation -- one gap, one concept explanation

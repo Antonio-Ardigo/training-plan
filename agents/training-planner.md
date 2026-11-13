@@ -142,7 +142,7 @@ Rules:
 - One or two sentences per part and per cell; a story, not a lesson (no derivations, formulas or worked steps)
 - With no historical moment, "before" is how the work is done without this knowledge and where that breaks down
 - Name people and dates only when certain of them
-- Never reuse the Breakthrough story as a test case; in a Socratic plan, never describe a designed wrong path or narrate the reasoning toward the intuition
+- Build the Motivation sub-goal's tests on the real history the Breakthrough tells, never on an invented method; every blueprint starts with a `Context` (why it matters, historical context); every question asks one thing and states the form of the answer; in a Socratic plan, never describe a designed wrong path or narrate the reasoning toward the intuition
 
 ### Decomposition Axes
 
@@ -235,7 +235,8 @@ For each sub-goal, produce a blueprint:
 
 Follow these phases in order:
 
-1. **INITIAL TEST** -- Present the practical case. No preamble. **(SOCRATIC: present Discovery Question first, then the test.)** **MUST end with these two verbatim notes:**
+0. **MOTIVATION AND HISTORICAL CONTEXT** -- Open every session with why the sub-goal matters and the real situation it came out of (from the blueprint's `Context` and the plan's Breakthrough). Give no answer away.
+1. **INITIAL TEST** -- Present the practical case. No further preamble. **(SOCRATIC: present Discovery Question first, then the test.)** **MUST end with these two verbatim notes:**
    > *If you are not familiar with this topic, write **"not familiar"** to receive a full concept explanation before attempting the test.*
    > *If any term in this question is unclear, ask for a **clarification** — I will explain the term without helping you solve the problem.*
    If "not familiar": (1) check Prerequisite Graph for uncompleted prerequisite SGs — offer to run those first; (2) check Principle Extraction for external prerequisites not covered by any SG — if found, present PLAN-REVISION offer (A: add prerequisite SG, B: continue as-is); (3) otherwise deliver Full 7-Section Concept Explanation (for a hard-core principle: the climb from the High school rung, with no Tempting answer named and the test case left unsolved), then re-present the test (not an adaptation loop). If clarification: invoke term-clarifier agent. If term-clarifier returns PLAN-REVISION-REQUEST: after learner submits answer, offer (A) add prerequisite SG or (B) continue as-is. Wait for learner response.

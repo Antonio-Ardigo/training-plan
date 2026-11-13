@@ -419,11 +419,11 @@ Add a session set to `<topic>_artefact_SG<N>_exercises.md`, following the concep
 **F) Other deliverable artefacts** (only when the work calls for one):
 If the sub-goal work naturally yielded a reusable output (a filled-in template, a worked calculation sheet, a checklist, a reference the learner built), write it to `<topic>_artefact_SG<N>_<slug>.md`. Most sessions produce none.
 
-**G) Register every artefact this session wrote** in the plan's `## Artefacts Register`, using the Edit tool: one row for the transcript, the concept file, the exercise book and any other deliverable. A file that is already listed is not listed twice.
+**G) Register every artefact this session wrote** in the plan's `## Artefacts Register`, using the Edit tool: one row for the transcript, the concept file, the exercise book and any other deliverable. Add a row for `learner_profile.md` too (type `profile`, Source `—`) if the register does not list it yet: a profile created by this session was not there when the plan was written. A file that is already listed is not listed twice.
 
 | Artefact | Type | Source | Path | Status |
 |----------|------|--------|------|--------|
-| <name> | transcript / concept-file / deliverable | SG-<N> | <relative path> | current |
+| <name> | transcript / concept-file / deliverable / profile | SG-<N> | <relative path> | current |
 
 If the plan has no Artefacts Register (a plan created before it existed), skip this step.
 

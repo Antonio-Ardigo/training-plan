@@ -412,7 +412,7 @@ Level reached: <High school / Master's / Advanced, or "below High school"> (sess
 - One session set: 2 fully solved exercises for each level from High school up to the sub-goal's Estimated Depth (one standard, one with a twist), statements first and worked solutions after, each solution ending with a Check
 - If the blueprint has an Exercise, it opens the set, solved
 
-**F) Register every artefact** written by the session (transcript, concept file, exercise book) as a row in the plan's `## Artefacts Register`
+**F) Register every artefact** written by the session (transcript, concept file, exercise book) as a row in the plan's `## Artefacts Register`, plus the learner profile if it is not listed yet
 
 ---
 
@@ -585,7 +585,7 @@ Calculate for each session:
 - [ ] Profile session history matches transcript files
 - [ ] No orphaned checkpoint files (checkpoint exists but session is recorded as complete)
 - [ ] Concept files reference correct plan and session number
-- [ ] Artefacts Register seeded with the plan file (and the learner profile if it exists)
+- [ ] Artefacts Register seeded with the plan file, and listing the learner profile once it exists (at creation if it was already there, otherwise from the first recorded session)
 - [ ] Every artefact written to disk by a session (transcript, concept file, exercise book, any other deliverable) appears as a row in the Artefacts Register, and every register Path resolves to a file that exists
 - [ ] One exercise book `<topic>_artefact_SG<N>_exercises.md` per recorded Core Principle, Key Concept or Tools session, and none for Motivation or Verification
 - [ ] Each exercise book set has 2 exercises per level from High school up to the sub-goal's Estimated Depth, statements before worked solutions, and every solution complete and ending with a Check

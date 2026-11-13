@@ -528,7 +528,7 @@ Date: <date>
 - ALWAYS check the learner profile (if it exists) when creating a new training plan via /create-training-plan
 - ALWAYS export a concept file during RECORD if teaching occurred
 - ALWAYS write the sub-goal's exercise book during RECORD for a Core Principle, Key Concept or Tools sub-goal -- fully solved exercises, statements first and worked solutions after, appended to `<topic>_artefact_SG<N>_exercises.md`
-- ALWAYS register every artefact a session produces (transcript, concept file, exercise book, any other deliverable) as a row in the Artefacts Register during RECORD -- this keeps the visible anchor authoritative
+- ALWAYS register every artefact a session produces (transcript, concept file, exercise book, any other deliverable) as a row in the Artefacts Register during RECORD, and the learner profile too if it is not listed yet -- this keeps the visible anchor authoritative
 - Use /worked-exercises when the learner wants more solved practice on a sub-goal or concept, at any of the three levels
 - MAY produce a deliverable artefact (`<topic>_artefact_SG<N>_<slug>.md`) during RECORD when the sub-goal work naturally yields one (e.g., a filled-in template, worked calculation sheet, checklist, or reference the learner builds) -- store it and register it
 - When the learner edits or gives feedback on the Motivation & Course Overview (VOC), re-evaluate the decomposition and OFFER to restructure the plan (never restructure silently); after any restructure, update the Breakthrough rows, the Hard Core rows and the Key Facts `Used in` column where affected, refresh the VOC digest, and re-run the required-elements check

@@ -242,7 +242,7 @@ In this order: update the training plan file, write the session transcript, upda
 
 **Other deliverable artefacts (as required):** if the sub-goal work naturally yielded a reusable output — a filled-in template, a worked calculation sheet, a checklist, or a reference the learner built — write it to disk as `<topic>_artefact_SG<N>_<slug>.md`. Not every session produces one; create it only when the work genuinely calls for it.
 
-**Register every artefact:** for each artefact this session wrote (transcript, concept file, exercise book, and any other deliverable), append a row to the plan file's **Artefacts Register** via the `Edit` tool:
+**Register every artefact:** for each artefact this session wrote (transcript, concept file, exercise book, and any other deliverable), append a row to the plan file's **Artefacts Register** via the `Edit` tool. If `learner_profile.md` is not listed yet (the first session of a plan creates it), add a row for it as well, with type `profile`:
 
 | Artefact | Type | Source | Path | Status |
 |----------|------|--------|------|--------|

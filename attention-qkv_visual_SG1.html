@@ -157,11 +157,14 @@ const COVER='<svg viewBox="0 0 800 300" role="img" aria-label="The course pictur
 /* ---------- saving and asking Claude ---------- */
 const BLANK=()=>({steps:{},idea:"",ideaTries:0,final:{},questions:[],notes:{},seen:{}});
 let R=BLANK();const DOC="sessions/sg1v2";
-let db=null,sample=null,dl=null,saving=Promise.resolve();
-const ready=(async()=>{for(const [k,f] of [["db",v=>db=v],["sample",v=>sample=v],["downloads",v=>dl=v]]){try{f(await window.claude?.use(k)??null)}catch(e){}}})();
-function save(){const snap=JSON.parse(JSON.stringify(R));snap.updated=new Date().toISOString();
-  saving=saving.then(()=>ready).then(()=>db?db.doc(DOC).set(snap):null).catch(()=>{})}
-async function ask(prompt,json){await ready;if(!sample)return null;
+let db=null,sample=null,dl=null,saving=Promise.resolve(),loaded=false;
+const use=k=>(async()=>{try{return await window.claude?.use(k)??null}catch(e){return null}})();
+const dbReady=use("db").then(v=>db=v),sampleReady=use("sample").then(v=>sample=v),dlReady=use("downloads").then(v=>dl=v);
+const ready=Promise.all([dbReady,sampleReady,dlReady]);
+/* nothing is written until the saved record has been read: a fresh page must never overwrite saved progress */
+function save(){if(!loaded)return;const snap=JSON.parse(JSON.stringify(R));snap.updated=new Date().toISOString();
+  saving=saving.then(()=>db?db.doc(DOC).set(snap):null).catch(()=>{})}
+async function ask(prompt,json){await sampleReady;if(!sample)return null;
   try{return json?await sample.json(prompt,{cache:false}):(await sample(prompt,{cache:false})).text}catch(e){return null}}
 const q=s=>String(s).replace(/"/g,"'"),esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
 
@@ -182,7 +185,7 @@ const TOTAL=STEPS.length;let cur=0;
 const reached=()=>{let i=0;while(i<TOTAL-1&&STEPS[i].done())i++;return i};
 const stepview=document.getElementById("stepview"),panel=document.getElementById("panel");
 const bar=()=>document.getElementById("bar").style.width=(100*STEPS.filter(s=>s.done()).length/TOTAL)+"%";
-function go(i){i=Math.max(0,Math.min(i,reached()));cur=i;panel.hidden=true;stepview.hidden=false;STEPS[i].fn()}
+function go(i,forward){i=Math.max(0,Math.min(i,TOTAL-1));if(!forward)i=Math.min(i,reached());cur=i;panel.hidden=true;stepview.hidden=false;STEPS[i].fn()}
 function frame(html){
   const i=cur,S=STEPS[i];bar();
   const d=document.createElement("div");d.id="card";
@@ -193,7 +196,7 @@ function frame(html){
   d.querySelector("#note").value=R.notes[S.id]||"";
   d.querySelector("#note").addEventListener("change",e=>{R.notes[S.id]=e.target.value.trim();save()});
   d.querySelector("#back").onclick=()=>go(i-1);
-  d.querySelector("#next").onclick=()=>{if(i===TOTAL-1)showEnd();else go(i+1)};
+  d.querySelector("#next").onclick=()=>{if(!S.done())return;if(i===TOTAL-1)showEnd();else go(i+1,true)};
   if(S.done())d.querySelector("#next").disabled=false;
   window.scrollTo({top:0,behavior:"smooth"});return d}
 function complete(d){const b=d.querySelector("#next");b.disabled=false;bar();b.focus({preventScroll:true})}
@@ -378,7 +381,7 @@ function openManual(){const m=manual(),n=m.sec.filter(s=>s.body).length;
    "<h2>My manual</h2><p class='hint'>It grows as you finish steps: "+n+" of "+m.sec.length+" sections are filled. Notes you write under a step are added at the end.</p>"+
    m.sec.map(s=>"<h3>"+esc(s.h)+"</h3>"+(s.body?"<ul>"+s.body.map(b=>b.table?"</ul><div class='tw'><table>"+b.table.map((r,i)=>"<tr>"+r.map(c=>(i?"<td>":"<th>")+esc(c)+(i?"</td>":"</th>")).join("")+"</tr>").join("")+"</table></div><ul>":"<li>"+esc(b)+"</li>").join("")+"</ul>":"<p class='lock'>"+m.L+"</p>")).join("")+"</div>");
   const fb=panel.querySelector("#mfb");
-  panel.querySelector("#dlm").onclick=async()=>{await ready;if(!dl){fb.textContent="Saving a file is not available here. Use “Copy the text”.";return}
+  panel.querySelector("#dlm").onclick=async()=>{await dlReady;if(!dl){fb.textContent="Saving a file is not available here. Use “Copy the text”.";return}
     try{await dl.save({filename:"why-apple-needs-its-neighbours-manual.md",data:manualMd()});fb.className="fb ok";fb.textContent="Saved."}catch(e){fb.className="fb";fb.textContent=e&&e.code==="declined"?"Not saved.":"Could not save the file. Use “Copy the text”."}};
   panel.querySelector("#cpm").onclick=async()=>{try{await navigator.clipboard.writeText(manualMd());fb.className="fb ok";fb.textContent="Copied."}catch(e){fb.textContent="Copying is blocked here. Use “Save as a file”."}}}
 document.getElementById("bToc").onclick=openToc;document.getElementById("bMan").onclick=openManual;
@@ -391,8 +394,12 @@ document.getElementById("hb").onclick=async()=>{const t=document.getElementById(
 document.getElementById("hq").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("hb").click()});
 
 /* ---------- start, and pick up a saved session ---------- */
-go(0);
-ready.then(async()=>{if(!db)return;let old;try{const sn=await db.doc(DOC).get();old=sn.exists?sn.data():null}catch(e){return}
-  if(!old||!old.seen||!old.seen.history||cur!==0)return;
-  R=Object.assign(BLANK(),old);delete R.updated;go(R.final&&R.final.done?TOTAL-1:reached())});
+(async()=>{
+  document.getElementById("card").innerHTML="<p class='hint'>Loading your progress…</p>";
+  const timeout=new Promise(r=>setTimeout(()=>r("timeout"),8000));
+  const old=await Promise.race([timeout,(async()=>{await dbReady;if(!db)return null;try{const sn=await db.doc(DOC).get();return sn.exists?sn.data():null}catch(e){return null}})()]);
+  if(old&&old!=="timeout"){R=Object.assign(BLANK(),old);delete R.updated}
+  loaded=true;
+  go(R.final&&R.final.done?TOTAL-1:reached());
+})();
 </script>

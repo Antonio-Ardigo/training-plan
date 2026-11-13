@@ -584,3 +584,56 @@ The file contains:
 ### Compatibility
 
 These files are structurally compatible with concept-builder's `/library` command. If concept-builder is also installed, its `/library list`, `/library search`, and `/library path` commands will find and index these files.
+
+---
+
+## Exercise Book Format
+
+An exercise book is a file of fully solved exercises for one sub-goal. `/run-session` adds a set to it at the end of a session, and `/worked-exercises` adds a set on request.
+
+### Filename
+
+`<topic>_artefact_SG<N>_exercises.md`, next to the plan. It is a deliverable artefact and is listed in the plan's Artefacts Register with type `deliverable`.
+
+For a concept that belongs to no plan: `exercises-<concept-in-kebab-case>.md`.
+
+### Layout
+
+The file is append-only: each write adds one dated set at the end and never rewrites an earlier set. Inside a set, the exercises of a level come first and their worked solutions after, so the learner can attempt before reading.
+
+```markdown
+# Exercise Book: SG-<N> — <sub-goal title>
+Plan: <plan filename> | Target level: <level>
+
+> Try each exercise before reading its solution. In every set, the worked solutions follow the exercises.
+
+## Set <date> — <after the session / on request>
+
+### High school: exercises
+**HS-1.** <statement, with all data and units>
+**HS-2.** <statement — with a twist: what differs from HS-1>
+
+### High school: worked solutions
+**HS-1.**
+**Given:** <data>
+**Step 1:** <operation>
+> **Why:** <reasoning>
+**Result:** <answer with units and interpretation>
+> **Check:** <the result confirmed a second way>
+
+**HS-2.** <same format>
+
+### Master's: exercises
+**MSc-1.** ...
+```
+
+### Rules
+
+- **A session set** holds 2 exercises for each level from High school up to the sub-goal's `Estimated Depth` (in current plans, the Target level): one standard, and one with a twist (a changed condition, an extra step, or a trap the standard one does not have).
+- **An on-request set** holds 3 exercises at the one level asked for, graded from standard to demanding.
+- Label exercises by level and number them through the whole file: HS-1, HS-2, MSc-1, Adv-1, continuing from the last number already used for that level.
+- Every solution is a complete worked solution in the Section 3.5 format, ending with a Check. A final answer alone is not a solution.
+- No exercise repeats a case already used: the sub-goal's Initial Test and Final Test, a solved exercise in the plan, an exercise from the session, or an exercise already in the book.
+- If the sub-goal's blueprint has an `Exercise`, it opens the first session set as the first exercise at the sub-goal's own level, with its worked solution. It counts as one of the two for that level.
+- Exercise books are written for Core Principle, Key Concept and Tools sub-goals. Motivation and Verification sub-goals have none.
+- Never invent a value you are not sure of: mark it `(verify)`.

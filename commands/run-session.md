@@ -266,7 +266,7 @@ Wait for the learner to respond.
 
 ### Phase 6: RECORD
 
-Do six things:
+Do the following, in this order. If the session is resumed during RECORD, skip any step whose result already exists.
 
 **A) Update the training plan file** using the Edit tool:
 - Change the sub-goal's Status from "pending" to "complete" (or "needs-review")
@@ -282,6 +282,7 @@ Do six things:
 - Loops: <0/1/2>
 - Concept Map: <generated (standard/deep) / not generated>
 - Concept File: <filename or "none">
+- Exercise Book: <filename, or "none" for a Motivation or Verification sub-goal>
 - Worked Example: <delivered as reinforcement / delivered as teaching / N/A (not a Core Principle SG)>
 - Notes: <brief observations>
 ```
@@ -320,21 +321,42 @@ Status: <complete/needs-review>
 Loops: <0/1/2>
 ```
 
-**C) Delete the checkpoint file.** The session is complete and the final transcript supersedes the checkpoint. Remove `<topic>_checkpoint_SG<N>.md`.
-
-**D) Update the learner profile.** Read `learner_profile.md` from the current directory (create it if it does not exist). Update according to the learner-analytics skill's Update Rules:
+**C) Update the learner profile.** Read `learner_profile.md` from the current directory (create it if it does not exist). Update according to the learner-analytics skill's Update Rules:
 1. Update or add the plan row in the Plans table
 2. If Initial Test was PASS with zero gaps, add to Strengths
 3. For each gap found, update Gap Patterns (increment existing or add new, noting failure mode)
 4. Add a Session History entry
 
-**E) Export concept file** (if teaching occurred):
+**D) Export concept file** (if teaching occurred):
 Write a concept file to the current directory using the concept-explainer skill's export format.
 - Filename: `concept-<domain>-<sg-topic>.md` (kebab-case)
 - Contains: YAML frontmatter (type: ttt-session, session, plan, level, tags) + all teaching content + concept map (if generated) + aggregated CTQ table + session context
 - If no teaching occurred (learner passed Initial Test), skip this step
 
-**F) Suggest next step:** Tell the learner which sub-goal to run next (the next pending one in sequence). Mention `/training-status` for overall progress and `/concept-library` to browse saved concept files.
+**E) Write the exercise book** (Core Principle, Key Concept and Tools sub-goals only):
+Add a session set to `<topic>_artefact_SG<N>_exercises.md`, following the concept-explainer skill's Exercise Book Format.
+- 2 fully solved exercises for each level from High school up to the sub-goal's Estimated Depth: one standard, one with a twist
+- Statements first, worked solutions after; every solution complete and ending with a Check
+- No exercise repeats a test case, a solved exercise in the plan, or an exercise from this session
+- If the blueprint has an `Exercise`, it opens the set at the sub-goal's level, solved
+- If the file already exists, append the set. Never overwrite it.
+- Write it whether or not teaching occurred: it is practice material, not a record of the session
+- For a Motivation or Verification sub-goal, skip this step
+
+**F) Other deliverable artefacts** (only when the work calls for one):
+If the sub-goal work naturally yielded a reusable output (a filled-in template, a worked calculation sheet, a checklist, a reference the learner built), write it to `<topic>_artefact_SG<N>_<slug>.md`. Most sessions produce none.
+
+**G) Register every artefact this session wrote** in the plan's `## Artefacts Register`, using the Edit tool: one row for the transcript, the concept file, the exercise book and any other deliverable. A file that is already listed is not listed twice.
+
+| Artefact | Type | Source | Path | Status |
+|----------|------|--------|------|--------|
+| <name> | transcript / concept-file / deliverable | SG-<N> | <relative path> | current |
+
+If the plan has no Artefacts Register (a plan created before it existed), skip this step.
+
+**H) Delete the checkpoint file.** The session is complete and the final transcript supersedes the checkpoint. Remove `<topic>_checkpoint_SG<N>.md`. This comes last among the writes, so that an interrupted RECORD can be resumed.
+
+**I) Suggest next step:** Tell the learner which sub-goal to run next (the next pending one in sequence). Mention `/worked-exercises SG-<N>` for more solved practice on this sub-goal, `/training-status` for overall progress and `/concept-library` to browse saved concept files.
 
 ## Important Rules
 
@@ -352,5 +374,6 @@ Write a concept file to the current directory using the concept-explainer skill'
 - ALWAYS delete the checkpoint file after a successful RECORD phase
 - ALWAYS update the learner profile during RECORD
 - ALWAYS export a concept file during RECORD if teaching occurred
+- ALWAYS write the exercise book during RECORD for a Core Principle, Key Concept or Tools sub-goal, and ALWAYS register every artefact the session wrote in the plan's Artefacts Register
 - MENTION the deep-dive option once after the first teaching block -- never repeat the offer
 - OPTIONALLY offer a concept map after the TEACH phase -- never insist, just offer once

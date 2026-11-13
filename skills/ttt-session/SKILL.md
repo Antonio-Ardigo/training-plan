@@ -236,11 +236,13 @@ Evaluate the Final Test response:
 
 ### Phase 6: RECORD
 
-Update the training plan file, write the session transcript, delete checkpoint, update learner profile, export concept file, register artefacts, and suggest next step.
+In this order: update the training plan file, write the session transcript, update the learner profile, export the concept file, write the exercise book, write any other deliverable, register every artefact, delete the checkpoint, and suggest the next step. `/run-session` Phase 6 gives the detail of each step. If a session is resumed during RECORD, steps whose result already exists are skipped.
 
-**Deliverable artefacts (as required):** if the sub-goal work naturally yielded a reusable output — a filled-in template, a worked calculation sheet, a checklist, or a reference the learner built — write it to disk as `<topic>_artefact_SG<N>_<slug>.md`. Not every session produces one; create it only when the work genuinely calls for it.
+**Exercise book:** for a Core Principle, Key Concept or Tools sub-goal, add a session set to `<topic>_artefact_SG<N>_exercises.md`: 2 fully solved exercises for each level from High school up to the sub-goal's Estimated Depth, in the concept-explainer skill's Exercise Book Format. Append if the file exists; never overwrite it. Motivation and Verification sub-goals have no exercise book.
 
-**Register every artefact:** for each artefact this session wrote (transcript, concept file, and any deliverable), append a row to the plan file's **Artefacts Register** via the `Edit` tool:
+**Other deliverable artefacts (as required):** if the sub-goal work naturally yielded a reusable output — a filled-in template, a worked calculation sheet, a checklist, or a reference the learner built — write it to disk as `<topic>_artefact_SG<N>_<slug>.md`. Not every session produces one; create it only when the work genuinely calls for it.
+
+**Register every artefact:** for each artefact this session wrote (transcript, concept file, exercise book, and any other deliverable), append a row to the plan file's **Artefacts Register** via the `Edit` tool:
 
 | Artefact | Type | Source | Path | Status |
 |----------|------|--------|------|--------|

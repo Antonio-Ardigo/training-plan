@@ -238,7 +238,7 @@ Follow these phases in order:
 6. **EVALUATE FINAL**
    - PASS -> RECORD
    - FAIL -> Loop back to TEACH (narrower focus, max 2 loops total)
-7. **RECORD** -- Update plan file + write transcript + delete checkpoint + update learner profile + export concept file + (if the sub-goal work naturally yielded one) produce a deliverable artefact `<topic>_artefact_SG<N>_<slug>.md` + register every artefact produced in the Artefacts Register
+7. **RECORD** -- In this order: update plan file + write transcript + update learner profile + export concept file + write the exercise book `<topic>_artefact_SG<N>_exercises.md` (Core Principle, Key Concept and Tools sub-goals: 2 fully solved exercises per level from High school up to the sub-goal's Estimated Depth, in the concept-explainer skill's Exercise Book Format) + (if the sub-goal work naturally yielded one) produce another deliverable artefact `<topic>_artefact_SG<N>_<slug>.md` + register every artefact produced in the Artefacts Register + delete checkpoint
 
 ## Output File Formats
 
@@ -402,7 +402,8 @@ Artefact types: `plan` / `concept-file` / `transcript` / `deliverable` / `profil
 Seed the register with the plan file (and the learner profile if one exists).
 The RECORD phase of `/run-session` appends a row for every artefact a session
 produces — including any deliverable artefact stored as
-`<topic>_artefact_SG<N>_<slug>.md`.
+`<topic>_artefact_SG<N>_<slug>.md`. The sub-goal's exercise book,
+`<topic>_artefact_SG<N>_exercises.md`, is one of these deliverables.
 
 ### Session Transcript File (`<topic>_session_SG<N>.md`)
 
@@ -456,7 +457,9 @@ Date: <date>
 - ALWAYS update the learner profile during the RECORD phase of /run-session
 - ALWAYS check the learner profile (if it exists) when creating a new training plan via /create-training-plan
 - ALWAYS export a concept file during RECORD if teaching occurred
-- ALWAYS register every artefact a session produces (transcript, concept file, deliverable) as a row in the Artefacts Register during RECORD -- this keeps the visible anchor authoritative
+- ALWAYS write the sub-goal's exercise book during RECORD for a Core Principle, Key Concept or Tools sub-goal -- fully solved exercises, statements first and worked solutions after, appended to `<topic>_artefact_SG<N>_exercises.md`
+- ALWAYS register every artefact a session produces (transcript, concept file, exercise book, any other deliverable) as a row in the Artefacts Register during RECORD -- this keeps the visible anchor authoritative
+- Use /worked-exercises when the learner wants more solved practice on a sub-goal or concept, at any of the three levels
 - MAY produce a deliverable artefact (`<topic>_artefact_SG<N>_<slug>.md`) during RECORD when the sub-goal work naturally yields one (e.g., a filled-in template, worked calculation sheet, checklist, or reference the learner builds) -- store it and register it
 - When the learner edits or gives feedback on the Motivation & Course Overview (VOC), re-evaluate the decomposition and OFFER to restructure the plan (never restructure silently); after any restructure, update the Breakthrough rows and the Key Facts `Used in` column where affected, refresh the VOC digest, and re-run the required-elements check
 - ALWAYS run the required-elements check after writing a plan file -- a plan missing one of the five required elements is incomplete

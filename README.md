@@ -23,6 +23,7 @@ To try the plugin from a local copy without installing it, start Claude Code wit
 
 ## How It Works
 
+0. **Defaults:** plans are Socratic (you reach each concept through questions) and sessions teach on an interactive page. Add `direct` when creating a plan for direct explanation, and `chat` when running a session for chat text
 1. You provide a learning goal and a **target level**: High school, Master's or Advanced (the plugin asks if you do not say)
 2. The plugin identifies the domain's **core principles** and **key facts**, records the topic's **breakthrough** (what the situation was before the key intuition, and what the topic solved), flags the **hard core** (the principles that are hardest to grasp), and decomposes the goal into testable sub-goals with CTQ mastery criteria, all written for your level. It also writes a plan-level **Motivation & Course Overview (VOC)** — a bird's-eye view of the course, its core principles and key facts, and what you'll be able to do on completion. You can edit this overview, and your feedback on it can restructure the plan. You can also change the hard-core list.
 3. For each sub-goal, you run a TTT session:
@@ -72,19 +73,21 @@ A learner who passes the test outright gets a short recap and the offer of the f
 
 ## Commands
 
-### `/create-training-plan <learning goal>`
+### `/create-training-plan <learning goal> [direct]`
 
-Creates a full training plan at your target level, with sub-goals, session blueprints and CTQ criteria. State the level in the goal, or the command asks once. If a learner profile exists, it informs the plan design (harder tests for known strengths, proactive coverage for known weaknesses). An existing plan of the same name is never overwritten without asking.
+Creates a full training plan at your target level, with sub-goals, session blueprints and CTQ criteria. **The plan is Socratic by default**: each session follows a **Question -> Tension -> Resolution -> Test** arc, a Socratic form of Test-Teach-Test, in which you reach each concept through a short chain of questions before it is explained. Add the word `direct` to get a plan that explains the gaps directly after the first test.
+
+State the level in the goal, or the command asks once. If a learner profile exists, it informs the plan design (harder tests for known strengths, proactive coverage for known weaknesses). An existing plan of the same name is never overwritten without asking.
 
 Example:
 ```
-/create-training-plan I want to learn cost estimation for EPC construction projects
 /create-training-plan Understand quantum measurement for one qubit, at master's level
+/create-training-plan I want to learn cost estimation for EPC construction projects, direct
 ```
 
 ### `/socratic-training-plan <learning goal>`
 
-Creates a Socratic training plan using the same goal decomposition structure as `/create-training-plan` (SMART goal, target level, principle extraction, key facts, breakthrough, hard core, 5-axis decomposition, prerequisite graph) with a **Socratic Discovery** layer. Each session follows a **Question -> Tension -> Resolution -> Test** arc, a Socratic form of Test-Teach-Test, where concepts emerge as inevitable discoveries rather than delivered facts. Blueprints include Discovery Questions, designed "wrong paths," Socratic Guidance Chains (3-6 progressively narrowing questions), and "reconstruct the reasoning" final tests.
+The Socratic plan itself, which `/create-training-plan` hands over to by default. It uses the same goal decomposition as a direct plan (SMART goal, target level, principle extraction, key facts, breakthrough, hard core, 5-axis decomposition, prerequisite graph) with a **Socratic Discovery** layer: blueprints include Discovery Questions, designed "wrong paths," Socratic Guidance Chains (3-6 progressively narrowing questions), and "reconstruct the reasoning" final tests.
 
 Example:
 ```

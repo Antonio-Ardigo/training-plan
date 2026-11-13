@@ -88,6 +88,8 @@ INITIAL TEST -> EVALUATE (CTQ failure modes) -> [if gaps] TEACH (concept-builder
 
 See PRINCIPLES.md for the cognitive science foundations behind TTT.
 
+**Default method: Socratic.** When asked to create a plan, create a Socratic plan (`/socratic-training-plan`), delivered visually. Create a direct-explanation plan (`/create-training-plan ... direct`) only when the learner asks for direct explanation.
+
 **Required plan elements** -- every plan you create, standard or Socratic, contains all five. A plan missing one is incomplete:
 - **Core principles identification**: `## Principle Extraction`, plus one Core Principle sub-goal per principle
 - **Key facts identification**: `## Key Facts`, each fact tied to the sub-goals that use it
@@ -279,7 +281,7 @@ Each session follows a **Test → Teach → Test** cycle:
 2. **Teach** — only the gaps the test revealed are taught, one at a time and principle-first. Each explanation ends with a Quick Check.
 3. **Test** — a different practical case confirms the learning transfers. If gaps remain, the cycle repeats on those gaps only (at most twice).
 
-**Teaching style: direct explanation.** A Socratic version of a plan, in which each concept is reached through a chain of questions instead of being explained, is created with `/socratic-training-plan` in a separate folder.
+**Teaching style: direct explanation**, as requested. The default style is Socratic, in which each concept is reached through a chain of questions instead of being explained: create that version with `/create-training-plan` (without the word `direct`) in a separate folder.
 
 ## Motivation & Course Overview (VOC)
 > _Editable by the learner. This is the course's bird's-eye view and

@@ -129,10 +129,18 @@ Example:
 
 A developer tool. It creates a plan, simulates a learner through the sessions and checks every artefact against the plugin's own rules, or inspects the files already in the folder.
 
+## Accessory Skill: Technical Training Manual
+
+`technical-training-manual` writes a step-by-step technical training manual as a PDF, on any technical subject, in US corporate-manual style. The manual gives an explanation before and a worked example after every formula, rule or step. It also includes numbered procedures, NOTE and CAUTION callouts, a troubleshooting table, a quick-reference card and a glossary.
+
+The skill works on its own: ask Claude for a manual, a training document or a technical note. It is not part of the Test-Teach-Test flow, but it pairs well with it, for example to turn a finished course into a printable manual.
+
+Building the PDF needs Node.js (KaTeX, Playwright and pdf-lib), a Chromium browser, the Inter fonts and `pdftotext`. Section 7 of the skill gives the details.
+
 ## Architecture
 
 - **3 agents**: `training-planner` (orchestrator), `term-clarifier` (defines a term during a test without leaking the answer), `user-testing` (QA)
-- **6 skills**: `goal-decomposer`, `ttt-session`, `content-builder`, `concept-explainer`, `concept-map`, `learner-analytics`
+- **7 skills**: `goal-decomposer`, `ttt-session`, `content-builder`, `concept-explainer`, `concept-map`, `learner-analytics`, and the accessory skill `technical-training-manual`
 - **7 commands**: `/create-training-plan`, `/socratic-training-plan`, `/run-session`, `/worked-exercises`, `/training-status`, `/concept-library`, `/user-testing`
 
 ## Output Files

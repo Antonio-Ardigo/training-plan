@@ -89,6 +89,6 @@
     <rect x="30" y="640" width="16" height="16" fill="#5fe0d0"/><text x="54" y="653">Query (the asker)</text>
     <rect x="220" y="640" width="16" height="16" fill="#f2b84b"/><text x="244" y="653">Key (the offer)</text>
     <rect x="390" y="640" width="16" height="16" fill="#e58fd0"/><text x="414" y="653">Value (what is passed on)</text>
-    <text x="640" y="653">sⱼ = Q·Kⱼ (score)   xⱼ = softmax weight   E′ = Σ xⱼ Vⱼ</text>
+    <text x="640" y="653">sⱼ: score   xⱼ: weight   E′: new embedding of Apple</text>
   </g>
 </svg>

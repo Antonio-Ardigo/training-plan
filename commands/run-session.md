@@ -6,6 +6,7 @@ allowed_tools:
   - Write
   - Edit
   - Glob
+  - Bash(rm:*)
 ---
 
 You are running an interactive **Test-Teach-Test (TTT)** learning session.
@@ -34,6 +35,8 @@ From the user's input (`$ARGUMENTS`), determine which sub-goal to run:
 ## Step 1.5: Check for Existing Checkpoint
 
 Use Glob to look for `<topic>_checkpoint_SG<N>.md` in the current directory (where `<topic>` and `<N>` match the current plan and sub-goal).
+
+A checkpoint whose phase is `CLOSED` belongs to a finished session: treat it as no checkpoint.
 
 If a checkpoint file exists:
 1. Read it
@@ -402,6 +405,9 @@ Do the following, in this order. If the session is resumed during RECORD, skip a
 # Session Transcript: SG-<N> -- <title>
 Date: <date>
 
+## Motivation and Historical Context
+<what Phase 0 said: why it matters, the historical context; and, if the blueprint had no Context, that it was written in the session>
+
 ## Initial Test
 **Case:** <what was presented>
 **Learner response:** <what they said>
@@ -412,7 +418,7 @@ Date: <date>
 ### Gap: <name> [<failure mode>]
 **Format:** <abbreviated/full/comparison/ladder>
 **Delivery:** <chat / visual: <page filename>, with the results block the learner returned>
-**Content:** <summary of what was taught -- for full explanations, summarize the 6 sections; for a climb, the start rung and what the reveal showed>
+**Content:** <summary of what was taught -- for full explanations, summarize the 7 sections; for a climb, the start rung and what the reveal showed>
 **Quick Check:** <question> -> Learner: <answer> -> <correct/incorrect>
 **Rungs:** <for a climb only, one line per rung: <level> -- your turn: <question> -> Learner: <answer> -> <held/bridge/not held>>
 **Deep-dive:** <if requested, summary of expanded principle>
@@ -467,7 +473,7 @@ If the sub-goal work naturally yielded a reusable output (a filled-in template, 
 
 If the plan has no Artefacts Register (a plan created before it existed), skip this step.
 
-**H) Delete the checkpoint file.** The session is complete and the final transcript supersedes the checkpoint. Remove `<topic>_checkpoint_SG<N>.md`. This comes last among the writes, so that an interrupted RECORD can be resumed.
+**H) Delete the checkpoint file.** The session is complete and the final transcript supersedes the checkpoint. Remove `<topic>_checkpoint_SG<N>.md`. This comes last among the writes, so that an interrupted RECORD can be resumed. Delete it with `rm` (Bash). If no tool can delete it, overwrite it with a single line `## Current Phase: CLOSED`; Step 1.5 treats a CLOSED checkpoint as no checkpoint.
 
 **I) Suggest next step:** Tell the learner which sub-goal to run next (the next pending one in sequence). Mention `/worked-exercises SG-<N>` for more solved practice on this sub-goal, `/training-status` for overall progress and `/concept-library` to browse saved concept files.
 

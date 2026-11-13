@@ -28,7 +28,7 @@ From the user's input (`$ARGUMENTS`), determine which sub-goal to run:
 - If they gave a keyword (e.g., "unit rate" or "contingency"), match it to the closest sub-goal
 - If unclear, show the sub-goals table and ask them to pick one
 - If the sub-goal is already marked "complete", confirm they want to re-do it
-- If the input also contains the word `visual` or `chat`, that is the delivery for a hard-core climb in this session (see Phase 3, Visual delivery). With neither word, the session offers the choice when it reaches a climb.
+- **Delivery.** The Teach phase is delivered as an interactive page by default (see Phase 3, Visual delivery). If the input contains the word `chat`, or the learner asks for chat at any point, teach in chat for the rest of the session. The word `visual` is accepted and changes nothing.
 - If the input also names a level (High school, Master's or Advanced), run this session at that level instead of the blueprint's Estimated Depth: re-pitch the blueprint's tests to that level (same scenario family, that level's tools) and take a hard-core climb up to it. The plan file is not changed. Say so, and note the session's level in the Progress Log.
 
 ## Step 1.5: Check for Existing Checkpoint
@@ -232,15 +232,16 @@ The climb goes rung by rung, from the start rung set in Phase 2 to the session's
   - Wrong again: the climb **stops**. The level reached is the last rung held, or "below High school" if none was.
 - A rung has at most two exercises. A stopped climb is not an adaptation loop.
 
-**Hard-core principles — Phase 3: visual delivery**
+**Phase 3: visual delivery (the default)**
 
-The climb can be delivered as an interactive page instead of chat text, following the visual-explainer skill. The page replaces the delivery of the climb and nothing else: the Initial Test, the evaluation, any other gap, the Final Test and RECORD are unchanged.
+Unless the session runs in `chat` delivery, the whole Teach phase is delivered as ONE interactive page, following the visual-explainer skill. The page changes how the teaching is delivered and nothing else: the Initial Test, the evaluation, the Final Test and RECORD are unchanged and stay in chat, and the content of each block is exactly what Steps 1-3 and the climb above prescribe.
 
-- **When.** If the input said `visual`, use the page. If it said `chat`, do not. Otherwise, when Phase 2 ends in a climb, offer once: "This principle can be taught on an interactive page (objects you can inspect, one exercise per level) or here in chat. Which do you prefer?" Remember the answer for the rest of the session. In a Socratic session, make the offer only after the learner has stated the Insight.
-- **Build.** Build one page from the blueprint (Tempting answer, Insight, Picture, Visual design, the foundational worked example and the Level ladder) and from the learner's own answer to the Initial Test, which the page quotes as the prediction. The rungs run from the start rung set in Phase 2 to the session's level. Check the page's numbers against the blueprint's solved exercises before delivering it. A blueprint with no Visual design (an earlier plan): derive one from the Picture and the solved exercises.
+- **What goes on the page.** Every teaching block of the session, in order, one section per gap: an abbreviated, full or comparison explanation with its worked example, and the climb of a hard-core principle with one tab per rung. Each Quick Check and each "your turn" becomes a check on the page. A "not familiar" explanation is delivered the same way, and does not solve the Initial Test case.
+- **Build.** Build the page from the blueprint and from the learner's own answer to the Initial Test, which the page quotes. For a hard-core principle use the blueprint's Visual design; for any other block, or a blueprint with no Visual design, choose the objects from the worked example as the visual-explainer skill describes. Check the page's numbers against the blueprint's solved exercises before delivering it.
 - **Deliver.** Write the page to `<topic>_visual_SG<N>.html`, publish it when the environment can, tell the learner in two or three lines what it is, and wait. Save the checkpoint with the Teach phase marked `visual page delivered, results pending`.
-- **Read the results.** The learner returns the page's results block. Read each rung as the visual-explainer skill's table says (correct at the first try: held; correct after the replay: held after a bridge; not solved: the climb stopped there). Confirm the highest rung reported with ONE short question in chat; a wrong answer means that rung is not held. The level reached, the Final Test's level and the status then follow the rules of the climb above.
-- **Fall back.** If the page cannot be built or opened, say so and teach the climb in chat.
+- **Read the results.** The learner returns the page's results block. Read each check as the visual-explainer skill's table says (correct at the first try: held; correct after the replay: held after a re-explanation one level down, or after a bridge on a climb; not solved: a persistent gap, or the climb stopped there). Confirm with ONE short question in chat, on the highest rung reported or on the hardest check; a wrong answer means it is not held. The level reached, the Final Test's level and the status then follow the rules above.
+- **Chat stays available.** Term clarifications, the deep-dive offer and any question the learner asks are answered in chat. In a Socratic session the Guidance Chain stays in chat, and the page is built only after the learner has stated the Insight or the resolution; it then carries the picture, the solved exercises and the checks.
+- **Fall back.** If the page cannot be built or opened, say so and teach in chat. Record the delivery as `chat`.
 - Mention the deep-dive option once, after the first rung.
 
 After the climb and any other blocks, proceed to Phase 3.5.

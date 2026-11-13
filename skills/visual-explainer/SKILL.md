@@ -1,28 +1,31 @@
 ---
 name: visual-explainer
-description: Deliver the Teach phase of a training-plan session as an interactive page instead of chat text. Use during /run-session when the learner asks for visual delivery, or accepts the offer, for a hard-core principle. Builds one page from the blueprint's Visual design, with live objects, colour by role, a climb through the levels and a results block the session reads back.
+description: Deliver the Teach phase of a training-plan session as an interactive page instead of chat text. This is the default delivery of /run-session, for every gap and for hard-core principles. Builds one page per session with live objects, colour by role, a check after each explanation, a climb through the levels for hard-core principles, and a results block the session reads back.
 ---
 
 # Visual Explainer -- Domain Knowledge
 
-Some principles are easier to see than to read: a matrix whose rows and columns mean different things, a vector that rotates, a probability that is a share of a grid. This skill turns the **climb** of a hard-core principle into one interactive page. It changes how the Teach phase is delivered. It does not change what is taught, the order, or how the session is judged.
+Some principles are easier to see than to read: a matrix whose rows and columns mean different things, a vector that rotates, a probability that is a share of a grid. This skill turns the Teach phase of a session into one interactive page. It is the default delivery: the learner gets chat text only by asking for `chat`, or when no page can be delivered. It changes how the Teach phase is delivered. It does not change what is taught, the order, or how the session is judged.
 
 `/run-session` holds the session flow. The concept-explainer skill's Level Ladder holds the content rules for the climb. This skill holds the rules for the page.
 
 ## Where the Page Sits in a Session
 
-| Phase | Chat delivery | Visual delivery |
+| Phase | Chat delivery | Visual delivery (default) |
 |-------|---------------|-----------------|
 | Initial Test | chat | **chat** (unchanged: the answer needs judging) |
 | Evaluate | chat | chat |
 | Teach: the climb | chat | **the page** |
-| Teach: other gaps | chat | chat |
+| Teach: other gaps | chat | **the page**, one section per gap |
+| Clarifications, deep-dive, questions | chat | chat |
 | Final Test | chat | **chat** (unchanged) |
 | Record | files | files, plus the page |
 
 The tests stay in chat because they ask for written reasoning, and only the session can judge it. The page teaches and checks numeric or multiple-choice answers; it does not decide whether the learner has mastered the sub-goal.
 
 ## What the Page Contains
+
+A session's page holds one section for each teaching block. The table below is the section for a hard-core climb. The sections for other gaps follow it.
 
 Build the page from the blueprint. Every part below has a source; do not invent teaching content the blueprint does not hold.
 
@@ -41,6 +44,19 @@ When the learner declared "not familiar", leave out parts 2 and 3's failing assu
 When the climb starts above High school, the page still shows parts 3 and 4 in short form, and the tabs start at the start rung.
 
 In a **Socratic session** the page is built only after the learner has stated the Insight in chat. It then carries parts 4 to 7.
+
+### Sections for other gaps
+
+A gap that is not a hard-core principle gets a shorter section, with the same content the chat explanation would have (concept-explainer skill), in this order:
+
+| Format | The section shows |
+|--------|-------------------|
+| Abbreviated | The problem in two sentences, the principle, the worked example drawn with live objects, one check |
+| Full | The same, plus the key formula with each symbol tied to an object on the page, the conceptual map as a small diagram, one check per CTQ (at most three) |
+| Comparison | The two concepts side by side on the same case, the cells where they differ outlined, one check that needs the distinction |
+| "Not familiar" | The full explanation of the sub-goal's topic on a case that is NOT the Initial Test case, then one check per CTQ |
+
+The blueprint has no Visual design for these. Choose the objects from the block's worked example, with the table "Which widget for which field" below, and keep to one control per section. A Motivation sub-goal has no formula: show the before and the after of the topic as two things the learner can operate and compare.
 
 ## The Visual Design Field
 
@@ -86,7 +102,7 @@ A subject with no natural picture gets a page with a worked table and step-by-st
 - One control, not a dashboard.
 
 **Form**
-- One page per principle. No external data and no libraries the page cannot work without. It must read on a phone (about 400 px wide) without sideways scrolling, in light and dark themes.
+- One page per session. No external data and no libraries the page cannot work without. It must read on a phone (about 400 px wide) without sideways scrolling, in light and dark themes.
 - Short sentences beside the objects. The page is not a chat explanation pasted into boxes: if a paragraph needs more than three sentences, it belongs in chat.
 - Progress is remembered in the browser as a convenience only. The results block is what counts.
 
@@ -96,10 +112,10 @@ The page ends with a plain-text block the learner copies into chat:
 
 ```
 VISUAL SESSION RESULTS
-Principle: <name>
-<Level>: <correct, N tries | not solved, N tries | not attempted>[, worked solution replayed]
-(one line per rung)
-Level reached: <the highest rung solved with every rung below it solved, or "none">
+Sub-goal: SG-<N> <title>
+<Level or check name>: <correct, N tries | not solved, N tries | not attempted>[, worked solution replayed]
+(one line per rung of a climb, and one per check of any other section)
+Level reached: <for a climb only: the highest rung solved with every rung below it solved, or "none">
 ```
 
 The session reads it as the record of the climb:
@@ -110,6 +126,8 @@ The session reads it as the record of the climb:
 | Correct after the solution was replayed | Rung held after a bridge |
 | Not solved | Rung not held: the climb stopped here |
 | Not attempted | Ask the learner whether to continue on the page or in chat |
+
+For a check outside a climb, read "rung held" as "Quick Check passed", "held after a bridge" as "passed after the re-explanation one level down", and "not solved" as a persistent gap.
 
 The block is the learner's own report, so confirm it with one short question in chat on the highest rung reported ("In one sentence: why does the key read the column?"). A wrong answer there means that rung is not held. If the learner cannot copy the block, ask what they reached and use the same question.
 
@@ -124,7 +142,9 @@ The block is the learner's own report, so confirm it with one short question in 
 
 `examples/query-vs-key.html` is a complete page for one principle: in self-attention, the query and key matrices receive different gradients even when they start identical. Read it for the structure and the amount of text, not to copy its subject. It was built to stand alone, so it asks for a prediction itself; a page built in a session quotes the learner's answer to the Initial Test instead.
 
-Its Visual design, as a plan would hold it:
+`examples/why-attention.html` is a page for a Motivation sub-goal with no formula: a "not familiar" explanation of why attention replaced recurrent reading, with three things to operate (distance, selection by content, cost) and three checks.
+
+The Visual design of the first example, as a plan would hold it:
 
 - **Objects**: 3 tokens in 2 dimensions. X (3×2), W_Q = W_K = [[1, 0.5], [−0.5, 1]], W_V, target T; the forward pass Q, K, S, P, O and the loss; the gradients dS, dQ, dK, dW_Q, dW_K.
 - **Colour roles**: query purple, key teal, value ochre. Cell fill: blue negative, orange positive.

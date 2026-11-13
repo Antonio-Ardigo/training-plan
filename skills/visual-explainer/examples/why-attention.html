@@ -1,0 +1,191 @@
+<title>Why Attention</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; each step is a band of small matrices that wrap. Role colour marks who a matrix belongs to; cell colour marks the number. */
+:root{
+  --bg:#f5f6fa; --surface:#ffffff; --fg:#171a22; --muted:#596072; --line:#d8dce6; --cell:#eceef4;
+  --q:#7a3fd0; --k:#0b8576; --v:#8a6a00; --pos:#e58a2e; --neg:#4a86e0; --ok:#1c7f45; --bad:#b93434; --btn:#1d2433; --btn-fg:#ffffff;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:Inter,system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12141a; --surface:#1a1d26; --fg:#e9ebf1; --muted:#9ba2b3; --line:#2d3241; --cell:#242835;
+  --q:#b892f5; --k:#4fc9b8; --v:#d9b84a; --pos:#b85f1c; --neg:#2c62bd; --ok:#55c585; --bad:#f08080; --btn:#e9ebf1; --btn-fg:#12141a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12141a; --surface:#1a1d26; --fg:#e9ebf1; --muted:#9ba2b3; --line:#2d3241; --cell:#242835;
+  --q:#b892f5; --k:#4fc9b8; --v:#d9b84a; --pos:#b85f1c; --neg:#2c62bd; --ok:#55c585; --bad:#f08080; --btn:#e9ebf1; --btn-fg:#12141a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--body)}
+.page{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:1.9rem} h2{font-size:1.3rem} h3{font-size:1.05rem}
+p{margin:0;max-width:66ch} .muted{color:var(--muted)} .eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.q{color:var(--q)} .k{color:var(--k)} .v{color:var(--v)} b.q,b.k,b.v{font-weight:600}
+section{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.chips li{font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted)}
+.chips li.on{border-color:var(--ok);color:var(--ok)} .chips li.on::before{content:"✓ "}
+.row{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:flex-end}
+.op{font:600 1.1rem var(--mono);color:var(--muted);align-self:center}
+.mx{margin:0;display:flex;flex-direction:column;gap:5px}
+.mx figcaption{font-size:.85rem;display:flex;gap:6px;align-items:baseline} .mx figcaption span{color:var(--muted);font-size:.75rem}
+.grid{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,3.5rem));gap:3px;padding:3px;border-left:2px solid var(--edge,var(--line));border-right:2px solid var(--edge,var(--line));border-radius:4px}
+.mx[data-role="q"]{--edge:var(--q)} .mx[data-role="k"]{--edge:var(--k)} .mx[data-role="v"]{--edge:var(--v)}
+.c{font:400 .8rem var(--mono);font-variant-numeric:tabular-nums;color:var(--fg);border:0;border-radius:3px;padding:7px 0;text-align:center;cursor:pointer;outline:2px solid transparent;outline-offset:-2px}
+.c:focus-visible,.c.me{outline-color:var(--fg)} .c.hl{outline-color:var(--fg);outline-style:dashed}
+.c.diff{box-shadow:inset 0 0 0 2px var(--bad)} .c.rowq{box-shadow:inset 0 0 0 2px var(--q)} .c.colk{box-shadow:inset 0 0 0 2px var(--k)}
+.readout{font:400 .82rem/1.5 var(--mono);color:var(--muted);min-height:2.6em;border-top:1px dashed var(--line);padding-top:10px;overflow-wrap:anywhere}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8rem;color:var(--muted);align-items:center}
+.sw{display:inline-block;width:.9em;height:.9em;border-radius:2px;vertical-align:-1px;margin-right:4px}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+label.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer}
+label.opt:has(input:checked){border-color:var(--fg)}
+input[type=text],input[type=number]{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-width:0}
+input:focus-visible,button:focus-visible,textarea:focus-visible{outline:2px solid var(--q);outline-offset:2px}
+button.b{font:500 .95rem var(--body);background:var(--btn);color:var(--btn-fg);border:0;border-radius:6px;padding:9px 16px;cursor:pointer}
+button.b:disabled{opacity:.4;cursor:not-allowed} button.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.tabs button{font:500 .95rem var(--body);background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:8px 12px;cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--fg)}
+.turn{border:1px dashed var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.ans{display:flex;flex-wrap:wrap;gap:8px;align-items:center} .ans input{width:7.5rem}
+.fb{font-size:.92rem} .fb.ok{color:var(--ok)} .fb.bad{color:var(--bad)}
+ol.steps{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;font-size:.92rem} ol.steps code,p code{font:400 .85em var(--mono)}
+.insight{border-left:3px solid var(--fg);padding-left:14px;font:500 1.12rem/1.45 var(--display)}
+.stats{display:flex;flex-wrap:wrap;gap:8px 24px;font:400 .85rem var(--mono)} .stats b{font-weight:600}
+input[type=range]{width:100%;accent-color:var(--q)}
+svg.spark{width:100%;height:auto;aspect-ratio:400/90;display:block} svg.spark text{font:10px var(--mono);fill:var(--muted)}
+textarea{font:400 .8rem/1.5 var(--mono);width:100%;box-sizing:border-box;min-height:9.5em;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:10px;resize:vertical}
+
+.strip{display:flex;flex-wrap:wrap;gap:6px 4px;align-items:flex-end}
+.tok{display:flex;flex-direction:column;align-items:center;gap:3px;font:400 .8rem var(--mono)}
+.tok .bar{width:1.4rem;background:var(--k);border-radius:2px 2px 0 0;min-height:1px}
+.tok .w{padding:3px 6px;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+.tok.hit .w{border-color:var(--k);color:var(--k);font-weight:600} .tok.ask .w{border-color:var(--q);color:var(--q);font-weight:600}
+.meter{display:grid;grid-template-columns:8.5rem 1fr 4rem;gap:6px 10px;align-items:center;font-size:.88rem}
+.meter .track{height:14px;background:var(--cell);border-radius:3px;overflow:hidden} .meter .fill{height:100%;background:var(--q)} .meter .fill.k{background:var(--k)}
+.meter .num{font:600 .85rem var(--mono);text-align:right}
+label.sl{display:flex;flex-direction:column;gap:4px;font-size:.9rem}
+svg.sq{width:min(100%,260px);height:auto;display:block}
+table.t{border-collapse:collapse;font:400 .85rem var(--mono)} table.t td,table.t th{border:1px solid var(--line);padding:4px 10px;text-align:right} table.t th{font-family:var(--body);font-weight:500;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;align-items:start}
+</style>
+<div class="page">
+<header style="display:flex;flex-direction:column;gap:10px">
+  <span class="eyebrow">SG-1 · Motivation</span>
+  <h1>Why attention</h1>
+  <p class="muted">A model reads a long text and must connect two words that are far apart. Two designs do this in very different ways. About 10 minutes, then three short checks.</p>
+  <ul class="chips" id="chips"></ul>
+</header>
+
+<section>
+  <h2>Two ways to read</h2>
+  <div class="two">
+    <div class="card"><h3 class="q">Recurrent reader (for example an LSTM)</h3><p>Reads one word at a time, in order. It keeps one memory and rewrites it at every word. What it knows about an early word is whatever that memory still holds.</p></div>
+    <div class="card"><h3 class="k">Attention reader</h3><p>Looks at all words at once. Each word asks a question, compares it with every other word, and reads directly from the ones that match.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>1 · How far the information travels</h2>
+  <div class="card">
+    <p>The fact you need is some words back. Set how far. In the recurrent reader it must survive every rewrite on the way. In the attention reader it is one read away.</p>
+    <label class="sl" for="dist">Words between the fact and the place it is needed: <b id="dist-v"></b><input type="range" id="dist" min="1" max="300" value="40"></label>
+    <label class="sl" for="keep">Share of the fact that survives one rewrite (an illustration, not a measured value): <b id="keep-v"></b><input type="range" id="keep" min="90" max="99.5" step="0.5" value="98"></label>
+    <div class="meter" id="m1"></div>
+    <p class="muted" style="font-size:.9rem">The same count applies in reverse during training: the correction signal (the gradient) must travel back through the same number of steps. LSTMs were designed to lose less per step than older recurrent networks, but the number of steps stays.</p>
+  </div>
+</section>
+
+<section>
+  <h2>2 · How the right word is found</h2>
+  <div class="card">
+    <p>The last word asks: <b class="q">"which word is a place?"</b> Each word gets a score for how well it answers. The bars show the share of attention each word receives. The scores are toy numbers: 4 for a place, 0.8 for "in", 0 otherwise.</p>
+    <div class="strip" id="strip"></div>
+    <div class="ans"><button class="b ghost" type="button" id="mv">Move "drawer" 3 words earlier</button><button class="b ghost" type="button" id="sh">Shuffle all words</button><button class="b ghost" type="button" id="rs">Reset</button></div>
+    <div class="readout" id="r2" aria-live="polite"></div>
+    <p><b>Found by content.</b> The share on "drawer" depends on what the word is. Where it stands plays no part.</p>
+    <p><b>The price of that.</b> After a shuffle the attention reader gives exactly the same answer, so by itself it cannot tell "dog bites man" from "man bites dog". Word order has to be added to the input as extra information. The recurrent reader gets order for free, because it reads in order.</p>
+  </div>
+</section>
+
+<section>
+  <h2>3 · What it costs</h2>
+  <div class="card">
+    <p>Every word compares itself with every word. That is one score per pair: a square table.</p>
+    <label class="sl" for="n">Words in the text: <b id="n-v"></b><input type="range" id="n" min="2" max="40" value="8"></label>
+    <div class="two"><svg class="sq" id="sq" viewBox="0 0 200 200" role="img" aria-label="Score table, one cell per pair of words"></svg>
+    <div style="display:flex;flex-direction:column;gap:10px"><div class="stats" id="s3"></div>
+    <table class="t"><thead><tr><th>Words</th><th>Scores (attention)</th><th>Steps (recurrent)</th></tr></thead><tbody id="t3"></tbody></table></div></div>
+    <p><b>Double the text, four times the work.</b> The recurrent reader only doubles. In exchange, the attention reader computes all its scores at the same time, while the recurrent reader must wait for each step before the next.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Three checks</h2>
+  <div class="card">
+    <div class="turn"><p><b>Check 1.</b> A fact is at word 12 and is needed at word 500. How many rewrites must it survive in the recurrent reader?</p>
+      <div class="ans"><input type="text" inputmode="numeric" id="c1" aria-label="Answer to check 1"><button class="b" type="button" data-c="1">Check</button></div><div class="fb" id="f1" aria-live="polite"></div></div>
+    <div class="turn"><p><b>Check 2.</b> A text grows from 1,000 to 3,000 words. By what factor does the attention score table grow?</p>
+      <div class="ans"><input type="text" inputmode="numeric" id="c2" aria-label="Answer to check 2"><button class="b" type="button" data-c="2">Check</button></div><div class="fb" id="f2" aria-live="polite"></div></div>
+    <div class="turn"><p><b>Check 3.</b> With no order information added, the word that answers the question is moved 100 words earlier. Does its share of attention change?</p>
+      <div class="ans"><label class="opt" for="c3y"><input type="radio" name="c3" id="c3y" value="yes">Yes</label><label class="opt" for="c3n"><input type="radio" name="c3" id="c3n" value="no">No</label><button class="b" type="button" data-c="3">Check</button></div><div class="fb" id="f3" aria-live="polite"></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Back to your session</h2>
+  <div class="card"><p>Copy this block into the chat. The test follows there.</p>
+    <textarea id="results" readonly aria-label="Your results"></textarea>
+    <div class="ans"><button class="b" type="button" id="copy">Copy results</button><span class="fb" id="copy-fb" aria-live="polite"></span></div></div>
+</section>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+// ---- 1 path
+function path(){const d=+$('#dist').value,r=+$('#keep').value/100,left=Math.pow(r,d);
+  $('#dist-v').textContent=d;$('#keep-v').textContent=(r*100).toFixed(1)+'%';
+  const row=(name,steps,v,cls)=>`<span>${name}<br><span class="muted">${steps}</span></span><div class="track"><div class="fill ${cls}" style="width:${(v*100).toFixed(2)}%"></div></div><span class="num">${(v*100).toFixed(1)}%</span>`;
+  $('#m1').innerHTML=row('Recurrent',d+(d>1?' rewrites':' rewrite'),left,'')+row('Attention','1 read',r,'k')}
+// ---- 2 selection
+const BASE=['Anna','put','the','keys','in','the','drawer','.','Later','she','looked','for','them','in','the','?'];
+const score=w=>w==='drawer'?4:w==='in'?0.8:0;
+let seq=BASE.slice(0,-1);
+function sel(msg){const e=seq.map(w=>Math.exp(score(w))),z=e.reduce((a,b)=>a+b,0),p=e.map(v=>v/z);
+  $('#strip').innerHTML=seq.map((w,i)=>`<div class="tok ${w==='drawer'?'hit':''}"><div class="bar" style="height:${(p[i]*90).toFixed(1)}px"></div><span class="w">${w}</span></div>`).join('')+`<div class="tok ask"><div class="bar" style="height:0"></div><span class="w">?</span></div>`;
+  const i=seq.indexOf('drawer');
+  $('#r2').textContent=(msg?msg+' ':'')+`"drawer" is word ${i+1} of ${seq.length} and receives ${(p[i]*100).toFixed(1)}% of the attention (e^4 = ${Math.exp(4).toFixed(1)} out of a total of ${z.toFixed(1)}).`}
+$('#mv').onclick=()=>{const i=seq.indexOf('drawer');if(i<3){sel('It is already near the start.');return}seq.splice(i,1);seq.splice(i-3,0,'drawer');sel('Moved.')};
+$('#sh').onclick=()=>{for(let i=seq.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[seq[i],seq[j]]=[seq[j],seq[i]]}sel('Shuffled.')};
+$('#rs').onclick=()=>{seq=BASE.slice(0,-1);sel()};
+// ---- 3 cost
+function cost(){const n=+$('#n').value,c=200/n;$('#n-v').textContent=n;let o='';
+  for(let i=0;i<n;i++)for(let j=0;j<n;j++)o+=`<rect x="${(j*c).toFixed(2)}" y="${(i*c).toFixed(2)}" width="${(c*.9).toFixed(2)}" height="${(c*.9).toFixed(2)}" fill="var(--k)" opacity="${i===j?1:.45}"/>`;
+  $('#sq').innerHTML=o;
+  $('#s3').innerHTML=`<span><b>${n}</b> words</span><span><b>${n*n}</b> scores</span><span>doubled: <b>${2*n}</b> words, <b>${4*n*n}</b> scores</span>`;
+  $('#t3').innerHTML=[500,1000,2000,4000].map(m=>`<tr><td>${m.toLocaleString('en-US')}</td><td>${(m*m).toLocaleString('en-US')}</td><td>${m.toLocaleString('en-US')}</td></tr>`).join('')}
+// ---- checks
+let st={};try{st=JSON.parse(localStorage.getItem('why-attn-v1')||'{}')}catch(e){}
+const save=()=>{try{localStorage.setItem('why-attn-v1',JSON.stringify(st))}catch(e){}};
+const CH={1:{ans:500-12,ok:'Correct. 500 − 12 = 488 rewrites. The attention reader needs 1 read. Check: counting from word 13 to word 500 gives 488 words.',
+    hint:v=>v===500?'500 counts from the start of the text. Count only the words after word 12.':v===1?'1 is the answer for the attention reader. The recurrent reader rewrites its memory at every word in between.':'Count one rewrite for every word after word 12, up to word 500.'},
+  2:{ans:9,ok:'Correct. The text is 3 times longer, and the table has one cell per pair: 3 × 3 = 9. Check: 1,000² = 1,000,000 and 3,000² = 9,000,000.',
+    hint:v=>v===3?'3 is the growth of the text, and of the recurrent reader\'s work. The table has one cell per pair of words, so both its sides grow.':v===6?'The sides multiply, they do not add: 3 × 3.':'Both sides of the table grow by 3.'},
+  3:{ans:'no',ok:'Correct. The score compares what the two words are. Position is not in it. That is also why order must be added separately.',
+    hint:()=>'Look at section 2 again and press "Move". The share stays the same, because the score uses only what the words are.'}};
+function check(k){const c=CH[k],fb=$('#f'+k);let v;
+  if(k===3){const r=document.querySelector('input[name=c3]:checked');if(!r){fb.className='fb bad';fb.textContent='Pick an answer.';return}v=r.value}
+  else{v=parseFloat($('#c'+k).value.replace(/[, ]/g,''));if(isNaN(v)){fb.className='fb bad';fb.textContent='Enter a number.';return}}
+  const r=st[k]||(st[k]={tries:0,ok:false});if(!r.ok)r.tries++;
+  if(v===c.ans){r.ok=true;fb.className='fb ok';fb.textContent=c.ok}else{fb.className='fb bad';fb.textContent=c.hint(v)+' Try again.'}
+  save();paint()}
+function paint(){const names={1:'Check 1 (path length)',2:'Check 2 (cost)',3:'Check 3 (found by content)'};
+  $('#chips').innerHTML=[1,2,3].map(k=>`<li class="${st[k]?.ok?'on':''}">Check ${k}</li>`).join('');
+  $('#results').value=['VISUAL SESSION RESULTS','Sub-goal: SG-1 Why attention',...[1,2,3].map(k=>{const r=st[k];return names[k]+': '+(!r?'not attempted':r.ok?`correct, ${r.tries} ${r.tries>1?'tries':'try'}`:`not solved, ${r.tries} ${r.tries>1?'tries':'try'}`)}),'Checks solved: '+[1,2,3].filter(k=>st[k]?.ok).length+' of 3'].join('\n')}
+document.addEventListener('click',e=>{const k=e.target.dataset?.c;if(k)check(+k)});
+[1,2].forEach(k=>$('#c'+k).addEventListener('keydown',e=>{if(e.key==='Enter')check(k)}));
+$('#dist').oninput=path;$('#keep').oninput=path;$('#n').oninput=cost;
+$('#copy').onclick=()=>{const t=$('#results'),ok=()=>$('#copy-fb').textContent='Copied.';
+  (navigator.clipboard?navigator.clipboard.writeText(t.value):Promise.reject()).then(ok).catch(()=>{t.focus();t.select();$('#copy-fb').textContent='Selected. Copy it with your keyboard or the touch menu.'})};
+path();sel();cost();paint();
+</script>

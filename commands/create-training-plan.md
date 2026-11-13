@@ -150,6 +150,30 @@ Rules:
 - If a `requires` prerequisite is NOT in the learner profile as a known strength, flag it as a WARNING in the plan.
 - Every dependency in the Sequence must trace to a graph edge -- no intuited dependencies.
 
+### Step 2.75: Flag the Hard Core
+
+Some core principles are much harder to grasp than the rest, and the course stands or falls on them. Flag them: each gets an explanation designed around an aha moment and is taught as a climb through the levels.
+
+A core principle belongs to the **hard core** when it is hard to grasp in at least one of these ways:
+
+| Criterion | The principle... |
+|-----------|------------------|
+| **Counter-intuitive** | contradicts what everyday experience or earlier study leads the learner to expect |
+| **New abstraction** | cannot be stated without a representation the learner has not used before |
+| **Persistent misconception** | runs into a well-known wrong idea that people keep even after being told the right one |
+
+and it passes this gate:
+
+> "Can I write the **tempting answer**: what a capable person who does not yet know this principle would confidently, and wrongly, answer to a concrete case?"
+
+If you cannot write one, there is nothing to predict and fail, and the principle is not hard-core.
+
+Rules:
+- Usually 1-3 principles. When more qualify, keep the ones that the most later sub-goals depend on in the Prerequisite Graph. For those, add **load-bearing** to the reasons.
+- Zero is allowed: a procedural or tool-centred topic may have no hard core. Say so rather than forcing one.
+- Only core principles are flagged, never Key Concepts
+- Hard core is about how hard the idea is to *grasp*. It is not Difficulty: a hard-core principle's sub-goal is still low difficulty (one principle, one simple scenario).
+
 ### Step 3: Design Session Blueprints
 
 For each sub-goal, design a TTT session blueprint. Every test is written at the Target level: its scenario, its task and its pass criteria assume that level's tools (see the table in Step 1).
@@ -167,10 +191,10 @@ For each sub-goal, design a TTT session blueprint. Every test is written at the 
 
 #### Core Principle blueprint (Core Principle SGs only):
 
-Core Principle blueprints include a **fully worked example in the plan itself** — this is the one exception to the "no teaching content in the plan" rule. The worked example grounds the abstract principle in concrete reality.
+Core Principle blueprints include a **fully worked example in the plan itself** — this, and the additions of a hard-core blueprint below, are the only exceptions to the "no teaching content in the plan" rule. The worked example grounds the abstract principle in concrete reality.
 
 - **Principle**: The principle name and statement from Step 1.75
-- **Worked Example (foundational)**: A simple, fully worked example demonstrating the principle in the most basic scenario. 2-4 steps, concrete numbers, every step shown explicitly, annotated with "Why" notes explaining reasoning. This is the simplest possible scenario that makes the principle visible — not a complex application.
+- **Worked Example (foundational)**: A simple, fully worked example demonstrating the principle in the most basic scenario. 2-4 steps, concrete numbers, every step shown explicitly, annotated with "Why" notes explaining reasoning, ending with a Check that confirms the result a second way. This is the simplest possible scenario that makes the principle visible — not a complex application.
 - **Initial Test**: A simple scenario testing whether the learner can STATE the principle in their own words AND APPLY it to a basic case. Simpler than Key Concept tests.
 - **Pass Criteria**: "Can state the principle in own words AND apply it to a basic scenario correctly"
 - **Estimated Depth**: the plan's Target level
@@ -178,6 +202,28 @@ Core Principle blueprints include a **fully worked example in the plan itself** 
 - **Anticipated CTQs**: 1-2 CTQs focused on understanding the principle, not applying advanced techniques
 - **Teach Topics**: The principle itself, its boundary conditions, common misunderstandings
 - **Final Test**: A DIFFERENT simple scenario testing the same principle
+
+#### Hard-core blueprint (the Core Principle SG of each principle flagged in Step 2.75):
+
+A hard-core blueprint is a Core Principle blueprint with an aha design and a level ladder added. In a session, the learner predicts, the prediction fails, and the explanation starts from that failure. Write the added parts as the concept-explainer skill's Level Ladder describes.
+
+- **Principle**: as in a Core Principle blueprint
+- **Tempting answer**: the natural, confident, wrong answer to the Initial Test, and why it feels right
+- **Insight**: the one sentence that makes it click. It reframes the situation; it does not recite the formal statement.
+- **Picture**: one picture or analogy that carries the Insight, and where it stops being true
+- **Worked Example (foundational)**: as in a Core Principle blueprint. Here it is also the smallest example of the Insight, and the solved exercise of the High school rung.
+- **Level ladder**: one fully solved exercise for each level above High school, up to the Target level (none when the Target level is High school). Each is the same idea seen with that level's tools, not a harder calculation at the level below. Same format as the worked example: Given, every step with its "Why", Result, and a Check that confirms the result a second way.
+- **Initial Test**: a practical case at the Target level in which the natural approach leads to the Tempting answer. Ask the learner to predict and to justify. Do not warn, and do not hint that the obvious answer is wrong.
+- **Pass Criteria**: "Gives the right answer, not the tempting one, AND justifies it at the Target level"
+- **Estimated Depth**: the plan's Target level
+- **Exercise**: as in a Core Principle blueprint
+- **Anticipated CTQs**: at least one for each rung of the climb, from High school up to the Target level; name the rung in the Source column
+- **Teach Topics**: the principle, its boundary conditions, and the misunderstandings that survive the Insight
+- **Final Test**: a DIFFERENT practical case at the Target level in which the same tempting reasoning is again available
+
+Rules:
+- No test reuses the case of a solved exercise in the plan, and the solved exercises do not reuse each other's case
+- Once a hard-core blueprint is written, re-read that principle's Breakthrough row (Step 1.9). If it states the Tempting answer or the test case, rewrite it at the level of history or practice: the top of the plan must not give the test away.
 
 If the learner profile indicated strengths or gap patterns relevant to a sub-goal, note them in the blueprint:
 - **Profile note (strength):** "Learner has prior mastery in [topic] -- set Initial Test at elevated difficulty"
@@ -264,6 +310,17 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 |-----------|-----------|---------|---------------|
 | <name> | <sentence> | <LaTeX or —> | <prior knowledge> |
 
+## Hard Core
+> _The principles that are hardest to grasp. Each is taught through an aha
+> moment and a climb through the levels, with a solved exercise at every rung.
+> If this list looks wrong to you, tell me which principle to add or remove._
+
+| Principle | Why it is hard | Taught in |
+|-----------|----------------|-----------|
+| <principle name> | <counter-intuitive / new abstraction / persistent misconception / load-bearing> | SG-<N> |
+
+(If no principle qualifies, write "No principle in this plan is hard-core." in place of the table.)
+
 ## Key Facts
 > _What this course relies on you simply knowing. Values marked `(verify)`
 > should be checked against a source before you rely on them._
@@ -299,6 +356,8 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
 <dependency notes derived from prerequisite graph>
 
 ## Session Blueprints
+> _Session designs. Run a sub-goal's session before reading its blueprint: the
+> tests work best unseen. The solved exercises are there to study afterwards._
 
 ### SG-1: <Motivation short title>
 - **Initial Test:** <practical case description>
@@ -322,6 +381,7 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
   **Step 2:** <operation>
   > **Why:** <reasoning>
   **Result:** <answer with units and interpretation>
+  > **Check:** <the result confirmed a second way>
 - **Initial Test:** <simple scenario testing principle understanding>
 - **Pass Criteria:** Can state the principle in own words AND apply it to a basic scenario correctly
 - **Estimated Depth:** <Target level>
@@ -332,6 +392,43 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
   | <what must be understood> | <principle> | <verification task> | <failure pattern> |
 - **Teach Topics:** <the principle, boundary conditions, common misunderstandings>
 - **Final Test:** <different simple scenario testing same principle>
+
+### SG-3: <Hard-core principle short title>
+- **Principle:** <principle name> — <principle statement>
+- **Tempting answer:** <the natural, confident, wrong answer to the Initial Test, and why it feels right>
+- **Insight:** <the one sentence that makes it click>
+- **Picture:** <one picture or analogy, and where it stops being true>
+- **Worked Example (foundational):**
+  **Given:** <the smallest case in which the Insight is visible, with concrete numbers>
+  **Step 1:** <operation>
+  > **Why:** <reasoning>
+  **Step 2:** <operation>
+  > **Why:** <reasoning>
+  **Result:** <answer with units and interpretation>
+  > **Check:** <the result confirmed a second way>
+- **Level ladder:** <one solved exercise for each level above High school, up to the Target level>
+  **Master's solved exercise** (not in a High school plan)
+  **Given:** <the same idea, in the field's notation>
+  **Step 1:** <operation>
+  > **Why:** <reasoning>
+  **Result:** <answer with interpretation>
+  > **Check:** <the result confirmed a second way>
+  **Advanced solved exercise** (only in an Advanced plan)
+  **Given:** <the same idea in full generality: a proof, a derivation or a non-standard case>
+  **Step 1:** <operation>
+  > **Why:** <reasoning>
+  **Result:** <answer with interpretation>
+  > **Check:** <the result confirmed a second way>
+- **Initial Test:** <practical case in which the natural approach leads to the Tempting answer: predict and justify>
+- **Pass Criteria:** Gives the right answer, not the tempting one, AND justifies it at the Target level
+- **Estimated Depth:** <Target level>
+- **Exercise:** <simple hands-on exercise, 5-10 min, concrete and self-contained>
+- **Anticipated CTQs:**
+  | CTQ | Source | Mastery Test | Common Failure Mode |
+  |-----|--------|-------------|---------------------|
+  | <what must be understood at this rung> | <principle>, <level> rung | <verification task> | <failure pattern> |
+- **Teach Topics:** <the principle, boundary conditions, the misunderstandings that survive the Insight>
+- **Final Test:** <different case in which the same tempting reasoning is again available>
 
 ### SG-N: <Key Concept short title>
 - **Initial Test:** <practical case description>
@@ -346,7 +443,7 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
 - **Teach Topics:** <concepts, exercises, pitfalls with CTQ failure mode tags>
 - **Final Test:** <different case, same competencies>
 
-(repeat for every sub-goal — Core Principle SGs include the Worked Example field, others do not)
+(repeat for every sub-goal — Core Principle SGs include the Worked Example field, others do not; only the principles listed in `## Hard Core` use the hard-core form)
 
 ## Artefacts Register
 > _Visible anchor for every artefact this course produces. Seeded at plan
@@ -367,7 +464,7 @@ during its RECORD phase.
 
 ### Step 4.5: Check the Required Elements
 
-Read back the file you just wrote, from the top through the Sub-Goals table, plus the blueprint headings and their field names. Confirm each row below. Where a row fails, fix the file with the Edit tool and check that row again.
+Read back the file you just wrote: from the top through the Sub-Goals table, the blueprint headings and their field names, and each hard-core blueprint in full. Confirm each row below. Where a row fails, fix the file with the Edit tool and check that row again.
 
 | Element | Present when |
 |---------|--------------|
@@ -377,6 +474,7 @@ Read back the file you just wrote, from the top through the Sub-Goals table, plu
 | Breakthrough | `## Breakthrough` has its three labelled parts filled in and one table row for each principle in `## Principle Extraction` |
 | Method | `## Pedagogical Method: Test-Teach-Test` is present with its three steps and its teaching-style line, and every blueprint has an Initial Test and a Final Test |
 | Levels | The header line has a `Target level:` of High school, Master's or Advanced, and every Depth cell and every Estimated Depth is that level |
+| Hard core | `## Hard Core` is present. Every principle it lists has, in its Core Principle blueprint, a Tempting answer, an Insight, a Picture, a foundational worked example and one solved exercise for each level above High school up to the Target level, each ending with a Check. No other blueprint has those fields. No test reuses a solved exercise's case. |
 
 ### Step 5: Confirm to the User
 
@@ -387,6 +485,7 @@ After writing the file, present a summary:
 - The Motivation & Course Overview (VOC) — and **invite the learner to review and edit it**. State that edits are welcome and that feedback on it may **restructure the course**.
 - The Breakthrough: before the intuition, the intuition, what it solved
 - The principle extraction table
+- The hard core: which principles were flagged and why, and that each will be taught through an aha moment and a climb through the levels. **Ask the learner to confirm the list or change it.**
 - The key facts: how many there are, and which are marked `(verify)` for the learner to confirm against a source
 - The sub-goals table
 - Any prerequisite warnings (external prerequisites not confirmed in learner profile)
@@ -395,11 +494,13 @@ After writing the file, present a summary:
 - The result of the required-elements check (Step 4.5), one line per element
 - Remind the user to run `/run-session SG-<N>` to start learning
 
-**VOC feedback → restructure rule:** If the learner revises the Motivation & Course Overview (or gives feedback on it), re-evaluate whether the current sub-goal decomposition still matches the stated scope and outcomes. If it no longer matches, **offer to re-decompose (restructure) the plan** using the normal decomposition rules — update the Sub-Goals table, Prerequisite Graph, and Sequence, the Breakthrough rows if the principles changed, and the Key Facts `Used in` column — then refresh the VOC digest so it stays consistent with the revised plan and re-run the check in Step 4.5.
+**VOC feedback → restructure rule:** If the learner revises the Motivation & Course Overview (or gives feedback on it), re-evaluate whether the current sub-goal decomposition still matches the stated scope and outcomes. If it no longer matches, **offer to re-decompose (restructure) the plan** using the normal decomposition rules — update the Sub-Goals table, Prerequisite Graph, and Sequence, the Breakthrough and Hard Core rows if the principles changed, and the Key Facts `Used in` column — then refresh the VOC digest so it stays consistent with the revised plan and re-run the check in Step 4.5.
+
+**Hard-core list → blueprint rule:** If the learner asks to add a principle to the Hard Core, apply the gate from Step 2.75. If a tempting answer can be written, add the hard-core fields to that principle's Core Principle blueprint, rebuild its tests on the Tempting answer, and add the row to `## Hard Core`; if not, say why the principle cannot be taught that way. If the learner asks to remove one, remove its Tempting answer, Insight, Picture and Level ladder, restore the standard Core Principle tests, and remove the row. No re-decomposition is needed. Re-run the check in Step 4.5.
 
 ## Important
 
-- Do NOT include theory or teaching content in the plan -- that happens during `/run-session` -- EXCEPT for Core Principle SG blueprints, which MUST include a simple fully worked example
+- Do NOT include theory or teaching content in the plan -- that happens during `/run-session` -- EXCEPT for Core Principle SG blueprints, which MUST include a simple fully worked example, and hard-core blueprints, which also hold the aha design (Tempting answer, Insight, Picture) and the Level ladder's solved exercises
 - The plan names and motivates; it does not explain or derive. The Breakthrough section and the Key Facts table are orientation: state them, never teach from them.
 - Do NOT skip the required-elements check (Step 4.5): a plan missing one of its required elements is incomplete
 - The Target level is fixed for the plan: every sub-goal, test and pass criterion is written for it, and nothing above it is written into the plan

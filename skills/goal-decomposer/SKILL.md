@@ -17,7 +17,8 @@ Takes a free-form learning goal and produces:
 5. A plan-level **Motivation & Course Overview (VOC)** — a learner-editable bird's-eye view (why it matters, course arc, digest of core principles and key facts, completion outcomes)
 6. **N sub-goals** decomposed across 5 axes, each mapped to principles and written for the plan's **Target level** (High school, Master's or Advanced)
 7. A **prerequisite graph** with hard dependencies
-8. A suggested **sequence** derived from the prerequisite graph
+8. A **Hard Core** list — the core principles that are hardest to grasp, which get an aha design and a climb through the levels
+9. A suggested **sequence** derived from the prerequisite graph
 
 ---
 
@@ -209,6 +210,26 @@ Build a prerequisite graph using the concept map relationship types. The princip
 - If a `requires` prerequisite is NOT in the learner profile as a known strength, flag it: "WARNING: Learner may lack prerequisite [X]. Consider adding a prerequisite sub-goal or verifying during session."
 - The prerequisite graph replaces intuited dependencies — every dependency in the Sequence must trace to a graph edge.
 
+### Flagging the Hard Core
+
+With the graph in hand, flag the **hard core**: the core principles that are much harder to grasp than the rest. They get an explanation designed around an aha moment and are taught as a climb through the levels.
+
+A core principle belongs to the hard core when it is hard to grasp in at least one of these ways:
+
+| Criterion | The principle... |
+|-----------|------------------|
+| **Counter-intuitive** | contradicts what everyday experience or earlier study leads the learner to expect |
+| **New abstraction** | cannot be stated without a representation the learner has not used before |
+| **Persistent misconception** | runs into a well-known wrong idea that people keep even after being told the right one |
+
+and it passes the gate: *"Can I write the tempting answer — what a capable person who does not yet know this principle would confidently, and wrongly, answer to a concrete case?"* Without a tempting answer there is nothing to predict and fail, and the principle is not hard-core. This gate works like the Testability Check in Step 6.
+
+- Usually 1-3 principles. When more qualify, keep the ones that the most sub-goals depend on in the graph (**load-bearing**).
+- Zero is allowed for a procedural or tool-centred topic. Say so rather than forcing one.
+- Only core principles are flagged, never key concepts
+- Hard core is about how hard an idea is to *grasp*; Difficulty (Step 3) is about how much a sub-goal combines. A hard-core principle's sub-goal is still low difficulty.
+- Examples: *"A quantum state exists in superposition until measured"* is hard-core (counter-intuitive; the tempting answer treats the state as an unknown but definite value). *"Every project cost is either traceable to a specific scope item or necessary for the project as a whole"* is not: nothing about it resists being told.
+
 ---
 
 ## Step 5: Sequencing Rules
@@ -294,6 +315,12 @@ When decomposing a goal, produce this structure:
 | SG-N | Verification | <statement> | <domain> | high | <HS/MSc/Adv> | integrative |
 
 _Depth is the plan's Target level in every row: HS = High school, MSc = Master's, Adv = Advanced._
+
+## Hard Core
+
+| Principle | Why it is hard | Taught in |
+|-----------|----------------|-----------|
+| <principle name> | <counter-intuitive / new abstraction / persistent misconception / load-bearing> | SG-<N> |
 
 ## Prerequisite Graph
 

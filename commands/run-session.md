@@ -28,6 +28,7 @@ From the user's input (`$ARGUMENTS`), determine which sub-goal to run:
 - If they gave a keyword (e.g., "unit rate" or "contingency"), match it to the closest sub-goal
 - If unclear, show the sub-goals table and ask them to pick one
 - If the sub-goal is already marked "complete", confirm they want to re-do it
+- If the input also names a level (High school, Master's or Advanced), run this session at that level instead of the blueprint's Estimated Depth: re-pitch the blueprint's tests to that level (same scenario family, that level's tools) and take a hard-core climb up to it. The plan file is not changed. Say so, and note the session's level in the Progress Log.
 
 ## Step 1.5: Check for Existing Checkpoint
 
@@ -75,6 +76,14 @@ For sub-goals with Axis = "Core Principle", the Initial Test is simpler — it t
 - If **PASS**: still present the blueprint's worked example as **reinforcement** before proceeding to Phase 6. Say: "You've demonstrated understanding of this principle. Here's a grounding example for reference:" then show the worked example from the blueprint. This ensures every learner sees the foundational example regardless of prior knowledge.
 - If **FAIL/PARTIAL**: the Teach phase delivers the blueprint's worked example as the **primary teaching content**, then proceeds with standard gap-filling if additional gaps exist.
 
+**Hard-core principles — the climb:**
+A Core Principle blueprint that has a **Tempting answer**, an **Insight**, a **Picture** and a **Level ladder** is a *hard-core* principle: one that is hard to grasp, taught through an aha moment and a climb through the levels. For these sub-goals the handling above is replaced by this:
+- The Initial Test is built so that the natural approach leads to the Tempting answer. Present it like any other test. Do NOT warn the learner, and do NOT hint that the obvious answer is wrong.
+- If **PASS** (right, and justified at the session's level): give the **recap** and the **offer** described in Phase 2.
+- If **FAIL/PARTIAL**: the Teach phase is **the climb** described in Phase 3, followed by standard gap-filling if additional gaps exist.
+
+A Core Principle blueprint without those fields is handled as above, whatever the plan's age.
+
 **MANDATORY: Every Initial Test MUST end with these two notes (copy them verbatim):**
 
 > *If you are not familiar with this topic, write **"not familiar"** to receive a full concept explanation before attempting the test.*
@@ -93,6 +102,7 @@ If the learner writes "not familiar":
      If A: save checkpoint, add prerequisite SG to plan (update Sub-Goals, Prerequisite Graph, Sequence), run it, then resume.
      If B: proceed to step 3.
 3. Deliver a **Full 7-Section Concept Explanation** for the sub-goal's topic at the blueprint's depth level, then re-present the Initial Test. This does NOT count as an adaptation loop.
+   - **For a hard-core principle**, deliver the climb (Phase 3) from the High school rung instead of the 7-section explanation. The learner made no prediction, so do not name the Tempting answer and do not solve the Initial Test case: give the Insight, the Picture and the foundational worked example, then the higher rungs. Then re-present the Initial Test.
 
 If the learner asks for a clarification: invoke the term-clarifier agent with ONLY (1) the term, (2) the CTQ list, (3) the principle list, (4) the sub-goal statement. Do NOT pass the test question, expected answer, or pass criteria.
 
@@ -126,8 +136,31 @@ After the learner responds, evaluate against the pass criteria and CTQ mastery t
 - List what they got right
 - List what they got wrong or missed
 - Determine: **PASS**, **PARTIAL**, or **FAIL**
-- If PASS: tell them, then skip to Phase 6
+- If PASS: tell them, then skip to Phase 6 (for a hard-core principle, the recap and the offer below come first)
 - If PARTIAL or FAIL: list the specific gaps with CTQ failure mode classification, then proceed to Phase 3
+
+**Hard-core principles — Phase 2 additions:**
+
+Note which of these the answer shows:
+- **Fell for it**: the learner gave the Tempting answer, or a variant of it
+- **Has the idea, not the level**: the answer avoids the Tempting answer and is right in substance, but its justification is below the session's level (for example right in words, not in the formalism)
+- **Passed**: right, and justified at the session's level
+
+When the learner fell for it, say that the answer does not hold and name the gap, but keep the right answer for the reveal that opens the climb in Phase 3.
+
+Set the **start rung** of the climb and write it in the checkpoint's Evaluation section:
+- Fell for it, or you are unsure which case applies -> High school
+- A [formal-without-intuitive] gap (the symbols are handled, the idea is missing) -> High school
+- Has the idea, not the level (a [verbal-without-formal] gap) -> the first rung above High school
+
+**If Passed — recap, then offer:**
+1. Recap, briefly: the Insight in its one sentence, the Picture, and the solved exercise of the top rung in the blueprint's Level ladder (in a High school session: the foundational worked example). Introduce it with: "You have this. Here is the idea in one line and one worked case for reference:"
+2. Make ONE offer, then follow the learner's choice:
+   - the full climb from the High school rung (Phase 3), or
+   - the next level up, when the session's level is below Advanced: one rung above it, written for this session (the principle at that level, a solved exercise, your turn), or
+   - neither
+3. A recap alone is not teaching: record the Strength as usual and export no concept file. An accepted climb or next level up is teaching: export a concept file. Either way the pass stands, and the Status does not depend on how the extra rungs go.
+4. Proceed to Phase 6. If the session is interrupted after the offer, resume at RECORD.
 
 **SOCRATIC MODE — Phase 2 additions (if SOCRATIC = true):**
 
@@ -176,6 +209,36 @@ After the FIRST teaching block, mention once:
 
 After ALL gaps are taught and Quick Checks addressed, proceed to Phase 3.5.
 
+**Hard-core principles — Phase 3: the climb**
+
+For a hard-core principle, the gap on the principle itself is taught as ONE block, the climb (format: `ladder`), following the concept-explainer skill's Level Ladder. Any other gap (a slip, a missing fact, an unrelated concept) is taught afterwards as its own block, by Steps 1-4 above.
+
+The climb goes rung by rung, from the start rung set in Phase 2 to the session's level:
+
+- **The High school rung is the reveal.** In this order:
+  1. What the learner assumed, in their own words, and why it feels right
+  2. That assumption shown failing on the Initial Test case, with the true result beside it
+  3. The **Insight**, in its one sentence
+  4. The **Picture**, and where it stops being true
+  5. The blueprint's **Worked Example (foundational)**, step by step
+  6. The Initial Test case redone correctly with the Insight
+
+  When the climb starts above High school, give items 3 and 4 only, as a two-line reminder, then start at the start rung.
+- **Each higher rung** gives the principle at that level (Master's: the formal statement, where it comes from, the key equations; Advanced: full generality, the proof or rigorous derivation, the limits of validity), then that rung's solved exercise from the blueprint's Level ladder, step by step. When the session runs above the plan's Target level, the blueprint has no solved exercise for the extra rung: write one in the same format.
+- **Every rung ends with "your turn".** It is that rung's Quick Check and follows every Quick Check rule (CTQ-derived, clarification note, nothing revealed before the learner responds): a NEW exercise at the rung's level, on a case used nowhere else. After the learner responds, show the complete worked solution, ending with a Check.
+  - Method right (an arithmetic slip does not count against it): the rung is held. Go up.
+  - Method wrong: give a short **bridge** one level down, a few lines that tie the failed step to the rung below (at the High school rung: a different picture), then ONE new exercise at the same rung.
+  - Wrong again: the climb **stops**. The level reached is the last rung held, or "below High school" if none was.
+- A rung has at most two exercises. A stopped climb is not an adaptation loop.
+- Mention the deep-dive option once, after the first rung.
+
+After the climb and any other blocks, proceed to Phase 3.5.
+
+**SOCRATIC MODE — the climb (if SOCRATIC = true):** the rungs and their rules are the same; the delivery follows the Socratic Teach Protocol below.
+- High school rung: name the tension, then deploy the blueprint's Guidance Chain so that the learner states the Insight. Show the Picture and the foundational worked example only AFTER the learner has stated the Insight (or the chain has ended).
+- Each higher rung: before showing anything, ask the learner to attempt the statement at that level ("How would you write that as an equation?", "What would a proof have to show?"). Then confirm it and show the rung's solved exercise.
+- A failed "your turn": no declarative bridge. Return to questions pitched one level down, then give the new exercise.
+
 **SOCRATIC MODE — Phase 3 replacement (if SOCRATIC = true):**
 
 When SOCRATIC = true, **replace** the standard declarative teaching with Socratic guided discovery. The content is the same; the delivery method changes fundamentally.
@@ -213,7 +276,7 @@ For EACH identified gap:
 - Each question narrows the search space WITHOUT giving the answer
 - The deep-dive option still applies (mention once after first block)
 
-**Checkpoint:** After EACH teaching block and Quick Check, update `<topic>_checkpoint_SG<N>.md` with the completed block (including format used: abbreviated/full/comparison). Update `## Current Phase: TEACH (Gap N of M completed)`. After the final block, set `## Current Phase: CONCEPT_MAP_OFFER`.
+**Checkpoint:** After EACH teaching block and Quick Check, update `<topic>_checkpoint_SG<N>.md` with the completed block (including format used: abbreviated/full/comparison/ladder). Update `## Current Phase: TEACH (Gap N of M completed)`. During a climb, update the checkpoint after each rung instead, with `## Current Phase: TEACH (Rung <level> completed)`, so that a resumed session continues at the next rung. After the final block, set `## Current Phase: CONCEPT_MAP_OFFER`.
 
 ### Phase 3.5: OPTIONAL CONCEPT MAP
 
@@ -236,6 +299,8 @@ Present a **NEW** practical case:
 - Same competencies being tested
 - Same pass criteria
 - No preamble -- straight to the scenario
+
+**Hard-core principles:** if the climb reached the session's level, the Final Test is at that level, as usual. If the climb stopped short, give the Final Test at the level reached instead: re-pitch the blueprint's Final Test to that level (to the High school level if no rung was held).
 
 **SOCRATIC MODE — Phase 4 additions (if SOCRATIC = true):**
 
@@ -262,6 +327,10 @@ Wait for the learner to respond.
 - **FAIL (first time)**: Identify remaining gaps with failure mode classification. Loop back to Phase 3 with ONLY the persistent gaps. Then present ANOTHER new Final Test case. This is Loop 1.
 - **FAIL (second time -- Loop 2 max)**: Record the result. Tell the learner: "This sub-goal needs additional review. I recommend revisiting the prerequisites or discussing with an instructor."
 
+**Hard-core principles:**
+- A loop after a failed Final Test re-enters the climb at the first rung not held, not at the start.
+- **When the climb stopped short**, the Final Test was given at the level reached. Whatever its result, run no further loop: the Status is `needs-review`, and the Score records the level reached against the session's level (for example "High school of Master's"). Tell the learner what they now hold and which rung to come back to.
+
 **Checkpoint:** Update checkpoint with final evaluation. Set `## Current Phase: RECORD`.
 
 ### Phase 6: RECORD
@@ -277,9 +346,10 @@ Do the following, in this order. If the session is resumed during RECORD, skip a
 ### SG-<N> -- <Completed/Needs Review> <date>
 - Initial Test: <PASS/PARTIAL/FAIL> (<details>)
 - Gaps found: <list with failure mode tags, or "none">
-- Teach Phase: <N explanations delivered (N abbreviated, N full, N comparison), or "skipped -- no gaps">
+- Teach Phase: <N explanations delivered (N abbreviated, N full, N comparison, N ladder), or "skipped -- no gaps">
 - Final Test: <PASS/FAIL> (<details>)
 - Loops: <0/1/2>
+- Level reached: <High school / Master's / Advanced, or "below High school"> (session level: <level>)
 - Concept Map: <generated (standard/deep) / not generated>
 - Concept File: <filename or "none">
 - Exercise Book: <filename, or "none" for a Motivation or Verification sub-goal>
@@ -301,9 +371,10 @@ Date: <date>
 
 ## Teach Phase
 ### Gap: <name> [<failure mode>]
-**Format:** <abbreviated/full/comparison>
-**Content:** <summary of what was taught -- for full explanations, summarize the 6 sections>
+**Format:** <abbreviated/full/comparison/ladder>
+**Content:** <summary of what was taught -- for full explanations, summarize the 6 sections; for a climb, the start rung and what the reveal showed>
 **Quick Check:** <question> -> Learner: <answer> -> <correct/incorrect>
+**Rungs:** <for a climb only, one line per rung: <level> -- your turn: <question> -> Learner: <answer> -> <held/bridge/not held>>
 **Deep-dive:** <if requested, summary of expanded principle>
 
 (repeat for each gap)
@@ -319,6 +390,7 @@ Date: <date>
 ## Result
 Status: <complete/needs-review>
 Loops: <0/1/2>
+Level reached: <High school / Master's / Advanced, or "below High school"> (session level: <level>)
 ```
 
 **C) Update the learner profile.** Read `learner_profile.md` from the current directory (create it if it does not exist). Update according to the learner-analytics skill's Update Rules:
@@ -331,7 +403,8 @@ Loops: <0/1/2>
 Write a concept file to the current directory using the concept-explainer skill's export format.
 - Filename: `concept-<domain>-<sg-topic>.md` (kebab-case)
 - Contains: YAML frontmatter (type: ttt-session, session, plan, level, tags) + all teaching content + concept map (if generated) + aggregated CTQ table + session context
-- If no teaching occurred (learner passed Initial Test), skip this step
+- For a climb: the reveal, each rung's explanation, and each "your turn" exercise with its worked solution. The solved exercises that live in the plan are referenced by sub-goal and rung, not copied. A rung written for this session (above the plan's Target level) is included in full.
+- If no teaching occurred (learner passed Initial Test), skip this step. A recap after a pass on a hard-core principle is not teaching; an accepted climb or next level up is.
 
 **E) Write the exercise book** (Core Principle, Key Concept and Tools sub-goals only):
 Add a session set to `<topic>_artefact_SG<N>_exercises.md`, following the concept-explainer skill's Exercise Book Format.
@@ -375,5 +448,7 @@ If the plan has no Artefacts Register (a plan created before it existed), skip t
 - ALWAYS update the learner profile during RECORD
 - ALWAYS export a concept file during RECORD if teaching occurred
 - ALWAYS write the exercise book during RECORD for a Core Principle, Key Concept or Tools sub-goal, and ALWAYS register every artefact the session wrote in the plan's Artefacts Register
+- For a hard-core principle, NEVER warn the learner about the Tempting answer before the Initial Test, and NEVER skip the reveal when they fall for it
+- In a climb, a rung has at most two exercises; a climb that stops short is recorded with the level reached and is not an adaptation loop
 - MENTION the deep-dive option once after the first teaching block -- never repeat the offer
 - OPTIONALLY offer a concept map after the TEACH phase -- never insist, just offer once

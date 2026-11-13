@@ -277,7 +277,13 @@ When a gap involves conceptual confusion, wrong mental models, or multi-layered 
 
 When the gap involves confusing two related concepts, use the comparison format (see Concept Comparison Protocol below) instead of a standard explanation.
 
+### Level Ladder (for hard-core principles)
+
+When the sub-goal is a hard-core principle and the gap is on the principle itself, use the Level Ladder (see The Level Ladder below) instead of a standard explanation, whatever the gap's failure mode.
+
 ### Decision Criteria
+
+A gap on a **hard-core principle** itself always gets the Level Ladder. A sub-goal is a hard-core principle when its plan blueprint has a Tempting answer, an Insight, a Picture and a Level ladder.
 
 A gap is **complex** if ANY of these apply:
 
@@ -289,6 +295,59 @@ A gap is **complex** if ANY of these apply:
 A gap is a **conflation** specifically if the learner confused two related but distinct concepts.
 
 Otherwise, the gap is **simple** -- use the abbreviated form.
+
+---
+
+## The Level Ladder (hard-core principles)
+
+A hard-core principle is one that is hard to grasp: it contradicts intuition, needs an abstraction the learner has not used before, or runs into a misconception that survives being told. Its plan blueprint carries a **Tempting answer**, an **Insight**, a **Picture**, a foundational worked example and a **Level ladder** of solved exercises. In a session it is taught as a climb through the levels, which takes the place of the Full Concept Explanation for that principle.
+
+### Shape
+
+1. **The reveal**, which is the High school rung
+2. **One rung for each level above High school**, up to the session's level
+3. **Close**: one Key Terms table for the whole climb, and a CTQ Mapping table with at least one row per rung
+
+Every rung has the same three parts: the principle at that level, one solved exercise, and "your turn" (an exercise the learner attempts, followed by its complete worked solution).
+
+### The reveal
+
+The aha comes from a prediction that fails, so the reveal starts from the learner's own answer. In this order:
+
+| Step | Content | Rule |
+|------|---------|------|
+| 1. The assumption | What the learner assumed, in their own words, and why it feels right | Take it seriously: the tempting answer is tempting for a reason |
+| 2. The failure | The assumption applied to the test case, with the true result beside it | Concrete and checkable, with numbers. Never "this is wrong because the theory says so". |
+| 3. The Insight | The one sentence from the blueprint | One sentence. It reframes the situation; it does not recite the principle's formal statement. |
+| 4. The Picture | The blueprint's picture or analogy | One picture, not three. Say where it stops being true. |
+| 5. The smallest example | The blueprint's foundational worked example | The minimal case in which the Insight is visible, in concrete numbers |
+| 6. The payoff | The test case redone with the Insight | The case that failed now works |
+
+If the learner made no prediction (they said "not familiar"), leave out steps 1, 2 and 6: do not name the Tempting answer and do not solve the test case, which will be presented again.
+
+### The rungs
+
+| Rung | The principle at this level | Its solved exercise |
+|------|-----------------------------|---------------------|
+| **High school** | Plain words, the Picture, concrete numbers | The foundational worked example |
+| **Master's** | The formal statement in standard notation, where it comes from, the key equations, and how it contains the High school picture | Symbols first, then numbers |
+| **Advanced** | Full generality: the proof or rigorous derivation, the limits of validity, competing formulations, and what the Master's statement assumed without saying | A proof, a derivation or a non-standard case, with edge cases checked |
+
+Rules:
+- Each rung says what it adds to the rung below. A higher rung never tells the learner that the lower one was wrong: the lower rung was a correct view of a special case.
+- The solved exercise of a rung comes from the blueprint's Level ladder. Solved exercises follow Section 3.5, including the Check.
+- "Your turn" is the rung's Quick Check: a new case at the rung's level, never one used in the plan. Its complete worked solution is shown after the learner responds.
+- A failed "your turn" is judged on method: an arithmetic slip does not fail a rung.
+- The **bridge** after a failed "your turn" is a few lines, pitched one level down, that connect the step that failed to what the learner already holds. It is not a second explanation of the rung. At the High school rung, the bridge is a different picture.
+- In a Socratic session the same content is reached through questions: the Insight through the Guidance Chain, each higher statement by asking the learner to attempt it first. The Picture and the solved exercises come only after the learner has stated the idea.
+
+### Writing the aha parts (when designing a plan)
+
+- **Tempting answer**: the answer a capable person gives *before* knowing the principle, with the reason it feels right. If you cannot write one, the principle is not hard-core.
+- **Insight**: test it by reading it alone. It should make the failure look obvious in hindsight.
+- **Picture**: concrete and familiar at the High school level. State its limit: every analogy breaks somewhere, and an unstated limit becomes the next misconception.
+- **Foundational worked example**: remove everything that is not needed to see the Insight.
+- **Solved exercises for the higher rungs**: each one is the same idea seen with that level's tools, not a harder calculation at the level below.
 
 ---
 

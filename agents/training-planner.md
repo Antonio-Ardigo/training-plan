@@ -221,12 +221,13 @@ Follow these phases in order:
 1. **INITIAL TEST** -- Present the practical case. No preamble. **(SOCRATIC: present Discovery Question first, then the test.)** **MUST end with these two verbatim notes:**
    > *If you are not familiar with this topic, write **"not familiar"** to receive a full concept explanation before attempting the test.*
    > *If any term in this question is unclear, ask for a **clarification** — I will explain the term without helping you solve the problem.*
-   If "not familiar": (1) check Prerequisite Graph for uncompleted prerequisite SGs — offer to run those first; (2) check Principle Extraction for external prerequisites not covered by any SG — if found, present PLAN-REVISION offer (A: add prerequisite SG, B: continue as-is); (3) otherwise deliver Full 7-Section Concept Explanation, then re-present the test (not an adaptation loop). If clarification: invoke term-clarifier agent. If term-clarifier returns PLAN-REVISION-REQUEST: after learner submits answer, offer (A) add prerequisite SG or (B) continue as-is. Wait for learner response.
+   If "not familiar": (1) check Prerequisite Graph for uncompleted prerequisite SGs — offer to run those first; (2) check Principle Extraction for external prerequisites not covered by any SG — if found, present PLAN-REVISION offer (A: add prerequisite SG, B: continue as-is); (3) otherwise deliver Full 7-Section Concept Explanation (for a hard-core principle: the climb from the High school rung, with no Tempting answer named and the test case left unsolved), then re-present the test (not an adaptation loop). If clarification: invoke term-clarifier agent. If term-clarifier returns PLAN-REVISION-REQUEST: after learner submits answer, offer (A) add prerequisite SG or (B) continue as-is. Wait for learner response.
 2. **EVALUATE** -- Compare response to pass criteria and CTQ mastery tests. Classify gaps using CTQ failure mode taxonomy:
    - [conflation], [overgeneralization], [missing-prerequisite], [procedural-without-conceptual], [verbal-without-formal], [formal-without-intuitive]
-   - PASS -> skip to RECORD
+   - PASS -> skip to RECORD (hard-core principle: the recap and the offer come first)
    - GAPS -> proceed to TEACH
 3. **TEACH** -- For each gap, deliver a concept explanation:
+   - **(Hard-core principle)** A Core Principle blueprint that has a Tempting answer, an Insight, a Picture and a Level ladder: teach the principle as **the climb** (format `ladder`). The High school rung is the reveal (what the learner assumed, shown failing; the Insight; the Picture; the foundational worked example; the test case redone). Then one rung per level up to the session's level, each with the blueprint's solved exercise. Every rung ends with "your turn", its Quick Check: a method failure gets a short bridge one level down and one new exercise, and a second failure stops the climb. `/run-session` holds the full flow, the concept-explainer skill's Level Ladder the content rules. Other gaps are then taught as below.
    - **(Standard mode)** Assess complexity: simple -> abbreviated; complex -> full 7-section; conflation -> comparison. Deliver declaratively: Problem, Principles, Innovations, Worked Example, Formalization, Quick Check.
    - **(SOCRATIC mode)** REPLACE declarative teaching with Socratic Guidance Chain from the blueprint. Present questions ONE AT A TIME. Wait for learner response. Each question narrows the search space. The final question makes the conclusion inescapable. NEVER state a concept before the learner has attempted to derive it. If the learner is stuck after the full chain, THEN explain — framed as "Here's what the chain was leading to."
    - **Worked Example**: FULLY DEVELOPED step-by-step example (ALWAYS included, in both modes and in every format, comparison included; in SOCRATIC mode it comes after the resolution). It ends with a Check that confirms the result a second way.
@@ -237,7 +238,8 @@ Follow these phases in order:
 5. **FINAL TEST** -- New practical case, same competencies. **MUST end with the same two verbatim notes** ("not familiar" + "clarification"). Wait for response.
 6. **EVALUATE FINAL**
    - PASS -> RECORD
-   - FAIL -> Loop back to TEACH (narrower focus, max 2 loops total)
+   - FAIL -> Loop back to TEACH (narrower focus, max 2 loops total; for a hard-core principle, re-enter the climb at the first rung not held)
+   - A hard-core climb that stopped short gets its Final Test at the level reached, is recorded as needs-review with that level, and uses no loop
 7. **RECORD** -- In this order: update plan file + write transcript + update learner profile + export concept file + write the exercise book `<topic>_artefact_SG<N>_exercises.md` (Core Principle, Key Concept and Tools sub-goals: 2 fully solved exercises per level from High school up to the sub-goal's Estimated Depth, in the concept-explainer skill's Exercise Book Format) + (if the sub-goal work naturally yielded one) produce another deliverable artefact `<topic>_artefact_SG<N>_<slug>.md` + register every artefact produced in the Artefacts Register + delete checkpoint
 
 ## Output File Formats
@@ -419,8 +421,8 @@ Date: <date>
 ## Teach Phase
 (for each gap)
 ### Gap: <gap name> [<failure mode>]
-**Format:** <abbreviated/full/comparison>
-**Content delivered:** <summary -- for full explanations, summarize the 6 sections>
+**Format:** <abbreviated/full/comparison/ladder>
+**Content delivered:** <summary -- for full explanations, summarize the 6 sections; for a climb, the start rung, what the reveal showed, and one line per rung>
 **Quick Check:** <question> -- Learner answer: <answer> -- <correct/incorrect>
 **Deep-dive:** <if requested, summary>
 
@@ -436,6 +438,7 @@ Date: <date>
 - Status: <complete/needs-review>
 - Loops: <0/1/2>
 - Score: <assessment>
+- Level reached: <High school / Master's / Advanced, or "below High school"> (session level: <level>)
 - Concept File: <filename or "none">
 ```
 
@@ -446,7 +449,8 @@ Date: <date>
 - NEVER present theory before the Initial Test -- the whole point is practical-first
 - NEVER skip the evaluation step -- always explicitly list gaps with CTQ failure mode classification
 - NEVER combine teaching blocks -- one gap, one concept explanation, one Quick Check at a time
-- ALWAYS assess gap complexity before choosing teaching format (abbreviated vs full vs comparison)
+- ALWAYS assess gap complexity before choosing teaching format (abbreviated vs full vs comparison); a gap on a hard-core principle itself is always taught as the climb (ladder)
+- For a hard-core principle, NEVER warn about the Tempting answer before the Initial Test, and ALWAYS open the climb with the reveal when the learner falls for it
 - ALWAYS use CTQ failure mode taxonomy when naming gaps in EVALUATE
 - ALWAYS wait for the learner to respond before evaluating
 - ALWAYS use the Edit tool to update the training plan file (don't rewrite the whole file)

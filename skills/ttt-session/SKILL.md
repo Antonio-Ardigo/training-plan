@@ -151,7 +151,7 @@ If the term-clarifier returns a PLAN-REVISION-REQUEST (critical missing prerequi
 
 After the learner responds, evaluate against the pass criteria and CTQ mastery tests:
 
-- **PASS** (meets or exceeds criteria): Skip to Phase 6 (RECORD). Sub-goal complete.
+- **PASS** (meets or exceeds criteria): Skip to Phase 6 (RECORD). Sub-goal complete. (For a hard-core principle, give the recap and the offer first; see Hard-Core Principles below.)
 - **PARTIAL** (some gaps identified): Proceed to Phase 3. List specific gaps with failure mode classification.
 - **FAIL** (major gaps): Proceed to Phase 3. List all gaps with failure mode classification.
 - **NOT FAMILIAR**: If the learner writes "not familiar" (or equivalent: "I don't know this topic", "no background", "never learned this"):
@@ -249,6 +249,21 @@ In this order: update the training plan file, write the session transcript, upda
 | <name> | transcript / concept-file / deliverable | SG-<N> | <relative path> | current |
 
 The Artefacts Register is the course's visible anchor — it must stay authoritative, so registration is mandatory whenever an artefact is produced.
+
+---
+
+## Hard-Core Principles: the Climb
+
+A Core Principle blueprint that has a Tempting answer, an Insight, a Picture and a Level ladder is a *hard-core* principle: one that is hard to grasp, taught through an aha moment and a climb through the levels. `/run-session` holds the full flow and the concept-explainer skill's Level Ladder holds the content rules. In short:
+
+- **Test**: the Initial Test is built so that the natural approach gives the Tempting answer. No warning, no hint.
+- **Pass** (right, and justified at the session's level): a recap (the Insight, the Picture, the top rung's solved exercise), then one offer: the full climb, or the next level up.
+- **Not passed**: the climb, taught as one block (format `ladder`), from the start rung the answer shows (fell for it, or unsure: High school) to the session's level. The High school rung is the reveal. Every rung ends with "your turn", which is that rung's Quick Check. A method failure gets a short bridge one level down and one new exercise; a second failure stops the climb.
+- **Final Test**: at the session's level, or at the level reached when the climb stopped short. A stopped climb is recorded as `needs-review` with the level reached and uses no adaptation loop. A loop after a failed Final Test re-enters the climb at the first rung not held.
+- **"Not familiar"**: the climb from High school with no Tempting answer named, then the Initial Test again.
+- **Socratic plans**: the same rungs, reached through questions. The Insight comes from the Guidance Chain; the Picture and the solved exercises come only after the learner has stated the idea.
+
+A Core Principle blueprint without those fields is handled as before: its worked example is shown as reinforcement on a pass, and as the primary teaching content otherwise.
 
 ---
 
@@ -357,7 +372,7 @@ Filename: `<topic>_checkpoint_SG<N>.md`
 Started: <date>
 
 ## Current Phase: <INITIAL_TEST|EVALUATE|TEACH|CONCEPT_MAP_OFFER|FINAL_TEST|EVALUATE_FINAL|RECORD>
-<!-- For TEACH phase, also note: Gap <X> of <Y> completed -->
+<!-- For TEACH phase, also note: Gap <X> of <Y> completed. During a climb: Rung <level> completed -->
 
 ## Initial Test
 **Case:** <what was presented>
@@ -366,12 +381,14 @@ Started: <date>
 ## Evaluation
 **Result:** <PASS/PARTIAL/FAIL>
 **Gaps identified:** <list with failure mode classifications>
+**Start rung:** <hard-core principles only: the rung where the climb starts>
 
 ## Teach Phase
 ### Gap: <name> [<failure mode>]
-**Format:** <abbreviated/full/comparison>
+**Format:** <abbreviated/full/comparison/ladder>
 **Content:** <summary of what was taught>
 **Quick Check:** <question> -> Learner: <answer> -> <correct/incorrect>
+**Rungs:** <for a climb only, one line per rung completed: <level> -- your turn: <question> -> Learner: <answer> -> <held/bridge/not held>>
 **Deep-dive:** <if requested, summary of expanded principle>
 
 (repeat for each gap completed so far)
@@ -397,5 +414,5 @@ When resuming from a checkpoint:
 2. Show the learner a brief summary of completed phases
 3. Ask if they want to resume or start fresh
 4. If resuming, skip to the phase AFTER the `## Current Phase` marker
-5. For TEACH phase resume: skip already-delivered gaps (listed in checkpoint) and continue from the next undelivered gap
+5. For TEACH phase resume: skip already-delivered gaps (listed in checkpoint) and continue from the next undelivered gap. In a climb, continue at the rung after the last one completed.
 6. When the session completes normally, delete the checkpoint and write the final transcript as usual

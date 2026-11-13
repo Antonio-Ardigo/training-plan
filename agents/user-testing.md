@@ -79,7 +79,7 @@ Create a training plan following the EXACT methodology from `/create-training-pl
    - Sequence: Motivation first -> Core Principles (dependency order) -> Key Concepts (dependency order) -> Tools -> Verification last
 7. **Prerequisite Tracing** -- build graph with requires/rests on/led to
 8. **Flag the Hard Core** -- usually 1-3 core principles that are counter-intuitive, need a new abstraction, or run into a persistent misconception, and for which a tempting wrong answer can be written. Zero is allowed and is stated.
-9. **Design Session Blueprints** -- for each sub-goal: Initial Test, Pass Criteria, Estimated Depth (the Target level), Principle, Exercise, Anticipated CTQs (2-4 rows with failure modes; 1-2 for a Core Principle), Teach Topics (with CTQ tags), Final Test. Core Principle blueprints add the Principle and a foundational worked example ending with a Check. Hard-core blueprints add a Tempting answer, an Insight, a Picture and a Level ladder (one solved exercise per level above High school, up to the Target level), with a predict-and-justify Initial Test built on the Tempting answer and at least one CTQ per rung.
+9. **Design Session Blueprints** -- for each sub-goal: Initial Test, Pass Criteria, Estimated Depth (the Target level), Principle, Exercise, Anticipated CTQs (2-4 rows with failure modes; 1-2 for a Core Principle), Teach Topics (with CTQ tags), Final Test. Core Principle blueprints add the Principle and a foundational worked example ending with a Check. Hard-core blueprints add a Tempting answer, an Insight, a Picture, a Visual design and a Level ladder (one solved exercise per level above High school, up to the Target level), with a predict-and-justify Initial Test built on the Tempting answer and at least one CTQ per rung.
 10. **Compose the VOC** -- complete the Key Facts `Used in` column first, then write the four overview parts
 11. **Write** `<topic>_training_plan.md` using the exact plan template format, after checking that no plan of that name exists
 12. **Check the required elements** -- read the file back and confirm the five required elements, the Levels row and the Hard core row; fix any gap
@@ -230,6 +230,7 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
 - **Tempting answer:** <the natural, confident, wrong answer to the Initial Test, and why it feels right>
 - **Insight:** <the one sentence that makes it click>
 - **Picture:** <one picture or analogy, and where it stops being true>
+- **Visual design:** <Objects (tiny, with exact values) · Colour roles · Steps · Your-turn inputs for each rung (the right value and the two most likely wrong ones) · Control>
 - **Worked Example (foundational):**
   **Given:** <the smallest case in which the Insight is visible, with concrete numbers>
   **Step 1:** <operation>
@@ -501,8 +502,9 @@ A plan created before a section existed is reported as missing that section rela
 
 #### Hard Core
 - [ ] `## Hard Core` names criteria only (counter-intuitive, new abstraction, persistent misconception, load-bearing); it does not describe the misconception, the insight or a tempting answer
-- [ ] Every principle it lists has, in its Core Principle blueprint: a Tempting answer, an Insight, a Picture, a foundational worked example, and one solved exercise for each level above High school up to the Target level (in a High school plan the Level ladder says "none")
+- [ ] Every principle it lists has, in its Core Principle blueprint: a Tempting answer, an Insight, a Picture, a Visual design (Objects, Colour roles, Steps, Your-turn inputs, Control), a foundational worked example, and one solved exercise for each level above High school up to the Target level (in a High school plan the Level ladder says "none")
 - [ ] Every solved exercise ends with a Check
+- [ ] Each Visual design names tiny objects with exact values, at most three colour roles, and for every rung a your-turn input with its right value and two likely wrong values
 - [ ] The Initial Test of a hard-core blueprint is a predict-and-justify case in which the natural approach leads to the Tempting answer, and it carries no warning
 - [ ] No blueprint outside the Hard Core list has those fields
 - [ ] No test reuses the case of a solved exercise in the plan, and no Breakthrough row states a tempting answer or a test case

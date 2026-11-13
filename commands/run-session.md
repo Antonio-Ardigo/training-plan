@@ -28,6 +28,7 @@ From the user's input (`$ARGUMENTS`), determine which sub-goal to run:
 - If they gave a keyword (e.g., "unit rate" or "contingency"), match it to the closest sub-goal
 - If unclear, show the sub-goals table and ask them to pick one
 - If the sub-goal is already marked "complete", confirm they want to re-do it
+- If the input also contains the word `visual` or `chat`, that is the delivery for a hard-core climb in this session (see Phase 3, Visual delivery). With neither word, the session offers the choice when it reaches a climb.
 - If the input also names a level (High school, Master's or Advanced), run this session at that level instead of the blueprint's Estimated Depth: re-pitch the blueprint's tests to that level (same scenario family, that level's tools) and take a hard-core climb up to it. The plan file is not changed. Say so, and note the session's level in the Progress Log.
 
 ## Step 1.5: Check for Existing Checkpoint
@@ -230,6 +231,16 @@ The climb goes rung by rung, from the start rung set in Phase 2 to the session's
   - Method wrong: give a short **bridge** one level down, a few lines that tie the failed step to the rung below (at the High school rung: a different picture), then ONE new exercise at the same rung.
   - Wrong again: the climb **stops**. The level reached is the last rung held, or "below High school" if none was.
 - A rung has at most two exercises. A stopped climb is not an adaptation loop.
+
+**Hard-core principles — Phase 3: visual delivery**
+
+The climb can be delivered as an interactive page instead of chat text, following the visual-explainer skill. The page replaces the delivery of the climb and nothing else: the Initial Test, the evaluation, any other gap, the Final Test and RECORD are unchanged.
+
+- **When.** If the input said `visual`, use the page. If it said `chat`, do not. Otherwise, when Phase 2 ends in a climb, offer once: "This principle can be taught on an interactive page (objects you can inspect, one exercise per level) or here in chat. Which do you prefer?" Remember the answer for the rest of the session. In a Socratic session, make the offer only after the learner has stated the Insight.
+- **Build.** Build one page from the blueprint (Tempting answer, Insight, Picture, Visual design, the foundational worked example and the Level ladder) and from the learner's own answer to the Initial Test, which the page quotes as the prediction. The rungs run from the start rung set in Phase 2 to the session's level. Check the page's numbers against the blueprint's solved exercises before delivering it. A blueprint with no Visual design (an earlier plan): derive one from the Picture and the solved exercises.
+- **Deliver.** Write the page to `<topic>_visual_SG<N>.html`, publish it when the environment can, tell the learner in two or three lines what it is, and wait. Save the checkpoint with the Teach phase marked `visual page delivered, results pending`.
+- **Read the results.** The learner returns the page's results block. Read each rung as the visual-explainer skill's table says (correct at the first try: held; correct after the replay: held after a bridge; not solved: the climb stopped there). Confirm the highest rung reported with ONE short question in chat; a wrong answer means that rung is not held. The level reached, the Final Test's level and the status then follow the rules of the climb above.
+- **Fall back.** If the page cannot be built or opened, say so and teach the climb in chat.
 - Mention the deep-dive option once, after the first rung.
 
 After the climb and any other blocks, proceed to Phase 3.5.
@@ -350,6 +361,7 @@ Do the following, in this order. If the session is resumed during RECORD, skip a
 - Final Test: <PASS/FAIL> (<details>)
 - Loops: <0/1/2>
 - Level reached: <High school / Master's / Advanced, or "below High school"> (session level: <level>)
+- Delivery: <chat / visual (<page filename>)>
 - Concept Map: <generated (standard/deep) / not generated>
 - Concept File: <filename or "none">
 - Exercise Book: <filename, or "none" for a Motivation or Verification sub-goal>
@@ -372,6 +384,7 @@ Date: <date>
 ## Teach Phase
 ### Gap: <name> [<failure mode>]
 **Format:** <abbreviated/full/comparison/ladder>
+**Delivery:** <chat / visual: <page filename>, with the results block the learner returned>
 **Content:** <summary of what was taught -- for full explanations, summarize the 6 sections; for a climb, the start rung and what the reveal showed>
 **Quick Check:** <question> -> Learner: <answer> -> <correct/incorrect>
 **Rungs:** <for a climb only, one line per rung: <level> -- your turn: <question> -> Learner: <answer> -> <held/bridge/not held>>
@@ -419,7 +432,7 @@ Add a session set to `<topic>_artefact_SG<N>_exercises.md`, following the concep
 **F) Other deliverable artefacts** (only when the work calls for one):
 If the sub-goal work naturally yielded a reusable output (a filled-in template, a worked calculation sheet, a checklist, a reference the learner built), write it to `<topic>_artefact_SG<N>_<slug>.md`. Most sessions produce none.
 
-**G) Register every artefact this session wrote** in the plan's `## Artefacts Register`, using the Edit tool: one row for the transcript, the concept file, the exercise book and any other deliverable. Add a row for `learner_profile.md` too (type `profile`, Source `—`) if the register does not list it yet: a profile created by this session was not there when the plan was written. A file that is already listed is not listed twice.
+**G) Register every artefact this session wrote** in the plan's `## Artefacts Register`, using the Edit tool: one row for the transcript, the concept file, the exercise book, the visual page if one was delivered (type `visual`) and any other deliverable. Add a row for `learner_profile.md` too (type `profile`, Source `—`) if the register does not list it yet: a profile created by this session was not there when the plan was written. A file that is already listed is not listed twice.
 
 | Artefact | Type | Source | Path | Status |
 |----------|------|--------|------|--------|

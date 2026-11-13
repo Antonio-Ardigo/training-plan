@@ -236,6 +236,7 @@ A hard-core Socratic blueprint is a Core Principle Socratic blueprint with an ah
 - **Tempting answer**: the natural, confident, wrong answer that the designed wrong path leads to, and why it feels right
 - **Insight**: the one sentence the Guidance Chain leads the learner to say. It reframes the situation; it does not recite the formal statement.
 - **Picture**: one picture or analogy that carries the Insight, and where it stops being true. In the session it is shown only after the learner has stated the Insight.
+- **Visual design**: how the principle is shown on an interactive page, for sessions run with visual delivery. Five parts, as the visual-explainer skill defines them: **Objects** (what is drawn, kept tiny, with exact values), **Colour roles** (one colour per role, at most three), **Steps** (the order in which the objects appear, one sentence each), **Your-turn inputs** (for each rung: what the learner enters, the right value, and the two most likely wrong values with what each reveals) and **Control** (the one thing the learner can change, and what it shows). Design it from the Picture and the solved exercises. It adds no teaching content of its own. In a Socratic session the page is built only after the learner has stated the Insight.
 - **Worked Example (foundational)**: as in a Core Principle Socratic blueprint. Here it is also the smallest example of the Insight, and the solved exercise of the High school rung.
 - **Level ladder**: one fully solved exercise for each level above High school, up to the Target level. In a High school plan there is no rung above the foundational worked example: keep the field and write "none: the foundational worked example is the only rung". Each is the same idea seen with that level's tools, not a harder calculation at the level below. Same format as the worked example: Given, every step with its "Why", Result, and a Check that confirms the result a second way.
 - **Discovery Question** and **Initial Test**: the designed wrong path IS the Tempting answer. Ask the learner to predict and to justify, at the Target level. Do not warn, and do not hint that the obvious answer is wrong.
@@ -438,6 +439,7 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
 - **Tempting answer:** <the natural, confident, wrong answer the designed wrong path leads to, and why it feels right>
 - **Insight:** <the one sentence the Guidance Chain leads the learner to say>
 - **Picture:** <one picture or analogy, and where it stops being true>
+- **Visual design:** <Objects (tiny, with exact values) · Colour roles · Steps · Your-turn inputs for each rung (the right value and the two most likely wrong ones) · Control>
 - **Worked Example (foundational):**
   **Given:** <the smallest case in which the Insight is visible, with concrete numbers>
   **Step 1:** <operation>
@@ -523,7 +525,7 @@ Read back the file you just wrote: from the top through the Sub-Goals table, the
 | Breakthrough | `## Breakthrough` has its three labelled parts filled in and one table row for each principle in `## Principle Extraction` |
 | Method | `## Pedagogical Method: Socratic Discovery` is present with its four-step arc and its Test-Teach-Test table, and every blueprint has a Discovery Question, an Initial Test, a Socratic Guidance Chain and a Final Test |
 | Levels | The header line has a `Target level:` of High school, Master's or Advanced, and every Depth cell and every Estimated Depth is that level |
-| Hard core | `## Hard Core` is present. Every principle it lists has, in its Core Principle blueprint, a Tempting answer, an Insight, a Picture, a foundational worked example and one solved exercise for each level above High school up to the Target level, each ending with a Check. No other blueprint has those fields. No test reuses a solved exercise's case. |
+| Hard core | `## Hard Core` is present. Every principle it lists has, in its Core Principle blueprint, a Tempting answer, an Insight, a Picture, a Visual design, a foundational worked example and one solved exercise for each level above High school up to the Target level, each ending with a Check. No other blueprint has those fields. No test reuses a solved exercise's case. |
 
 ### Step 5: Confirm to the User
 
@@ -545,11 +547,11 @@ After writing the file, present a summary:
 
 **VOC feedback → restructure rule:** If the learner revises the Motivation & Course Overview (or gives feedback on it), re-evaluate whether the current sub-goal decomposition still matches the stated scope and outcomes. If it no longer matches, **offer to re-decompose (restructure) the plan** using the normal decomposition rules — update the Sub-Goals table, Prerequisite Graph, and Sequence, the Breakthrough and Hard Core rows if the principles changed, and the Key Facts `Used in` column — then refresh the VOC digest so it stays consistent with the revised plan and re-run the check in Step 4.5.
 
-**Hard-core list → blueprint rule:** If the learner asks to add a principle to the Hard Core, apply the gate from Step 2.75. If a tempting answer can be written, add the hard-core fields to that principle's Core Principle blueprint, rebuild its Discovery Question and tests on the Tempting answer, and add the row to `## Hard Core`; if not, say why the principle cannot be taught that way. If the learner asks to remove one, remove its Tempting answer, Insight, Picture and Level ladder, restore the standard Core Principle tests, and remove the row. No re-decomposition is needed. Re-run the check in Step 4.5.
+**Hard-core list → blueprint rule:** If the learner asks to add a principle to the Hard Core, apply the gate from Step 2.75. If a tempting answer can be written, add the hard-core fields to that principle's Core Principle blueprint, rebuild its Discovery Question and tests on the Tempting answer, and add the row to `## Hard Core`; if not, say why the principle cannot be taught that way. If the learner asks to remove one, remove its Tempting answer, Insight, Picture, Visual design and Level ladder, restore the standard Core Principle tests, and remove the row. No re-decomposition is needed. Re-run the check in Step 4.5.
 
 ## Important
 
-- Do NOT include theory or teaching content in the plan -- that happens during `/run-session` -- EXCEPT for Core Principle SG blueprints, which MUST include a simple fully worked example, and hard-core blueprints, which also hold the aha design (Tempting answer, Insight, Picture) and the Level ladder's solved exercises
+- Do NOT include theory or teaching content in the plan -- that happens during `/run-session` -- EXCEPT for Core Principle SG blueprints, which MUST include a simple fully worked example, and hard-core blueprints, which also hold the aha design (Tempting answer, Insight, Picture, Visual design) and the Level ladder's solved exercises
 - The plan names and motivates; it does not explain or derive. The Breakthrough section and the Key Facts table are orientation: state them, never teach from them.
 - Do NOT skip the required-elements check (Step 4.5): a plan missing one of its required elements is incomplete
 - The Target level is fixed for the plan: every sub-goal, test and pass criterion is written for it, and nothing above it is written into the plan

@@ -68,10 +68,12 @@ For each sub-goal, produce a session blueprint with this structure:
 
 6. **Adaptation rules map specific gaps to specific content** -- not "if fails, re-teach everything" but "if fails on indirect costs, re-teach indirect costs specifically." Classify anticipated failures using CTQ failure mode taxonomy.
 
-7. **Estimated Depth determines teaching richness** -- derived from the sub-goal's difficulty:
-   - low difficulty -> High school (minimal LaTeX, 3 principles, brief)
-   - medium difficulty -> Master's (full LaTeX, 3-5 principles, worked examples)
-   - high difficulty -> Advanced (proofs, edge cases, 5 principles, detailed)
+7. **Estimated Depth is the plan's Target level** -- it sets the pitch of the tests and the teaching, not their length:
+   - High school: plain words, concrete numbers, minimal LaTeX
+   - Master's: formal statements, full LaTeX, worked examples in symbols then numbers
+   - Advanced: proofs, edge cases, competing formulations
+
+   A sub-goal's difficulty decides how long the teaching is, never how deep. (In plans created before the Target level existed, depth followed difficulty; read their values one for one.)
 
 ---
 

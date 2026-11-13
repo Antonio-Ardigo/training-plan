@@ -16,7 +16,7 @@ The user wants to learn: **$ARGUMENTS**
 
 Generate a complete training plan by following these steps in order:
 
-### Step 1: Refine the Goal
+### Step 1: Refine the Goal and Set the Target Level
 
 Take the user's input and refine it into a **SMART Goal** (max 15 words):
 - Specific: names the exact competency
@@ -24,6 +24,19 @@ Take the user's input and refine it into a **SMART Goal** (max 15 words):
 - Achievable: realistic scope
 - Relevant: aligned with the user's intent
 - Time-bound: includes a timeframe if the user mentioned one
+
+Then set the plan's **Target level**: the level the whole course is pitched at.
+
+| Level | The course assumes | It takes the learner to |
+|-------|--------------------|-------------------------|
+| **High school** | School mathematics; no earlier exposure to the topic | The idea in plain words, with pictures and concrete numbers |
+| **Master's** | The field's standard tools and notation | The formal statement, where it comes from, and problem solving in symbols |
+| **Advanced** | The Master's level, mastered | Full generality: proofs, limits of validity, competing formulations |
+
+- If the user's input states a level (for example "at master's level", "for high-school students", "advanced"), use it
+- Otherwise ask once, "Which level should this course take you to: High school, Master's or Advanced?", and wait for the answer
+- If you cannot ask (a non-interactive run), use Master's and say so in the Step 5 summary
+- The Target level is fixed for the plan. Write the SMART Goal, every sub-goal, every test and every pass criterion for that level.
 
 ### Step 1.5: Check Learner Profile
 
@@ -105,13 +118,14 @@ Break the SMART goal into **N sub-goals** across 5 axes:
 | Verification | Proof of mastery | 1+ |
 
 Rules:
-- **Each principle from Step 1.75 gets exactly ONE Core Principle sub-goal.** Core Principle SGs are always low difficulty / introductory depth. They test whether the learner can state and apply the foundational principle in a simple scenario.
+- **Each principle from Step 1.75 gets exactly ONE Core Principle sub-goal.** Core Principle SGs are always low difficulty: one principle, one simple scenario. They test whether the learner can state and apply the foundational principle.
 - Key Concepts MUST expand -- each covers ONE testable idea
 - **Each Key Concept sub-goal MUST map to at least one Core Principle SG.** If a sub-goal doesn't trace to a Core Principle SG, either the principle list is incomplete or the sub-goal is not load-bearing.
 - Each sub-goal is a 15-word SMART statement
 - Each sub-goal gets a domain label, difficulty, and depth level
 - Difficulty is derived (not guessed): low = 1 principle + 0-1 prereq depth, medium = 2-3 principles + 2-3 prereq depth, high = 4+ principles or proofs/derivations required
-- Depth level follows difficulty: low -> introductory, medium -> intermediate, high -> advanced
+- **The depth level of every sub-goal is the plan's Target level.** Difficulty does not set depth: an easy sub-goal gets a shorter explanation, not a lower level.
+- Write every sub-goal so that it can be achieved at the Target level. A sub-goal that needs formalism above the Target level is out of scope: leave it out, or restate it at the Target level.
 - Sequence: Motivation first -> Core Principles (dependency order) -> Key Concepts (dependency order) -> Tools -> Verification last
 - Total: typically 7-15+ sub-goals depending on complexity
 
@@ -138,13 +152,13 @@ Rules:
 
 ### Step 3: Design Session Blueprints
 
-For each sub-goal, design a TTT session blueprint.
+For each sub-goal, design a TTT session blueprint. Every test is written at the Target level: its scenario, its task and its pass criteria assume that level's tools (see the table in Step 1).
 
 #### Standard blueprint (Key Concept, Tools, Motivation, Verification SGs):
 
 - **Initial Test**: A practical case the learner must solve immediately (no theory first). Describe the scenario and the task.
 - **Pass Criteria**: Concrete, measurable threshold (e.g., "identifies 8 of 10 categories", "calculation within 5%")
-- **Estimated Depth**: introductory / intermediate / advanced (derived from sub-goal difficulty)
+- **Estimated Depth**: the plan's Target level (High school / Master's / Advanced)
 - **Principle**: Which principle(s) from Step 1.75 this sub-goal tests
 - **Exercise**: A simple, concrete, self-contained hands-on exercise the learner can do to practice this concept. Should be completable in 5-10 minutes with clear instructions and expected outcome. Different from the Initial/Final Tests — this is a practice activity, not an assessment.
 - **Anticipated CTQs**: 2-4 Critical-To-Quality criteria for this sub-goal. Each CTQ: what must be understood + mastery test + common failure mode (using CTQ failure mode taxonomy: conflation, overgeneralization, missing-prerequisite, procedural-without-conceptual, verbal-without-formal, formal-without-intuitive)
@@ -159,7 +173,7 @@ Core Principle blueprints include a **fully worked example in the plan itself** 
 - **Worked Example (foundational)**: A simple, fully worked example demonstrating the principle in the most basic scenario. 2-4 steps, concrete numbers, every step shown explicitly, annotated with "Why" notes explaining reasoning. This is the simplest possible scenario that makes the principle visible — not a complex application.
 - **Initial Test**: A simple scenario testing whether the learner can STATE the principle in their own words AND APPLY it to a basic case. Simpler than Key Concept tests.
 - **Pass Criteria**: "Can state the principle in own words AND apply it to a basic scenario correctly"
-- **Estimated Depth**: Always introductory
+- **Estimated Depth**: the plan's Target level
 - **Exercise**: A simple, concrete, self-contained hands-on exercise the learner can do to practice this principle. Should be completable in 5-10 minutes. Different from the Initial/Final Tests — this is a practice activity, not an assessment.
 - **Anticipated CTQs**: 1-2 CTQs focused on understanding the principle, not applying advanced techniques
 - **Teach Topics**: The principle itself, its boundary conditions, common misunderstandings
@@ -190,11 +204,13 @@ Rules:
 
 ### Step 4: Write the Plan File
 
+First use Glob to check whether `<topic>_training_plan.md` already exists in the current directory. If it does, do not overwrite it: ask the learner whether to replace it or to keep both. To keep both (and whenever you cannot ask), put the level in the name, `<topic>-hs`, `<topic>-msc` or `<topic>-adv`, and use that as the `<topic>` of this plan.
+
 Use the Write tool to create `<topic>_training_plan.md` in the current directory. Use this exact format:
 
 ```markdown
 # Training Plan: <Title>
-Generated: <date> | Status: in-progress
+Generated: <date> | Status: in-progress | Target level: <High school/Master's/Advanced>
 
 ## Learning Goal
 <User's original input>
@@ -260,12 +276,14 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 
 | # | Axis | Sub-Goal | Domain | Difficulty | Depth | Principle | Status | Score |
 |---|------|----------|--------|-----------|-------|-----------|--------|-------|
-| SG-1 | Motivation | <statement> | <domain> | low | intro | — | pending | - |
-| SG-2 | Core Principle | <statement> | <domain> | low | intro | <principle> | pending | - |
-| SG-3 | Core Principle | <statement> | <domain> | low | intro | <principle> | pending | - |
-| ... | Core Principle | ... | ... | low | intro | ... | ... | ... |
-| SG-N | Key Concept | <statement> | <domain> | <low/med/high> | <intro/inter/adv> | <principle> | pending | - |
+| SG-1 | Motivation | <statement> | <domain> | low | <HS/MSc/Adv> | — | pending | - |
+| SG-2 | Core Principle | <statement> | <domain> | low | <HS/MSc/Adv> | <principle> | pending | - |
+| SG-3 | Core Principle | <statement> | <domain> | low | <HS/MSc/Adv> | <principle> | pending | - |
+| ... | Core Principle | ... | ... | low | <HS/MSc/Adv> | ... | ... | ... |
+| SG-N | Key Concept | <statement> | <domain> | <low/med/high> | <HS/MSc/Adv> | <principle> | pending | - |
 | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+
+_Depth is the plan's Target level in every row: HS = High school, MSc = Master's, Adv = Advanced._
 
 ## Prerequisite Graph
 
@@ -285,7 +303,7 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 ### SG-1: <Motivation short title>
 - **Initial Test:** <practical case description>
 - **Pass Criteria:** <measurable threshold>
-- **Estimated Depth:** introductory
+- **Estimated Depth:** <Target level>
 - **Principle:** —
 - **Exercise:** <simple hands-on exercise, 5-10 min, concrete and self-contained>
 - **Anticipated CTQs:**
@@ -306,7 +324,7 @@ tied to the SMART Goal and the Verification sub-goal(s)>
   **Result:** <answer with units and interpretation>
 - **Initial Test:** <simple scenario testing principle understanding>
 - **Pass Criteria:** Can state the principle in own words AND apply it to a basic scenario correctly
-- **Estimated Depth:** introductory
+- **Estimated Depth:** <Target level>
 - **Exercise:** <simple hands-on exercise, 5-10 min, concrete and self-contained>
 - **Anticipated CTQs:**
   | CTQ | Source | Mastery Test | Common Failure Mode |
@@ -318,7 +336,7 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 ### SG-N: <Key Concept short title>
 - **Initial Test:** <practical case description>
 - **Pass Criteria:** <measurable threshold>
-- **Estimated Depth:** <introductory/intermediate/advanced>
+- **Estimated Depth:** <Target level>
 - **Principle:** <principle name>
 - **Exercise:** <simple hands-on exercise, 5-10 min, concrete and self-contained>
 - **Anticipated CTQs:**
@@ -358,11 +376,13 @@ Read back the file you just wrote, from the top through the Sub-Goals table, plu
 | Motivation | `## Motivation & Course Overview (VOC)` has its four parts filled in, and SG-1 is on the Motivation axis |
 | Breakthrough | `## Breakthrough` has its three labelled parts filled in and one table row for each principle in `## Principle Extraction` |
 | Method | `## Pedagogical Method: Test-Teach-Test` is present with its three steps and its teaching-style line, and every blueprint has an Initial Test and a Final Test |
+| Levels | The header line has a `Target level:` of High school, Master's or Advanced, and every Depth cell and every Estimated Depth is that level |
 
 ### Step 5: Confirm to the User
 
 After writing the file, present a summary:
 - The SMART goal
+- The Target level (if it was not stated and you could not ask, say that Master's was assumed and that the plan can be created again at another level)
 - The teaching method: Test-Teach-Test with direct explanation
 - The Motivation & Course Overview (VOC) — and **invite the learner to review and edit it**. State that edits are welcome and that feedback on it may **restructure the course**.
 - The Breakthrough: before the intuition, the intuition, what it solved
@@ -381,7 +401,9 @@ After writing the file, present a summary:
 
 - Do NOT include theory or teaching content in the plan -- that happens during `/run-session` -- EXCEPT for Core Principle SG blueprints, which MUST include a simple fully worked example
 - The plan names and motivates; it does not explain or derive. The Breakthrough section and the Key Facts table are orientation: state them, never teach from them.
-- Do NOT skip the required-elements check (Step 4.5): a plan missing one of the five elements is incomplete
+- Do NOT skip the required-elements check (Step 4.5): a plan missing one of its required elements is incomplete
+- The Target level is fixed for the plan: every sub-goal, test and pass criterion is written for it, and nothing above it is written into the plan
+- Do NOT overwrite an existing plan file without asking (Step 4)
 - Do NOT skip the session blueprint for any sub-goal
 - Practical cases must be realistic scenarios, not abstract questions
 - The `<topic>` in the filename should be a short kebab-case slug derived from the goal (e.g., `cost-estimation`, `python-data-analysis`)

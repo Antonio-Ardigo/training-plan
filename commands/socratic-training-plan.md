@@ -29,7 +29,7 @@ Each session follows a **Question → Tension → Resolution → Test** arc:
 
 Generate a complete Socratic training plan by following these steps in order:
 
-### Step 1: Refine the Goal
+### Step 1: Refine the Goal and Set the Target Level
 
 Take the user's input and refine it into a **SMART Goal** (max 15 words):
 - Specific: names the exact competency
@@ -37,6 +37,19 @@ Take the user's input and refine it into a **SMART Goal** (max 15 words):
 - Achievable: realistic scope
 - Relevant: aligned with the user's intent
 - Time-bound: includes a timeframe if the user mentioned one
+
+Then set the plan's **Target level**: the level the whole course is pitched at.
+
+| Level | The course assumes | It takes the learner to |
+|-------|--------------------|-------------------------|
+| **High school** | School mathematics; no earlier exposure to the topic | The idea in plain words, with pictures and concrete numbers |
+| **Master's** | The field's standard tools and notation | The formal statement, where it comes from, and problem solving in symbols |
+| **Advanced** | The Master's level, mastered | Full generality: proofs, limits of validity, competing formulations |
+
+- If the user's input states a level (for example "at master's level", "for high-school students", "advanced"), use it
+- Otherwise ask once, "Which level should this course take you to: High school, Master's or Advanced?", and wait for the answer
+- If you cannot ask (a non-interactive run), use Master's and say so in the Step 5 summary
+- The Target level is fixed for the plan. Write the SMART Goal, every sub-goal, every test and every pass criterion for that level.
 
 ### Step 1.5: Check Learner Profile
 
@@ -119,13 +132,14 @@ Break the SMART goal into **N sub-goals** across 5 axes:
 | Verification | Proof of mastery | 1+ |
 
 Rules:
-- **Each principle from Step 1.75 gets exactly ONE Core Principle sub-goal.** Core Principle SGs are always low difficulty / introductory depth. They test whether the learner can state and apply the foundational principle in a simple scenario.
+- **Each principle from Step 1.75 gets exactly ONE Core Principle sub-goal.** Core Principle SGs are always low difficulty: one principle, one simple scenario. They test whether the learner can state and apply the foundational principle.
 - Key Concepts MUST expand -- each covers ONE testable idea
 - **Each Key Concept sub-goal MUST map to at least one Core Principle SG.** If a sub-goal doesn't trace to a Core Principle SG, either the principle list is incomplete or the sub-goal is not load-bearing.
 - Each sub-goal is a 15-word SMART statement
 - Each sub-goal gets a domain label, difficulty, and depth level
 - Difficulty is derived (not guessed): low = 1 principle + 0-1 prereq depth, medium = 2-3 principles + 2-3 prereq depth, high = 4+ principles or proofs/derivations required
-- Depth level follows difficulty: low -> introductory, medium -> intermediate, high -> advanced
+- **The depth level of every sub-goal is the plan's Target level.** Difficulty does not set depth: an easy sub-goal gets a shorter session, not a lower level.
+- Write every sub-goal so that it can be achieved at the Target level. A sub-goal that needs formalism above the Target level is out of scope: leave it out, or restate it at the Target level.
 - Sequence: Motivation first -> Core Principles (dependency order) -> Key Concepts (dependency order) -> Tools -> Verification last
 - Total: typically 7-15+ sub-goals depending on complexity
 
@@ -154,7 +168,7 @@ Rules:
 
 ### Step 3: Design Socratic Session Blueprints
 
-For each sub-goal, design a TTT session blueprint with Socratic extensions.
+For each sub-goal, design a TTT session blueprint with Socratic extensions. Every Discovery Question, test and Guidance Chain is written at the Target level: it assumes that level's tools (see the table in Step 1).
 
 #### Standard Socratic blueprint (Key Concept, Tools, Motivation, Verification SGs):
 
@@ -163,7 +177,7 @@ All fields from the standard blueprint PLUS Socratic extensions:
 - **Discovery Question**: A scenario that creates genuine puzzlement *before* any theory. The question should make the learner *want* the concept — they should feel the gap. Design the question so that the learner's natural first attempt fails or is incomplete, creating tension that the concept resolves.
 - **Initial Test**: A practical case the learner must solve immediately (no theory first). **Socratic design principle:** the test should be structured so that attempting it naturally surfaces the key tension — the learner's first instinct leads to a partial or incorrect answer, and the gap between their attempt and the correct answer reveals exactly what concept is needed.
 - **Pass Criteria**: Concrete, measurable threshold
-- **Estimated Depth**: introductory / intermediate / advanced (derived from sub-goal difficulty)
+- **Estimated Depth**: the plan's Target level (High school / Master's / Advanced)
 - **Principle**: Which principle(s) from Step 1.75 this sub-goal tests
 - **Socratic Guidance Chain**: 3-6 progressively narrowing questions for when the learner is stuck. Each question:
   - Does NOT give the answer
@@ -183,7 +197,7 @@ All fields from the standard Core Principle blueprint PLUS Socratic extensions:
 - **Discovery Question**: The question that makes the learner *want* this principle. It should create a puzzle or tension that only this principle resolves.
 - **Initial Test**: A simple scenario. **Socratic design:** include a "wrong path" — a plausible but incorrect approach that surfaces the key insight when it fails.
 - **Pass Criteria**: Can state the principle in own words AND apply it AND explain why the alternative fails
-- **Estimated Depth**: Always introductory
+- **Estimated Depth**: the plan's Target level
 - **Socratic Guidance Chain**: 3-6 questions leading to the principle's discovery
 - **Anticipated CTQs**: 1-2 CTQs focused on understanding the principle
 - **Teach Topics**: The principle, boundary conditions, common misunderstandings. Include Socratic teaching notes.
@@ -214,11 +228,13 @@ Rules:
 
 ### Step 4: Write the Plan File
 
+First use Glob to check whether `<topic>-socratic_training_plan.md` already exists in the current directory. If it does, do not overwrite it: ask the learner whether to replace it or to keep both. To keep both (and whenever you cannot ask), put the level in the name, `<topic>-hs`, `<topic>-msc` or `<topic>-adv`, and use that as the `<topic>` of this plan.
+
 Use the Write tool to create `<topic>-socratic_training_plan.md` in the current directory. Use this exact format:
 
 ```markdown
 # Training Plan: <Title> (Socratic)
-Generated: <date> | Status: in-progress
+Generated: <date> | Status: in-progress | Target level: <High school/Master's/Advanced>
 
 ## Learning Goal
 <User's original input>
@@ -293,9 +309,11 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 
 | # | Axis | Sub-Goal | Domain | Difficulty | Depth | Principle | Status | Score |
 |---|------|----------|--------|-----------|-------|-----------|--------|-------|
-| SG-1 | Motivation | Discover <statement> | <domain> | low | intro | — | pending | - |
-| SG-2 | Core Principle | Discover <statement> | <domain> | low | intro | <principle> | pending | - |
+| SG-1 | Motivation | Discover <statement> | <domain> | low | <HS/MSc/Adv> | — | pending | - |
+| SG-2 | Core Principle | Discover <statement> | <domain> | low | <HS/MSc/Adv> | <principle> | pending | - |
 | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+
+_Depth is the plan's Target level in every row: HS = High school, MSc = Master's, Adv = Advanced._
 
 ## Prerequisite Graph
 
@@ -316,7 +334,7 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 - **Discovery Question:** <puzzlement-creating scenario>
 - **Initial Test:** <practical case with designed tension>
 - **Pass Criteria:** <measurable threshold>
-- **Estimated Depth:** introductory
+- **Estimated Depth:** <Target level>
 - **Principle:** —
 - **Socratic Guidance Chain (if stuck):**
   1. <narrowing question>
@@ -341,7 +359,7 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 - **Discovery Question:** <puzzle that only this principle resolves>
 - **Initial Test:** <simple scenario with a "wrong path" that reveals the insight when it fails>
 - **Pass Criteria:** Can state the principle in own words AND apply it AND explain why the alternative fails
-- **Estimated Depth:** introductory
+- **Estimated Depth:** <Target level>
 - **Socratic Guidance Chain (if stuck):**
   1. <narrowing question>
   2. <narrowing question>
@@ -358,7 +376,7 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 - **Discovery Question:** <puzzlement-creating scenario>
 - **Initial Test:** <practical case with designed tension>
 - **Pass Criteria:** <measurable threshold>
-- **Estimated Depth:** <introductory/intermediate/advanced>
+- **Estimated Depth:** <Target level>
 - **Principle:** <principle name>
 - **Socratic Guidance Chain (if stuck):**
   1. <narrowing question>
@@ -401,11 +419,13 @@ Read back the file you just wrote, from the top through the Sub-Goals table, plu
 | Motivation | `## Motivation & Course Overview (VOC)` has its four parts filled in, and SG-1 is on the Motivation axis |
 | Breakthrough | `## Breakthrough` has its three labelled parts filled in and one table row for each principle in `## Principle Extraction` |
 | Method | `## Pedagogical Method: Socratic Discovery` is present with its four-step arc and its Test-Teach-Test table, and every blueprint has a Discovery Question, an Initial Test, a Socratic Guidance Chain and a Final Test |
+| Levels | The header line has a `Target level:` of High school, Master's or Advanced, and every Depth cell and every Estimated Depth is that level |
 
 ### Step 5: Confirm to the User
 
 After writing the file, present a summary:
 - The SMART goal
+- The Target level (if it was not stated and you could not ask, say that Master's was assumed and that the plan can be created again at another level)
 - The Socratic method explanation (Question → Tension → Resolution → Test) and how it maps onto Test-Teach-Test
 - The Motivation & Course Overview (VOC) — and **invite the learner to review and edit it**. State that edits are welcome and that feedback on it may **restructure the course**.
 - The Breakthrough: before the intuition, the intuition, what it solved
@@ -424,7 +444,9 @@ After writing the file, present a summary:
 
 - Do NOT include theory or teaching content in the plan -- that happens during `/run-session` -- EXCEPT for Core Principle SG blueprints, which MUST include a simple fully worked example
 - The plan names and motivates; it does not explain or derive. The Breakthrough section and the Key Facts table are orientation: state them, never teach from them.
-- Do NOT skip the required-elements check (Step 4.5): a plan missing one of the five elements is incomplete
+- Do NOT skip the required-elements check (Step 4.5): a plan missing one of its required elements is incomplete
+- The Target level is fixed for the plan: every sub-goal, test and pass criterion is written for it, and nothing above it is written into the plan
+- Do NOT overwrite an existing plan file without asking (Step 4)
 - Do NOT skip the session blueprint for any sub-goal
 - Every blueprint MUST include a Discovery Question and a Socratic Guidance Chain
 - Discovery Questions must create genuine tension — not just ask "what do you know about X?"

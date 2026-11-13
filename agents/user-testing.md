@@ -280,7 +280,7 @@ Read ALL generated artifacts and run the complete checklist. Write the report to
 
 #### Difficulty Derivation (2 checks)
 - [ ] Difficulty matches principle count: low = 1, med = 2-3, high = 4+
-- [ ] Depth follows difficulty: low -> introductory, med -> intermediate, high -> advanced
+- [ ] Depth is the plan's Target level in every row (plans created before the Target level existed: depth follows difficulty, low -> introductory, med -> intermediate, high -> advanced)
 
 #### Sequencing (4 checks)
 - [ ] Motivation sub-goals come first

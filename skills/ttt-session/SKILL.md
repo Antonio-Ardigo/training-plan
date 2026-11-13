@@ -254,7 +254,7 @@ The Artefacts Register is the course's visible anchor — it must stay authorita
 
 ## Hard-Core Principles: the Climb
 
-A Core Principle blueprint that has a Tempting answer, an Insight, a Picture and a Level ladder is a *hard-core* principle: one that is hard to grasp, taught through an aha moment and a climb through the levels. `/run-session` holds the full flow and the concept-explainer skill's Level Ladder holds the content rules. In short:
+A Core Principle blueprint that has a Tempting answer, an Insight and a Picture is a *hard-core* principle: one that is hard to grasp, taught through an aha moment and a climb through the levels. Its Level ladder holds the solved exercises of the rungs above High school; in a High school plan there are none. `/run-session` holds the full flow and the concept-explainer skill's Level Ladder holds the content rules. In short:
 
 - **Test**: the Initial Test is built so that the natural approach gives the Tempting answer. No warning, no hint.
 - **Pass** (right, and justified at the session's level): a recap (the Insight, the Picture, the top rung's solved exercise), then one offer: the full climb, or the next level up.

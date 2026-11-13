@@ -77,7 +77,7 @@ For sub-goals with Axis = "Core Principle", the Initial Test is simpler — it t
 - If **FAIL/PARTIAL**: the Teach phase delivers the blueprint's worked example as the **primary teaching content**, then proceeds with standard gap-filling if additional gaps exist.
 
 **Hard-core principles — the climb:**
-A Core Principle blueprint that has a **Tempting answer**, an **Insight**, a **Picture** and a **Level ladder** is a *hard-core* principle: one that is hard to grasp, taught through an aha moment and a climb through the levels. For these sub-goals the handling above is replaced by this:
+A Core Principle blueprint that has a **Tempting answer**, an **Insight** and a **Picture** is a *hard-core* principle: one that is hard to grasp, taught through an aha moment and a climb through the levels. Its **Level ladder** holds the solved exercises of the rungs above High school (in a High school plan there are none, and the climb is the reveal alone). For these sub-goals the handling above is replaced by this:
 - The Initial Test is built so that the natural approach leads to the Tempting answer. Present it like any other test. Do NOT warn the learner, and do NOT hint that the obvious answer is wrong.
 - If **PASS** (right, and justified at the session's level): give the **recap** and the **offer** described in Phase 2.
 - If **FAIL/PARTIAL**: the Teach phase is **the climb** described in Phase 3, followed by standard gap-filling if additional gaps exist.

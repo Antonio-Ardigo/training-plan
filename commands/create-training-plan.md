@@ -172,6 +172,7 @@ Rules:
 - Usually 1-3 principles. When more qualify, keep the ones that the most later sub-goals depend on in the Prerequisite Graph. For those, add **load-bearing** to the reasons.
 - Zero is allowed: a procedural or tool-centred topic may have no hard core. Say so rather than forcing one.
 - Only core principles are flagged, never Key Concepts
+- In the `## Hard Core` table, give each reason as the criterion's name only: counter-intuitive, new abstraction, persistent misconception, load-bearing (for load-bearing you may add how many sub-goals depend on it). Do not describe the misconception or the insight there: the top of the plan must not give a test away.
 - Hard core is about how hard the idea is to *grasp*. It is not Difficulty: a hard-core principle's sub-goal is still low difficulty (one principle, one simple scenario).
 
 ### Step 3: Design Session Blueprints
@@ -212,7 +213,7 @@ A hard-core blueprint is a Core Principle blueprint with an aha design and a lev
 - **Insight**: the one sentence that makes it click. It reframes the situation; it does not recite the formal statement.
 - **Picture**: one picture or analogy that carries the Insight, and where it stops being true
 - **Worked Example (foundational)**: as in a Core Principle blueprint. Here it is also the smallest example of the Insight, and the solved exercise of the High school rung.
-- **Level ladder**: one fully solved exercise for each level above High school, up to the Target level (none when the Target level is High school). Each is the same idea seen with that level's tools, not a harder calculation at the level below. Same format as the worked example: Given, every step with its "Why", Result, and a Check that confirms the result a second way.
+- **Level ladder**: one fully solved exercise for each level above High school, up to the Target level. In a High school plan there is no rung above the foundational worked example: keep the field and write "none: the foundational worked example is the only rung". Each is the same idea seen with that level's tools, not a harder calculation at the level below. Same format as the worked example: Given, every step with its "Why", Result, and a Check that confirms the result a second way.
 - **Initial Test**: a practical case at the Target level in which the natural approach leads to the Tempting answer. Ask the learner to predict and to justify. Do not warn, and do not hint that the obvious answer is wrong.
 - **Pass Criteria**: "Gives the right answer, not the tempting one, AND justifies it at the Target level"
 - **Estimated Depth**: the plan's Target level
@@ -406,7 +407,7 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
   > **Why:** <reasoning>
   **Result:** <answer with units and interpretation>
   > **Check:** <the result confirmed a second way>
-- **Level ladder:** <one solved exercise for each level above High school, up to the Target level>
+- **Level ladder:** <one solved exercise for each level above High school, up to the Target level; in a High school plan write "none: the foundational worked example is the only rung">
   **Master's solved exercise** (not in a High school plan)
   **Given:** <the same idea, in the field's notation>
   **Step 1:** <operation>

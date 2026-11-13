@@ -238,7 +238,7 @@ _Depth is the plan's Target level in every row: HS = High school, MSc = Master's
   > **Why:** <reasoning>
   **Result:** <answer with units and interpretation>
   > **Check:** <the result confirmed a second way>
-- **Level ladder:** <one solved exercise for each level above High school, up to the Target level>
+- **Level ladder:** <one solved exercise for each level above High school, up to the Target level; in a High school plan write "none: the foundational worked example is the only rung">
   **Master's solved exercise** (not in a High school plan)
   **Given:** <the same idea, in the field's notation>
   **Step 1:** <operation>
@@ -346,7 +346,7 @@ Based on the assigned performance profile, generate a realistic learner response
   - Simple gap (no failure mode tag) -> Abbreviated (Problem + Principles + Worked Example + Quick Check)
   - Complex gap (has failure mode tag) -> Full 7-section explanation
   - Conflation gap -> Concept Comparison (shared + divergences + one case worked under both concepts + CTQ distinction)
-  - Gap on a hard-core principle (the blueprint has a Tempting answer, an Insight, a Picture and a Level ladder) -> the climb (format: ladder): the reveal at the High school rung, then one rung per level up to the Target level, each ending with "your turn"
+  - Gap on a hard-core principle (the blueprint has a Tempting answer, an Insight and a Picture) -> the climb (format: ladder): the reveal at the High school rung, then one rung per level up to the Target level, each ending with "your turn"
 - Every explanation contains one fully worked example, ending with a Check that confirms the result a second way
 - Include Quick Check for each teaching block. After the simulated answer, reveal the complete worked solution, not just the expected answer.
 - Simulate learner Quick Check response (correct for most, incorrect for one to test the re-explanation one level down)
@@ -500,8 +500,8 @@ A plan created before a section existed is reported as missing that section rela
 - [ ] No sub-goal, test or pass criterion needs formalism above the Target level
 
 #### Hard Core
-- [ ] `## Hard Core` names criteria only (counter-intuitive, new abstraction, persistent misconception, load-bearing); it does not state a tempting answer
-- [ ] Every principle it lists has, in its Core Principle blueprint: a Tempting answer, an Insight, a Picture, a foundational worked example, and one solved exercise for each level above High school up to the Target level
+- [ ] `## Hard Core` names criteria only (counter-intuitive, new abstraction, persistent misconception, load-bearing); it does not describe the misconception, the insight or a tempting answer
+- [ ] Every principle it lists has, in its Core Principle blueprint: a Tempting answer, an Insight, a Picture, a foundational worked example, and one solved exercise for each level above High school up to the Target level (in a High school plan the Level ladder says "none")
 - [ ] Every solved exercise ends with a Check
 - [ ] The Initial Test of a hard-core blueprint is a predict-and-justify case in which the natural approach leads to the Tempting answer, and it carries no warning
 - [ ] No blueprint outside the Hard Core list has those fields

@@ -74,7 +74,7 @@ Before generating content for each gap, assess complexity using the CTQ failure 
 4. Is the gap a conflation between two specific concepts?
 5. Did the learner declare "not familiar" with the topic? (responded "not familiar", "I don't know this", "no background", or equivalent to the Initial Test)
 
-**First: is the sub-goal a hard-core principle, and is the gap on the principle itself?** (Its blueprint has a Tempting answer, an Insight, a Picture and a Level ladder.) -> the **Level Ladder** from the concept-explainer skill, whatever the conditions above say. This also applies when the learner declared "not familiar". Any other gap in the same session is assessed as follows.
+**First: is the sub-goal a hard-core principle, and is the gap on the principle itself?** (Its blueprint has a Tempting answer, an Insight and a Picture.) -> the **Level Ladder** from the concept-explainer skill, whatever the conditions above say. This also applies when the learner declared "not familiar". Any other gap in the same session is assessed as follows.
 
 **If condition 4 is true** -> Concept Comparison
 **If condition 5 is true** -> Full Concept Explanation (the learner has no prior knowledge; deliver all 7 sections as a comprehensive introduction to the topic)

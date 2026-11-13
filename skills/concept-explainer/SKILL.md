@@ -283,7 +283,7 @@ When the sub-goal is a hard-core principle and the gap is on the principle itsel
 
 ### Decision Criteria
 
-A gap on a **hard-core principle** itself always gets the Level Ladder. A sub-goal is a hard-core principle when its plan blueprint has a Tempting answer, an Insight, a Picture and a Level ladder.
+A gap on a **hard-core principle** itself always gets the Level Ladder. A sub-goal is a hard-core principle when its plan blueprint has a Tempting answer, an Insight and a Picture.
 
 A gap is **complex** if ANY of these apply:
 
@@ -305,7 +305,7 @@ A hard-core principle is one that is hard to grasp: it contradicts intuition, ne
 ### Shape
 
 1. **The reveal**, which is the High school rung
-2. **One rung for each level above High school**, up to the session's level
+2. **One rung for each level above High school**, up to the session's level (none in a High school session: the climb is then the reveal alone)
 3. **Close**: one Key Terms table for the whole climb, and a CTQ Mapping table with at least one row per rung
 
 Every rung has the same three parts: the principle at that level, one solved exercise, and "your turn" (an exercise the learner attempts, followed by its complete worked solution).

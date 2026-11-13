@@ -227,6 +227,7 @@ and it passes the gate: *"Can I write the tempting answer — what a capable per
 - Usually 1-3 principles. When more qualify, keep the ones that the most sub-goals depend on in the graph (**load-bearing**).
 - Zero is allowed for a procedural or tool-centred topic. Say so rather than forcing one.
 - Only core principles are flagged, never key concepts
+- In the plan's Hard Core table the reasons are criterion names only (counter-intuitive, new abstraction, persistent misconception, load-bearing). The misconception and the insight are never described there: the top of the plan must not give a test away.
 - Hard core is about how hard an idea is to *grasp*; Difficulty (Step 3) is about how much a sub-goal combines. A hard-core principle's sub-goal is still low difficulty.
 - Examples: *"A quantum state exists in superposition until measured"* is hard-core (counter-intuitive; the tempting answer treats the state as an unknown but definite value). *"Every project cost is either traceable to a specific scope item or necessary for the project as a whole"* is not: nothing about it resists being told.
 

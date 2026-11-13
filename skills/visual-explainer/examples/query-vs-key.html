@@ -1,0 +1,319 @@
+<title>Query vs Key</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column; each step is a band of small matrices that wrap. Role colour marks who a matrix belongs to; cell colour marks the number. */
+:root{
+  --bg:#f5f6fa; --surface:#ffffff; --fg:#171a22; --muted:#596072; --line:#d8dce6; --cell:#eceef4;
+  --q:#7a3fd0; --k:#0b8576; --v:#8a6a00; --pos:#e58a2e; --neg:#4a86e0; --ok:#1c7f45; --bad:#b93434; --btn:#1d2433; --btn-fg:#ffffff;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:Inter,system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12141a; --surface:#1a1d26; --fg:#e9ebf1; --muted:#9ba2b3; --line:#2d3241; --cell:#242835;
+  --q:#b892f5; --k:#4fc9b8; --v:#d9b84a; --pos:#b85f1c; --neg:#2c62bd; --ok:#55c585; --bad:#f08080; --btn:#e9ebf1; --btn-fg:#12141a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12141a; --surface:#1a1d26; --fg:#e9ebf1; --muted:#9ba2b3; --line:#2d3241; --cell:#242835;
+  --q:#b892f5; --k:#4fc9b8; --v:#d9b84a; --pos:#b85f1c; --neg:#2c62bd; --ok:#55c585; --bad:#f08080; --btn:#e9ebf1; --btn-fg:#12141a; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--body)}
+.page{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0;line-height:1.2}
+h1{font-size:1.9rem} h2{font-size:1.3rem} h3{font-size:1.05rem}
+p{margin:0;max-width:66ch} .muted{color:var(--muted)} .eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.q{color:var(--q)} .k{color:var(--k)} .v{color:var(--v)} b.q,b.k,b.v{font-weight:600}
+section{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.chips li{font-size:.8rem;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted)}
+.chips li.on{border-color:var(--ok);color:var(--ok)} .chips li.on::before{content:"✓ "}
+.row{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:flex-end}
+.op{font:600 1.1rem var(--mono);color:var(--muted);align-self:center}
+.mx{margin:0;display:flex;flex-direction:column;gap:5px}
+.mx figcaption{font-size:.85rem;display:flex;gap:6px;align-items:baseline} .mx figcaption span{color:var(--muted);font-size:.75rem}
+.grid{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,3.5rem));gap:3px;padding:3px;border-left:2px solid var(--edge,var(--line));border-right:2px solid var(--edge,var(--line));border-radius:4px}
+.mx[data-role="q"]{--edge:var(--q)} .mx[data-role="k"]{--edge:var(--k)} .mx[data-role="v"]{--edge:var(--v)}
+.c{font:400 .8rem var(--mono);font-variant-numeric:tabular-nums;color:var(--fg);border:0;border-radius:3px;padding:7px 0;text-align:center;cursor:pointer;outline:2px solid transparent;outline-offset:-2px}
+.c:focus-visible,.c.me{outline-color:var(--fg)} .c.hl{outline-color:var(--fg);outline-style:dashed}
+.c.diff{box-shadow:inset 0 0 0 2px var(--bad)} .c.rowq{box-shadow:inset 0 0 0 2px var(--q)} .c.colk{box-shadow:inset 0 0 0 2px var(--k)}
+.readout{font:400 .82rem/1.5 var(--mono);color:var(--muted);min-height:2.6em;border-top:1px dashed var(--line);padding-top:10px;overflow-wrap:anywhere}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.8rem;color:var(--muted);align-items:center}
+.sw{display:inline-block;width:.9em;height:.9em;border-radius:2px;vertical-align:-1px;margin-right:4px}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+label.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer}
+label.opt:has(input:checked){border-color:var(--fg)}
+input[type=text],input[type=number]{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-width:0}
+input:focus-visible,button:focus-visible,textarea:focus-visible{outline:2px solid var(--q);outline-offset:2px}
+button.b{font:500 .95rem var(--body);background:var(--btn);color:var(--btn-fg);border:0;border-radius:6px;padding:9px 16px;cursor:pointer}
+button.b:disabled{opacity:.4;cursor:not-allowed} button.ghost{background:transparent;color:var(--fg);border:1px solid var(--line)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.tabs button{font:500 .95rem var(--body);background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:8px 12px;cursor:pointer}
+.tabs button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--fg)}
+.turn{border:1px dashed var(--line);border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.ans{display:flex;flex-wrap:wrap;gap:8px;align-items:center} .ans input{width:7.5rem}
+.fb{font-size:.92rem} .fb.ok{color:var(--ok)} .fb.bad{color:var(--bad)}
+ol.steps{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px;font-size:.92rem} ol.steps code,p code{font:400 .85em var(--mono)}
+.insight{border-left:3px solid var(--fg);padding-left:14px;font:500 1.12rem/1.45 var(--display)}
+.stats{display:flex;flex-wrap:wrap;gap:8px 24px;font:400 .85rem var(--mono)} .stats b{font-weight:600}
+input[type=range]{width:100%;accent-color:var(--q)}
+svg.spark{width:100%;height:auto;aspect-ratio:400/90;display:block} svg.spark text{font:10px var(--mono);fill:var(--muted)}
+textarea{font:400 .8rem/1.5 var(--mono);width:100%;box-sizing:border-box;min-height:9.5em;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:10px;resize:vertical}
+</style>
+<div class="page">
+<header style="display:flex;flex-direction:column;gap:10px">
+  <span class="eyebrow">Self-attention · hard-core principle</span>
+  <h1><span class="q">Query</span> vs <span class="k">Key</span></h1>
+  <p class="muted">Two weight matrices do the same job in the formula. Does training treat them the same? Predict first, then look at the numbers.</p>
+  <ul class="chips" id="chips"></ul>
+</header>
+
+<section id="setup">
+  <h2>The setup</h2>
+  <p>Three tokens, two dimensions. Each token asks a question with its <b class="q">query</b> and is found by its <b class="k">key</b>. The weight matrices W<sub>Q</sub> and W<sub>K</sub> start as exact copies of each other.</p>
+  <div class="card">
+    <div class="row" id="r-w"></div>
+    <div class="row" id="r-s"></div>
+    <div class="row" id="r-o"></div>
+    <div class="legend"><span><i class="sw" style="background:var(--neg)"></i>negative</span><span><i class="sw" style="background:var(--cell)"></i>zero</span><span><i class="sw" style="background:var(--pos)"></i>positive</span><span>Tap or hover a cell to see where it comes from.</span></div>
+    <div class="readout" aria-live="polite">In S and P, row i belongs to the token that asks, column j to the token that is asked.</div>
+  </div>
+</section>
+
+<section id="predict">
+  <h2>Your prediction</h2>
+  <div class="card">
+    <p>W<sub>Q</sub> and W<sub>K</sub> are identical now, and the score table S is symmetric. We take one gradient step on the loss. Afterwards, are W<sub>Q</sub> and W<sub>K</sub> still identical?</p>
+    <fieldset id="pred-set">
+      <label class="opt" for="pred-same"><input type="radio" name="pred" id="pred-same" value="same"><span>Yes. Same numbers, same loss, same update.</span></label>
+      <label class="opt" for="pred-diff"><input type="radio" name="pred" id="pred-diff" value="diff"><span>No. They receive different updates.</span></label>
+      <label class="opt" for="pred-dep"><input type="radio" name="pred" id="pred-dep" value="dep"><span>It depends on the target.</span></label>
+    </fieldset>
+    <input type="text" id="pred-why" placeholder="Your reason, in one line" aria-label="Your reason, in one line">
+    <div class="ans"><button class="b" id="pred-go" type="button" disabled>Commit prediction</button><span class="muted" style="font-size:.85rem">The answer appears only after you commit.</span></div>
+  </div>
+</section>
+
+<section id="reveal" hidden>
+  <h2>What the numbers say</h2>
+  <div class="card">
+    <p id="verdict"></p>
+    <div class="row" id="r-g"></div>
+    <p class="muted" style="font-size:.9rem">Cells outlined in red differ between the two gradients. After one step (learning rate 0.5):</p>
+    <div class="row" id="r-after"></div>
+    <div class="readout" aria-live="polite">Tap a gradient cell to see which numbers built it.</div>
+  </div>
+  <p class="insight">A score sits in row i because token i asked, and in column j because token j was asked. The query gradient reads the table by rows. The key gradient reads the same table by columns.</p>
+  <div class="card">
+    <h3>The picture</h3>
+    <p>This is dS, the gradient of the loss with respect to each score. S was symmetric. dS is not, because softmax normalises each row separately.</p>
+    <div class="row" id="r-pic"></div>
+    <p class="muted" style="font-size:.9rem">dQ = dS · K / √d &nbsp;&nbsp; dK = dS<sup>T</sup> · Q / √d. The transpose is the whole difference.</p>
+  </div>
+</section>
+
+<section id="climb" hidden>
+  <h2>Climb</h2>
+  <p class="muted">Each level has a solved example and one exercise for you. Start at the left.</p>
+  <div class="tabs" role="tablist" id="tabs">
+    <button role="tab" type="button" id="tab-hs" data-t="hs">High school</button>
+    <button role="tab" type="button" id="tab-ms" data-t="ms">Master's</button>
+    <button role="tab" type="button" id="tab-adv" data-t="adv">Advanced</button>
+  </div>
+  <div class="card" id="pane-hs" role="tabpanel">
+    <p>Read the attention table P as a table of who listens to whom. Each row is one listener and adds up to 1.</p>
+    <div class="row" id="r-hs"></div>
+    <h3>Solved example</h3>
+    <ol class="steps" id="hs-worked"></ol>
+    <div class="turn"><h3>Your turn</h3><p>How much attention does token 3 pay to token 1? Read it from the table.</p>
+      <div class="ans"><input type="text" inputmode="decimal" id="hs-in" aria-label="Your answer"><button class="b" type="button" data-check="hs">Check</button></div>
+      <div class="fb" id="hs-fb" aria-live="polite"></div><ol class="steps" id="hs-sol" hidden></ol></div>
+  </div>
+  <div class="card" id="pane-ms" role="tabpanel" hidden>
+    <p>Backpropagate through S = Q K<sup>T</sup> / √d. Entry S<sub>ij</sub> uses query i and key j, so key j collects gradient from every score in <em>column</em> j.</p>
+    <div class="row" id="r-ms"></div>
+    <h3>Solved example: dK<sub>1,1</sub></h3>
+    <ol class="steps" id="ms-worked"></ol>
+    <div class="turn"><h3>Your turn</h3><p>Compute dK<sub>2,1</sub>, the gradient for the first component of key 2. Two decimals are enough.</p>
+      <div class="ans"><input type="text" inputmode="decimal" id="ms-in" aria-label="Your answer"><button class="b" type="button" data-check="ms">Check</button></div>
+      <div class="fb" id="ms-fb" aria-live="polite"></div><ol class="steps" id="ms-sol" hidden></ol></div>
+    <div class="readout" aria-live="polite">Tap a dK cell to see its column of dS.</div>
+  </div>
+  <div class="card" id="pane-adv" role="tabpanel" hidden>
+    <p>The scores depend on W<sub>Q</sub> and W<sub>K</sub> only through the product W<sub>Q</sub>W<sub>K</sub><sup>T</sup>. Replace W<sub>Q</sub> by W<sub>Q</sub>A and W<sub>K</sub> by W<sub>K</sub>A<sup>−T</sup> and the function is unchanged. The gradients are not.</p>
+    <h3>Solved example: A = 4·I</h3>
+    <ol class="steps" id="adv-worked"></ol>
+    <div class="row" id="r-adv"></div>
+    <div class="turn"><h3>Your turn</h3><p>Now take A = 2·I instead: W<sub>Q</sub> is doubled and W<sub>K</sub> is halved. By what factor is dW<sub>K</sub> multiplied?</p>
+      <div class="ans"><input type="text" inputmode="decimal" id="adv-in" aria-label="Your answer"><button class="b" type="button" data-check="adv">Check</button></div>
+      <div class="fb" id="adv-fb" aria-live="polite"></div><ol class="steps" id="adv-sol" hidden></ol></div>
+  </div>
+</section>
+
+<section id="train" hidden>
+  <h2>Keep training</h2>
+  <div class="card">
+    <p>Drag to run more gradient steps from the identical start. Watch the two matrices move apart.</p>
+    <input type="range" id="steps" min="0" max="40" step="1" value="1" aria-label="Number of training steps">
+    <div class="stats" id="tstats"></div>
+    <div class="row" id="r-train"></div>
+    <svg class="spark" id="spark" viewBox="0 0 400 90" role="img" aria-label="Distance between the two matrices over training steps"></svg>
+  </div>
+</section>
+
+<section id="back" hidden>
+  <h2>Back to your session</h2>
+  <div class="card">
+    <p>Copy this block into the chat. Your session uses it to record the level you reached and to choose the final test.</p>
+    <textarea id="results" readonly aria-label="Your results"></textarea>
+    <div class="ans"><button class="b" type="button" id="copy">Copy results</button><button class="b ghost" type="button" id="reset">Start over</button><span class="fb" id="copy-fb" aria-live="polite"></span></div>
+  </div>
+</section>
+</div>
+<script>
+const X=[[1,0],[0,1],[1,1]], M0=[[1,0.5],[-0.5,1]], WV=[[1,-1],[0.5,1]], T=[[0,1],[1,0],[1,1]], D=2, LR=0.5;
+const mul=(A,B)=>A.map(r=>B[0].map((_,j)=>r.reduce((s,a,k)=>s+a*B[k][j],0)));
+const tr=A=>A[0].map((_,j)=>A.map(r=>r[j]));
+const sc=(A,k)=>A.map(r=>r.map(v=>v*k));
+const sub=(A,B,k)=>A.map((r,i)=>r.map((v,j)=>v-k*B[i][j]));
+const norm=A=>Math.sqrt(A.flat().reduce((s,v)=>s+v*v,0));
+function attn(WQ,WK,g){
+  g=g||1; const k=g/Math.sqrt(D);
+  const Q=mul(X,WQ),K=mul(X,WK),V=mul(X,WV);
+  const S=sc(mul(Q,tr(K)),k);
+  const P=S.map(r=>{const m=Math.max(...r),e=r.map(v=>Math.exp(v-m)),z=e.reduce((a,b)=>a+b);return e.map(v=>v/z)});
+  const O=mul(P,V);
+  const dO=O.map((r,i)=>r.map((v,j)=>v-T[i][j]));
+  const L=0.5*dO.flat().reduce((s,v)=>s+v*v,0);
+  const dP=mul(dO,tr(V));
+  const dS=P.map((r,i)=>{const dot=r.reduce((s,p,j)=>s+p*dP[i][j],0);return r.map((p,j)=>p*(dP[i][j]-dot))});
+  const dQ=sc(mul(dS,K),k), dK=sc(mul(tr(dS),Q),k);
+  const dWQ=mul(tr(X),dQ), dWK=mul(tr(X),dK);
+  return {Q,K,V,S,P,O,dO,L,dP,dS,dQ,dK,dWQ,dWK};
+}
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const f=(v,d=2)=>(Math.abs(v)<.5*10**-d?0:v).toFixed(d).replace('-','−');
+const GRAD=/^d/, R2=Math.SQRT2;
+const G=attn(M0,M0), W1={Q:sub(M0,G.dWQ,LR),K:sub(M0,G.dWK,LR)}, G1=attn(W1.Q,W1.K), G4=attn(sc(M0,4),sc(M0,.25)), G2=attn(sc(M0,2),sc(M0,.5));
+const TRAJ=[{Q:M0,K:M0}]; for(let i=0;i<40;i++){const p=TRAJ[i],g=attn(p.Q,p.K);TRAJ.push({Q:sub(p.Q,g.dWQ,LR),K:sub(p.K,g.dWK,LR)})}
+TRAJ.forEach(p=>{p.L=attn(p.Q,p.K).L;p.d=norm(sub(p.Q,p.K,1))});
+
+function mat(name,data,o={}){
+  const dec=GRAD.test(name)?3:2, mx=Math.max(...data.flat().map(Math.abs),1e-9);
+  const cells=data.map((r,i)=>r.map((v,j)=>`<button type="button" class="c ${o.mark?o.mark(i,j):''}" data-m="${name}" data-r="${i}" data-c="${j}" style="background:color-mix(in srgb,var(--${v<0?'neg':'pos'}) ${Math.round(Math.abs(v)/mx*80)}%,var(--cell))">${f(v,dec)}</button>`).join('')).join('');
+  return `<figure class="mx"${o.role?` data-role="${o.role}"`:''}><figcaption><b${o.role?` class="${o.role}"`:''}>${o.label||name}</b><span>${data.length}×${data[0].length}${o.note?' · '+o.note:''}</span></figcaption><div class="grid" style="--cols:${data[0].length}">${cells}</div></figure>`;
+}
+const op=s=>`<span class="op">${s}</span>`, stat=s=>`<div class="stats" style="align-self:center">${s}</div>`;
+const L={WQ:'W<sub>Q</sub>',WK:'W<sub>K</sub>',WV:'W<sub>V</sub>',dWQ:'dW<sub>Q</sub>',dWK:'dW<sub>K</sub>'};
+
+function deps(m,r,c){
+  const i=r+1,j=c+1,dot=(a,b)=>a.map((x,n)=>`${f(x,3)}×${f(b[n],3)}`).join(' + '),col=(A,n)=>A.map(x=>x[n]);
+  switch(m){
+    case 'Q': return {hl:[['X',r,null],['WQ',null,c]],t:`Q[${i},${j}] = row ${i} of X · column ${j} of W_Q = ${f(G.Q[r][c])}`};
+    case 'K': return {hl:[['X',r,null],['WK',null,c]],t:`K[${i},${j}] = row ${i} of X · column ${j} of W_K = ${f(G.K[r][c])}`};
+    case 'V': return {hl:[['X',r,null],['WV',null,c]],t:`V[${i},${j}] = row ${i} of X · column ${j} of W_V = ${f(G.V[r][c])}`};
+    case 'S': return {hl:[['Q',r,null],['K',c,null]],t:`S[${i},${j}] = query ${i} · key ${j} / √2 = (${dot(G.Q[r],G.K[c])}) / 1.414 = ${f(G.S[r][c])}`};
+    case 'P': return {hl:[['S',r,null]],t:`P[${i},${j}] = softmax of row ${i} of S, entry ${j} = ${f(G.P[r][c])}. Token ${i} gives token ${j} this share of its attention.`};
+    case 'O': return {hl:[['P',r,null],['V',null,c]],t:`O[${i},${j}] = row ${i} of P · column ${j} of V = ${f(G.O[r][c])}`};
+    case 'dS': return {hl:[['dQ',r,null],['dK',c,null]],t:`dS[${i},${j}] = ${f(G.dS[r][c],3)}: how the loss changes when score S[${i},${j}] rises. It feeds query ${i} (row) and key ${j} (column).`};
+    case 'dQ': return {hl:[['dS',r,null],['K',null,c]],t:`dQ[${i},${j}] = ROW ${i} of dS · column ${j} of K / √2 = (${dot(G.dS[r],col(G.K,c))}) / 1.414 = ${f(G.dQ[r][c],3)}`};
+    case 'dK': return {hl:[['dS',null,r],['Q',null,c]],t:`dK[${i},${j}] = COLUMN ${i} of dS · column ${j} of Q / √2 = (${dot(col(G.dS,r),col(G.Q,c))}) / 1.414 = ${f(G.dK[r][c],3)}`};
+    case 'dWQ': return {hl:[['X',null,r],['dQ',null,c]],t:`dW_Q[${i},${j}] = column ${i} of X · column ${j} of dQ = ${f(G.dWQ[r][c],3)}`};
+    case 'dWK': return {hl:[['X',null,r],['dK',null,c]],t:`dW_K[${i},${j}] = column ${i} of X · column ${j} of dK = ${f(G.dWK[r][c],3)}`};
+  } return null;
+}
+function light(list){$$('.c.hl,.c.me').forEach(e=>e.classList.remove('hl','me'));
+  list.forEach(([m,r,c])=>$$(`.c[data-m="${m}"]`+(r==null?'':`[data-r="${r}"]`)+(c==null?'':`[data-c="${c}"]`)).forEach(e=>e.classList.add('hl')))}
+function show(cell){const d=deps(cell.dataset.m,+cell.dataset.r,+cell.dataset.c);if(!d)return;light(d.hl);cell.classList.add('me');
+  const ro=cell.closest('.card')?.querySelector('.readout');if(ro)ro.textContent=d.t}
+['pointerover','focusin','click'].forEach(ev=>document.addEventListener(ev,e=>{const c=e.target.closest?.('.c');if(c)show(c)}));
+
+// ---------- exercises ----------
+const col=(A,n)=>A.map(x=>x[n]);
+function dkSteps(j,c){const a=col(G.dS,j),q=col(G.Q,c),s=a.reduce((t,x,n)=>t+x*q[n],0);return [
+  {t:`Key ${j+1} takes part in every score of column ${j+1} of S. Take column ${j+1} of dS: ${a.map(x=>f(x,3)).join(', ')}.`,hl:[['dS',null,j]]},
+  {t:`Each of those scores multiplied key ${j+1} by one query. Take component ${c+1} of each query (column ${c+1} of Q): ${q.map(x=>f(x,2)).join(', ')}.`,hl:[['dS',null,j],['Q',null,c]]},
+  {t:`Multiply in pairs and add: ${a.map((x,n)=>`${f(x,3)}×${f(q[n],2)}`).join(' + ')} = ${f(s,3)}.`,hl:[['dS',null,j],['Q',null,c]]},
+  {t:`Divide by √2 = 1.414: dK[${j+1},${c+1}] = ${f(s/R2,3)}.`,hl:[['dK',j,c]]},
+  {t:`Check: the dK matrix, computed by the page for all entries at once, shows ${f(G.dK[j][c],3)} in that cell.`,hl:[['dK',j,c]]}]}
+const EX={
+  hs:{name:'High school',ans:G.P[2][0],tol:.011,
+    traps:[[G.P[0][2],'That is row 1, column 3: token 1 listening to token 3. Here token 3 is the listener.']],
+    sol:[{t:'Token 3 is the listener, so use row 3.',hl:[['P',2,null]]},{t:'Token 1 is the one listened to, so use column 1.',hl:[['P',2,0]]},
+      {t:`P[3,1] = ${f(G.P[2][0])}. Check: row 3 adds up to ${f(G.P[2].reduce((a,b)=>a+b))}.`,hl:[['P',2,0]]},
+      {t:`Compare P[1,3] = ${f(G.P[0][2])}. Listening is not mutual, so asking and being asked are different jobs.`,hl:[['P',0,2],['P',2,0]]}]},
+  ms:{name:"Master's",ans:G.dK[1][0],tol:.015,
+    traps:[[G.dS[1].reduce((t,x,n)=>t+x*G.Q[n][0],0)/R2,'You read dS along row 2. That is how a query collects gradient. A key collects along its column.'],
+           [col(G.dS,1).reduce((t,x,n)=>t+x*G.Q[n][0],0),'Right column, but the score was divided by √d, so the gradient is too. Divide by 1.414.']],
+    sol:dkSteps(1,0)},
+  adv:{name:'Advanced',ans:2,tol:.001,
+    traps:[[.5,'0.5 is the factor for dW_Q, which is multiplied by the halved K. dW_K is multiplied by Q.'],[1,'The scores are unchanged, but the gradients are not: each one is multiplied by the other side’s matrix.']],
+    sol:[{t:'W_Q·W_Kᵀ is unchanged (2 × ½ = 1), so S, P, the loss and dS are all unchanged.',hl:[]},
+      {t:'dW_K = Xᵀ · dSᵀ · Q / √d, and Q = X·W_Q is doubled.',hl:[]},
+      {t:`So dW_K is multiplied by 2. Check, computed on this page: dW_K′[1,1] / dW_K[1,1] = ${f(G2.dWK[0][0]/G.dWK[0][0],3)}.`,hl:[]},
+      {t:`And dW_Q is multiplied by ${f(G2.dWQ[0][0]/G.dWQ[0][0],3)}. The larger matrix gets the smaller gradient.`,hl:[]}]}};
+const ORDER=['hs','ms','adv'];
+let st; const fresh=()=>({pred:null,why:'',tab:'hs',ex:{}});
+try{st=Object.assign(fresh(),JSON.parse(localStorage.getItem('qk-v1')||'{}'))}catch(e){st=fresh()}
+const save=()=>{try{localStorage.setItem('qk-v1',JSON.stringify(st))}catch(e){}};
+const steps=(el,list)=>{el.innerHTML=list.map(s=>`<li>${s.t}</li>`).join('')};
+
+function solution(k,all){const ol=$(`#${k}-sol`),e=EX[k];ol.hidden=false;steps(ol,e.sol);
+  const li=[...ol.children];if(all)return;li.forEach(x=>x.hidden=true);let n=0;
+  const b=document.createElement('button');b.className='b ghost';b.type='button';b.textContent='Show first step';b.id=k+'-next';
+  b.onclick=()=>{li[n].hidden=false;light(e.sol[n].hl);n++;b.textContent='Next step';if(n>=li.length)b.remove()};
+  $(`#${k}-next`)?.remove();ol.after(b)}
+function check(k){const e=EX[k],fb=$(`#${k}-fb`),v=parseFloat($(`#${k}-in`).value.replace(',','.').replace('−','-'));
+  if(isNaN(v)){fb.className='fb bad';fb.textContent='Enter a number.';return}
+  const r=st.ex[k]||(st.ex[k]={tries:0,ok:false,shown:false});if(!r.ok)r.tries++;
+  if(Math.abs(v-e.ans)<=e.tol){r.ok=true;fb.className='fb ok';fb.textContent='Correct. The full solution is below.';$(`#${k}-next`)?.remove();solution(k,true)}
+  else{const t=e.traps.find(([x])=>Math.abs(v-x)<=Math.max(e.tol,.011));fb.className='fb bad';
+    fb.textContent=(t?t[1]:'Not that one.')+' Walk through the solution step by step, then try again.';r.shown=true;solution(k,false)}
+  save();paint()}
+
+function tab(t){st.tab=t;$$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));ORDER.forEach(k=>$(`#pane-${k}`).hidden=k!==t);save()}
+function reached(){let lv='none';for(const k of ORDER){if(st.ex[k]?.ok)lv=EX[k].name;else break}return lv}
+function paint(){
+  const done=!!st.pred;['reveal','climb','train','back'].forEach(id=>$('#'+id).hidden=!done);
+  $$('#pred-set input').forEach(i=>{i.checked=i.value===st.pred;i.disabled=done});$('#pred-why').value=st.why;$('#pred-why').disabled=done;
+  $('#pred-go').disabled=done||!$('#pred-set input:checked');$('#pred-go').textContent=done?'Prediction committed':'Commit prediction';
+  $('#verdict').innerHTML={same:'<b>You predicted they stay identical. They do not.</b> The two gradients below share no entry, so one step is enough to separate the matrices.',
+    diff:'<b>You predicted they separate, and they do.</b> Check your reason against the picture below: the cause is rows against columns, not chance.',
+    dep:'<b>You predicted it depends on the target.</b> It nearly never does. The updates match only if dS happens to be symmetric, and row-wise softmax breaks that for almost any target.'}[st.pred]||'';
+  $('#chips').innerHTML=[['Prediction',done],...ORDER.map(k=>[EX[k].name,st.ex[k]?.ok])].map(([n,on])=>`<li class="${on?'on':''}">${n}</li>`).join('');
+  const P={same:'stay identical (the tempting answer, wrong)',diff:'they separate (right)',dep:'depends on the target (wrong)'};
+  $('#results').value=['VISUAL SESSION RESULTS','Principle: Query vs Key (self-attention)','Prediction: '+(P[st.pred]||'not made'),'Reason given: '+(st.why||'none'),
+    ...ORDER.map(k=>{const r=st.ex[k];return EX[k].name+': '+(!r?'not attempted':(r.ok?`correct, ${r.tries} ${r.tries>1?'tries':'try'}`:`not solved, ${r.tries} ${r.tries>1?'tries':'try'}`)+(r.shown?', worked solution replayed':''))}),
+    'Level reached: '+reached()].join('\n');
+}
+function train(){const n=+$('#steps').value,p=TRAJ[n];
+  $('#tstats').innerHTML=`<span>step <b>${n}</b></span><span>loss <b>${f(p.L,3)}</b></span><span>‖W<sub>Q</sub> − W<sub>K</sub>‖ <b>${f(p.d,3)}</b></span>`;
+  $('#r-train').innerHTML=mat('WQt',p.Q,{role:'q',label:L.WQ})+op('≠')+mat('WKt',p.K,{role:'k',label:L.WK});
+  const mx=Math.max(...TRAJ.map(t=>t.d)),x=i=>10+i*380/40,y=d=>78-d/mx*62;
+  $('#spark').innerHTML=`<line x1="10" y1="78" x2="390" y2="78" stroke="var(--line)" fill="none"/><polyline fill="none" stroke="var(--fg)" stroke-width="1.5" points="${TRAJ.map((t,i)=>x(i)+','+y(t.d)).join(' ')}"/><circle cx="${x(n)}" cy="${y(p.d)}" r="4" fill="var(--q)"/><text x="10" y="10">‖W_Q − W_K‖, max ${f(mx)}</text><text x="10" y="89">step 0</text><text x="390" y="89" text-anchor="end">step 40</text>`}
+
+function build(){
+  $('#r-w').innerHTML=mat('X',X,{note:'3 tokens'})+mat('WQ',M0,{role:'q',label:L.WQ})+op('=')+mat('WK',M0,{role:'k',label:L.WK})+mat('WV',WV,{role:'v',label:L.WV});
+  $('#r-s').innerHTML=mat('Q',G.Q,{role:'q',note:'X·W<sub>Q</sub>'})+mat('K',G.K,{role:'k',note:'X·W<sub>K</sub>'})+op('→')+mat('S',G.S,{note:'scores'})+op('→')+mat('P',G.P,{note:'softmax by row'});
+  $('#r-o').innerHTML=mat('V',G.V,{role:'v'})+mat('O',G.O,{note:'P·V'})+mat('T',T,{note:'target'})+stat(`<span>loss ½‖O − T‖² = <b>${f(G.L,3)}</b></span>`);
+  const df=(i,j)=>Math.abs(G.dWQ[i][j]-G.dWK[i][j])>1e-9?'diff':'';
+  $('#r-g').innerHTML=mat('dQ',G.dQ,{role:'q'})+op('→')+mat('dWQ',G.dWQ,{role:'q',label:L.dWQ,mark:df})+mat('dK',G.dK,{role:'k'})+op('→')+mat('dWK',G.dWK,{role:'k',label:L.dWK,mark:df});
+  $('#r-after').innerHTML=mat('WQ1',W1.Q,{role:'q',label:L.WQ})+op('≠')+mat('WK1',W1.K,{role:'k',label:L.WK})+stat(`<span>loss <b>${f(G.L,3)} → ${f(G1.L,3)}</b></span>`);
+  $('#r-pic').innerHTML=mat('dS',G.dS,{note:'row 1 feeds query 1',mark:i=>i===0?'rowq':''})+mat('dS',G.dS,{note:'column 1 feeds key 1',mark:(i,j)=>j===0?'colk':''});
+  $('#r-hs').innerHTML=mat('P',G.P,{note:'row = listener, column = listened to'});
+  steps($('#hs-worked'),[{t:'A listener gives weights 0.5, 0.3 and 0.2 to three speakers who say 4, 10 and 20.'},{t:'What the listener hears is the weighted average: 0.5×4 + 0.3×10 + 0.2×20 = 2 + 3 + 4 = 9.'},{t:'Check: the weights add up to 1, and 9 lies between 4 and 20, nearer to 4, which has the largest weight.'},{t:`In the table above, row 1, column 3 is ${f(G.P[0][2])}: token 1 gives token 3 that share of its attention.`}]);
+  $('#r-ms').innerHTML=mat('dS',G.dS)+mat('Q',G.Q,{role:'q'})+op('→')+mat('dK',G.dK,{role:'k'});
+  steps($('#ms-worked'),dkSteps(0,0));
+  steps($('#adv-worked'),[{t:'W_Q′ = 4·W_Q and W_K′ = W_K / 4. Then W_Q′·W_K′ᵀ = W_Q·W_Kᵀ, so every score, P, the loss and dS are unchanged.'},{t:'dW_Q = Xᵀ · dS · K / √d. K = X·W_K is 4 times smaller, so dW_Q is multiplied by 0.25.'},{t:'dW_K = Xᵀ · dSᵀ · Q / √d. Q = X·W_Q is 4 times larger, so dW_K is multiplied by 4.'},{t:`Check, computed on this page: dW_Q′[1,1] / dW_Q[1,1] = ${f(G4.dWQ[0][0]/G.dWQ[0][0],3)} and dW_K′[1,1] / dW_K[1,1] = ${f(G4.dWK[0][0]/G.dWK[0][0],3)}.`},{t:'The same function now trains differently. Plain gradient descent is not invariant to how the product is split between the two matrices.'}]);
+  $('#r-adv').innerHTML=mat('dWQ4',G4.dWQ,{role:'q',label:'dW<sub>Q</sub>′',note:'×0.25'})+mat('dWK4',G4.dWK,{role:'k',label:'dW<sub>K</sub>′',note:'×4'});
+  ORDER.forEach(k=>{$(`#${k}-in`).value='';$(`#${k}-fb`).textContent='';$(`#${k}-sol`).hidden=true;$(`#${k}-next`)?.remove();if(st.ex[k]?.ok){$(`#${k}-fb`).className='fb ok';$(`#${k}-fb`).textContent='Solved.';solution(k,true)}});
+  tab(st.tab);train();paint();
+}
+$('#pred-set').addEventListener('change',()=>{$('#pred-go').disabled=false});
+$('#pred-go').onclick=()=>{st.pred=$('#pred-set input:checked').value;st.why=$('#pred-why').value.trim();save();paint();$('#reveal').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})};
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(b)tab(b.dataset.t)};
+document.addEventListener('click',e=>{const k=e.target.dataset?.check;if(k)check(k)});
+ORDER.forEach(k=>$(`#${k}-in`).addEventListener('keydown',e=>{if(e.key==='Enter')check(k)}));
+$('#steps').oninput=train;
+$('#copy').onclick=()=>{const t=$('#results'),ok=()=>$('#copy-fb').textContent='Copied.';
+  (navigator.clipboard?navigator.clipboard.writeText(t.value):Promise.reject()).then(ok).catch(()=>{t.focus();t.select();$('#copy-fb').textContent='Selected. Copy it with your keyboard or the touch menu.'})};
+$('#reset').onclick=()=>{st=fresh();try{localStorage.removeItem('qk-v1')}catch(e){}$('#steps').value=1;$('#copy-fb').textContent='';build();scrollTo(0,0)};
+build();
+</script>

@@ -27,7 +27,7 @@ To try the plugin from a local copy without installing it, start Claude Code wit
 2. The plugin identifies the domain's **core principles** and **key facts**, records the topic's **breakthrough** (what the situation was before the key intuition, and what the topic solved), flags the **hard core** (the principles that are hardest to grasp), and decomposes the goal into testable sub-goals with CTQ mastery criteria, all written for your level. It also writes a plan-level **Motivation & Course Overview (VOC)** — a bird's-eye view of the course, its core principles and key facts, and what you'll be able to do on completion. You can edit this overview, and your feedback on it can restructure the plan. You can also change the hard-core list.
 3. For each sub-goal, you run a TTT session:
    - **Test** -- face a practical case immediately (no theory first)
-   - **Teach** -- get principle-first concept explanations for your gaps (adaptive: abbreviated for simple gaps, full 7-section with LaTeX, Worked Examples, and CTQ for complex gaps, comparison for conflation, a climb through the levels for hard-core principles)
+   - **Teach** -- get principle-first concept explanations for your gaps (adaptive: abbreviated for simple gaps, full 7-section with LaTeX, Worked Examples, and CTQ for complex gaps, comparison for conflation, a climb through the levels for hard-core principles, in chat or on an interactive page)
    - **Test** -- prove mastery with a new case
 4. Every explanation pairs a solved example with an exercise you attempt and then see solved in full
 5. Each Teach phase generates a concept file documenting what was taught, and each session adds fully solved exercises to that sub-goal's **exercise book**
@@ -66,6 +66,8 @@ Every plan, standard or Socratic, carries five elements, each in a fixed place. 
 
 A learner who passes the test outright gets a short recap and the offer of the full climb or the next level up.
 
+**Visual delivery.** The climb can be delivered as an interactive page instead of chat text: the principle's objects drawn with their real numbers (matrices as coloured grids, an arrow you rotate, a grid of cases), coloured by role, with one exercise per level that replays the worked solution step by step after a wrong answer. The plan designs the page for each hard-core principle (the blueprint's `Visual design`). Both tests stay in chat. When you finish the page you paste its results block back, and the session records the level you reached. Ask for it with `/run-session SG-3 visual`, or accept the offer when the session reaches a climb.
+
 **Fully worked exercises** come four ways: in every explanation; inside the plan, for each hard-core principle; in an exercise book written after each session; and on demand with `/worked-exercises`. Every solution ends with a check that confirms the result a second way.
 
 ## Commands
@@ -89,15 +91,16 @@ Example:
 /socratic-training-plan Derive quantum mechanics from experimental spectra
 ```
 
-### `/run-session <sub-goal> [level]`
+### `/run-session <sub-goal> [level] [visual|chat]`
 
-Runs an interactive TTT session for one sub-goal. Teaches using concept-builder methodology (Problem, Principles, Innovations, Worked Example, Formalization, CTQ, Conceptual Map), and teaches hard-core principles as a climb through the levels. Saves checkpoints after each phase. On completion it exports a concept file, adds solved exercises to the sub-goal's exercise book, and registers what it wrote in the plan's Artefacts Register. Name a level to run one session at a different level from the plan's without changing the plan.
+Runs an interactive TTT session for one sub-goal. Teaches using concept-builder methodology (Problem, Principles, Innovations, Worked Example, Formalization, CTQ, Conceptual Map), and teaches hard-core principles as a climb through the levels. Saves checkpoints after each phase. On completion it exports a concept file, adds solved exercises to the sub-goal's exercise book, and registers what it wrote in the plan's Artefacts Register. Name a level to run one session at a different level from the plan's without changing the plan. Add `visual` to get the climb of a hard-core principle as an interactive page, or `chat` to skip the offer.
 
 Example:
 ```
 /run-session SG-2
 /run-session unit-rate estimation
 /run-session SG-3 advanced
+/run-session SG-3 visual
 ```
 
 ### `/worked-exercises <sub-goal or concept> [level]`
@@ -140,7 +143,7 @@ Building the PDF needs Node.js (KaTeX, Playwright and pdf-lib), a Chromium brows
 ## Architecture
 
 - **3 agents**: `training-planner` (orchestrator), `term-clarifier` (defines a term during a test without leaking the answer), `user-testing` (QA)
-- **7 skills**: `goal-decomposer`, `ttt-session`, `content-builder`, `concept-explainer`, `concept-map`, `learner-analytics`, and the accessory skill `technical-training-manual`
+- **8 skills**: `goal-decomposer`, `ttt-session`, `content-builder`, `concept-explainer`, `visual-explainer` (the interactive page for a hard-core climb), `concept-map`, `learner-analytics`, and the accessory skill `technical-training-manual`
 - **7 commands**: `/create-training-plan`, `/socratic-training-plan`, `/run-session`, `/worked-exercises`, `/training-status`, `/concept-library`, `/user-testing`
 
 ## Output Files
@@ -152,6 +155,7 @@ Building the PDF needs Node.js (KaTeX, Playwright and pdf-lib), a Chromium brows
 | `<topic>_session_SG<N>.md` | Session transcript per sub-goal |
 | `<topic>_checkpoint_SG<N>.md` | In-progress session checkpoint (deleted on completion) |
 | `<topic>_artefact_SG<N>_exercises.md` | Exercise book: fully solved exercises for a sub-goal, per level, added to after each session and by `/worked-exercises` (registered in the plan's Artefacts Register) |
+| `<topic>_visual_SG<N>.html` | Interactive page for a hard-core principle, written when a session uses visual delivery (registered in the plan's Artefacts Register) |
 | `<topic>_artefact_SG<N>_<slug>.md` | Any other deliverable artefact produced by a session when the work yields one (registered in the plan's Artefacts Register) |
 | `learner_profile.md` | Persistent learner profile across all plans |
 | `concept-<domain>-<topic>.md` | Concept file from Teach phase (per session with gaps) |
@@ -174,7 +178,7 @@ During a session, learners can request a **deep-dive** into any taught principle
 
 ## Plans From Earlier Versions
 
-Plans created before version 3.0 still run. Sessions read their depth names (introductory / intermediate / advanced) as High school / Master's / Advanced, and a plan without hard-core blueprints is taught as before. Such plans lack the newer sections (method, breakthrough, hard core, key facts), which `/user-testing inspect` reports as missing.
+Plans created before version 3.0 still run. Sessions read their depth names (introductory / intermediate / advanced) as High school / Master's / Advanced, and a plan without hard-core blueprints is taught as before. Such plans lack the newer sections (method, breakthrough, hard core, key facts), which `/user-testing inspect` reports as missing. A hard-core blueprint written before version 3.2 has no `Visual design`; a session asked for visual delivery designs the page from the blueprint's Picture and solved exercises.
 
 ## Learning Science
 

@@ -14,9 +14,12 @@ The user wants to work on: **$ARGUMENTS**
 
 ## Step 0: Find the Training Plan
 
-Use Glob to find `*_training_plan.md` or `*-socratic_training_plan.md` in the current directory. Read the file. If no plan exists, tell the user to run `/create-training-plan` or `/socratic-training-plan` first.
+Use Glob to find `*_training_plan.md` or `*-socratic_training_plan.md` in the current directory. Read the file. If no plan exists, tell the user to run `/create-training-plan` or `/socratic-training-plan` first. If more than one plan matches, ask the learner which one to use.
 
-**Detect Socratic mode:** If the plan filename ends with `-socratic_training_plan.md` OR the plan contains a `## Pedagogical Method: Socratic Discovery` section, this is a **Socratic plan**. All subsequent phases MUST follow the Socratic execution rules described below. Set a mental flag: `SOCRATIC = true`.
+**Detect Socratic mode from the plan's method heading:**
+- A `## Pedagogical Method: Socratic Discovery` section means a **Socratic plan**. Set a mental flag: `SOCRATIC = true`. All subsequent phases MUST follow the Socratic execution rules described below.
+- A `## Pedagogical Method: Test-Teach-Test` section means a standard plan, even though that section mentions the Socratic command.
+- Only when the plan has no method heading (plans created before the section existed), fall back to the file name: a name ending in `-socratic_training_plan.md` is a Socratic plan.
 
 ## Step 1: Identify the Target Sub-Goal
 

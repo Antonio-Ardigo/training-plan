@@ -51,6 +51,47 @@ Rules:
 - The Prerequisites column feeds Step 2.5 (Prerequisite Tracing)
 - If the domain has fewer than 3 principles, it may be too narrow
 
+### Step 1.8: Key Facts Identification
+
+Identify the domain's **key facts**: the specific things the learner must simply *know*. A principle is reasoned from. A key fact cannot be worked out from the principles, yet they cannot be applied without it: a definition, a constant, a conversion factor, a convention, a threshold or standard value, a classification, a name or a date.
+
+| # | Key Fact | Why it matters | Used in |
+|---|----------|----------------|---------|
+| KF-1 | <one fact, with its value and unit> | <what goes wrong without it> | <filled in at Step 3.5> |
+
+Rules:
+- For each principle from Step 1.75 ask: "What must the learner already know as a fact to apply this?" Then add any fact the practical cases need that no principle covers.
+- One fact per row, stated exactly, with its value and SI unit where it has one
+- "Why it matters" says what breaks without the fact, never why the fact is true
+- A key fact is **not** a principle in disguise (if it can be worked out from a principle in this plan, leave it out), **not** a prerequisite (those go in the Prerequisites column of Step 1.75), **not** vocabulary (terms are defined in each session's Key Terms table), and **not** a Key Concept (those get sub-goals)
+- Key facts are what tests *use*, not what tests ask the learner to recite. They get no sub-goal and no axis of their own.
+- Typically 4-10. Never pad the list: a short honest list beats a long one.
+- Never guess a value. If you are not certain of a number, date or name, mark the fact `(verify)` so the learner checks it against a source.
+
+### Step 1.9: Breakthrough
+
+Capture the topic's **breakthrough**: what the situation was *before* the key intuition, and what the topic *solved*. A concept is easier to understand and remember as the answer to a problem than as a free-standing statement.
+
+Write it at two levels.
+
+**The topic as a whole**, in three short parts (one or two sentences each):
+- **Before the intuition:** what people did or believed, and where it broke down.
+- **The intuition:** the insight that changed the picture, in plain language.
+- **What it solved:** what became possible that was not possible before.
+
+**Each core principle**, one row per principle from Step 1.75, using the exact principle names. The principle's Statement is its intuition, so the table only adds the before and the after:
+
+| Principle | Before the intuition | What it solved |
+|-----------|----------------------|----------------|
+| <principle name> | <the earlier view or practice this principle replaced, and how it failed> | <what this principle made possible> |
+
+Rules:
+- One or two sentences per part and per cell
+- If the topic has no single historical moment (a practical skill, a tool, a procedure), "before" is how the work is done *without* this knowledge and where that breaks down
+- Tell a story, not a lesson: no derivations, no formulas, no worked steps. Those belong to the sessions.
+- Name people and dates only when you are certain of them; otherwise describe the shift without attribution
+- Do not reuse the Breakthrough story as a test case: the SG-1 Motivation tests must use different cases
+
 ### Step 2: Decompose into Sub-Goals
 
 Break the SMART goal into **N sub-goals** across 5 axes:
@@ -128,14 +169,18 @@ If the learner profile indicated strengths or gap patterns relevant to a sub-goa
 - **Profile note (strength):** "Learner has prior mastery in [topic] -- set Initial Test at elevated difficulty"
 - **Profile note (gap pattern):** "Learner has recurring gap in [pattern] -- include proactive Quick Check in Teach Topics even if not identified in Initial Test"
 
+**Key facts in tests:** when a test or exercise depends on a fact, that fact must be in the Key Facts table from Step 1.8. If it is missing, add it.
+
 ### Step 3.5: Compose the Motivation / VOC Overview
+
+**First complete the Key Facts table** (the sub-goals now exist): fill each fact's `Used in` column with the sub-goals whose tests or exercises rely on it, and drop any fact that no sub-goal uses.
 
 After decomposition and blueprint design (so the digest and outcomes are accurate), compose a plan-level **Motivation & Course Overview (VOC)** — a bird's-eye view that anchors the whole course. This is the "voice of customer" section: informative, plain-language, and **editable by the learner**.
 
 Write four parts:
 - **Why this matters:** 1-3 sentences on real-world stakes and relevance.
 - **Bird's-eye view of the course:** 2-4 sentences on what the course covers end to end and how the sub-goals connect into one arc.
-- **Core principles & key facts:** a plain-language digest of the 3-5 core principles from the Principle Extraction table (Step 1.75), plus any load-bearing facts.
+- **Core principles & key facts:** a plain-language digest of the 3-5 core principles from the Principle Extraction table (Step 1.75) and the most load-bearing facts from the Key Facts table (Step 1.8).
 - **What you'll be able to do on completion:** a bulleted list of concrete capabilities tied to the SMART Goal and the Verification sub-goal(s).
 
 Rules:
@@ -157,6 +202,16 @@ Generated: <date> | Status: in-progress
 ## SMART Goal
 <15-word refined statement>
 
+## Pedagogical Method: Test-Teach-Test
+
+Each session follows a **Test → Teach → Test** cycle:
+
+1. **Test** — a practical case comes first, with no theory beforehand. Attempt it cold: the attempt shows what is already known and exactly where the gaps are.
+2. **Teach** — only the gaps the test revealed are taught, one at a time and principle-first. Each explanation ends with a Quick Check.
+3. **Test** — a different practical case confirms the learning transfers. If gaps remain, the cycle repeats on those gaps only (at most twice).
+
+**Teaching style: direct explanation.** A Socratic version of a plan, in which each concept is reached through a chain of questions instead of being explained, is created with `/socratic-training-plan` in a separate folder.
+
 ## Motivation & Course Overview (VOC)
 > _Editable by the learner. This is the course's bird's-eye view and
 > voice-of-customer anchor. If you change anything here, tell me — your
@@ -168,16 +223,38 @@ Generated: <date> | Status: in-progress
 end to end and how the sub-goals connect into one arc>
 
 **Core principles & key facts:** <plain-language digest of the 3-5 core
-principles from Principle Extraction plus any load-bearing facts>
+principles from Principle Extraction and the most load-bearing facts from Key Facts>
 
 **What you'll be able to do on completion:** <bulleted concrete capabilities
 tied to the SMART Goal and the Verification sub-goal(s)>
+
+## Breakthrough
+> _The story behind the topic: what the situation was before the key
+> intuition, and what the topic solved._
+
+**Before the intuition:** <1-2 sentences — what people did or believed, and where it broke down>
+
+**The intuition:** <1-2 sentences — the insight that changed the picture, in plain language>
+
+**What it solved:** <1-2 sentences — what became possible that was not possible before>
+
+| Principle | Before the intuition | What it solved |
+|-----------|----------------------|----------------|
+| <principle name> | <the earlier view or practice it replaced, and how it failed> | <what it made possible> |
 
 ## Principle Extraction
 
 | Principle | Statement | Formally | Prerequisites |
 |-----------|-----------|---------|---------------|
 | <name> | <sentence> | <LaTeX or —> | <prior knowledge> |
+
+## Key Facts
+> _What this course relies on you simply knowing. Values marked `(verify)`
+> should be checked against a source before you rely on them._
+
+| # | Key Fact | Why it matters | Used in |
+|---|----------|----------------|---------|
+| KF-1 | <one fact, with its value and unit> | <what goes wrong without it> | SG-<N>, ... |
 
 ## Sub-Goals
 
@@ -270,23 +347,41 @@ exists in the directory, add a row for it too (`profile` type). Session artefact
 (transcripts, concept files, and any deliverables) are appended by `/run-session`
 during its RECORD phase.
 
+### Step 4.5: Check the Required Elements
+
+Read back the file you just wrote, from the top through the Sub-Goals table, plus the blueprint headings and their field names. Confirm each row below. Where a row fails, fix the file with the Edit tool and check that row again.
+
+| Element | Present when |
+|---------|--------------|
+| Core principles identification | Every row of `## Principle Extraction` has exactly one Core Principle row in `## Sub-Goals`, and every Core Principle row names a principle from that table |
+| Key facts identification | `## Key Facts` has at least one row, and every `Used in` cell names sub-goals that exist |
+| Motivation | `## Motivation & Course Overview (VOC)` has its four parts filled in, and SG-1 is on the Motivation axis |
+| Breakthrough | `## Breakthrough` has its three labelled parts filled in and one table row for each principle in `## Principle Extraction` |
+| Method | `## Pedagogical Method: Test-Teach-Test` is present with its three steps and its teaching-style line, and every blueprint has an Initial Test and a Final Test |
+
 ### Step 5: Confirm to the User
 
 After writing the file, present a summary:
 - The SMART goal
+- The teaching method: Test-Teach-Test with direct explanation
 - The Motivation & Course Overview (VOC) — and **invite the learner to review and edit it**. State that edits are welcome and that feedback on it may **restructure the course**.
+- The Breakthrough: before the intuition, the intuition, what it solved
 - The principle extraction table
+- The key facts: how many there are, and which are marked `(verify)` for the learner to confirm against a source
 - The sub-goals table
 - Any prerequisite warnings (external prerequisites not confirmed in learner profile)
 - The suggested starting sub-goal
 - Any learner profile notes that influenced the plan (if profile existed)
+- The result of the required-elements check (Step 4.5), one line per element
 - Remind the user to run `/run-session SG-<N>` to start learning
 
-**VOC feedback → restructure rule:** If the learner revises the Motivation & Course Overview (or gives feedback on it), re-evaluate whether the current sub-goal decomposition still matches the stated scope and outcomes. If it no longer matches, **offer to re-decompose (restructure) the plan** using the normal decomposition rules — update the Sub-Goals table, Prerequisite Graph, and Sequence — then refresh the VOC digest so it stays consistent with the revised plan.
+**VOC feedback → restructure rule:** If the learner revises the Motivation & Course Overview (or gives feedback on it), re-evaluate whether the current sub-goal decomposition still matches the stated scope and outcomes. If it no longer matches, **offer to re-decompose (restructure) the plan** using the normal decomposition rules — update the Sub-Goals table, Prerequisite Graph, and Sequence, the Breakthrough rows if the principles changed, and the Key Facts `Used in` column — then refresh the VOC digest so it stays consistent with the revised plan and re-run the check in Step 4.5.
 
 ## Important
 
 - Do NOT include theory or teaching content in the plan -- that happens during `/run-session` -- EXCEPT for Core Principle SG blueprints, which MUST include a simple fully worked example
+- The plan names and motivates; it does not explain or derive. The Breakthrough section and the Key Facts table are orientation: state them, never teach from them.
+- Do NOT skip the required-elements check (Step 4.5): a plan missing one of the five elements is incomplete
 - Do NOT skip the session blueprint for any sub-goal
 - Practical cases must be realistic scenarios, not abstract questions
 - The `<topic>` in the filename should be a short kebab-case slug derived from the goal (e.g., `cost-estimation`, `python-data-analysis`)

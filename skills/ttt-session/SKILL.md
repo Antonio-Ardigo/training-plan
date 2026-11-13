@@ -249,11 +249,14 @@ The Artefacts Register is the course's visible anchor — it must stay authorita
 
 ## Socratic Execution Mode
 
-When running a session from a Socratic training plan (filename ends with `-socratic_training_plan.md` or contains `## Pedagogical Method: Socratic Discovery`), the standard TTT protocol is augmented with Socratic discovery mechanics. The session follows a **Question -> Tension -> Resolution -> Test** arc instead of the standard **Test -> Teach -> Test** arc.
+When running a session from a Socratic training plan, the TTT protocol keeps its three steps and changes how they are delivered. The **Question -> Tension -> Resolution -> Test** arc is a Socratic form of **Test -> Teach -> Test**: the Discovery Question and Initial Test are the first Test (where the tension appears), the Guidance Chain is the Teach (where the resolution is derived, not explained), and the Final Test is the second Test.
 
 ### Detection
 
-At Step 0, when reading the training plan, check for Socratic mode. If detected, set `SOCRATIC = true` and apply the modifications below to every phase.
+At Step 0, when reading the training plan, the method heading decides the mode:
+- `## Pedagogical Method: Socratic Discovery` means a Socratic plan: set `SOCRATIC = true` and apply the modifications below to every phase
+- `## Pedagogical Method: Test-Teach-Test` means a standard plan, even though that section mentions the Socratic command
+- No method heading (plans created before the section existed): fall back to the file name. A name ending in `-socratic_training_plan.md` is a Socratic plan.
 
 ### Phase 1 Modification: Discovery Question Before Initial Test
 

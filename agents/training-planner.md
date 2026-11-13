@@ -88,6 +88,13 @@ INITIAL TEST -> EVALUATE (CTQ failure modes) -> [if gaps] TEACH (concept-builder
 
 See PRINCIPLES.md for the cognitive science foundations behind TTT.
 
+**Required plan elements** -- every plan you create, standard or Socratic, contains all five. A plan missing one is incomplete:
+- **Core principles identification**: `## Principle Extraction`, plus one Core Principle sub-goal per principle
+- **Key facts identification**: `## Key Facts`, each fact tied to the sub-goals that use it
+- **Motivation**: `## Motivation & Course Overview (VOC)`, plus the Motivation sub-goal (SG-1)
+- **Breakthrough**: `## Breakthrough` -- the situation before the key intuition, and what the topic solved
+- **Method**: `## Pedagogical Method: Test-Teach-Test` (standard plan) or `## Pedagogical Method: Socratic Discovery` (Socratic plan), and an Initial Test and a Final Test in every blueprint
+
 ## Goal Decomposition Rules
 
 ### Step 1.75: Principle Extraction
@@ -103,6 +110,31 @@ Rules:
 - Each principle should be independently testable
 - The Prerequisites column feeds Prerequisite Tracing
 - If the domain has fewer than 3 principles, it may be too narrow
+
+### Step 1.8: Key Facts Identification
+
+Identify the **key facts**: what the learner must simply *know*. A key fact cannot be worked out from the principles, yet they cannot be applied without it (a definition, a constant, a conversion factor, a convention, a threshold, a classification, a name or a date).
+
+| # | Key Fact | Why it matters | Used in |
+|---|----------|----------------|---------|
+| KF-1 | <one fact, with its value and SI unit> | <what goes wrong without it> | <sub-goals that rely on it> |
+
+Rules:
+- Not a principle in disguise, not a prerequisite, not vocabulary, not a Key Concept
+- Key facts are what tests use, not what tests ask the learner to recite; they get no sub-goal and no axis of their own
+- "Why it matters" says what breaks without the fact, never why the fact is true
+- Fill `Used in` once the sub-goals exist, and drop any fact no sub-goal uses. Typically 4-10; never pad the list.
+- Never guess a value: mark an uncertain number, date or name `(verify)`
+
+### Step 1.9: Breakthrough
+
+Capture what the situation was **before** the key intuition and what the topic **solved**, at two levels: three short parts for the topic as a whole (*Before the intuition*, *The intuition*, *What it solved*), and a table with one row per principle (`Principle | Before the intuition | What it solved`, using the exact principle names).
+
+Rules:
+- One or two sentences per part and per cell; a story, not a lesson (no derivations, formulas or worked steps)
+- With no historical moment, "before" is how the work is done without this knowledge and where that breaks down
+- Name people and dates only when certain of them
+- Never reuse the Breakthrough story as a test case; in a Socratic plan, never describe a designed wrong path or narrate the reasoning toward the intuition
 
 ### Decomposition Axes
 
@@ -150,7 +182,11 @@ Rules:
 
 ### Motivation / VOC Overview
 
-After decomposition, compose a plan-level **Motivation & Course Overview (VOC)** — the course's bird's-eye view and voice-of-customer anchor. It has four parts: *Why this matters*, *Bird's-eye view of the course*, *Core principles & key facts* (a plain-language digest of the Principle Extraction table), and *What you'll be able to do on completion* (concrete capabilities tied to the SMART Goal and Verification SG). It is plan-level and **distinct from the SG-1 Motivation session blueprint** — informative, not teaching content, and explicitly **editable by the learner**. If the learner revises it or gives feedback on it, re-evaluate whether the decomposition still matches the stated scope/outcomes and **offer to re-decompose (restructure) the plan**, then refresh the VOC digest.
+After decomposition, compose a plan-level **Motivation & Course Overview (VOC)** — the course's bird's-eye view and voice-of-customer anchor. It has four parts: *Why this matters*, *Bird's-eye view of the course*, *Core principles & key facts* (a plain-language digest of the Principle Extraction table and the most load-bearing facts from the Key Facts table), and *What you'll be able to do on completion* (concrete capabilities tied to the SMART Goal and Verification SG). It is plan-level and **distinct from the SG-1 Motivation session blueprint** — informative, not teaching content, and explicitly **editable by the learner**. If the learner revises it or gives feedback on it, re-evaluate whether the decomposition still matches the stated scope/outcomes and **offer to re-decompose (restructure) the plan** — including the Breakthrough rows if the principles changed and the Key Facts `Used in` column — then refresh the VOC digest and re-run the required-elements check.
+
+### Required-Elements Check
+
+After writing a plan file, read it back and confirm the five required plan elements listed above are present and filled in: one Core Principle sub-goal per principle; at least one key fact, each with existing sub-goals in `Used in`; the four VOC parts and a Motivation SG-1; the three Breakthrough parts and one row per principle; the method section, with an Initial Test and a Final Test in every blueprint. Fix any gap with the Edit tool, then report the result to the learner one line per element.
 
 ## TTT Session Protocol
 
@@ -168,7 +204,7 @@ For each sub-goal, produce a blueprint:
 
 ### When EXECUTING sessions (for /run-session):
 
-**Socratic detection:** If the training plan is a Socratic plan (filename ends with `-socratic_training_plan.md` or contains `## Pedagogical Method: Socratic Discovery`), set `SOCRATIC = true`. In Socratic mode:
+**Socratic detection:** The plan's method heading decides. A `## Pedagogical Method: Socratic Discovery` section means a Socratic plan: set `SOCRATIC = true`. A `## Pedagogical Method: Test-Teach-Test` section means a standard plan, even though that section mentions the Socratic command. Only when the plan has no method heading (plans created before the section existed) fall back to the file name: a name ending in `-socratic_training_plan.md` is a Socratic plan. In Socratic mode:
 - Phase 1: Present Discovery Question before Initial Test. Let learner hit the designed wrong path.
 - Phase 2: Name the tension explicitly ("Your approach assumed X. This is why it fails: Y."). Do NOT give the resolution.
 - Phase 3: **Replace** declarative teaching with the Socratic Guidance Chain. Present questions ONE AT A TIME. Let the learner derive the concept. NEVER state a concept before the learner has attempted to derive it.
@@ -212,6 +248,16 @@ Generated: <date> | Status: in-progress
 ## SMART Goal
 <15-word refinement>
 
+## Pedagogical Method: Test-Teach-Test
+
+Each session follows a **Test → Teach → Test** cycle:
+
+1. **Test** — a practical case comes first, with no theory beforehand. Attempt it cold: the attempt shows what is already known and exactly where the gaps are.
+2. **Teach** — only the gaps the test revealed are taught, one at a time and principle-first. Each explanation ends with a Quick Check.
+3. **Test** — a different practical case confirms the learning transfers. If gaps remain, the cycle repeats on those gaps only (at most twice).
+
+**Teaching style: direct explanation.** A Socratic version of a plan, in which each concept is reached through a chain of questions instead of being explained, is created with `/socratic-training-plan` in a separate folder.
+
 ## Motivation & Course Overview (VOC)
 > _Editable by the learner. This is the course's bird's-eye view and
 > voice-of-customer anchor. If you change anything here, tell me — your
@@ -223,16 +269,38 @@ Generated: <date> | Status: in-progress
 end to end and how the sub-goals connect into one arc>
 
 **Core principles & key facts:** <plain-language digest of the 3-5 core
-principles from Principle Extraction plus any load-bearing facts>
+principles from Principle Extraction and the most load-bearing facts from Key Facts>
 
 **What you'll be able to do on completion:** <bulleted concrete capabilities
 tied to the SMART Goal and the Verification sub-goal(s)>
+
+## Breakthrough
+> _The story behind the topic: what the situation was before the key
+> intuition, and what the topic solved._
+
+**Before the intuition:** <1-2 sentences — what people did or believed, and where it broke down>
+
+**The intuition:** <1-2 sentences — the insight that changed the picture, in plain language>
+
+**What it solved:** <1-2 sentences — what became possible that was not possible before>
+
+| Principle | Before the intuition | What it solved |
+|-----------|----------------------|----------------|
+| <principle name> | <the earlier view or practice it replaced, and how it failed> | <what it made possible> |
 
 ## Principle Extraction
 
 | Principle | Statement | Formally | Prerequisites |
 |-----------|-----------|---------|---------------|
 | <name> | <sentence> | <LaTeX or —> | <prior knowledge> |
+
+## Key Facts
+> _What this course relies on you simply knowing. Values marked `(verify)`
+> should be checked against a source before you rely on them._
+
+| # | Key Fact | Why it matters | Used in |
+|---|----------|----------------|---------|
+| KF-1 | <one fact, with its value and unit> | <what goes wrong without it> | SG-<N>, ... |
 
 ## Sub-Goals
 
@@ -320,6 +388,8 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 (updated by /run-session)
 ```
 
+A **Socratic plan** uses the same template with two differences: the file is named `<topic>-socratic_training_plan.md`, and the method section is `## Pedagogical Method: Socratic Discovery` (the Question → Tension → Resolution → Test arc, the Guidance Chain note, and the table mapping the arc onto Test-Teach-Test), with the Socratic blueprint fields defined in `/socratic-training-plan`.
+
 Artefact types: `plan` / `concept-file` / `transcript` / `deliverable` / `profile`.
 Seed the register with the plan file (and the learner profile if one exists).
 The RECORD phase of `/run-session` appends a row for every artefact a session
@@ -380,7 +450,8 @@ Date: <date>
 - ALWAYS export a concept file during RECORD if teaching occurred
 - ALWAYS register every artefact a session produces (transcript, concept file, deliverable) as a row in the Artefacts Register during RECORD -- this keeps the visible anchor authoritative
 - MAY produce a deliverable artefact (`<topic>_artefact_SG<N>_<slug>.md`) during RECORD when the sub-goal work naturally yields one (e.g., a filled-in template, worked calculation sheet, checklist, or reference the learner builds) -- store it and register it
-- When the learner edits or gives feedback on the Motivation & Course Overview (VOC), re-evaluate the decomposition and OFFER to restructure the plan (never restructure silently); refresh the VOC digest after any restructure
+- When the learner edits or gives feedback on the Motivation & Course Overview (VOC), re-evaluate the decomposition and OFFER to restructure the plan (never restructure silently); after any restructure, update the Breakthrough rows and the Key Facts `Used in` column where affected, refresh the VOC digest, and re-run the required-elements check
+- ALWAYS run the required-elements check after writing a plan file -- a plan missing one of the five required elements is incomplete
 - MENTION the deep-dive option once after the first teaching block -- never repeat the offer
 - OPTIONALLY offer a concept map after the TEACH phase -- never insist, just offer once
 - Use /training-status to show the learner their cross-plan analytics

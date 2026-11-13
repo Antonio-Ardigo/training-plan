@@ -11,17 +11,19 @@ Reference knowledge for decomposing a learning goal into structured, testable su
 Takes a free-form learning goal and produces:
 
 1. A **Principle Extraction** of the domain (3-5 core principles)
-2. A refined **SMART Goal** (max 15 words)
-3. A plan-level **Motivation & Course Overview (VOC)** — a learner-editable bird's-eye view (why it matters, course arc, core-principles digest, completion outcomes)
-4. **N sub-goals** decomposed across 5 axes, each mapped to principles
-5. A **prerequisite graph** with hard dependencies
-6. A suggested **sequence** derived from the prerequisite graph
+2. A **Key Facts** table — what the learner must simply know, each fact tied to the sub-goals that use it
+3. A **Breakthrough** — the situation before the key intuition and what the topic solved, for the topic and for each principle
+4. A refined **SMART Goal** (max 15 words)
+5. A plan-level **Motivation & Course Overview (VOC)** — a learner-editable bird's-eye view (why it matters, course arc, digest of core principles and key facts, completion outcomes)
+6. **N sub-goals** decomposed across 5 axes, each mapped to principles
+7. A **prerequisite graph** with hard dependencies
+8. A suggested **sequence** derived from the prerequisite graph
 
 ---
 
-## Core Principles vs Key Concepts
+## Core Principles, Key Concepts and Key Facts
 
-The decomposition distinguishes two tiers of knowledge:
+The decomposition distinguishes three kinds of knowledge:
 
 ### Core Principles
 
@@ -43,18 +45,31 @@ Specific, teachable ideas that **operationalize** core principles. They are more
 - Example (cost engineering): *"Unit-rate estimation: multiply quantity takeoff by unit rate to get direct cost"*
 - Example (quantum computing): *"The Bloch sphere representation of a single qubit"*
 
+### Key Facts
+
+Specific things the learner must simply **know**. A key fact cannot be worked out from the core principles, yet neither the principles nor the key concepts can be applied without it: a definition, a constant, a conversion factor, a convention, a threshold or standard value, a classification, a name or a date.
+
+- No abstraction: a fact is stated, not reasoned
+- Checkable against a source; an uncertain value is marked `(verify)`, never guessed
+- Load-bearing: at least one sub-goal's test relies on it
+- What tests *use*, not what tests ask the learner to recite: key facts get no sub-goal and no axis
+- Example (cost engineering): *"1 t = 1,000 kg"*; *"AACE estimate classes run from Class 5 (least project definition) to Class 1 (most)"*
+- Example (quantum computing): *"The two computational basis states of a qubit are written $|0\rangle$ and $|1\rangle$"*
+
+A key fact is **not** a principle in disguise (if it follows from a principle in the plan, the principle carries it), **not** a prerequisite (those go in the Prerequisites column of the Principle Extraction table), **not** vocabulary (terms are defined in each session's Key Terms table), and **not** a key concept.
+
 ### The Relationship
 
-Core principles **generate** key concepts. Every key concept must trace back to at least one core principle. A single core principle may generate multiple key concepts. Core principles come first in the learning sequence because they provide the framework into which key concepts slot.
+Core principles **generate** key concepts. Every key concept must trace back to at least one core principle. A single core principle may generate multiple key concepts. Core principles come first in the learning sequence because they provide the framework into which key concepts slot. Key facts are the fixed points that both rely on.
 
-| Dimension | Core Principle | Key Concept |
-|-----------|---------------|-------------|
-| Abstraction | High — domain-level truth | Medium — specific, teachable idea |
-| Scope | Broad — applies across the domain | Narrow — one testable competency |
-| Stability | Rarely changes | May evolve with methods/tools |
-| Testability | Testable via understanding/reasoning | Testable via practical case |
-| Position in sequence | Early — sets the framework | After the principle(s) it depends on |
-| Maps to in plan | Core Principle axis SG | Key Concept axis SG |
+| Dimension | Core Principle | Key Concept | Key Fact |
+|-----------|---------------|-------------|----------|
+| Abstraction | High — domain-level truth | Medium — specific, teachable idea | None — one stated item |
+| Scope | Broad — applies across the domain | Narrow — one testable competency | A single value, definition or convention |
+| Stability | Rarely changes | May evolve with methods/tools | Fixed by definition, measurement or standard |
+| Testability | Testable via understanding/reasoning | Testable via practical case | Not tested by itself — used inside practical cases |
+| Position in sequence | Early — sets the framework | After the principle(s) it depends on | Wherever a sub-goal first relies on it |
+| Maps to in plan | Core Principle axis SG | Key Concept axis SG | A row in the Key Facts table |
 
 ---
 
@@ -74,6 +89,30 @@ For each principle, state:
 - Each principle should be independently testable
 - The Prerequisites column feeds Step 4 (Prerequisite Tracing)
 - If the domain has fewer than 3 principles, it may be too narrow — consider whether the goal should be a sub-goal of a larger plan
+
+### Key Facts Identification
+
+Right after the principles, list the key facts (see the definition above):
+
+| # | Key Fact | Why it matters | Used in |
+|---|----------|----------------|---------|
+| KF-1 | <one fact, with its value and SI unit> | <what goes wrong without it> | <sub-goals that rely on it> |
+
+- For each principle ask: "What must the learner already know as a fact to apply this?" Then add any fact the practical cases need that no principle covers.
+- "Why it matters" says what breaks without the fact, never why the fact is true
+- `Used in` is filled once the sub-goals exist (after Step 5); a fact that no sub-goal uses is dropped
+- Typically 4-10. Never pad the list.
+
+### Breakthrough
+
+Then capture the breakthrough: what the situation was **before** the key intuition, and what the topic **solved**.
+
+- For the topic as a whole, three short parts: *Before the intuition* (what people did or believed, and where it broke down), *The intuition* (the insight, in plain language), *What it solved* (what became possible)
+- For each principle, one table row with the exact principle name: `Principle | Before the intuition | What it solved`
+- One or two sentences per part and per cell. A story, not a lesson: no derivations, formulas or worked steps.
+- With no historical moment (a practical skill, a tool), "before" is how the work is done without this knowledge and where that breaks down
+- Name people and dates only when certain of them
+- The Breakthrough story is never reused as a test case
 
 ---
 
@@ -204,6 +243,12 @@ When decomposing a goal, produce this structure:
 |-----------|-----------|---------|---------------|
 | <name> | <sentence> | <LaTeX or —> | <prior knowledge> |
 
+## Key Facts
+
+| # | Key Fact | Why it matters | Used in |
+|---|----------|----------------|---------|
+| KF-1 | <one fact, with its value and unit> | <what goes wrong without it> | SG-<N>, ... |
+
 ## SMART Goal
 <15-word refined statement>
 
@@ -215,9 +260,21 @@ When decomposing a goal, produce this structure:
 
 **Bird's-eye view of the course:** <2-4 sentences — end-to-end scope and how the sub-goals connect>
 
-**Core principles & key facts:** <plain-language digest of the Principle Extraction table above>
+**Core principles & key facts:** <plain-language digest of the Principle Extraction table and the most load-bearing facts from Key Facts>
 
 **What you'll be able to do on completion:** <concrete capabilities tied to the SMART Goal and Verification sub-goal(s)>
+
+## Breakthrough
+
+**Before the intuition:** <1-2 sentences — what people did or believed, and where it broke down>
+
+**The intuition:** <1-2 sentences — the insight that changed the picture, in plain language>
+
+**What it solved:** <1-2 sentences — what became possible that was not possible before>
+
+| Principle | Before the intuition | What it solved |
+|-----------|----------------------|----------------|
+| <principle name> | <the earlier view or practice it replaced, and how it failed> | <what it made possible> |
 
 ## Sub-Goals
 

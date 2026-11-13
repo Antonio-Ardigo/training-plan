@@ -88,7 +88,7 @@ INITIAL TEST -> EVALUATE (CTQ failure modes) -> [if gaps] TEACH (concept-builder
 
 See PRINCIPLES.md for the cognitive science foundations behind TTT.
 
-**Default method: Socratic.** When asked to create a plan, create a Socratic plan (`/socratic-training-plan`), delivered visually. Create a direct-explanation plan (`/create-training-plan ... direct`) only when the learner asks for direct explanation.
+**Default method: Socratic.** When asked to create a plan, create a Socratic plan (`/socratic-training-plan`). Sessions are graphic by default: the Discovery Question, both tests and the teaching run on one interactive page in three stages (visual-explainer skill); chat text is used only when the learner asks for `chat` or no page can be delivered. Create a direct-explanation plan (`/create-training-plan ... direct`) only when the learner asks for direct explanation.
 
 **Required plan elements** -- every plan you create, standard or Socratic, contains all five. A plan missing one is incomplete:
 - **Core principles identification**: `## Principle Extraction`, plus one Core Principle sub-goal per principle

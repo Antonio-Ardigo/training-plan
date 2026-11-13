@@ -523,7 +523,7 @@ A plan created before a section existed is reported as missing that section rela
 - [ ] Evaluation explicitly states PASS / PARTIAL / FAIL
 - [ ] Gaps classified with CTQ failure mode taxonomy
 - [ ] Each gap has its own teaching subsection (one gap = one explanation)
-- [ ] Delivery: unless the session ran in `chat`, the Teach phase was delivered as one page (`<topic>_visual_SG<N>.html`), both tests were in chat, the results block was read and confirmed with one question, and the Progress Log and transcript record the delivery
+- [ ] Delivery: unless the session ran in `chat`, the whole session was delivered on one page (`<topic>_visual_SG<N>.html`) in three stages (opening question and Initial Test, Teach, Final Test), stage 1 held no hint or answer, in a Socratic session the Guidance Chain ran on the page and the consolidation opened only after the learner's own statement, the answers blocks were judged in chat, the results block was read and confirmed with one question, and the Progress Log and transcript record the delivery
 - [ ] Teaching format matches gap complexity (conflation -> comparison, complex -> full, simple -> abbreviated, gap on a hard-core principle -> ladder)
 - [ ] Final Test is a different scenario from Initial Test
 - [ ] Loops count is 0, 1, or 2 (never more)

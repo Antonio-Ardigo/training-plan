@@ -22,9 +22,22 @@ Some principles are easier to see than to read: a matrix whose rows and columns 
 | Final Test | chat | **the page, stage 3** |
 | Record | files | files, plus the page |
 
-The page shows, asks and collects. It checks numeric and multiple-choice answers itself. Written reasoning is typed on the page and comes back to chat in the answers block, because only the session can judge it: the page never decides whether the learner has mastered the sub-goal.
+The page shows, asks, checks and saves. It checks numeric and multiple-choice answers itself, and has written reasoning judged in place against the blueprint's pass criteria. The session confirms the result from the saved record when the learner returns.
 
-### The three stages
+### The whole session on the page (no copying)
+
+The learner should be able to go from the first question to the result of the Final Test without leaving the page and without copying anything into chat. Build the page this way whenever the environment lets a published page (a) ask the model a question and (b) save data the session can read back (in Claude artifacts: the `sample` and `db` capabilities).
+
+- **One step on screen at a time.** The picture stays pinned at the top; below it is a single step with one thing to do and one button. A progress line says "Step N of M". No stage tabs, no long scroll, no sections to hunt for. Each step's feedback appears in place, then a Next button.
+- **Answers are checked where they are given.** Choices, values and operations on the picture are checked by the page's own code. Written answers (the learner's statement of the idea, the open parts of a test) are sent to the model from the page with the blueprint's pass criteria as the rubric; the reply is a verdict plus at most two or three sentences, shown in place. In a Socratic step the reply to a weak statement is one narrowing question, never the idea itself.
+- **Everything is saved by the page**, after every step: each answer, the number of tries, the written statements and the verdicts. The session reads this record when the learner comes back; nothing is pasted.
+- **All three stages are built at once** and follow each other on the page: the opening question and Initial Test, the discovery and consolidation, the Final Test with its result. After a failed Final Test the page offers it again (at most twice) on the same page. Because the teaching cannot be built from an answer not yet given, it covers the blueprint's whole Guidance Chain and every anticipated CTQ; the learner's own Initial Test answer is quoted by the page where the teaching begins.
+- **Help without leaving.** A small "A word is unclear?" box asks the model for a term clarification under the term-clarifier's rules (the term only, no help with the exercise). A "not familiar" button on a test opens the full explanation on a case that is not the test's.
+- **The end screen** gives the result and one line: the session is saved, and writing `done` in chat records it and proposes the next session.
+- **The session's part.** When the learner returns, read the saved record, confirm or correct the page's verdicts against the pass criteria (the session's judgement is final), and go to RECORD. Do not ask the learner to repeat anything the record holds.
+- **Fall back** to the staged page with answers and results blocks, described next, only when the page cannot ask the model or cannot save. Say which is missing.
+
+### The three stages (fall-back: answers come back through chat)
 
 The page is one file, delivered again at the same address as each stage is added. Earlier stages stay on the page, collapsed.
 

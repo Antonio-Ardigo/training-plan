@@ -268,7 +268,7 @@ Read ALL generated artifacts and run the complete checklist. Write the report to
 - [ ] All 9 columns present: #, Axis, Sub-Goal, Domain, Difficulty, Depth, Principle, Status, Score
 - [ ] Axis values valid: Motivation, Key Concept, Tool, Verification
 - [ ] Difficulty values valid: low, med, high
-- [ ] Depth values valid: intro, inter, adv (or introductory, intermediate, advanced)
+- [ ] Depth values valid: HS, MSc, Adv (or High school, Master's, Advanced). Plans created before these names existed use intro, inter, adv (or introductory, intermediate, advanced), which are also valid.
 - [ ] Status values valid: pending, complete, needs-review
 - [ ] Sequential numbering (SG-1, SG-2, ...)
 - [ ] Every row has all columns populated

@@ -84,7 +84,7 @@ Example:
 The Teach phase uses a principle-first approach adapted from the concept-builder methodology:
 
 1. **The Problem** -- why the gap matters (framed in learner's context)
-2. **Core Principles** -- foundational truths (with LaTeX at intermediate+ levels)
+2. **Core Principles** -- foundational truths (with LaTeX at the Master's level and above)
 3. **Key Innovations** -- breakthroughs and techniques
 3.5. **Worked Example** -- fully developed step-by-step example with every intermediate step shown and annotated (always included)
 4. **Intuitive Formalization** -- minimum math needed for prediction

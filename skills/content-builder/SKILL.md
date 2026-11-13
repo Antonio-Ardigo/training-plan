@@ -48,7 +48,7 @@ Then reveal the expected answer and evaluate. Do NOT write the expected answer i
 Deliver all 7 sections from the concept-explainer skill at the session's depth level:
 
 1. **The Problem** -- What makes this concept necessary; framed in the learner's gap context
-2. **Core Principles** (3-5) -- Foundational truths with statement + LaTeX (at intermediate+) + example
+2. **Core Principles** (3-5) -- Foundational truths with statement + LaTeX (at the Master's level and above) + example
 3. **Key Innovations** (2-4) -- Breakthroughs: who, what it solved, worked example
 4. **Worked Example** -- FULLY DEVELOPED step-by-step example with every intermediate step shown, every algebraic/linguistic/logical transformation explicit, annotated with "Why" and "Note" at each step. See concept-explainer skill Section 3.5 for format and domain templates.
 5. **Intuitive Formalization** -- Minimum math to make predictions

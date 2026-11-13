@@ -27,7 +27,7 @@ For each sub-goal, produce a session blueprint with this structure:
 - Assesses: <specific competencies being tested>
 - Pass criteria: <concrete, measurable threshold>
 
-**Estimated Depth:** <introductory/intermediate/advanced>
+**Estimated Depth:** <High school/Master's/Advanced>
 
 **Anticipated CTQs:**
 | CTQ | Source | Mastery Test | Common Failure Mode |
@@ -69,9 +69,9 @@ For each sub-goal, produce a session blueprint with this structure:
 6. **Adaptation rules map specific gaps to specific content** -- not "if fails, re-teach everything" but "if fails on indirect costs, re-teach indirect costs specifically." Classify anticipated failures using CTQ failure mode taxonomy.
 
 7. **Estimated Depth determines teaching richness** -- derived from the sub-goal's difficulty:
-   - low difficulty -> introductory (minimal LaTeX, 3 principles, brief)
-   - medium difficulty -> intermediate (full LaTeX, 3-5 principles, worked examples)
-   - high difficulty -> advanced (proofs, edge cases, 5 principles, detailed)
+   - low difficulty -> High school (minimal LaTeX, 3 principles, brief)
+   - medium difficulty -> Master's (full LaTeX, 3-5 principles, worked examples)
+   - high difficulty -> Advanced (proofs, edge cases, 5 principles, detailed)
 
 ---
 
@@ -179,7 +179,7 @@ For each identified gap, generate a concept explanation using the `content-build
    - Complex gap (has failure mode) -> Full Concept Explanation (7 sections including Worked Example)
    - Conflation gap -> Concept Comparison
 
-2. **Select depth level** from the blueprint's Estimated Depth (default: intermediate)
+2. **Select depth level** from the blueprint's Estimated Depth: High school, Master's or Advanced (older plans say introductory / intermediate / advanced; read them one for one). Default: Master's.
 
 3. **Deliver the concept explanation**:
    - ONE explanation per gap, delivered sequentially

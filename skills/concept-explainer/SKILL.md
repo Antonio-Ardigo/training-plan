@@ -8,7 +8,7 @@ Reference knowledge for generating rich, principle-first concept explanations wi
 
 ## Standalone Invocation Rule
 
-When this skill is invoked directly (e.g., via `/training-plan:concept-explainer` or when a learner declares "not familiar" with a topic), ALWAYS deliver the **Full 7-Section Concept Explanation** at intermediate depth (default). NEVER use the abbreviated form for standalone invocations -- the abbreviated form is reserved exclusively for simple gaps within TTT session Teach phases. A standalone concept explanation must include all 7 sections: The Problem, Core Principles, Key Innovations, Worked Example, Intuitive Formalization, CTQ Mapping, and Conceptual Map.
+When this skill is invoked directly (e.g., via `/training-plan:concept-explainer` or when a learner declares "not familiar" with a topic), ALWAYS deliver the **Full 7-Section Concept Explanation** at the Master's level (the default) or at the level the user names (High school, Master's or Advanced). NEVER use the abbreviated form for standalone invocations -- the abbreviated form is reserved exclusively for simple gaps within TTT session Teach phases. A standalone concept explanation must include all 7 sections: The Problem, Core Principles, Key Innovations, Worked Example, Intuitive Formalization, CTQ Mapping, and Conceptual Map.
 
 ## The 7-Section Concept Explanation Structure
 
@@ -37,7 +37,7 @@ For each principle:
 **Example**: [Concrete, vivid illustration]
 ```
 
-Order from most fundamental to most derived. At `introductory` level, omit the **Formally** line.
+Order from most fundamental to most derived. At the High school level, omit the **Formally** line.
 
 ### Section 3: Key Innovations (2-4 innovations)
 
@@ -86,9 +86,9 @@ $$[Final result with units]$$
 - Every variable must be defined on first use with its units.
 - The "Why" annotation explains the REASONING, not just restates the math in words.
 - The "Note" annotation flags traps: unit mismatches, sign conventions, boundary conditions.
-- At `introductory` level: use concrete numbers throughout, minimize symbols.
-- At `intermediate` level: start with symbols, substitute numbers, show both.
-- At `advanced` level: prove each step, show alternative approaches, discuss edge cases.
+- At the High school level: use concrete numbers throughout, minimize symbols.
+- At the Master's level: start with symbols, substitute numbers, show both.
+- At the Advanced level: prove each step, show alternative approaches, discuss edge cases.
 
 #### Domain Templates
 
@@ -198,7 +198,7 @@ NOT the most general form -- minimum math needed to make predictions.
 | [name] | $[LaTeX]$ | [plain-language meaning] |
 ```
 
-At `introductory` level, this section is a brief paragraph with minimal notation.
+At the High school level, this section is a brief paragraph with minimal notation.
 
 ### Section 5: CTQ Mapping
 
@@ -218,13 +218,25 @@ Markdown nested-list visualization of the concept's structure. See the Concept M
 
 ## Depth Levels
 
+There are three levels. A level says who the explanation is for: it sets the notation, the rigor and the kind of solved exercise.
+
+| Level | Assumes | Explanation | Solved exercise |
+|-------|---------|-------------|-----------------|
+| **High school** | School mathematics; no earlier exposure to the topic | Plain words, one picture or analogy, concrete numbers; every symbol explained on first use | Concrete numbers throughout, every step shown |
+| **Master's** | The field's standard tools and notation | The formal statement, where it comes from, the key equations | Symbols first, then numbers; every step with its reason |
+| **Advanced** | The Master's level, mastered | Full generality: a proof or rigorous derivation, the limits of validity, competing formulations | A proof, a derivation or a non-standard case, with edge cases checked |
+
+How each section of an explanation scales with the level:
+
 | Level | Math | Principles | Worked Example | Innovations | CTQ |
 |-------|------|-----------|---------------|------------|-----|
-| **introductory** | Minimal notation, intuition-first | 3, plain-language only | Concrete numbers throughout, all steps shown, plain-language annotations | 2, brief | Short table (2-3 rows) |
-| **intermediate** | Full LaTeX throughout | 3-5 with LaTeX | Symbols + numbers, all steps with LaTeX, "Why" and "Note" annotations | 2-4 with worked examples | Full table with mastery tests |
-| **advanced** | Proofs, edge cases, competing forms | 5 with derivations | Multiple approaches shown, edge cases explored, proof annotations | 4 with detailed proofs | Advanced failure modes + edge cases |
+| **High school** | Minimal notation, intuition-first | 3, plain-language only | Concrete numbers throughout, all steps shown, plain-language annotations | 2, brief | Short table (2-3 rows) |
+| **Master's** | Full LaTeX throughout | 3-5 with LaTeX | Symbols + numbers, all steps with LaTeX, "Why" and "Note" annotations | 2-4 with worked examples | Full table with mastery tests |
+| **Advanced** | Proofs, edge cases, competing forms | 5 with derivations | Multiple approaches shown, edge cases explored, proof annotations | 4 with detailed proofs | Advanced failure modes + edge cases |
 
-Default within TTT sessions: **intermediate**.
+Within a TTT session, the level is the sub-goal's `Estimated Depth` in the plan. With no plan to read it from, the default is **Master's**.
+
+**Level names.** Write them in full: High school, Master's, Advanced. Plan tables may abbreviate them to HS, MSc, Adv. Never shorten "High school" to "high": that is a difficulty value. Plans created before these names existed say `introductory` / `intermediate` / `advanced` (`intro` / `inter` / `adv` in tables); read those as High school / Master's / Advanced.
 
 ---
 
@@ -315,7 +327,7 @@ All mathematical expressions use LaTeX notation:
 | Probability | `$P(A|B)$`, `$\mathbb{E}[X]$` |
 | Norms | `$\|x\|$`, `$\|A\|_F$` |
 
-At `introductory` level, use minimal notation and explain every symbol on first use.
+At the High school level, use minimal notation and explain every symbol on first use.
 
 ---
 
@@ -548,7 +560,7 @@ date: [YYYY-MM-DD]
 type: ttt-session
 session: SG-[N]
 plan: [training plan filename]
-level: [introductory/intermediate/advanced]
+level: [High school / Master's / Advanced]
 tags: [domain, topic, sub-goal-title]
 ---
 ```

@@ -155,7 +155,7 @@ For EACH identified gap, deliver a concept explanation using the content-builder
 - Conflation gap -> **Concept Comparison** (shared principles + divergences + CTQ distinction)
 
 **Step 2: Determine depth level**
-Use the sub-goal's blueprint Estimated Depth. Default: intermediate.
+Use the sub-goal's blueprint Estimated Depth: High school, Master's or Advanced (defined in the concept-explainer skill's Depth Levels). Plans created before these names existed say introductory / intermediate / advanced; read those as High school / Master's / Advanced. Default when the blueprint gives none: Master's.
 
 **Step 3: Deliver the concept explanation**
 - ONE explanation per gap, delivered sequentially

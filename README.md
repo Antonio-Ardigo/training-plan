@@ -2,6 +2,25 @@
 
 Generate customized learning paths using **Test-Teach-Test (TTT)** methodology with integrated concept-builder pedagogy. Built for difficult subjects: the hardest principles of a topic get an explanation designed around an aha moment, taught at three levels, with fully worked exercises.
 
+## Install
+
+In Claude Code, add this repository as a marketplace and install the plugin from it:
+
+```
+/plugin marketplace add Antonio-Ardigo/training-plan
+/plugin install training-plan@training-plan
+```
+
+On Claude Code 2.1.275 or later this works in one step:
+
+```
+/plugin install training-plan --marketplace Antonio-Ardigo/training-plan
+```
+
+Installed this way, each command carries the plugin's name: `/training-plan:create-training-plan`, `/training-plan:run-session`, and so on. The commands below are written in their short form.
+
+To try the plugin from a local copy without installing it, start Claude Code with `claude --plugin-dir <path to this folder>`.
+
 ## How It Works
 
 1. You provide a learning goal and a **target level**: High school, Master's or Advanced (the plugin asks if you do not say)

@@ -1,0 +1,150 @@
+<title>Why Apple Needs Its Neighbours</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one dark slide-like column, the course diagram on top, the task below it. Single dark look, matching the course slide. */
+:root{
+  color-scheme:dark;
+  --bg:#0d1017; --panel:#151a24; --line:#2a3242; --fg:#e8eef5; --muted:#9aa7b5;
+  --query:#5fe0d0; --key:#f2b84b; --value:#e58fd0; --out:#7dea9c; --label:#e6e08a; --ink:#8fd3ff;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif;
+}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+h1,h2{font-family:var(--display);text-wrap:balance;margin:0}
+h1{font-size:1.7rem}
+h2{font-size:1.15rem;color:var(--label)}
+p{margin:0;max-width:65ch}
+.eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.stages{display:flex;gap:8px;flex-wrap:wrap;list-style:none;padding:0;margin:0;font-size:.8rem}
+.stages li{padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.stages li[aria-current]{border-color:var(--out);color:var(--out)}
+section{display:flex;flex-direction:column;gap:12px}
+.fig{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto;min-width:320px}
+.q{font-family:var(--display);font-size:1.2rem;font-style:italic;color:var(--ink);border-left:3px solid var(--ink);padding-left:14px}
+.cap{font-size:.85rem;color:var(--muted)}
+.near{font-size:.95rem;min-height:1.6em}
+.near b{color:var(--label)}
+.tok{cursor:pointer}
+.tok:focus-visible circle{stroke:var(--fg);stroke-width:3}
+ol.task{margin:0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:16px}
+ol.task label{display:block;font-weight:600;margin-bottom:6px}
+textarea{width:100%;box-sizing:border-box;min-height:84px;background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:10px;font:inherit;resize:vertical}
+textarea:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+pre{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;white-space:pre-wrap;word-break:break-word;font-size:.85rem;color:var(--fg)}
+button{font:inherit;font-weight:600;background:var(--out);color:var(--bg);border:0;border-radius:6px;padding:10px 18px;cursor:pointer;align-self:flex-start}
+.notes{font-size:.9rem;color:var(--muted);font-style:italic;display:flex;flex-direction:column;gap:6px}
+.notes b{color:var(--fg)}
+</style>
+
+<div class="wrap">
+  <header style="display:flex;flex-direction:column;gap:10px">
+    <span class="eyebrow">Attention: Query, Key and Value · SG-1</span>
+    <h1>Why Apple needs its neighbours</h1>
+    <ol class="stages">
+      <li aria-current="step">1 · Question and first test</li>
+      <li>2 · Discovery</li>
+      <li>3 · Final test</li>
+    </ol>
+  </header>
+
+  <section>
+    <h2>The course picture, today</h2>
+    <div class="fig">
+      <svg viewBox="0 0 800 330" role="img" aria-label="Course diagram with only the sentence Love Apple Phones and the output E prime Apple visible; the mechanism between them is covered">
+        <text x="400" y="42" fill="#fff" font-family="Space Grotesk,sans-serif" font-size="24" font-weight="700" font-style="italic" text-anchor="middle">“Love Apple Phones”</text>
+        <g font-family="Space Grotesk,sans-serif" font-size="15" font-weight="700" text-anchor="middle">
+          <text x="230" y="80" fill="#9aa7b5">Love</text><text x="400" y="80" fill="#fff">Apple</text><text x="570" y="80" fill="#9aa7b5">Phones</text>
+        </g>
+        <rect x="120" y="98" width="560" height="140" rx="6" fill="#1b2230" stroke="#3a4558" stroke-dasharray="7 6"/>
+        <text x="400" y="162" fill="#9aa7b5" font-family="Space Grotesk,sans-serif" font-size="40" font-weight="700" text-anchor="middle">?</text>
+        <text x="400" y="196" fill="#9aa7b5" font-family="Inter,sans-serif" font-size="14" text-anchor="middle">covered: what would have to be computed here?</text>
+        <text x="400" y="296" fill="#7dea9c" font-family="Space Grotesk,sans-serif" font-size="32" font-weight="700" text-anchor="middle">E′<tspan font-size="18" dy="7">Apple</tspan><tspan dy="-7" fill="#e6e08a">  =  ?</tspan></text>
+      </svg>
+    </div>
+    <p class="cap">Every session of this course uses this one picture. Today only the sentence and the result are uncovered.</p>
+  </section>
+
+  <section>
+    <h2>Discovery question</h2>
+    <p class="q">A lookup table gives the token Apple one vector, the same in every sentence it appears in. In “Love Apple Phones” a reader knows at once that Apple is a company. Where, in a system that owns only that table, is that knowledge?</p>
+    <p class="cap">Keep it in mind. You do not have to answer it yet.</p>
+  </section>
+
+  <section>
+    <h2>Practical case</h2>
+    <p>A product-search team represents each query by its token embeddings. This is their embedding space, flattened to two dimensions. The grey dots are catalogue items. Select a token to see its nearest catalogue items.</p>
+    <div class="fig">
+      <svg id="map" viewBox="0 0 800 420" role="group" aria-label="Embedding map with three query tokens and nine catalogue items"></svg>
+    </div>
+    <p class="near" id="near" aria-live="polite">Nearest to <b>Apple</b>: …</p>
+    <p>For “Love Apple Phones”, the nearest catalogue items to the vector of Apple are fruit. A developer fixes it this way: <strong>each token's vector is replaced by the plain average of the three token vectors.</strong></p>
+  </section>
+
+  <section>
+    <h2>Your task</h2>
+    <ol class="task">
+      <li><label for="a">(a) What do the vectors of Love, Apple and Phones look like after this fix?</label><textarea id="a"></textarea></li>
+      <li><label for="b">(b) What happens with a ten-word query in which only one word is about phones?</label><textarea id="b"></textarea></li>
+      <li><label for="c">(c) List the requirements a proper fix must meet.</label><textarea id="c"></textarea></li>
+    </ol>
+    <div class="notes">
+      <span>If you are not familiar with this topic, write <b>"not familiar"</b> in chat to receive a full concept explanation before attempting the test.</span>
+      <span>If any term in this question is unclear, ask in chat for a <b>clarification</b>. I will explain the term without helping you solve the problem.</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Back to your session</h2>
+    <p>Copy this block and paste it into the chat. Your answers are judged there, and the next stage is then added to this page.</p>
+    <pre id="out"></pre>
+    <button id="copy" type="button">Copy my answers</button>
+  </section>
+</div>
+
+<script>
+const items=[
+ {n:"pear",x:6,y:1.5},{n:"orange",x:5.5,y:0.4},{n:"banana",x:4.2,y:1.7},
+ {n:"charger",x:8.5,y:5},{n:"laptop",x:7,y:6.8},{n:"headset",x:8.9,y:6.9},
+ {n:"gift card",x:1,y:5},{n:"greeting card",x:2.3,y:6.9},{n:"flowers",x:0.8,y:7}];
+const toks=[{n:"Love",x:1.5,y:6},{n:"Apple",x:5,y:1},{n:"Phones",x:8,y:6}];
+const svg=document.getElementById("map"),NS="http://www.w3.org/2000/svg";
+const X=v=>60+v*70, Y=v=>390-v*48;
+function el(t,a,txt){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt)e.textContent=txt;return e}
+const lines=el("g",{});svg.appendChild(lines);
+items.forEach(i=>{svg.appendChild(el("circle",{cx:X(i.x),cy:Y(i.y),r:6,fill:"#6b7788"}));
+  svg.appendChild(el("text",{x:X(i.x)+10,y:Y(i.y)+5,fill:"#9aa7b5","font-size":14,"font-family":"Inter,sans-serif"},i.n))});
+function nearest(t){return items.map(i=>({i,d:Math.hypot(i.x-t.x,i.y-t.y)})).sort((p,q)=>p.d-q.d).slice(0,3).map(p=>p.i)}
+function pick(t){
+  lines.replaceChildren();
+  const nn=nearest(t);
+  nn.forEach(i=>lines.appendChild(el("line",{x1:X(t.x),y1:Y(t.y),x2:X(i.x),y2:Y(i.y),stroke:"#8fd3ff","stroke-width":1.5,"stroke-dasharray":"4 4"})));
+  svg.querySelectorAll(".tok circle").forEach(c=>c.setAttribute("stroke",c.dataset.n===t.n?"#e8eef5":"none"));
+  document.getElementById("near").innerHTML="Nearest to <b>"+t.n+"</b> ("+t.x+", "+t.y+"): "+nn.map(i=>i.n).join(", ");
+}
+toks.forEach(t=>{
+  const g=el("g",{class:"tok",tabindex:0,role:"button","aria-label":"Show nearest items to "+t.n});
+  const c=el("circle",{cx:X(t.x),cy:Y(t.y),r:11,fill:"#7dea9c","stroke-width":3,stroke:"none"});c.dataset.n=t.n;
+  g.appendChild(c);
+  g.appendChild(el("text",{x:X(t.x),y:Y(t.y)-18,fill:"#ffffff","font-size":17,"font-weight":700,"font-family":"Space Grotesk,sans-serif","text-anchor":"middle"},t.n));
+  g.addEventListener("click",()=>pick(t));
+  g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pick(t)}});
+  svg.appendChild(g)});
+pick(toks[1]);
+
+const ids=["a","b","c"],out=document.getElementById("out");
+function render(){
+  out.textContent="SESSION ANSWERS\nSub-goal: SG-1 Why Apple needs its neighbours | Initial Test\n"+
+    ids.map(k=>"("+k+") "+(document.getElementById(k).value.trim()||"(no answer)")).join("\n");
+}
+ids.forEach(k=>{const t=document.getElementById(k);
+  try{t.value=localStorage.getItem("sg1-"+k)||""}catch(e){}
+  t.addEventListener("input",()=>{try{localStorage.setItem("sg1-"+k,t.value)}catch(e){}render()})});
+render();
+document.getElementById("copy").addEventListener("click",async e=>{
+  const b=e.currentTarget;
+  try{await navigator.clipboard.writeText(out.textContent);b.textContent="Copied"}
+  catch(err){const r=document.createRange();r.selectNodeContents(out);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected: copy it now"}
+  setTimeout(()=>b.textContent="Copy my answers",2500)});
+</script>

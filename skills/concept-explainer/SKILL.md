@@ -8,7 +8,7 @@ Reference knowledge for generating rich, principle-first concept explanations wi
 
 ## Standalone Invocation Rule
 
-When this skill is invoked directly (e.g., via `/training-plan:concept-explainer` or when a learner declares "not familiar" with a topic), ALWAYS deliver the **Full 7-Section Concept Explanation** at intermediate depth (default). NEVER use the abbreviated form for standalone invocations -- the abbreviated form is reserved exclusively for simple gaps within TTT session Teach phases. A standalone concept explanation must include all 7 sections: The Problem, Core Principles, Key Innovations, Worked Example, Intuitive Formalization, CTQ Mapping, and Conceptual Map.
+When this skill is invoked directly (e.g., via `/training-plan:concept-explainer` or when a learner declares "not familiar" with a topic), ALWAYS deliver the **Full 7-Section Concept Explanation** at the Master's level (the default) or at the level the user names (High school, Master's or Advanced). NEVER use the abbreviated form for standalone invocations -- the abbreviated form is reserved exclusively for simple gaps within TTT session Teach phases. A standalone concept explanation must include all 7 sections: The Problem, Core Principles, Key Innovations, Worked Example, Intuitive Formalization, CTQ Mapping, and Conceptual Map.
 
 ## The 7-Section Concept Explanation Structure
 
@@ -37,7 +37,7 @@ For each principle:
 **Example**: [Concrete, vivid illustration]
 ```
 
-Order from most fundamental to most derived. At `introductory` level, omit the **Formally** line.
+Order from most fundamental to most derived. At the High school level, omit the **Formally** line.
 
 ### Section 3: Key Innovations (2-4 innovations)
 
@@ -86,9 +86,10 @@ $$[Final result with units]$$
 - Every variable must be defined on first use with its units.
 - The "Why" annotation explains the REASONING, not just restates the math in words.
 - The "Note" annotation flags traps: unit mismatches, sign conventions, boundary conditions.
-- At `introductory` level: use concrete numbers throughout, minimize symbols.
-- At `intermediate` level: start with symbols, substitute numbers, show both.
-- At `advanced` level: prove each step, show alternative approaches, discuss edge cases.
+- ALWAYS end with a **Check** that confirms the result a second way: units or dimensions, a limiting or special case, substituting the result back, an independent method, or an order-of-magnitude estimate. A line that only restates the result is not a Check. This applies to every worked example and to every worked solution of an exercise.
+- At the High school level: use concrete numbers throughout, minimize symbols.
+- At the Master's level: start with symbols, substitute numbers, show both.
+- At the Advanced level: prove each step, show alternative approaches, discuss edge cases.
 
 #### Domain Templates
 
@@ -198,7 +199,7 @@ NOT the most general form -- minimum math needed to make predictions.
 | [name] | $[LaTeX]$ | [plain-language meaning] |
 ```
 
-At `introductory` level, this section is a brief paragraph with minimal notation.
+At the High school level, this section is a brief paragraph with minimal notation.
 
 ### Section 5: CTQ Mapping
 
@@ -218,13 +219,25 @@ Markdown nested-list visualization of the concept's structure. See the Concept M
 
 ## Depth Levels
 
+There are three levels. A level says who the explanation is for: it sets the notation, the rigor and the kind of solved exercise.
+
+| Level | Assumes | Explanation | Solved exercise |
+|-------|---------|-------------|-----------------|
+| **High school** | School mathematics; no earlier exposure to the topic | Plain words, one picture or analogy, concrete numbers; every symbol explained on first use | Concrete numbers throughout, every step shown |
+| **Master's** | The field's standard tools and notation | The formal statement, where it comes from, the key equations | Symbols first, then numbers; every step with its reason |
+| **Advanced** | The Master's level, mastered | Full generality: a proof or rigorous derivation, the limits of validity, competing formulations | A proof, a derivation or a non-standard case, with edge cases checked |
+
+How each section of an explanation scales with the level:
+
 | Level | Math | Principles | Worked Example | Innovations | CTQ |
 |-------|------|-----------|---------------|------------|-----|
-| **introductory** | Minimal notation, intuition-first | 3, plain-language only | Concrete numbers throughout, all steps shown, plain-language annotations | 2, brief | Short table (2-3 rows) |
-| **intermediate** | Full LaTeX throughout | 3-5 with LaTeX | Symbols + numbers, all steps with LaTeX, "Why" and "Note" annotations | 2-4 with worked examples | Full table with mastery tests |
-| **advanced** | Proofs, edge cases, competing forms | 5 with derivations | Multiple approaches shown, edge cases explored, proof annotations | 4 with detailed proofs | Advanced failure modes + edge cases |
+| **High school** | Minimal notation, intuition-first | 3, plain-language only | Concrete numbers throughout, all steps shown, plain-language annotations | 2, brief | Short table (2-3 rows) |
+| **Master's** | Full LaTeX throughout | 3-5 with LaTeX | Symbols + numbers, all steps with LaTeX, "Why" and "Note" annotations | 2-4 with worked examples | Full table with mastery tests |
+| **Advanced** | Proofs, edge cases, competing forms | 5 with derivations | Multiple approaches shown, edge cases explored, proof annotations | 4 with detailed proofs | Advanced failure modes + edge cases |
 
-Default within TTT sessions: **intermediate**.
+Within a TTT session, the level is the sub-goal's `Estimated Depth` in the plan. With no plan to read it from, the default is **Master's**.
+
+**Level names.** Write them in full: High school, Master's, Advanced. Plan tables may abbreviate them to HS, MSc, Adv. Never shorten "High school" to "high": that is a difficulty value. Plans created before these names existed say `introductory` / `intermediate` / `advanced` (`intro` / `inter` / `adv` in tables); read those as High school / Master's / Advanced.
 
 ---
 
@@ -264,7 +277,13 @@ When a gap involves conceptual confusion, wrong mental models, or multi-layered 
 
 When the gap involves confusing two related concepts, use the comparison format (see Concept Comparison Protocol below) instead of a standard explanation.
 
+### Level Ladder (for hard-core principles)
+
+When the sub-goal is a hard-core principle and the gap is on the principle itself, use the Level Ladder (see The Level Ladder below) instead of a standard explanation, whatever the gap's failure mode.
+
 ### Decision Criteria
+
+A gap on a **hard-core principle** itself always gets the Level Ladder. A sub-goal is a hard-core principle when its plan blueprint has a Tempting answer, an Insight and a Picture.
 
 A gap is **complex** if ANY of these apply:
 
@@ -276,6 +295,59 @@ A gap is **complex** if ANY of these apply:
 A gap is a **conflation** specifically if the learner confused two related but distinct concepts.
 
 Otherwise, the gap is **simple** -- use the abbreviated form.
+
+---
+
+## The Level Ladder (hard-core principles)
+
+A hard-core principle is one that is hard to grasp: it contradicts intuition, needs an abstraction the learner has not used before, or runs into a misconception that survives being told. Its plan blueprint carries a **Tempting answer**, an **Insight**, a **Picture**, a foundational worked example and a **Level ladder** of solved exercises. In a session it is taught as a climb through the levels, which takes the place of the Full Concept Explanation for that principle.
+
+### Shape
+
+1. **The reveal**, which is the High school rung
+2. **One rung for each level above High school**, up to the session's level (none in a High school session: the climb is then the reveal alone)
+3. **Close**: one Key Terms table for the whole climb, and a CTQ Mapping table with at least one row per rung
+
+Every rung has the same three parts: the principle at that level, one solved exercise, and "your turn" (an exercise the learner attempts, followed by its complete worked solution).
+
+### The reveal
+
+The aha comes from a prediction that fails, so the reveal starts from the learner's own answer. In this order:
+
+| Step | Content | Rule |
+|------|---------|------|
+| 1. The assumption | What the learner assumed, in their own words, and why it feels right | Take it seriously: the tempting answer is tempting for a reason |
+| 2. The failure | The assumption applied to the test case, with the true result beside it | Concrete and checkable, with numbers. Never "this is wrong because the theory says so". |
+| 3. The Insight | The one sentence from the blueprint | One sentence. It reframes the situation; it does not recite the principle's formal statement. |
+| 4. The Picture | The blueprint's picture or analogy | One picture, not three. Say where it stops being true. |
+| 5. The smallest example | The blueprint's foundational worked example | The minimal case in which the Insight is visible, in concrete numbers |
+| 6. The payoff | The test case redone with the Insight | The case that failed now works |
+
+If the learner made no prediction (they said "not familiar"), leave out steps 1, 2 and 6: do not name the Tempting answer and do not solve the test case, which will be presented again.
+
+### The rungs
+
+| Rung | The principle at this level | Its solved exercise |
+|------|-----------------------------|---------------------|
+| **High school** | Plain words, the Picture, concrete numbers | The foundational worked example |
+| **Master's** | The formal statement in standard notation, where it comes from, the key equations, and how it contains the High school picture | Symbols first, then numbers |
+| **Advanced** | Full generality: the proof or rigorous derivation, the limits of validity, competing formulations, and what the Master's statement assumed without saying | A proof, a derivation or a non-standard case, with edge cases checked |
+
+Rules:
+- Each rung says what it adds to the rung below. A higher rung never tells the learner that the lower one was wrong: the lower rung was a correct view of a special case.
+- The solved exercise of a rung comes from the blueprint's Level ladder. Solved exercises follow Section 3.5, including the Check.
+- "Your turn" is the rung's Quick Check: a new case at the rung's level, never one used in the plan. Its complete worked solution is shown after the learner responds.
+- A failed "your turn" is judged on method: an arithmetic slip does not fail a rung.
+- The **bridge** after a failed "your turn" is a few lines, pitched one level down, that connect the step that failed to what the learner already holds. It is not a second explanation of the rung. At the High school rung, the bridge is a different picture.
+- In a Socratic session the same content is reached through questions: the Insight through the Guidance Chain, each higher statement by asking the learner to attempt it first. The Picture and the solved exercises come only after the learner has stated the idea.
+
+### Writing the aha parts (when designing a plan)
+
+- **Tempting answer**: the answer a capable person gives *before* knowing the principle, with the reason it feels right. If you cannot write one, the principle is not hard-core.
+- **Insight**: test it by reading it alone. It should make the failure look obvious in hindsight.
+- **Picture**: concrete and familiar at the High school level. State its limit: every analogy breaks somewhere, and an unstated limit becomes the next misconception.
+- **Foundational worked example**: remove everything that is not needed to see the Insight.
+- **Solved exercises for the higher rungs**: each one is the same idea seen with that level's tools, not a harder calculation at the level below.
 
 ---
 
@@ -315,7 +387,7 @@ All mathematical expressions use LaTeX notation:
 | Probability | `$P(A|B)$`, `$\mathbb{E}[X]$` |
 | Norms | `$\|x\|$`, `$\|A\|_F$` |
 
-At `introductory` level, use minimal notation and explain every symbol on first use.
+At the High school level, use minimal notation and explain every symbol on first use.
 
 ---
 
@@ -376,6 +448,8 @@ Quick Checks are now derived from CTQ mastery tests:
 
 The Quick Check question comes directly from the CTQ table's "Mastery Test" column. The "Watch for" line alerts the evaluator to the most likely failure mode for this specific check.
 
+The "Expected answer" and "Watch for" lines are the evaluator's notes: they are never shown before the learner responds. **After the learner responds, reveal a complete worked solution, not just the expected answer**: every step shown and annotated as in a worked example (Section 3.5), ending with a Check. When the Quick Check asks for an explanation rather than a calculation, the worked solution is the full chain of reasoning, step by step.
+
 ---
 
 ## Concept Comparison Protocol
@@ -400,6 +474,9 @@ Triggered when a gap is classified as **conflation** -- the learner confused two
 | Core assumption | [what A assumes] | [what B assumes] |
 | Primary strength | [where A excels] | [where B excels] |
 | Typical use case | [when to use A] | [when to use B] |
+
+### Worked Example: One Case, Both Concepts
+[One concrete case worked step by step under [Concept A] and then under [Concept B], in the Section 3.5 format, so that the difference shows up in the result. Ends with a Check.]
 
 ### CTQ: The Critical Distinction
 | CTQ | Mastery Test | Failure Mode |
@@ -548,7 +625,7 @@ date: [YYYY-MM-DD]
 type: ttt-session
 session: SG-[N]
 plan: [training plan filename]
-level: [introductory/intermediate/advanced]
+level: [High school / Master's / Advanced]
 tags: [domain, topic, sub-goal-title]
 ---
 ```
@@ -566,3 +643,56 @@ The file contains:
 ### Compatibility
 
 These files are structurally compatible with concept-builder's `/library` command. If concept-builder is also installed, its `/library list`, `/library search`, and `/library path` commands will find and index these files.
+
+---
+
+## Exercise Book Format
+
+An exercise book is a file of fully solved exercises for one sub-goal. `/run-session` adds a set to it at the end of a session, and `/worked-exercises` adds a set on request.
+
+### Filename
+
+`<topic>_artefact_SG<N>_exercises.md`, next to the plan. It is a deliverable artefact and is listed in the plan's Artefacts Register with type `deliverable`.
+
+For a concept that belongs to no plan: `exercises-<concept-in-kebab-case>.md`.
+
+### Layout
+
+The file is append-only: each write adds one dated set at the end and never rewrites an earlier set. Inside a set, the exercises of a level come first and their worked solutions after, so the learner can attempt before reading.
+
+```markdown
+# Exercise Book: SG-<N> — <sub-goal title>
+Plan: <plan filename> | Target level: <level>
+
+> Try each exercise before reading its solution. In every set, the worked solutions follow the exercises.
+
+## Set <date> — <after the session / on request>
+
+### High school: exercises
+**HS-1.** <statement, with all data and units>
+**HS-2.** <statement — with a twist: what differs from HS-1>
+
+### High school: worked solutions
+**HS-1.**
+**Given:** <data>
+**Step 1:** <operation>
+> **Why:** <reasoning>
+**Result:** <answer with units and interpretation>
+> **Check:** <the result confirmed a second way>
+
+**HS-2.** <same format>
+
+### Master's: exercises
+**MSc-1.** ...
+```
+
+### Rules
+
+- **A session set** holds 2 exercises for each level from High school up to the sub-goal's `Estimated Depth` (in current plans, the Target level): one standard, and one with a twist (a changed condition, an extra step, or a trap the standard one does not have).
+- **An on-request set** holds 3 exercises at the one level asked for, graded from standard to demanding.
+- Label exercises by level and number them through the whole file: HS-1, HS-2, MSc-1, Adv-1, continuing from the last number already used for that level.
+- Every solution is a complete worked solution in the Section 3.5 format, ending with a Check. A final answer alone is not a solution.
+- No exercise repeats a case already used: the sub-goal's Initial Test and Final Test, a solved exercise in the plan, an exercise from the session, or an exercise already in the book.
+- If the sub-goal's blueprint has an `Exercise`, it opens the first session set as the first exercise at the sub-goal's own level, with its worked solution. It counts as one of the two for that level.
+- Exercise books are written for Core Principle, Key Concept and Tools sub-goals. Motivation and Verification sub-goals have none.
+- Never invent a value you are not sure of: mark it `(verify)`.

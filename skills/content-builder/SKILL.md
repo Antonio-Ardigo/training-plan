@@ -12,7 +12,7 @@ Generate a **concept explanation** for ONE specific learning gap. Not a lecture.
 
 ## Teaching Format
 
-Each gap receives either an abbreviated or full concept explanation, determined by the Gap Complexity Assessment below.
+Each gap receives an abbreviated explanation, a full explanation, a comparison or, for a hard-core principle, a Level Ladder. The Gap Complexity Assessment below decides which.
 
 ### Abbreviated Concept Explanation (for simple gaps)
 
@@ -38,7 +38,7 @@ See concept-explainer skill Section 3.5 for domain templates.>
 *If any term in this question is unclear, ask for a **clarification**.*
 
 ⏸ **STOP HERE. Wait for the learner to respond.**
-Then reveal the expected answer and evaluate. Do NOT write the expected answer in the teaching block.
+Then reveal the complete worked solution (every step shown and annotated, ending with a Check) and evaluate. Do NOT write the solution in the teaching block.
 
 ---
 ```
@@ -48,20 +48,21 @@ Then reveal the expected answer and evaluate. Do NOT write the expected answer i
 Deliver all 7 sections from the concept-explainer skill at the session's depth level:
 
 1. **The Problem** -- What makes this concept necessary; framed in the learner's gap context
-2. **Core Principles** (3-5) -- Foundational truths with statement + LaTeX (at intermediate+) + example
+2. **Core Principles** (3-5) -- Foundational truths with statement + LaTeX (at the Master's level and above) + example
 3. **Key Innovations** (2-4) -- Breakthroughs: who, what it solved, worked example
 4. **Worked Example** -- FULLY DEVELOPED step-by-step example with every intermediate step shown, every algebraic/linguistic/logical transformation explicit, annotated with "Why" and "Note" at each step. See concept-explainer skill Section 3.5 for format and domain templates.
 5. **Intuitive Formalization** -- Minimum math to make predictions
 6. **CTQ Mapping** -- Mastery criteria table with failure modes
-7. **Quick Check** (CTQ-derived) -- Verification question from the CTQ mastery test. Include clarification note. Do NOT write the expected answer — stop and wait for the learner to respond.
+7. **Quick Check** (CTQ-derived) -- Verification question from the CTQ mastery test. Include clarification note. Do NOT write the expected answer — stop and wait for the learner to respond, then reveal the complete worked solution.
 
 ### Concept Comparison (for conflation gaps)
 
 When the gap is classified as [conflation], use the concept-explainer skill's Concept Comparison Protocol instead:
 1. What They Share -- shared principles table
 2. Where They Diverge -- differences table
-3. CTQ: The Critical Distinction -- specific mastery test for the A vs B distinction
-4. Quick Check targeting the distinction
+3. Worked Example -- one case worked step by step under both concepts, so the difference shows up in the result
+4. CTQ: The Critical Distinction -- specific mastery test for the A vs B distinction
+5. Quick Check targeting the distinction
 
 ## Gap Complexity Assessment
 
@@ -72,6 +73,8 @@ Before generating content for each gap, assess complexity using the CTQ failure 
 3. Does the gap involve a prerequisite the learner is missing?
 4. Is the gap a conflation between two specific concepts?
 5. Did the learner declare "not familiar" with the topic? (responded "not familiar", "I don't know this", "no background", or equivalent to the Initial Test)
+
+**First: is the sub-goal a hard-core principle, and is the gap on the principle itself?** (Its blueprint has a Tempting answer, an Insight and a Picture.) -> the **Level Ladder** from the concept-explainer skill, whatever the conditions above say. This also applies when the learner declared "not familiar". Any other gap in the same session is assessed as follows.
 
 **If condition 4 is true** -> Concept Comparison
 **If condition 5 is true** -> Full Concept Explanation (the learner has no prior knowledge; deliver all 7 sections as a comprehensive introduction to the topic)
@@ -112,7 +115,7 @@ Quick Checks are derived from CTQ mastery tests:
 - The question comes from the CTQ table's "Mastery Test" column
 - Must test understanding, not recall: "When would you use X?" not "What is the definition of X?"
 - Every Quick Check MUST end with: `*If any term in this question is unclear, ask for a **clarification**.*`
-- **CRITICAL: Do NOT write the expected answer or "Watch for" hint in the teaching block.** The Quick Check output contains ONLY the question + clarification note. Stop there and wait for the learner. You know the answer internally — reveal it only AFTER the learner responds.
+- **CRITICAL: Do NOT write the expected answer or "Watch for" hint in the teaching block.** The Quick Check output contains ONLY the question + clarification note. Stop there and wait for the learner. You know the answer internally — reveal it only AFTER the learner responds, and then reveal it as a complete worked solution: every step shown and annotated, ending with a Check that confirms the result a second way.
 
 ## Example: Abbreviated Concept Explanation
 
@@ -318,7 +321,7 @@ Every teaching block (abbreviated or full) MUST end with a **Key Terms** table b
 
 ## When the Quick Check Fails
 
-After the learner responds to the Quick Check, reveal the expected answer and the "Watch for" failure mode. Then evaluate:
+After the learner responds to the Quick Check, reveal the complete worked solution (every step shown and annotated, ending with a Check) and the "Watch for" failure mode. Then evaluate:
 
 - **Correct**: Acknowledge, proceed to next gap or Phase 3.5
 - **Incorrect**: Follow the re-teach protocol below
@@ -326,8 +329,8 @@ After the learner responds to the Quick Check, reveal the expected answer and th
 If the learner answers the Quick Check incorrectly:
 
 1. Do NOT move to the next teaching block
-2. Re-explain the specific point they got wrong, using a DIFFERENT angle or example
-3. Give one more CTQ-derived Quick Check on the same concept
+2. Re-explain the specific point they got wrong **one level down**: a Master's-level block is re-explained at the High school level (plain words, a picture, concrete numbers), an Advanced block at the Master's level. A block already at the High school level is re-explained with a DIFFERENT picture or example.
+3. Give one more CTQ-derived Quick Check on the same concept, at the block's original level
 4. If they pass the second check, proceed
 5. If they fail again, note it as a persistent gap and proceed (don't loop on Quick Checks)
 

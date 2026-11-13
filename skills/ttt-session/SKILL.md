@@ -27,7 +27,7 @@ For each sub-goal, produce a session blueprint with this structure:
 - Assesses: <specific competencies being tested>
 - Pass criteria: <concrete, measurable threshold>
 
-**Estimated Depth:** <introductory/intermediate/advanced>
+**Estimated Depth:** <High school/Master's/Advanced>
 
 **Anticipated CTQs:**
 | CTQ | Source | Mastery Test | Common Failure Mode |
@@ -68,10 +68,12 @@ For each sub-goal, produce a session blueprint with this structure:
 
 6. **Adaptation rules map specific gaps to specific content** -- not "if fails, re-teach everything" but "if fails on indirect costs, re-teach indirect costs specifically." Classify anticipated failures using CTQ failure mode taxonomy.
 
-7. **Estimated Depth determines teaching richness** -- derived from the sub-goal's difficulty:
-   - low difficulty -> introductory (minimal LaTeX, 3 principles, brief)
-   - medium difficulty -> intermediate (full LaTeX, 3-5 principles, worked examples)
-   - high difficulty -> advanced (proofs, edge cases, 5 principles, detailed)
+7. **Estimated Depth is the plan's Target level** -- it sets the pitch of the tests and the teaching, not their length:
+   - High school: plain words, concrete numbers, minimal LaTeX
+   - Master's: formal statements, full LaTeX, worked examples in symbols then numbers
+   - Advanced: proofs, edge cases, competing formulations
+
+   A sub-goal's difficulty decides how long the teaching is, never how deep. (In plans created before the Target level existed, depth followed difficulty; read their values one for one.)
 
 ---
 
@@ -149,7 +151,7 @@ If the term-clarifier returns a PLAN-REVISION-REQUEST (critical missing prerequi
 
 After the learner responds, evaluate against the pass criteria and CTQ mastery tests:
 
-- **PASS** (meets or exceeds criteria): Skip to Phase 6 (RECORD). Sub-goal complete.
+- **PASS** (meets or exceeds criteria): Skip to Phase 6 (RECORD). Sub-goal complete. (For a hard-core principle, give the recap and the offer first; see Hard-Core Principles below.)
 - **PARTIAL** (some gaps identified): Proceed to Phase 3. List specific gaps with failure mode classification.
 - **FAIL** (major gaps): Proceed to Phase 3. List all gaps with failure mode classification.
 - **NOT FAMILIAR**: If the learner writes "not familiar" (or equivalent: "I don't know this topic", "no background", "never learned this"):
@@ -179,12 +181,13 @@ For each identified gap, generate a concept explanation using the `content-build
    - Complex gap (has failure mode) -> Full Concept Explanation (7 sections including Worked Example)
    - Conflation gap -> Concept Comparison
 
-2. **Select depth level** from the blueprint's Estimated Depth (default: intermediate)
+2. **Select depth level** from the blueprint's Estimated Depth: High school, Master's or Advanced (older plans say introductory / intermediate / advanced; read them one for one). Default: Master's.
 
 3. **Deliver the concept explanation**:
    - ONE explanation per gap, delivered sequentially
-   - After each Quick Check (CTQ-derived), wait for the learner's answer
-   - If Quick Check fails: re-explain using a different angle, give one more CTQ check
+   - Whatever the format (abbreviated, full or comparison), the explanation contains one fully worked example ending with a Check
+   - After each Quick Check (CTQ-derived), wait for the learner's answer, then reveal the complete worked solution
+   - If Quick Check fails: re-explain one level down (a different picture if already at the High school level), give one more CTQ check at the original level
    - If second check fails: note as persistent gap, proceed
 
 4. **After the first teaching block**, mention once:
@@ -196,10 +199,10 @@ For each identified gap, generate a concept explanation using the `content-build
 Rules:
 - Deliver ONE explanation at a time
 - Every Quick Check MUST end with: `*If any term in this question is unclear, ask for a **clarification**.*`
-- **NEVER show expected answers or "Watch for" hints before the learner responds to a Quick Check.** Present the question + clarification note, wait for the learner's answer, THEN reveal the expected answer and evaluate.
+- **NEVER show expected answers or "Watch for" hints before the learner responds to a Quick Check.** Present the question + clarification note, wait for the learner's answer, THEN reveal the complete worked solution (every step shown and annotated, ending with a Check that confirms the result a second way) and evaluate.
 - If the learner asks for a clarification during a Quick Check: invoke the term-clarifier agent (same protocol as during tests)
 - Wait for the learner to complete the Quick Check before moving to the next
-- If the Quick Check fails, re-explain that specific point before moving on
+- If the Quick Check fails, re-explain that specific point one level down before moving on: a Master's-level block at the High school level, an Advanced block at the Master's level, a High school block with a different picture or example
 - After ALL gaps are taught, proceed to Phase 3.5
 
 ### Phase 3.5: OPTIONAL CONCEPT MAP
@@ -233,11 +236,13 @@ Evaluate the Final Test response:
 
 ### Phase 6: RECORD
 
-Update the training plan file, write the session transcript, delete checkpoint, update learner profile, export concept file, register artefacts, and suggest next step.
+In this order: update the training plan file, write the session transcript, update the learner profile, export the concept file, write the exercise book, write any other deliverable, register every artefact, delete the checkpoint, and suggest the next step. `/run-session` Phase 6 gives the detail of each step. If a session is resumed during RECORD, steps whose result already exists are skipped.
 
-**Deliverable artefacts (as required):** if the sub-goal work naturally yielded a reusable output — a filled-in template, a worked calculation sheet, a checklist, or a reference the learner built — write it to disk as `<topic>_artefact_SG<N>_<slug>.md`. Not every session produces one; create it only when the work genuinely calls for it.
+**Exercise book:** for a Core Principle, Key Concept or Tools sub-goal, add a session set to `<topic>_artefact_SG<N>_exercises.md`: 2 fully solved exercises for each level from High school up to the sub-goal's Estimated Depth, in the concept-explainer skill's Exercise Book Format. Append if the file exists; never overwrite it. Motivation and Verification sub-goals have no exercise book.
 
-**Register every artefact:** for each artefact this session wrote (transcript, concept file, and any deliverable), append a row to the plan file's **Artefacts Register** via the `Edit` tool:
+**Other deliverable artefacts (as required):** if the sub-goal work naturally yielded a reusable output — a filled-in template, a worked calculation sheet, a checklist, or a reference the learner built — write it to disk as `<topic>_artefact_SG<N>_<slug>.md`. Not every session produces one; create it only when the work genuinely calls for it.
+
+**Register every artefact:** for each artefact this session wrote (transcript, concept file, exercise book, and any other deliverable), append a row to the plan file's **Artefacts Register** via the `Edit` tool. If `learner_profile.md` is not listed yet (the first session of a plan creates it), add a row for it as well, with type `profile`:
 
 | Artefact | Type | Source | Path | Status |
 |----------|------|--------|------|--------|
@@ -247,13 +252,31 @@ The Artefacts Register is the course's visible anchor — it must stay authorita
 
 ---
 
+## Hard-Core Principles: the Climb
+
+A Core Principle blueprint that has a Tempting answer, an Insight and a Picture is a *hard-core* principle: one that is hard to grasp, taught through an aha moment and a climb through the levels. Its Level ladder holds the solved exercises of the rungs above High school; in a High school plan there are none. `/run-session` holds the full flow and the concept-explainer skill's Level Ladder holds the content rules. In short:
+
+- **Test**: the Initial Test is built so that the natural approach gives the Tempting answer. No warning, no hint.
+- **Pass** (right, and justified at the session's level): a recap (the Insight, the Picture, the top rung's solved exercise), then one offer: the full climb, or the next level up.
+- **Not passed**: the climb, taught as one block (format `ladder`), from the start rung the answer shows (fell for it, or unsure: High school) to the session's level. The High school rung is the reveal. Every rung ends with "your turn", which is that rung's Quick Check. A method failure gets a short bridge one level down and one new exercise; a second failure stops the climb.
+- **Final Test**: at the session's level, or at the level reached when the climb stopped short. A stopped climb is recorded as `needs-review` with the level reached and uses no adaptation loop. A loop after a failed Final Test re-enters the climb at the first rung not held.
+- **"Not familiar"**: the climb from High school with no Tempting answer named, then the Initial Test again.
+- **Socratic plans**: the same rungs, reached through questions. The Insight comes from the Guidance Chain; the Picture and the solved exercises come only after the learner has stated the idea.
+
+A Core Principle blueprint without those fields is handled as before: its worked example is shown as reinforcement on a pass, and as the primary teaching content otherwise.
+
+---
+
 ## Socratic Execution Mode
 
-When running a session from a Socratic training plan (filename ends with `-socratic_training_plan.md` or contains `## Pedagogical Method: Socratic Discovery`), the standard TTT protocol is augmented with Socratic discovery mechanics. The session follows a **Question -> Tension -> Resolution -> Test** arc instead of the standard **Test -> Teach -> Test** arc.
+When running a session from a Socratic training plan, the TTT protocol keeps its three steps and changes how they are delivered. The **Question -> Tension -> Resolution -> Test** arc is a Socratic form of **Test -> Teach -> Test**: the Discovery Question and Initial Test are the first Test (where the tension appears), the Guidance Chain is the Teach (where the resolution is derived, not explained), and the Final Test is the second Test.
 
 ### Detection
 
-At Step 0, when reading the training plan, check for Socratic mode. If detected, set `SOCRATIC = true` and apply the modifications below to every phase.
+At Step 0, when reading the training plan, the method heading decides the mode:
+- `## Pedagogical Method: Socratic Discovery` means a Socratic plan: set `SOCRATIC = true` and apply the modifications below to every phase
+- `## Pedagogical Method: Test-Teach-Test` means a standard plan, even though that section mentions the Socratic command
+- No method heading (plans created before the section existed): fall back to the file name. A name ending in `-socratic_training_plan.md` is a Socratic plan.
 
 ### Phase 1 Modification: Discovery Question Before Initial Test
 
@@ -288,9 +311,11 @@ For each gap:
    - Or: "You just showed that [their reasoning]. This is exactly [concept name]."
    - NEVER state a concept before the learner has attempted to derive it
 
-4. **Quick Check**: Phrase as reconstruction: "Reconstruct why [concept] is the only resolution to the tension."
+4. **Solved example**: once the learner has stated the concept, consolidate it with one fully worked example ending with a Check. It comes after the resolution, never before it.
 
-5. **On Quick Check failure**: Do NOT re-explain declaratively. Return to the Guidance Chain at the break point. Ask a different narrowing question.
+5. **Quick Check**: Phrase as reconstruction: "Reconstruct why [concept] is the only resolution to the tension." After the learner responds, reveal the complete worked solution.
+
+6. **On Quick Check failure**: Do NOT re-explain declaratively. Return to the Guidance Chain at the break point. Ask a different narrowing question, pitched one level down when the session is above the High school level.
 
 **Anti-patterns (NEVER do these in Socratic mode):**
 - "The answer is X because Y" (declarative — the learner should derive X)
@@ -347,7 +372,7 @@ Filename: `<topic>_checkpoint_SG<N>.md`
 Started: <date>
 
 ## Current Phase: <INITIAL_TEST|EVALUATE|TEACH|CONCEPT_MAP_OFFER|FINAL_TEST|EVALUATE_FINAL|RECORD>
-<!-- For TEACH phase, also note: Gap <X> of <Y> completed -->
+<!-- For TEACH phase, also note: Gap <X> of <Y> completed. During a climb: Rung <level> completed -->
 
 ## Initial Test
 **Case:** <what was presented>
@@ -356,12 +381,14 @@ Started: <date>
 ## Evaluation
 **Result:** <PASS/PARTIAL/FAIL>
 **Gaps identified:** <list with failure mode classifications>
+**Start rung:** <hard-core principles only: the rung where the climb starts>
 
 ## Teach Phase
 ### Gap: <name> [<failure mode>]
-**Format:** <abbreviated/full/comparison>
+**Format:** <abbreviated/full/comparison/ladder>
 **Content:** <summary of what was taught>
 **Quick Check:** <question> -> Learner: <answer> -> <correct/incorrect>
+**Rungs:** <for a climb only, one line per rung completed: <level> -- your turn: <question> -> Learner: <answer> -> <held/bridge/not held>>
 **Deep-dive:** <if requested, summary of expanded principle>
 
 (repeat for each gap completed so far)
@@ -387,5 +414,5 @@ When resuming from a checkpoint:
 2. Show the learner a brief summary of completed phases
 3. Ask if they want to resume or start fresh
 4. If resuming, skip to the phase AFTER the `## Current Phase` marker
-5. For TEACH phase resume: skip already-delivered gaps (listed in checkpoint) and continue from the next undelivered gap
+5. For TEACH phase resume: skip already-delivered gaps (listed in checkpoint) and continue from the next undelivered gap. In a climb, continue at the rung after the last one completed.
 6. When the session completes normally, delete the checkpoint and write the final transcript as usual

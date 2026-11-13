@@ -11,17 +11,20 @@ Reference knowledge for decomposing a learning goal into structured, testable su
 Takes a free-form learning goal and produces:
 
 1. A **Principle Extraction** of the domain (3-5 core principles)
-2. A refined **SMART Goal** (max 15 words)
-3. A plan-level **Motivation & Course Overview (VOC)** — a learner-editable bird's-eye view (why it matters, course arc, core-principles digest, completion outcomes)
-4. **N sub-goals** decomposed across 5 axes, each mapped to principles
-5. A **prerequisite graph** with hard dependencies
-6. A suggested **sequence** derived from the prerequisite graph
+2. A **Key Facts** table — what the learner must simply know, each fact tied to the sub-goals that use it
+3. A **Breakthrough** — the situation before the key intuition and what the topic solved, for the topic and for each principle
+4. A refined **SMART Goal** (max 15 words)
+5. A plan-level **Motivation & Course Overview (VOC)** — a learner-editable bird's-eye view (why it matters, course arc, digest of core principles and key facts, completion outcomes)
+6. **N sub-goals** decomposed across 5 axes, each mapped to principles and written for the plan's **Target level** (High school, Master's or Advanced)
+7. A **prerequisite graph** with hard dependencies
+8. A **Hard Core** list — the core principles that are hardest to grasp, which get an aha design and a climb through the levels
+9. A suggested **sequence** derived from the prerequisite graph
 
 ---
 
-## Core Principles vs Key Concepts
+## Core Principles, Key Concepts and Key Facts
 
-The decomposition distinguishes two tiers of knowledge:
+The decomposition distinguishes three kinds of knowledge:
 
 ### Core Principles
 
@@ -43,18 +46,31 @@ Specific, teachable ideas that **operationalize** core principles. They are more
 - Example (cost engineering): *"Unit-rate estimation: multiply quantity takeoff by unit rate to get direct cost"*
 - Example (quantum computing): *"The Bloch sphere representation of a single qubit"*
 
+### Key Facts
+
+Specific things the learner must simply **know**. A key fact cannot be worked out from the core principles, yet neither the principles nor the key concepts can be applied without it: a definition, a constant, a conversion factor, a convention, a threshold or standard value, a classification, a name or a date.
+
+- No abstraction: a fact is stated, not reasoned
+- Checkable against a source; an uncertain value is marked `(verify)`, never guessed
+- Load-bearing: at least one sub-goal's test relies on it
+- What tests *use*, not what tests ask the learner to recite: key facts get no sub-goal and no axis
+- Example (cost engineering): *"1 t = 1,000 kg"*; *"AACE estimate classes run from Class 5 (least project definition) to Class 1 (most)"*
+- Example (quantum computing): *"The two computational basis states of a qubit are written $|0\rangle$ and $|1\rangle$"*
+
+A key fact is **not** a principle in disguise (if it follows from a principle in the plan, the principle carries it), **not** a prerequisite (those go in the Prerequisites column of the Principle Extraction table), **not** vocabulary (terms are defined in each session's Key Terms table), and **not** a key concept.
+
 ### The Relationship
 
-Core principles **generate** key concepts. Every key concept must trace back to at least one core principle. A single core principle may generate multiple key concepts. Core principles come first in the learning sequence because they provide the framework into which key concepts slot.
+Core principles **generate** key concepts. Every key concept must trace back to at least one core principle. A single core principle may generate multiple key concepts. Core principles come first in the learning sequence because they provide the framework into which key concepts slot. Key facts are the fixed points that both rely on.
 
-| Dimension | Core Principle | Key Concept |
-|-----------|---------------|-------------|
-| Abstraction | High — domain-level truth | Medium — specific, teachable idea |
-| Scope | Broad — applies across the domain | Narrow — one testable competency |
-| Stability | Rarely changes | May evolve with methods/tools |
-| Testability | Testable via understanding/reasoning | Testable via practical case |
-| Position in sequence | Early — sets the framework | After the principle(s) it depends on |
-| Maps to in plan | Core Principle axis SG | Key Concept axis SG |
+| Dimension | Core Principle | Key Concept | Key Fact |
+|-----------|---------------|-------------|----------|
+| Abstraction | High — domain-level truth | Medium — specific, teachable idea | None — one stated item |
+| Scope | Broad — applies across the domain | Narrow — one testable competency | A single value, definition or convention |
+| Stability | Rarely changes | May evolve with methods/tools | Fixed by definition, measurement or standard |
+| Testability | Testable via understanding/reasoning | Testable via practical case | Not tested by itself — used inside practical cases |
+| Position in sequence | Early — sets the framework | After the principle(s) it depends on | Wherever a sub-goal first relies on it |
+| Maps to in plan | Core Principle axis SG | Key Concept axis SG | A row in the Key Facts table |
 
 ---
 
@@ -75,6 +91,30 @@ For each principle, state:
 - The Prerequisites column feeds Step 4 (Prerequisite Tracing)
 - If the domain has fewer than 3 principles, it may be too narrow — consider whether the goal should be a sub-goal of a larger plan
 
+### Key Facts Identification
+
+Right after the principles, list the key facts (see the definition above):
+
+| # | Key Fact | Why it matters | Used in |
+|---|----------|----------------|---------|
+| KF-1 | <one fact, with its value and SI unit> | <what goes wrong without it> | <sub-goals that rely on it> |
+
+- For each principle ask: "What must the learner already know as a fact to apply this?" Then add any fact the practical cases need that no principle covers.
+- "Why it matters" says what breaks without the fact, never why the fact is true
+- `Used in` is filled once the sub-goals exist (after Step 5); a fact that no sub-goal uses is dropped
+- Typically 4-10. Never pad the list.
+
+### Breakthrough
+
+Then capture the breakthrough: what the situation was **before** the key intuition, and what the topic **solved**.
+
+- For the topic as a whole, three short parts: *Before the intuition* (what people did or believed, and where it broke down), *The intuition* (the insight, in plain language), *What it solved* (what became possible)
+- For each principle, one table row with the exact principle name: `Principle | Before the intuition | What it solved`
+- One or two sentences per part and per cell. A story, not a lesson: no derivations, formulas or worked steps.
+- With no historical moment (a practical skill, a tool), "before" is how the work is done without this knowledge and where that breaks down
+- Name people and dates only when certain of them
+- The Breakthrough story is never reused as a test case
+
 ---
 
 ## Step 1: The 5 Decomposition Axes
@@ -92,7 +132,7 @@ For each principle, state:
 The axes are **decomposition directions**, NOT fixed slots. Specifically:
 
 - **Core Principles get exactly ONE sub-goal per principle** from Step 0. Each Core Principle SG:
-  - Is always **low difficulty / introductory depth**
+  - Is always **low difficulty**: one principle, one simple scenario
   - Tests whether the learner can STATE and APPLY the principle in a simple scenario
   - MUST include a **simple, fully worked example** in its session blueprint — this is the one exception to the "no teaching content in the plan" rule. The worked example grounds the abstract principle in concrete reality (2-4 steps, concrete numbers, annotated with "Why" notes, simplest possible scenario).
 - **Key Concepts MUST expand** into as many sub-goals as the domain requires. A simple goal may have 2 Key Concept sub-goals; a complex goal may have 8+.
@@ -132,12 +172,17 @@ Assign difficulty to each sub-goal using these **derived criteria**, not intuiti
 | Prerequisite chain depth | 0-1 | 2-3 | 4+ |
 | Math/formalism required | None or minimal | Standard notation | Proofs, derivations |
 
-Difficulty determines the **depth level** for the session blueprint:
-- low → introductory
-- medium → intermediate
-- high → advanced
+Difficulty describes how much a sub-goal combines. It does **not** set the depth level. The **depth level of every sub-goal is the plan's Target level**:
 
-**Core Principle SGs are always low difficulty / introductory depth** — by definition they involve 1 principle, 0 prereq depth within the plan, and minimal formalism. This is a hard rule, not derived.
+- **High school** — school mathematics, no earlier exposure to the topic
+- **Master's** — the field's standard tools and notation
+- **Advanced** — the Master's level, mastered
+
+The Target level is set once, when the plan is created, and is fixed for the plan. An easy sub-goal gets a shorter explanation, not a lower level.
+
+Write each sub-goal so that it can be achieved at the Target level. A sub-goal that needs formalism above the Target level is out of scope for the plan: leave it out, or restate it at the Target level.
+
+**Core Principle SGs are always low difficulty** — by definition they involve 1 principle, 0 prereq depth within the plan, and one simple scenario. This is a hard rule, not derived.
 
 ---
 
@@ -164,6 +209,27 @@ Build a prerequisite graph using the concept map relationship types. The princip
 - **`led to`** links show derived relationships — if Principle 2 was derived from Principle 1, SG-Y depends on SG-X.
 - If a `requires` prerequisite is NOT in the learner profile as a known strength, flag it: "WARNING: Learner may lack prerequisite [X]. Consider adding a prerequisite sub-goal or verifying during session."
 - The prerequisite graph replaces intuited dependencies — every dependency in the Sequence must trace to a graph edge.
+
+### Flagging the Hard Core
+
+With the graph in hand, flag the **hard core**: the core principles that are much harder to grasp than the rest. They get an explanation designed around an aha moment and are taught as a climb through the levels.
+
+A core principle belongs to the hard core when it is hard to grasp in at least one of these ways:
+
+| Criterion | The principle... |
+|-----------|------------------|
+| **Counter-intuitive** | contradicts what everyday experience or earlier study leads the learner to expect |
+| **New abstraction** | cannot be stated without a representation the learner has not used before |
+| **Persistent misconception** | runs into a well-known wrong idea that people keep even after being told the right one |
+
+and it passes the gate: *"Can I write the tempting answer — what a capable person who does not yet know this principle would confidently, and wrongly, answer to a concrete case?"* Without a tempting answer there is nothing to predict and fail, and the principle is not hard-core. This gate works like the Testability Check in Step 6.
+
+- Usually 1-3 principles. When more qualify, keep the ones that the most sub-goals depend on in the graph (**load-bearing**).
+- Zero is allowed for a procedural or tool-centred topic. Say so rather than forcing one.
+- Only core principles are flagged, never key concepts
+- In the plan's Hard Core table the reasons are criterion names only (counter-intuitive, new abstraction, persistent misconception, load-bearing). The misconception and the insight are never described there: the top of the plan must not give a test away.
+- Hard core is about how hard an idea is to *grasp*; Difficulty (Step 3) is about how much a sub-goal combines. A hard-core principle's sub-goal is still low difficulty.
+- Examples: *"A quantum state exists in superposition until measured"* is hard-core (counter-intuitive; the tempting answer treats the state as an unknown but definite value). *"Every project cost is either traceable to a specific scope item or necessary for the project as a whole"* is not: nothing about it resists being told.
 
 ---
 
@@ -204,6 +270,12 @@ When decomposing a goal, produce this structure:
 |-----------|-----------|---------|---------------|
 | <name> | <sentence> | <LaTeX or —> | <prior knowledge> |
 
+## Key Facts
+
+| # | Key Fact | Why it matters | Used in |
+|---|----------|----------------|---------|
+| KF-1 | <one fact, with its value and unit> | <what goes wrong without it> | SG-<N>, ... |
+
 ## SMART Goal
 <15-word refined statement>
 
@@ -215,21 +287,41 @@ When decomposing a goal, produce this structure:
 
 **Bird's-eye view of the course:** <2-4 sentences — end-to-end scope and how the sub-goals connect>
 
-**Core principles & key facts:** <plain-language digest of the Principle Extraction table above>
+**Core principles & key facts:** <plain-language digest of the Principle Extraction table and the most load-bearing facts from Key Facts>
 
 **What you'll be able to do on completion:** <concrete capabilities tied to the SMART Goal and Verification sub-goal(s)>
+
+## Breakthrough
+
+**Before the intuition:** <1-2 sentences — what people did or believed, and where it broke down>
+
+**The intuition:** <1-2 sentences — the insight that changed the picture, in plain language>
+
+**What it solved:** <1-2 sentences — what became possible that was not possible before>
+
+| Principle | Before the intuition | What it solved |
+|-----------|----------------------|----------------|
+| <principle name> | <the earlier view or practice it replaced, and how it failed> | <what it made possible> |
 
 ## Sub-Goals
 
 | # | Axis | Sub-Goal | Domain | Difficulty | Depth | Principle |
 |---|------|----------|--------|-----------|-------|-----------|
-| SG-1 | Motivation | <statement> | <domain> | low | intro | — |
-| SG-2 | Core Principle | <statement> | <domain> | low | intro | <principle name> |
-| SG-3 | Core Principle | <statement> | <domain> | low | intro | <principle name> |
+| SG-1 | Motivation | <statement> | <domain> | low | <HS/MSc/Adv> | — |
+| SG-2 | Core Principle | <statement> | <domain> | low | <HS/MSc/Adv> | <principle name> |
+| SG-3 | Core Principle | <statement> | <domain> | low | <HS/MSc/Adv> | <principle name> |
 | ... | ... | ... | ... | ... | ... | ... |
-| SG-N-1 | Key Concept | <statement> | <domain> | <derived> | <derived> | <principle name> |
+| SG-N-1 | Key Concept | <statement> | <domain> | <derived> | <HS/MSc/Adv> | <principle name> |
 | ... | ... | ... | ... | ... | ... | ... |
-| SG-N | Verification | <statement> | <domain> | high | adv | integrative |
+| SG-N | Verification | <statement> | <domain> | high | <HS/MSc/Adv> | integrative |
+
+_Depth is the plan's Target level in every row: HS = High school, MSc = Master's, Adv = Advanced._
+
+## Hard Core
+
+| Principle | Why it is hard | Taught in |
+|-----------|----------------|-----------|
+| <principle name> | <counter-intuitive / new abstraction / persistent misconception / load-bearing> | SG-<N> |
 
 ## Prerequisite Graph
 

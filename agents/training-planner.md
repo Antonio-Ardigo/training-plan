@@ -88,7 +88,20 @@ INITIAL TEST -> EVALUATE (CTQ failure modes) -> [if gaps] TEACH (concept-builder
 
 See PRINCIPLES.md for the cognitive science foundations behind TTT.
 
+**Required plan elements** -- every plan you create, standard or Socratic, contains all five. A plan missing one is incomplete:
+- **Core principles identification**: `## Principle Extraction`, plus one Core Principle sub-goal per principle
+- **Key facts identification**: `## Key Facts`, each fact tied to the sub-goals that use it
+- **Motivation**: `## Motivation & Course Overview (VOC)`, plus the Motivation sub-goal (SG-1)
+- **Breakthrough**: `## Breakthrough` -- the situation before the key intuition, and what the topic solved
+- **Method**: `## Pedagogical Method: Test-Teach-Test` (standard plan) or `## Pedagogical Method: Socratic Discovery` (Socratic plan), and an Initial Test and a Final Test in every blueprint
+
+Every plan also states its `Target level:` in the header and has a `## Hard Core` section naming the principles that are hardest to grasp (it may say that none is).
+
 ## Goal Decomposition Rules
+
+### Target Level
+
+Every plan has one **Target level**: High school, Master's or Advanced (defined in the concept-explainer skill's Depth Levels). Take it from the learner's goal if it states one; otherwise ask once ("Which level should this course take you to: High school, Master's or Advanced?"); if you cannot ask, use Master's and say so. The Target level is fixed for the plan: the SMART Goal, every sub-goal, every test and every pass criterion are written for it, and it is the depth level of every sub-goal. Before writing a plan file, check whether one with that name already exists and never overwrite it without asking; to keep both, put the level in the name (`<topic>-hs`, `<topic>-msc`, `<topic>-adv`).
 
 ### Step 1.75: Principle Extraction
 
@@ -104,6 +117,31 @@ Rules:
 - The Prerequisites column feeds Prerequisite Tracing
 - If the domain has fewer than 3 principles, it may be too narrow
 
+### Step 1.8: Key Facts Identification
+
+Identify the **key facts**: what the learner must simply *know*. A key fact cannot be worked out from the principles, yet they cannot be applied without it (a definition, a constant, a conversion factor, a convention, a threshold, a classification, a name or a date).
+
+| # | Key Fact | Why it matters | Used in |
+|---|----------|----------------|---------|
+| KF-1 | <one fact, with its value and SI unit> | <what goes wrong without it> | <sub-goals that rely on it> |
+
+Rules:
+- Not a principle in disguise, not a prerequisite, not vocabulary, not a Key Concept
+- Key facts are what tests use, not what tests ask the learner to recite; they get no sub-goal and no axis of their own
+- "Why it matters" says what breaks without the fact, never why the fact is true
+- Fill `Used in` once the sub-goals exist, and drop any fact no sub-goal uses. Typically 4-10; never pad the list.
+- Never guess a value: mark an uncertain number, date or name `(verify)`
+
+### Step 1.9: Breakthrough
+
+Capture what the situation was **before** the key intuition and what the topic **solved**, at two levels: three short parts for the topic as a whole (*Before the intuition*, *The intuition*, *What it solved*), and a table with one row per principle (`Principle | Before the intuition | What it solved`, using the exact principle names).
+
+Rules:
+- One or two sentences per part and per cell; a story, not a lesson (no derivations, formulas or worked steps)
+- With no historical moment, "before" is how the work is done without this knowledge and where that breaks down
+- Name people and dates only when certain of them
+- Never reuse the Breakthrough story as a test case; in a Socratic plan, never describe a designed wrong path or narrate the reasoning toward the intuition
+
 ### Decomposition Axes
 
 Decompose across 5 axes (Motivation, Core Principles, Key Concepts, Tools, Verifications):
@@ -117,13 +155,14 @@ Decompose across 5 axes (Motivation, Core Principles, Key Concepts, Tools, Verif
 | Verification | Proof of mastery | 1+ |
 
 Rules:
-- **Each principle from Step 1.75 gets exactly ONE Core Principle sub-goal.** Core Principle SGs are always low difficulty / introductory depth. They test whether the learner can state and apply the foundational principle in a simple scenario.
+- **Each principle from Step 1.75 gets exactly ONE Core Principle sub-goal.** Core Principle SGs are always low difficulty: one principle, one simple scenario. They test whether the learner can state and apply the foundational principle.
 - Key Concepts MUST expand -- each covers ONE testable idea
 - **Each Key Concept sub-goal MUST map to at least one Core Principle SG.** If a sub-goal doesn't trace to a Core Principle SG, either the principle list is incomplete or the sub-goal is not load-bearing.
 - Each sub-goal is a 15-word SMART statement
 - Each sub-goal gets a domain label, difficulty, and depth level
 - Difficulty is derived (not guessed): low = 1 principle + 0-1 prereq depth, medium = 2-3 principles + 2-3 prereq depth, high = 4+ principles or proofs/derivations required
-- Depth level follows difficulty: low -> introductory, medium -> intermediate, high -> advanced
+- **The depth level of every sub-goal is the plan's Target level.** Difficulty does not set depth: an easy sub-goal gets a shorter explanation, not a lower level.
+- Write every sub-goal so that it can be achieved at the Target level. A sub-goal that needs formalism above the Target level is out of scope: leave it out, or restate it at the Target level.
 - Sequence: Motivation first -> Core Principles (dependency order) -> Key Concepts (dependency order) -> Tools -> Verification last
 - Total sub-goals: typically 7-15+ depending on complexity
 
@@ -148,9 +187,24 @@ Rules:
 - If a `requires` prerequisite is NOT in the learner profile, flag it as a WARNING
 - Every dependency in the Sequence must trace to a graph edge -- no intuited dependencies
 
+### Step 2.75: Flag the Hard Core
+
+After prerequisite tracing, flag the **hard core**: the core principles that are much harder to grasp than the rest. A principle qualifies when it is **counter-intuitive** (contradicts what experience or earlier study leads the learner to expect), needs a **new abstraction** (a representation the learner has not used before), or runs into a **persistent misconception** (a wrong idea people keep even after being told the right one) — and it passes this gate: you can write its **tempting answer**, what a capable person who does not yet know the principle would confidently and wrongly answer to a concrete case. No tempting answer, no hard core.
+
+Rules:
+- Usually 1-3 principles; when more qualify, keep the ones most later sub-goals depend on (add **load-bearing** to their reasons). Zero is allowed and is said plainly.
+- Only core principles, never Key Concepts. Hard core is about how hard the idea is to grasp, not about Difficulty.
+- The `## Hard Core` section lists each flagged principle with its reasons, as criterion names only, and its sub-goal. It never describes the misconception, the insight or a tempting answer: the top of the plan must not give a test away.
+- Each flagged principle's Core Principle blueprint becomes a **hard-core blueprint** (see session design below).
+- Show the list to the learner and ask them to confirm or change it. Adding a principle: apply the gate, add the hard-core fields, rebuild the tests on the tempting answer. Removing one: remove those fields and restore the standard tests. No re-decomposition is needed.
+
 ### Motivation / VOC Overview
 
-After decomposition, compose a plan-level **Motivation & Course Overview (VOC)** — the course's bird's-eye view and voice-of-customer anchor. It has four parts: *Why this matters*, *Bird's-eye view of the course*, *Core principles & key facts* (a plain-language digest of the Principle Extraction table), and *What you'll be able to do on completion* (concrete capabilities tied to the SMART Goal and Verification SG). It is plan-level and **distinct from the SG-1 Motivation session blueprint** — informative, not teaching content, and explicitly **editable by the learner**. If the learner revises it or gives feedback on it, re-evaluate whether the decomposition still matches the stated scope/outcomes and **offer to re-decompose (restructure) the plan**, then refresh the VOC digest.
+After decomposition, compose a plan-level **Motivation & Course Overview (VOC)** — the course's bird's-eye view and voice-of-customer anchor. It has four parts: *Why this matters*, *Bird's-eye view of the course*, *Core principles & key facts* (a plain-language digest of the Principle Extraction table and the most load-bearing facts from the Key Facts table), and *What you'll be able to do on completion* (concrete capabilities tied to the SMART Goal and Verification SG). It is plan-level and **distinct from the SG-1 Motivation session blueprint** — informative, not teaching content, and explicitly **editable by the learner**. If the learner revises it or gives feedback on it, re-evaluate whether the decomposition still matches the stated scope/outcomes and **offer to re-decompose (restructure) the plan** — including the Breakthrough and Hard Core rows if the principles changed and the Key Facts `Used in` column — then refresh the VOC digest and re-run the required-elements check.
+
+### Required-Elements Check
+
+After writing a plan file, read it back and confirm the five required plan elements listed above are present and filled in: one Core Principle sub-goal per principle; at least one key fact, each with existing sub-goals in `Used in`; the four VOC parts and a Motivation SG-1; the three Breakthrough parts and one row per principle; the method section, with an Initial Test and a Final Test in every blueprint. Also confirm the header has a `Target level:` and that every Depth cell and every Estimated Depth is that level; and that `## Hard Core` is present, that each principle it lists has a complete hard-core blueprint (Tempting answer, Insight, Picture, foundational worked example, one solved exercise for each level above High school up to the Target level, each ending with a Check), and that no test reuses a solved exercise's case. Fix any gap with the Edit tool, then report the result to the learner one line per element.
 
 ## TTT Session Protocol
 
@@ -158,17 +212,19 @@ After decomposition, compose a plan-level **Motivation & Course Overview (VOC)**
 
 For each sub-goal, produce a blueprint:
 - Initial Test: practical case + pass criteria
-- Estimated Depth: introductory/intermediate/advanced (from difficulty)
+- Estimated Depth: the plan's Target level (High school / Master's / Advanced); every test is written at that level
 - Principle: which principle(s) from Step 1.75 this sub-goal tests
 - Exercise: a simple, concrete, self-contained hands-on exercise (5-10 min) the learner can do to practice this concept
 - Anticipated CTQs: 2-4 criteria with mastery tests and failure modes
 - Teach Phase Plan: concepts, exercises, pitfalls with CTQ failure mode classification
 - Final Test: different scenario, same competencies
 - Adaptation rules: specific gap -> specific re-teach
+- Core Principle sub-goals: Principle + a foundational worked example (2-4 steps, concrete numbers, ending with a Check) + a simple state-and-apply test
+- **Hard-core blueprint** (each principle flagged in Step 2.75): the Core Principle blueprint plus a **Tempting answer** (the natural, confident, wrong answer to the Initial Test, and why it feels right), an **Insight** (the one sentence that makes it click), a **Picture** (one picture or analogy, and where it stops being true) and a **Level ladder** (one fully solved exercise for each level above High school, up to the Target level, each ending with a Check; in a High school plan the field says "none: the foundational worked example is the only rung"). The foundational worked example doubles as the High school rung. The Initial Test is a predict-and-justify case in which the natural approach leads to the Tempting answer, with no warning; the pass criterion is the right answer justified at the Target level; there is at least one CTQ per rung. No test reuses a solved exercise's case. Write these parts as the concept-explainer skill's Level Ladder describes.
 
 ### When EXECUTING sessions (for /run-session):
 
-**Socratic detection:** If the training plan is a Socratic plan (filename ends with `-socratic_training_plan.md` or contains `## Pedagogical Method: Socratic Discovery`), set `SOCRATIC = true`. In Socratic mode:
+**Socratic detection:** The plan's method heading decides. A `## Pedagogical Method: Socratic Discovery` section means a Socratic plan: set `SOCRATIC = true`. A `## Pedagogical Method: Test-Teach-Test` section means a standard plan, even though that section mentions the Socratic command. Only when the plan has no method heading (plans created before the section existed) fall back to the file name: a name ending in `-socratic_training_plan.md` is a Socratic plan. In Socratic mode:
 - Phase 1: Present Discovery Question before Initial Test. Let learner hit the designed wrong path.
 - Phase 2: Name the tension explicitly ("Your approach assumed X. This is why it fails: Y."). Do NOT give the resolution.
 - Phase 3: **Replace** declarative teaching with the Socratic Guidance Chain. Present questions ONE AT A TIME. Let the learner derive the concept. NEVER state a concept before the learner has attempted to derive it.
@@ -180,23 +236,26 @@ Follow these phases in order:
 1. **INITIAL TEST** -- Present the practical case. No preamble. **(SOCRATIC: present Discovery Question first, then the test.)** **MUST end with these two verbatim notes:**
    > *If you are not familiar with this topic, write **"not familiar"** to receive a full concept explanation before attempting the test.*
    > *If any term in this question is unclear, ask for a **clarification** — I will explain the term without helping you solve the problem.*
-   If "not familiar": (1) check Prerequisite Graph for uncompleted prerequisite SGs — offer to run those first; (2) check Principle Extraction for external prerequisites not covered by any SG — if found, present PLAN-REVISION offer (A: add prerequisite SG, B: continue as-is); (3) otherwise deliver Full 7-Section Concept Explanation, then re-present the test (not an adaptation loop). If clarification: invoke term-clarifier agent. If term-clarifier returns PLAN-REVISION-REQUEST: after learner submits answer, offer (A) add prerequisite SG or (B) continue as-is. Wait for learner response.
+   If "not familiar": (1) check Prerequisite Graph for uncompleted prerequisite SGs — offer to run those first; (2) check Principle Extraction for external prerequisites not covered by any SG — if found, present PLAN-REVISION offer (A: add prerequisite SG, B: continue as-is); (3) otherwise deliver Full 7-Section Concept Explanation (for a hard-core principle: the climb from the High school rung, with no Tempting answer named and the test case left unsolved), then re-present the test (not an adaptation loop). If clarification: invoke term-clarifier agent. If term-clarifier returns PLAN-REVISION-REQUEST: after learner submits answer, offer (A) add prerequisite SG or (B) continue as-is. Wait for learner response.
 2. **EVALUATE** -- Compare response to pass criteria and CTQ mastery tests. Classify gaps using CTQ failure mode taxonomy:
    - [conflation], [overgeneralization], [missing-prerequisite], [procedural-without-conceptual], [verbal-without-formal], [formal-without-intuitive]
-   - PASS -> skip to RECORD
+   - PASS -> skip to RECORD (hard-core principle: the recap and the offer come first)
    - GAPS -> proceed to TEACH
 3. **TEACH** -- For each gap, deliver a concept explanation:
+   - **(Hard-core principle)** A Core Principle blueprint that has a Tempting answer, an Insight and a Picture: teach the principle as **the climb** (format `ladder`). The High school rung is the reveal (what the learner assumed, shown failing; the Insight; the Picture; the foundational worked example; the test case redone). Then one rung per level up to the session's level, each with the blueprint's solved exercise. Every rung ends with "your turn", its Quick Check: a method failure gets a short bridge one level down and one new exercise, and a second failure stops the climb. `/run-session` holds the full flow, the concept-explainer skill's Level Ladder the content rules. Other gaps are then taught as below.
    - **(Standard mode)** Assess complexity: simple -> abbreviated; complex -> full 7-section; conflation -> comparison. Deliver declaratively: Problem, Principles, Innovations, Worked Example, Formalization, Quick Check.
    - **(SOCRATIC mode)** REPLACE declarative teaching with Socratic Guidance Chain from the blueprint. Present questions ONE AT A TIME. Wait for learner response. Each question narrows the search space. The final question makes the conclusion inescapable. NEVER state a concept before the learner has attempted to derive it. If the learner is stuck after the full chain, THEN explain — framed as "Here's what the chain was leading to."
-   - **Worked Example**: FULLY DEVELOPED step-by-step example (ALWAYS included in both modes)
-   - **CTQ-derived Quick Check**: (Standard: verify understanding. SOCRATIC: "Reconstruct why [concept] is the only resolution to the tension.") MUST end with clarification note. **NEVER show expected answer before learner responds.**
+   - **Worked Example**: FULLY DEVELOPED step-by-step example (ALWAYS included, in both modes and in every format, comparison included; in SOCRATIC mode it comes after the resolution). It ends with a Check that confirms the result a second way.
+   - **CTQ-derived Quick Check**: (Standard: verify understanding. SOCRATIC: "Reconstruct why [concept] is the only resolution to the tension.") MUST end with clarification note. **NEVER show expected answer before learner responds.** After the learner responds, reveal the complete worked solution, not just the expected answer.
+   - **On a failed Quick Check**: re-explain one level down (a Master's-level block at the High school level, an Advanced block at the Master's level, a High school block with a different picture; in SOCRATIC mode, questions pitched one level down), then give one more check at the original level
    - After first block, mention deep-dive option once
 4. **CONCEPT MAP** -- Optionally offer a standard-depth concept map (10-15 nodes). All taught gaps must appear.
 5. **FINAL TEST** -- New practical case, same competencies. **MUST end with the same two verbatim notes** ("not familiar" + "clarification"). Wait for response.
 6. **EVALUATE FINAL**
    - PASS -> RECORD
-   - FAIL -> Loop back to TEACH (narrower focus, max 2 loops total)
-7. **RECORD** -- Update plan file + write transcript + delete checkpoint + update learner profile + export concept file + (if the sub-goal work naturally yielded one) produce a deliverable artefact `<topic>_artefact_SG<N>_<slug>.md` + register every artefact produced in the Artefacts Register
+   - FAIL -> Loop back to TEACH (narrower focus, max 2 loops total; for a hard-core principle, re-enter the climb at the first rung not held)
+   - A hard-core climb that stopped short gets its Final Test at the level reached, is recorded as needs-review with that level, and uses no loop
+7. **RECORD** -- In this order: update plan file + write transcript + update learner profile + export concept file + write the exercise book `<topic>_artefact_SG<N>_exercises.md` (Core Principle, Key Concept and Tools sub-goals: 2 fully solved exercises per level from High school up to the sub-goal's Estimated Depth, in the concept-explainer skill's Exercise Book Format) + (if the sub-goal work naturally yielded one) produce another deliverable artefact `<topic>_artefact_SG<N>_<slug>.md` + register every artefact produced in the Artefacts Register + delete checkpoint
 
 ## Output File Formats
 
@@ -204,13 +263,23 @@ Follow these phases in order:
 
 ```markdown
 # Training Plan: <Title>
-Generated: <date> | Status: in-progress
+Generated: <date> | Status: in-progress | Target level: <High school/Master's/Advanced>
 
 ## Learning Goal
 <User's original goal>
 
 ## SMART Goal
 <15-word refinement>
+
+## Pedagogical Method: Test-Teach-Test
+
+Each session follows a **Test → Teach → Test** cycle:
+
+1. **Test** — a practical case comes first, with no theory beforehand. Attempt it cold: the attempt shows what is already known and exactly where the gaps are.
+2. **Teach** — only the gaps the test revealed are taught, one at a time and principle-first. Each explanation ends with a Quick Check.
+3. **Test** — a different practical case confirms the learning transfers. If gaps remain, the cycle repeats on those gaps only (at most twice).
+
+**Teaching style: direct explanation.** A Socratic version of a plan, in which each concept is reached through a chain of questions instead of being explained, is created with `/socratic-training-plan` in a separate folder.
 
 ## Motivation & Course Overview (VOC)
 > _Editable by the learner. This is the course's bird's-eye view and
@@ -223,10 +292,24 @@ Generated: <date> | Status: in-progress
 end to end and how the sub-goals connect into one arc>
 
 **Core principles & key facts:** <plain-language digest of the 3-5 core
-principles from Principle Extraction plus any load-bearing facts>
+principles from Principle Extraction and the most load-bearing facts from Key Facts>
 
 **What you'll be able to do on completion:** <bulleted concrete capabilities
 tied to the SMART Goal and the Verification sub-goal(s)>
+
+## Breakthrough
+> _The story behind the topic: what the situation was before the key
+> intuition, and what the topic solved._
+
+**Before the intuition:** <1-2 sentences — what people did or believed, and where it broke down>
+
+**The intuition:** <1-2 sentences — the insight that changed the picture, in plain language>
+
+**What it solved:** <1-2 sentences — what became possible that was not possible before>
+
+| Principle | Before the intuition | What it solved |
+|-----------|----------------------|----------------|
+| <principle name> | <the earlier view or practice it replaced, and how it failed> | <what it made possible> |
 
 ## Principle Extraction
 
@@ -234,16 +317,37 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 |-----------|-----------|---------|---------------|
 | <name> | <sentence> | <LaTeX or —> | <prior knowledge> |
 
+## Hard Core
+> _The principles that are hardest to grasp. Each is taught through an aha
+> moment and a climb through the levels, with a solved exercise at every rung.
+> If this list looks wrong to you, tell me which principle to add or remove._
+
+| Principle | Why it is hard | Taught in |
+|-----------|----------------|-----------|
+| <principle name> | <counter-intuitive / new abstraction / persistent misconception / load-bearing> | SG-<N> |
+
+(If no principle qualifies, write "No principle in this plan is hard-core." in place of the table.)
+
+## Key Facts
+> _What this course relies on you simply knowing. Values marked `(verify)`
+> should be checked against a source before you rely on them._
+
+| # | Key Fact | Why it matters | Used in |
+|---|----------|----------------|---------|
+| KF-1 | <one fact, with its value and unit> | <what goes wrong without it> | SG-<N>, ... |
+
 ## Sub-Goals
 
 | # | Axis | Sub-Goal | Domain | Difficulty | Depth | Principle | Status | Score |
 |---|------|----------|--------|-----------|-------|-----------|--------|-------|
-| SG-1 | Motivation | <statement> | <domain> | low | intro | — | pending | - |
-| SG-2 | Core Principle | <statement> | <domain> | low | intro | <principle> | pending | - |
-| SG-3 | Core Principle | <statement> | <domain> | low | intro | <principle> | pending | - |
-| ... | Core Principle | ... | ... | low | intro | ... | ... | ... |
-| SG-N | Key Concept | <statement> | <domain> | <low/med/high> | <intro/inter/adv> | <principle> | pending | - |
+| SG-1 | Motivation | <statement> | <domain> | low | <HS/MSc/Adv> | — | pending | - |
+| SG-2 | Core Principle | <statement> | <domain> | low | <HS/MSc/Adv> | <principle> | pending | - |
+| SG-3 | Core Principle | <statement> | <domain> | low | <HS/MSc/Adv> | <principle> | pending | - |
+| ... | Core Principle | ... | ... | low | <HS/MSc/Adv> | ... | ... | ... |
+| SG-N | Key Concept | <statement> | <domain> | <low/med/high> | <HS/MSc/Adv> | <principle> | pending | - |
 | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+
+_Depth is the plan's Target level in every row: HS = High school, MSc = Master's, Adv = Advanced._
 
 ## Prerequisite Graph
 
@@ -259,11 +363,13 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 <dependency notes derived from prerequisite graph>
 
 ## Session Blueprints
+> _Session designs. Run a sub-goal's session before reading its blueprint: the
+> tests work best unseen. The solved exercises are there to study afterwards._
 
 ### SG-1: <Motivation short title>
 - **Initial Test:** <practical case description>
 - **Pass Criteria:** <measurable threshold>
-- **Estimated Depth:** introductory
+- **Estimated Depth:** <Target level>
 - **Principle:** —
 - **Exercise:** <simple hands-on exercise the learner can do to practice this concept — concrete, self-contained, completable in 5-10 minutes>
 - **Anticipated CTQs:**
@@ -282,9 +388,10 @@ tied to the SMART Goal and the Verification sub-goal(s)>
   **Step 2:** <operation>
   > **Why:** <reasoning>
   **Result:** <answer with units and interpretation>
+  > **Check:** <the result confirmed a second way>
 - **Initial Test:** <simple scenario testing principle understanding>
 - **Pass Criteria:** Can state the principle in own words AND apply it to a basic scenario correctly
-- **Estimated Depth:** introductory
+- **Estimated Depth:** <Target level>
 - **Exercise:** <simple hands-on exercise the learner can do to practice this principle — concrete, self-contained, completable in 5-10 minutes>
 - **Anticipated CTQs:**
   | CTQ | Source | Mastery Test | Common Failure Mode |
@@ -293,10 +400,47 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 - **Teach Topics:** <the principle, boundary conditions, common misunderstandings>
 - **Final Test:** <different simple scenario testing same principle>
 
+### SG-3: <Hard-core principle short title>
+- **Principle:** <principle name> — <principle statement>
+- **Tempting answer:** <the natural, confident, wrong answer to the Initial Test, and why it feels right>
+- **Insight:** <the one sentence that makes it click>
+- **Picture:** <one picture or analogy, and where it stops being true>
+- **Worked Example (foundational):**
+  **Given:** <the smallest case in which the Insight is visible, with concrete numbers>
+  **Step 1:** <operation>
+  > **Why:** <reasoning>
+  **Step 2:** <operation>
+  > **Why:** <reasoning>
+  **Result:** <answer with units and interpretation>
+  > **Check:** <the result confirmed a second way>
+- **Level ladder:** <one solved exercise for each level above High school, up to the Target level; in a High school plan write "none: the foundational worked example is the only rung">
+  **Master's solved exercise** (not in a High school plan)
+  **Given:** <the same idea, in the field's notation>
+  **Step 1:** <operation>
+  > **Why:** <reasoning>
+  **Result:** <answer with interpretation>
+  > **Check:** <the result confirmed a second way>
+  **Advanced solved exercise** (only in an Advanced plan)
+  **Given:** <the same idea in full generality: a proof, a derivation or a non-standard case>
+  **Step 1:** <operation>
+  > **Why:** <reasoning>
+  **Result:** <answer with interpretation>
+  > **Check:** <the result confirmed a second way>
+- **Initial Test:** <practical case in which the natural approach leads to the Tempting answer: predict and justify>
+- **Pass Criteria:** Gives the right answer, not the tempting one, AND justifies it at the Target level
+- **Estimated Depth:** <Target level>
+- **Exercise:** <simple hands-on exercise the learner can do to practice this principle — concrete, self-contained, completable in 5-10 minutes>
+- **Anticipated CTQs:**
+  | CTQ | Source | Mastery Test | Common Failure Mode |
+  |-----|--------|-------------|---------------------|
+  | <what must be understood at this rung> | <principle>, <level> rung | <verification task> | <failure pattern> |
+- **Teach Topics:** <the principle, boundary conditions, the misunderstandings that survive the Insight>
+- **Final Test:** <different case in which the same tempting reasoning is again available>
+
 ### SG-N: <Key Concept short title>
 - **Initial Test:** <practical case description>
 - **Pass Criteria:** <measurable threshold>
-- **Estimated Depth:** <introductory/intermediate/advanced>
+- **Estimated Depth:** <Target level>
 - **Principle:** <principle name>
 - **Exercise:** <simple hands-on exercise the learner can do to practice this concept — concrete, self-contained, completable in 5-10 minutes>
 - **Anticipated CTQs:**
@@ -306,7 +450,7 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 - **Teach Topics:** <concepts, exercises, pitfalls with CTQ failure mode tags>
 - **Final Test:** <different case, same competencies>
 
-(repeat for every sub-goal — Core Principle SGs include the Worked Example field, others do not)
+(repeat for every sub-goal — Core Principle SGs include the Worked Example field, others do not; only the principles listed in `## Hard Core` use the hard-core form)
 
 ## Artefacts Register
 > _Visible anchor for every artefact this course produces. Seeded at plan
@@ -320,11 +464,14 @@ tied to the SMART Goal and the Verification sub-goal(s)>
 (updated by /run-session)
 ```
 
+A **Socratic plan** uses the same template with two differences: the file is named `<topic>-socratic_training_plan.md`, and the method section is `## Pedagogical Method: Socratic Discovery` (the Question → Tension → Resolution → Test arc, the Guidance Chain note, and the table mapping the arc onto Test-Teach-Test), with the Socratic blueprint fields defined in `/socratic-training-plan` (including the Socratic form of the hard-core blueprint, where the designed wrong path is the Tempting answer and the Guidance Chain leads to the Insight).
+
 Artefact types: `plan` / `concept-file` / `transcript` / `deliverable` / `profile`.
 Seed the register with the plan file (and the learner profile if one exists).
 The RECORD phase of `/run-session` appends a row for every artefact a session
 produces — including any deliverable artefact stored as
-`<topic>_artefact_SG<N>_<slug>.md`.
+`<topic>_artefact_SG<N>_<slug>.md`. The sub-goal's exercise book,
+`<topic>_artefact_SG<N>_exercises.md`, is one of these deliverables.
 
 ### Session Transcript File (`<topic>_session_SG<N>.md`)
 
@@ -340,8 +487,8 @@ Date: <date>
 ## Teach Phase
 (for each gap)
 ### Gap: <gap name> [<failure mode>]
-**Format:** <abbreviated/full/comparison>
-**Content delivered:** <summary -- for full explanations, summarize the 6 sections>
+**Format:** <abbreviated/full/comparison/ladder>
+**Content delivered:** <summary -- for full explanations, summarize the 6 sections; for a climb, the start rung, what the reveal showed, and one line per rung>
 **Quick Check:** <question> -- Learner answer: <answer> -- <correct/incorrect>
 **Deep-dive:** <if requested, summary>
 
@@ -357,17 +504,19 @@ Date: <date>
 - Status: <complete/needs-review>
 - Loops: <0/1/2>
 - Score: <assessment>
+- Level reached: <High school / Master's / Advanced, or "below High school"> (session level: <level>)
 - Concept File: <filename or "none">
 ```
 
 ## Important Rules
 
 - ALWAYS append the "not familiar" note AND the "clarification" note at the end of EVERY test presentation (Initial Test and Final Test) -- these two notes are NON-NEGOTIABLE, copy them verbatim
-- NEVER reveal expected answers or "Watch for" hints BEFORE the learner responds -- this applies to ALL questions (Initial Test, Quick Checks, Final Test). Present the question, wait, THEN show the answer.
+- NEVER reveal expected answers or "Watch for" hints BEFORE the learner responds -- this applies to ALL questions (Initial Test, Quick Checks, Final Test). Present the question, wait, THEN show the answer -- for a Quick Check, as a complete worked solution ending with a Check.
 - NEVER present theory before the Initial Test -- the whole point is practical-first
 - NEVER skip the evaluation step -- always explicitly list gaps with CTQ failure mode classification
 - NEVER combine teaching blocks -- one gap, one concept explanation, one Quick Check at a time
-- ALWAYS assess gap complexity before choosing teaching format (abbreviated vs full vs comparison)
+- ALWAYS assess gap complexity before choosing teaching format (abbreviated vs full vs comparison); a gap on a hard-core principle itself is always taught as the climb (ladder)
+- For a hard-core principle, NEVER warn about the Tempting answer before the Initial Test, and ALWAYS open the climb with the reveal when the learner falls for it
 - ALWAYS use CTQ failure mode taxonomy when naming gaps in EVALUATE
 - ALWAYS wait for the learner to respond before evaluating
 - ALWAYS use the Edit tool to update the training plan file (don't rewrite the whole file)
@@ -378,9 +527,13 @@ Date: <date>
 - ALWAYS update the learner profile during the RECORD phase of /run-session
 - ALWAYS check the learner profile (if it exists) when creating a new training plan via /create-training-plan
 - ALWAYS export a concept file during RECORD if teaching occurred
-- ALWAYS register every artefact a session produces (transcript, concept file, deliverable) as a row in the Artefacts Register during RECORD -- this keeps the visible anchor authoritative
+- ALWAYS write the sub-goal's exercise book during RECORD for a Core Principle, Key Concept or Tools sub-goal -- fully solved exercises, statements first and worked solutions after, appended to `<topic>_artefact_SG<N>_exercises.md`
+- ALWAYS register every artefact a session produces (transcript, concept file, exercise book, any other deliverable) as a row in the Artefacts Register during RECORD, and the learner profile too if it is not listed yet -- this keeps the visible anchor authoritative
+- Use /worked-exercises when the learner wants more solved practice on a sub-goal or concept, at any of the three levels
 - MAY produce a deliverable artefact (`<topic>_artefact_SG<N>_<slug>.md`) during RECORD when the sub-goal work naturally yields one (e.g., a filled-in template, worked calculation sheet, checklist, or reference the learner builds) -- store it and register it
-- When the learner edits or gives feedback on the Motivation & Course Overview (VOC), re-evaluate the decomposition and OFFER to restructure the plan (never restructure silently); refresh the VOC digest after any restructure
+- When the learner edits or gives feedback on the Motivation & Course Overview (VOC), re-evaluate the decomposition and OFFER to restructure the plan (never restructure silently); after any restructure, update the Breakthrough rows, the Hard Core rows and the Key Facts `Used in` column where affected, refresh the VOC digest, and re-run the required-elements check
+- ALWAYS run the required-elements check after writing a plan file -- a plan missing one of the five required elements, its Target level or its Hard Core section is incomplete
+- ALWAYS show the learner the hard-core list when a plan is created and ask them to confirm or change it; NEVER state a tempting answer outside the blueprint of its own sub-goal
 - MENTION the deep-dive option once after the first teaching block -- never repeat the offer
 - OPTIONALLY offer a concept map after the TEACH phase -- never insist, just offer once
 - Use /training-status to show the learner their cross-plan analytics

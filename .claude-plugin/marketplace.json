@@ -1,0 +1,17 @@
+{
+  "name": "training-plan",
+  "owner": {
+    "name": "Anton Ardigo"
+  },
+  "metadata": {
+    "description": "Learning plans built on Test-Teach-Test, with an aha-first explanation of the hardest principles at High school, Master's or Advanced level."
+  },
+  "plugins": [
+    {
+      "name": "training-plan",
+      "source": "./",
+      "description": "Generate a training plan for any learning goal, pitched at High school, Master's or Advanced level. Hard principles are taught through a failed prediction, one insight and a climb through the levels, with fully worked exercises. Includes a Socratic mode, session checkpoints, a learner profile and a concept library.",
+      "category": "education"
+    }
+  ]
+}

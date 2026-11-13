@@ -1,16 +1,30 @@
 ---
 name: create-training-plan
-description: Create a customized training plan from a learning goal using Test-Teach-Test methodology
+description: Create a customized training plan from a learning goal. Socratic by default (each concept reached through questions); add the word direct for direct explanation
 allowed_tools:
   - Read
   - Write
   - Edit
   - Glob
+  - Skill
 ---
 
 You are creating a customized training plan using the **Test-Teach-Test (TTT)** methodology.
 
 The user wants to learn: **$ARGUMENTS**
+
+## Step 0: Choose the Teaching Method
+
+A plan teaches in one of two ways:
+
+| Method | How a concept reaches the learner | Created when |
+|--------|-----------------------------------|--------------|
+| **Socratic** (the default) | Through a chain of questions, so that the learner states the idea before it is explained | The goal does not ask for direct explanation |
+| **Direct explanation** | Test first, then the gaps are explained | The goal contains the word `direct`, or the learner asks for direct explanation or for "no Socratic" |
+
+**Default: Socratic.** Do NOT follow the rest of this file. Hand the goal, unchanged, to this plugin's `socratic-training-plan` command: invoke it with the Skill tool (`training-plan:socratic-training-plan`; `socratic-training-plan` when the plugin is loaded without a prefix). If it cannot be invoked, find its file with Glob (`**/commands/socratic-training-plan.md`), Read it, and follow it in full with the same goal. Tell the learner in one line that the plan is Socratic and that `direct` in the goal gives direct explanation.
+
+**Direct explanation.** Remove the word `direct` from the goal and continue with the steps below.
 
 ## Your Task
 
@@ -274,7 +288,7 @@ Each session follows a **Test → Teach → Test** cycle:
 2. **Teach** — only the gaps the test revealed are taught, one at a time and principle-first. Each explanation ends with a Quick Check.
 3. **Test** — a different practical case confirms the learning transfers. If gaps remain, the cycle repeats on those gaps only (at most twice).
 
-**Teaching style: direct explanation.** A Socratic version of a plan, in which each concept is reached through a chain of questions instead of being explained, is created with `/socratic-training-plan` in a separate folder.
+**Teaching style: direct explanation**, as requested. The default style is Socratic, in which each concept is reached through a chain of questions instead of being explained: create that version with `/create-training-plan` (without the word `direct`) in a separate folder.
 
 ## Motivation & Course Overview (VOC)
 > _Editable by the learner. This is the course's bird's-eye view and

@@ -104,7 +104,7 @@ Each session follows a **Test → Teach → Test** cycle:
 2. **Teach** — only the gaps the test revealed are taught, one at a time and principle-first. Each explanation ends with a Quick Check.
 3. **Test** — a different practical case confirms the learning transfers. If gaps remain, the cycle repeats on those gaps only (at most twice).
 
-**Teaching style: direct explanation.** A Socratic version of a plan, in which each concept is reached through a chain of questions instead of being explained, is created with `/socratic-training-plan` in a separate folder.
+**Teaching style: direct explanation**, as requested. The default style is Socratic, in which each concept is reached through a chain of questions instead of being explained: create that version with `/create-training-plan` (without the word `direct`) in a separate folder.
 
 ## Motivation & Course Overview (VOC)
 > _Editable by the learner. This is the course's bird's-eye view and

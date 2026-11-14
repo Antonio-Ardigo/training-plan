@@ -1,0 +1,157 @@
+[
+ {
+  "id": "mwg9t10m1ifnnv",
+  "at": "2026-11-14",
+  "ts": 1794652574566,
+  "kind": "lesson-start",
+  "lesson": "L4"
+ },
+ {
+  "id": "mwg9t1bnxnb471",
+  "at": "2026-11-14",
+  "ts": 1794652574963,
+  "kind": "answer",
+  "lesson": "L4",
+  "step": "try-first",
+  "question": "You deposit €1,000 in an account that pays 10% a year. At the end of each year the bank adds the interest to the account, and you withdraw nothing. Predict (1) how many euros of interest the bank adds at the end of year 3 and (2) the balance after 3 years. Give two numbers and justify them in one or two sentences.",
+  "answer": "(a) 100\n(b) 1300\n(c) Same 10% every year so 100 each year.",
+  "verdict": "trap",
+  "feedback": "10% of 1,000 is 100. Your answer keeps the base at €1,000.",
+  "to_work_on": [
+   {
+    "what": "what the 10% is charged on each year",
+    "kind": "overstretching"
+   }
+  ],
+  "source": "app"
+ },
+ {
+  "id": "mwg9t1o4fbehx1",
+  "at": "2026-11-14",
+  "ts": 1794652575412,
+  "kind": "answer",
+  "lesson": "L4",
+  "step": "guiding-question",
+  "question": "At the end of year 1, how much money is in the account?",
+  "answer": "my answer 0",
+  "verdict": "pass",
+  "feedback": "Yes, that holds.",
+  "source": "app"
+ },
+ {
+  "id": "mwg9t1viixoav6",
+  "at": "2026-11-14",
+  "ts": 1794652575679,
+  "kind": "answer",
+  "lesson": "L4",
+  "step": "guiding-question",
+  "question": "The bank pays 10% on what the account holds. What does it hold at the start of year 2?",
+  "answer": "my answer 1",
+  "verdict": "pass",
+  "feedback": "Yes, that holds.",
+  "source": "app"
+ },
+ {
+  "id": "mwg9t22gfozku0",
+  "at": "2026-11-14",
+  "ts": 1794652575928,
+  "kind": "answer",
+  "lesson": "L4",
+  "step": "guiding-question",
+  "question": "So how many euros is the interest of year 2? How many of those euros come from the original €1,000, and where do the rest come from?",
+  "answer": "my answer 2",
+  "verdict": "pass",
+  "feedback": "Yes, that holds.",
+  "source": "app"
+ },
+ {
+  "id": "mwg9t28wp7rh8r",
+  "at": "2026-11-14",
+  "ts": 1794652576160,
+  "kind": "answer",
+  "lesson": "L4",
+  "step": "guiding-question",
+  "question": "By what single number is the balance multiplied from the start of a year to its end?",
+  "answer": "my answer 3",
+  "verdict": "pass",
+  "feedback": "Yes, that holds.",
+  "source": "app"
+ },
+ {
+  "id": "mwg9t2fevyy3mg",
+  "at": "2026-11-14",
+  "ts": 1794652576394,
+  "kind": "answer",
+  "lesson": "L4",
+  "step": "guiding-question",
+  "question": "Is that number different in year 3? What does that give for the balance after 3 years?",
+  "answer": "my answer 4",
+  "verdict": "pass",
+  "feedback": "Yes, that holds.",
+  "source": "app"
+ },
+ {
+  "id": "mwg9t2lvrfr768",
+  "at": "2026-11-14",
+  "ts": 1794652576627,
+  "kind": "answer",
+  "lesson": "L4",
+  "step": "guiding-question",
+  "question": "Say in one sentence why the yearly interest grows although the rate does not.",
+  "answer": "my answer 5",
+  "verdict": "pass",
+  "feedback": "Yes, that holds.",
+  "source": "app"
+ },
+ {
+  "id": "mwg9t3af5dffi6",
+  "at": "2026-11-14",
+  "ts": 1794652577511,
+  "kind": "answer",
+  "lesson": "L4",
+  "step": "your-turn",
+  "level": "high-school",
+  "question": "€400 at 5% a year, interest added each year. How many euros of interest are added in year 2? (a number)",
+  "answer": "20",
+  "verdict": "fail",
+  "feedback": "€20 is 5% of the original €400: the €20 of year 1's interest was left out of the base.",
+  "source": "app"
+ },
+ {
+  "id": "mwg9t3elnmo82k",
+  "at": "2026-11-14",
+  "ts": 1794652577661,
+  "kind": "answer",
+  "lesson": "L4",
+  "step": "your-turn",
+  "level": "high-school",
+  "question": "€400 at 5% a year, interest added each year. How many euros of interest are added in year 2? (a number)",
+  "answer": "21",
+  "verdict": "pass",
+  "feedback": "Right.",
+  "source": "app"
+ },
+ {
+  "id": "mwg9t3ndvac2lq",
+  "at": "2026-11-14",
+  "ts": 1794652577977,
+  "kind": "answer",
+  "lesson": "L4",
+  "step": "final-check",
+  "question": "You deposit €2,000 in an account that pays 5% a year; the interest is added at the end of each year and you withdraw nothing. Predict (1) the interest added at the end of year 3 and (2) the balance after 3 years, and justify them. Then explain why the year 3 interest is not €100, and say what would happen to the yearly interest if you withdrew each year's interest as soon as it was added. Answer with two numbers and two or three sentences.",
+  "answer": "(a) 110.25\n(b) 2315.25\n(c) 5% on a balance that already holds 205 of interest; withdrawn it stays 100.",
+  "verdict": "pass",
+  "feedback": "Both numbers are right. You have it.",
+  "to_work_on": [],
+  "source": "app"
+ },
+ {
+  "id": "mwg9t3nddb9niy",
+  "at": "2026-11-14",
+  "ts": 1794652577977,
+  "kind": "lesson-end",
+  "lesson": "L4",
+  "status": "done",
+  "level_reached": "high-school"
+ }
+]

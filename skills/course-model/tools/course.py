@@ -10,6 +10,9 @@ Python 3.8+, standard library only. Every command is also described in words in
   course.py progress [DIR ...]                    report over every course found
   course.py convert PLAN.md [--out DIR]           convert a 3.x plan, keep the old files
   course.py example                               print example-course.json (the shape to copy)
+  course.py check-lesson LESSON.json              check the shape of a prepared lesson (lesson-content skill)
+  course.py build-app PATH/course.json            build app/index.html (and app/local.html) from the course and its prepared lessons
+  course.py merge-activity PATH/course.json ACTIVITY.json   bring answers given in the course app into course.json
   course.py schema                                print course.schema.json
 """
 import datetime as _dt
@@ -890,6 +893,166 @@ def convert(plan_path, out_dir=None):
     return path
 
 
+# ---------------------------------------------------------------- course app
+APP_TEMPLATE = os.path.join(HERE, "..", "..", "course-app", "app.html")
+STEP_KINDS = {"text": ["md"], "worked": ["example"], "guiding": ["prompt", "aim"], "check": ["prompt", "answer", "solution"]}
+WIDGETS = {"matrix": ["rows"], "vectors": ["vectors"], "dots": ["groups"], "bars": ["items"], "lines": ["series"],
+           "table": ["rows"], "timeline": ["events"], "slider": ["label", "min", "max", "value"]}
+
+
+def check_lesson(lesson):
+    """Shape of a prepared lesson (lesson-content skill). Returns a list of errors."""
+    errors = []
+    if lesson.get("schema") != "lesson/1":
+        errors.append("schema must be 'lesson/1'")
+    if not re.fullmatch(r"L[0-9]+", str(lesson.get("lesson", ""))):
+        errors.append("lesson must be a lesson id like L3")
+
+    def steps(where, items):
+        if not isinstance(items, list):
+            errors.append(f"{where}: must be a list")
+            return
+        for i, st in enumerate(items):
+            k = st.get("kind")
+            if k not in STEP_KINDS:
+                errors.append(f"{where}[{i}]: unknown kind {k!r}")
+                continue
+            for f in STEP_KINDS[k]:
+                if f not in st:
+                    errors.append(f"{where}[{i}] ({k}): missing '{f}'")
+            if k == "check" and isinstance(st.get("answer"), (int, float)) is False and not isinstance(st.get("answer"), str):
+                errors.append(f"{where}[{i}]: answer must be a number or text")
+            widgets(f"{where}[{i}]", st.get("widgets", []))
+
+    def widgets(where, ws):
+        for j, w in enumerate(ws or []):
+            t = w.get("type")
+            if t not in WIDGETS:
+                errors.append(f"{where}.widgets[{j}]: unknown type {t!r}")
+                continue
+            for f in WIDGETS[t]:
+                if f not in w:
+                    errors.append(f"{where}.widgets[{j}] ({t}): missing '{f}'")
+
+    def test(where, t):
+        if not isinstance(t, dict) or not t.get("prompt") or not t.get("parts"):
+            errors.append(f"{where}: needs a prompt and parts")
+            return
+        for i, p in enumerate(t["parts"]):
+            if not p.get("id") or not p.get("ask") or p.get("form") not in ("number", "text", "choice"):
+                errors.append(f"{where}.parts[{i}]: needs id, ask and form (number, text or choice)")
+            if p.get("form") == "choice" and not p.get("choices"):
+                errors.append(f"{where}.parts[{i}]: a choice needs choices")
+        widgets(where, t.get("widgets", []))
+
+    steps("open", lesson.get("open", []))
+    test("try_first", lesson.get("try_first"))
+    learn = lesson.get("learn") or {}
+    if not learn.get("not_passed"):
+        errors.append("learn.not_passed: needs at least one step")
+    steps("learn.not_passed", learn.get("not_passed", []))
+    steps("learn.passed", learn.get("passed", []))
+    test("final", lesson.get("final"))
+    return errors
+
+
+def build_app(course_path):
+    folder = os.path.dirname(os.path.abspath(course_path))
+    c = load(course_path)
+    lessons = {}
+    for f in c["files"]:
+        if f["kind"] == "lesson-content" and os.path.exists(os.path.join(folder, f["path"])):
+            les = load(os.path.join(folder, f["path"]))
+            errs = check_lesson(les)
+            if errs:
+                raise SystemExit(f"{f['path']}: " + "; ".join(errs))
+            lessons[les["lesson"]] = les
+    data = json.dumps({"course": c, "lessons": lessons, "built": today()}, ensure_ascii=False)
+    data = data.replace("</", "<\\/")
+    tpl = open(APP_TEMPLATE, encoding="utf-8").read()
+    page = tpl.replace("__COURSE_DATA__", data).replace("__COURSE_TITLE__", re.sub(r"[<>&]", "", c["course"]["title"])[:80])
+    os.makedirs(os.path.join(folder, "app"), exist_ok=True)
+    with open(os.path.join(folder, "app", "index.html"), "w", encoding="utf-8") as f:
+        f.write(page)
+    with open(os.path.join(folder, "app", "local.html"), "w", encoding="utf-8") as f:
+        f.write('<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
+                '<style>body{margin:0}[hidden]{display:none!important}</style></head><body>' + page + "</body></html>\n")
+    have = {f["path"] for f in c["files"]}
+    for path, title in (("app/index.html", "Course app (page to publish)"), ("app/local.html", "Course app (open in a browser)")):
+        if path not in have:
+            c["files"].append({"path": path, "kind": "app", "lesson": None, "title": title, "updated": today()})
+        else:
+            next(f for f in c["files"] if f["path"] == path)["updated"] = today()
+    save(course_path, c)
+    return sorted(lessons), os.path.join(folder, "app", "index.html")
+
+
+def merge_activity(course_path, activity_path):
+    """Bring events saved by the course app into course.json. Returns a summary dict."""
+    c = load(course_path)
+    raw = load(activity_path)
+    if isinstance(raw, dict):
+        raw = raw.get("docs") or raw.get("documents") or raw.get("items") or list(raw.values())
+    events = []
+    for e in raw:
+        e = e.get("data", e) if isinstance(e, dict) else e
+        if isinstance(e, dict) and e.get("lesson"):
+            events.append(e)
+    events.sort(key=lambda e: e.get("ts", 0))
+    by_id = {l["id"]: l for l in c["lessons"]}
+    known = {a.get("id") for l in c["lessons"] for a in l["state"]["attempts"] if a.get("id")}
+    merged, unmarked, closed = 0, [], []
+    for e in events:
+        l = by_id.get(e["lesson"])
+        if not l:
+            continue
+        s = l["state"]
+        if e.get("kind") == "lesson-start":
+            if s["status"] == "not-started" or (s["status"] == "done" and e.get("id") not in known):
+                s.update({"status": "in-progress", "step": "try-first", "started": e.get("at") or today(), "delivery": "app"})
+                if s.get("finished") and s["status"] == "in-progress":
+                    s["finished"] = None
+            known.add(e.get("id"))
+        elif e.get("kind") == "answer" and e.get("id") not in known:
+            a = {"at": e.get("at") or today(), "step": e["step"], "answer": e.get("answer", ""), "verdict": e.get("verdict") or "unmarked",
+                 "feedback": e.get("feedback", ""), "source": "app", "id": e["id"]}
+            if e.get("level"):
+                a["level"] = e["level"]
+            if e.get("question"):
+                a["question"] = e["question"]
+            s["attempts"].append(a)
+            for w in e.get("to_work_on") or []:
+                if w.get("what") and not any(x["what"] == w["what"] for x in s.get("to_work_on", [])):
+                    s.setdefault("to_work_on", []).append({"what": w["what"], "kind": w.get("kind") if w.get("kind") in MISTAKE_NAMES else None,
+                                                           "resolved": False})
+            if a["verdict"] == "unmarked":
+                unmarked.append(f"{l['id']} {a['step']}")
+            if s["status"] == "not-started":
+                s.update({"status": "in-progress", "started": a["at"], "delivery": "app"})
+            s["step"] = {"try-first": "learn", "guiding-question": "learn", "check": "learn", "your-turn": "learn",
+                         "final-check": "final-check"}[a["step"]]
+            if a["step"] == "your-turn" and a["verdict"] == "pass" and a.get("level"):
+                order = ["high-school", "masters", "advanced"]
+                if not s.get("level_reached") or order.index(a["level"]) > order.index(s["level_reached"] if s["level_reached"] in order else "high-school"):
+                    s["level_reached"] = a["level"]
+            known.add(e["id"])
+            merged += 1
+        elif e.get("kind") == "lesson-end" and e.get("id") not in known:
+            s.update({"status": e.get("status", "done"), "step": None, "saved": None, "finished": e.get("at") or today(), "delivery": "app"})
+            if e.get("level_reached"):
+                s["level_reached"] = e["level_reached"]
+            for w in s.get("to_work_on", []):
+                w["resolved"] = s["status"] == "done"
+            c["history"].append({"at": e.get("at") or today(), "event": f"Lesson {l['number']} {'done' if s['status'] == 'done' else 'needs review'} (in the course app)"})
+            closed.append(l["id"])
+            known.add(e["id"])
+        elif e.get("kind") == "final-failed" and e.get("id") not in known:
+            s.update({"status": "in-progress", "step": "learn", "saved": "Show you've got it failed in the course app: another round is due."})
+            known.add(e["id"])
+    save(course_path, c)
+    return {"merged_answers": merged, "unmarked": unmarked, "closed": closed}
+
+
 # ---------------------------------------------------------------- CLI
 def main(argv):
     if len(argv) < 2 or argv[1] in ("-h", "--help"):
@@ -922,6 +1085,26 @@ def main(argv):
     if cmd == "progress":
         print(json.dumps(progress(args), ensure_ascii=False, indent=2))
         return 0
+    if cmd == "check-lesson":
+        errs = check_lesson(load(args[0]))
+        for e in errs:
+            print("error:", e)
+        print("OK" if not errs else f"FAIL: {len(errs)} errors")
+        return 1 if errs else 0
+    if cmd == "build-app":
+        ids, out = build_app(args[0])
+        print(out)
+        print("prepared lessons:", ", ".join(ids) or "none")
+        return 0
+    if cmd == "merge-activity":
+        res = merge_activity(args[0], args[1])
+        print(json.dumps(res, ensure_ascii=False))
+        errors, warnings = validate(args[0])
+        for e in errors:
+            print("error:", e)
+        with open(os.path.join(os.path.dirname(os.path.abspath(args[0])), "overview.md"), "w", encoding="utf-8") as f:
+            f.write(render_overview(load(args[0])) + "\n")
+        return 1 if errors else 0
     if cmd == "convert":
         out = args[args.index("--out") + 1] if "--out" in args else None
         path = convert(args[0], out)

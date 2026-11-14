@@ -1,0 +1,421 @@
+<title>__COURSE_TITLE__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column. Home = course map with a Continue button; Lesson = one step per screen with a pinned progress bar and Back / Next. */
+:root{--bg:#f5f6fa;--surface:#ffffff;--fg:#171a22;--muted:#5a6275;--line:#dbdfe8;--cell:#eceef4;--accent:#4f46c8;--ok:#1c7f45;--bad:#b93434;--warn:#a86500;
+--ra:#6d3fd0;--rb:#0b8576;--rc:#a05a00;--rn:#5a6275;--pos:#e58a2e;--neg:#4a86e0;--btn:#1d2433;--btnfg:#ffffff;
+--display:"Space Grotesk",system-ui,sans-serif;--body:Inter,system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#12141a;--surface:#1a1d26;--fg:#e9ebf1;--muted:#9ba2b3;--line:#2d3241;--cell:#242835;--accent:#a99cff;--ok:#55c585;--bad:#f08080;--warn:#e7b24f;
+--ra:#b892f5;--rb:#4fc9b8;--rc:#e0a64d;--rn:#9ba2b3;--pos:#b85f1c;--neg:#2c62bd;--btn:#e9ebf1;--btnfg:#12141a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12141a;--surface:#1a1d26;--fg:#e9ebf1;--muted:#9ba2b3;--line:#2d3241;--cell:#242835;--accent:#a99cff;--ok:#55c585;--bad:#f08080;--warn:#e7b24f;
+--ra:#b892f5;--rb:#4fc9b8;--rc:#e0a64d;--rn:#9ba2b3;--pos:#b85f1c;--neg:#2c62bd;--btn:#e9ebf1;--btnfg:#12141a;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--body)}
+.page{max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 72px;display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.2;margin:0;text-wrap:balance} h1{font-size:1.75rem} h2{font-size:1.3rem} h3{font-size:1.05rem}
+p{margin:0} .md{display:flex;flex-direction:column;gap:10px;max-width:68ch} .md ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
+.md code{font:400 .88em var(--mono);background:var(--cell);border-radius:4px;padding:0 4px}
+.muted{color:var(--muted)} .eyebrow{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.facts{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.88rem;color:var(--muted)} .facts b{color:var(--fg);font-weight:600}
+.bar{height:8px;background:var(--cell);border-radius:4px;overflow:hidden} .bar i{display:block;height:100%;background:var(--ok);transition:width .3s}
+button{font:500 .95rem var(--body);cursor:pointer;border-radius:7px;padding:9px 16px;border:1px solid transparent}
+button.primary{background:var(--btn);color:var(--btnfg)} button.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+button:disabled{opacity:.45;cursor:not-allowed} button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.big{font-size:1.05rem;padding:12px 22px}
+ol.map{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.lesson{display:grid;grid-template-columns:2.2rem 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+.lesson.next{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.lesson .num{font:600 1rem var(--display);width:2.2rem;height:2.2rem;border-radius:50%;display:grid;place-items:center;background:var(--cell);color:var(--muted)}
+.lesson.done .num{background:var(--ok);color:var(--surface)} .lesson.in-progress .num{background:var(--warn);color:var(--surface)} .lesson.review .num{background:var(--bad);color:var(--surface)}
+.lesson .body{min-width:0} .lesson .ttl{font-weight:600} .lesson .sub{font-size:.85rem;color:var(--muted)}
+.lesson button{padding:6px 12px;font-size:.85rem} .star{color:var(--rc)}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--line)}
+.topbar .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.step-tag{font-size:.78rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em}
+.nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.answer{display:flex;flex-direction:column;gap:6px} .answer label{font-weight:500}
+textarea,input[type=text],input[type=number],select{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:9px 11px;width:100%;box-sizing:border-box}
+textarea{min-height:5.5em;resize:vertical}
+.notes{font-size:.84rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;display:flex;flex-direction:column;gap:2px}
+.fb{border-radius:8px;padding:10px 12px;border:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.fb.ok{border-color:var(--ok)} .fb.bad{border-color:var(--bad)} .fb.wait{border-color:var(--warn)}
+.fb .v{font-weight:600} .fb.ok .v{color:var(--ok)} .fb.bad .v{color:var(--bad)} .fb.wait .v{color:var(--warn)}
+.worked{display:flex;flex-direction:column;gap:8px} .worked .st{border-left:2px solid var(--line);padding-left:10px} .worked .why{font-size:.9rem;color:var(--muted)}
+.worked .chk{border-left-color:var(--ok)}
+.widget{display:flex;flex-direction:column;gap:6px;overflow-x:auto} .widget .wt{font-size:.85rem;font-weight:600} .widget .wn{font-size:.82rem;color:var(--muted)}
+.grid{display:grid;gap:3px;width:max-content} .cell{font:400 .82rem var(--mono);min-width:3.4rem;padding:7px 4px;text-align:center;border-radius:3px;border:0;color:var(--fg);cursor:pointer;outline:2px solid transparent;outline-offset:-2px}
+.cell.hl{outline-color:var(--fg)} .glab{font-size:.75rem;color:var(--muted);display:grid;place-items:center}
+svg.w{width:100%;max-width:560px;height:auto;display:block} svg.w text{font:11px var(--body);fill:var(--muted)}
+table.wt{border-collapse:collapse;font-size:.88rem} table.wt th,table.wt td{border:1px solid var(--line);padding:5px 9px;text-align:right} table.wt th{color:var(--muted);font-weight:500;text-align:left}
+table.wt td.hl{outline:2px solid var(--fg);outline-offset:-2px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.8rem;color:var(--muted)} .sw{display:inline-block;width:.8em;height:.8em;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.r-a{color:var(--ra)} .r-b{color:var(--rb)} .r-c{color:var(--rc)}
+.banner{font-size:.85rem;border:1px dashed var(--line);border-radius:8px;padding:8px 12px;color:var(--muted)}
+.levelpill{display:inline-block;font-size:.75rem;border:1px solid var(--accent);color:var(--accent);border-radius:999px;padding:0 8px;margin-bottom:4px}
+math{font-size:1.05em} .disp{display:block;overflow-x:auto;padding:4px 0}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+@media (max-width:520px){.lesson{grid-template-columns:2rem 1fr}.lesson button{grid-column:2;justify-self:start}}
+</style>
+<div class="page" id="app"><p class="muted">Loading the course…</p></div>
+<script type="application/json" id="course-data">__COURSE_DATA__</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script>
+(function(){
+"use strict";
+const DATA = JSON.parse(document.getElementById('course-data').textContent);
+const C = DATA.course, LESSONS = DATA.lessons || {};
+const LV = {"high-school":"High school","masters":"Master's","advanced":"Advanced","below-high-school":"below High school"};
+const KIND = {why:"Why it matters",principle:"Principle",concept:"Concept",tool:"Tool",capstone:"Capstone",background:"Background"};
+const MISTAKES = ["mixing-up","overstretching","missing-background","steps-without-why","words-without-maths","maths-without-picture"];
+const $ = s => document.querySelector(s);
+const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const KEY = "course-app:" + C.course.id;
+
+// ---------------- text ----------------
+function tex(t, display){
+  try { if (window.katex) return katex.renderToString(t, {displayMode:display, output:"mathml", throwOnError:false}); } catch(e){}
+  return esc(display ? "$$"+t+"$$" : "$"+t+"$");
+}
+function inline(t){
+  const parts = [];
+  t = String(t ?? "").replace(/\$\$([\s\S]+?)\$\$/g, (_,m)=>{parts.push('<span class="disp">'+tex(m,true)+'</span>'); return "\u0000"+(parts.length-1)+"\u0000";})
+                     .replace(/\$([^$\n]+?)\$/g, (_,m)=>{parts.push(tex(m,false)); return "\u0000"+(parts.length-1)+"\u0000";});
+  t = esc(t).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>").replace(/(^|[^*\w])\*(?!\s)(.+?)\*(?!\w)/g,"$1<i>$2</i>").replace(/`([^`]+)`/g,"<code>$1</code>");
+  return t.replace(/\u0000(\d+)\u0000/g,(_,i)=>parts[+i]);
+}
+function md(t){
+  if (!t) return "";
+  return '<div class="md">' + String(t).split(/\n\s*\n/).map(b=>{
+    const lines = b.split("\n");
+    if (lines.every(l=>/^\s*[-*]\s+/.test(l))) return "<ul>"+lines.map(l=>"<li>"+inline(l.replace(/^\s*[-*]\s+/,""))+"</li>").join("")+"</ul>";
+    return "<p>"+lines.map(inline).join("<br>")+"</p>";
+  }).join("") + "</div>";
+}
+
+// ---------------- saving ----------------
+let db = null, sample = null, events = [], saved = {};
+function loadLocal(){ try { const s = JSON.parse(localStorage.getItem(KEY)||"{}"); events = s.events||[]; saved = s.saved||{}; } catch(e){} }
+function storeLocal(){ try { localStorage.setItem(KEY, JSON.stringify({events, saved})); } catch(e){} }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+async function record(ev){
+  ev = Object.assign({id: uid(), at: new Date().toISOString().slice(0,10), ts: Date.now()}, ev);
+  events.push(ev); storeLocal();
+  if (db) { try { await db.collection("activity").doc(ev.id).set(ev); } catch(e){ note("Your answer is kept in this browser; it could not be saved to the course store ("+(e.code||"error")+")."); } }
+  return ev;
+}
+async function savePlace(lessonId, place){
+  saved[lessonId] = place; storeLocal();
+  if (db) { try { await db.collection("place").doc(lessonId).set(Object.assign({lesson: lessonId}, place)); } catch(e){} }
+}
+async function connect(){
+  if (!window.claude || !window.claude.use) return;
+  try { db = await window.claude.use("db"); } catch(e){ db = null; }
+  try { sample = await window.claude.use("sample"); } catch(e){ sample = null; }
+  if (db) {
+    try {
+      const snap = await db.collection("activity").get();
+      const have = new Set(events.map(e=>e.id));
+      snap.docs.forEach(d=>{ const v = d.data ? d.data() : d; if (v && v.id && !have.has(v.id)) events.push(v); });
+      const ps = await db.collection("place").get();
+      ps.docs.forEach(d=>{ const v = d.data ? d.data() : d; if (v && v.lesson && (!saved[v.lesson] || (v.ts||0) > (saved[v.lesson].ts||0))) saved[v.lesson] = v; });
+      events.sort((a,b)=>(a.ts||0)-(b.ts||0)); storeLocal();
+    } catch(e){}
+  }
+  render();
+}
+let toast = "";
+function note(t){ toast = t; const el = $("#note"); if (el) el.textContent = t; }
+
+// ---------------- course state ----------------
+function lessonState(l){
+  let st = l.state.status, lvl = l.state.level_reached || null;
+  for (const e of events) if (e.lesson === l.id) {
+    if (e.kind === "lesson-start" && st === "not-started") st = "in-progress";
+    if (e.kind === "lesson-end") { st = e.status; lvl = e.level_reached || lvl; }
+    if (e.kind === "restart") st = "in-progress";
+  }
+  return {status: st, level: lvl};
+}
+function nextLesson(){
+  const L = C.lessons, s = Object.fromEntries(L.map(l=>[l.id, lessonState(l).status]));
+  return L.find(l=>s[l.id]==="in-progress") || L.find(l=>s[l.id]==="not-started" && l.needs.every(n=>s[n]==="done")) ||
+         L.find(l=>s[l.id]==="review") || L.find(l=>s[l.id]==="not-started") || null;
+}
+
+// ---------------- widgets ----------------
+const ROLE = r => ({a:"var(--ra)",b:"var(--rb)",c:"var(--rc)"}[r] || "var(--rn)");
+function fmt(v){ return typeof v === "number" ? (Math.abs(v)>=1000 ? v.toLocaleString("en-US",{maximumFractionDigits:2}) : +v.toFixed(3)+"") : esc(v); }
+function widget(w){
+  const head = (w.title?'<div class="wt">'+inline(w.title)+'</div>':'');
+  const foot = (w.note?'<div class="wn">'+inline(w.note)+'</div>':'');
+  let body = "";
+  try {
+  if (w.type === "matrix") {
+    const rows = w.rows, mx = Math.max(1e-9, ...rows.flat().map(x=>Math.abs(+x)||0)), hl = new Set((w.highlight||[]).map(p=>p.join(",")));
+    const cols = rows[0].length + (w.row_labels?1:0);
+    let cells = "";
+    if (w.col_labels) cells += (w.row_labels?'<span></span>':'') + w.col_labels.map(c=>'<span class="glab">'+inline(c)+'</span>').join("");
+    rows.forEach((r,i)=>{ if (w.row_labels) cells += '<span class="glab">'+inline(w.row_labels[i])+'</span>';
+      r.forEach((v,j)=>{ const x=+v, pct=Math.round(Math.abs(x)/mx*75);
+        cells += `<button type="button" class="cell${hl.has(i+","+j)?" hl":""}" data-cell="${i+1},${j+1}" style="background:color-mix(in srgb,var(--${x<0?"neg":"pos"}) ${isNaN(x)?0:pct}%,var(--cell))">${fmt(v)}</button>`; }); });
+    body = `<div class="grid" style="grid-template-columns:repeat(${cols},auto);border-left:2px solid ${ROLE(w.role)};border-right:2px solid ${ROLE(w.role)};padding:3px">${cells}</div>`;
+  } else if (w.type === "vectors") {
+    const V = w.vectors, r = w.range || [Math.min(-1,...V.map(v=>v.x))-0.5, Math.max(1,...V.map(v=>v.x))+0.5, Math.min(-1,...V.map(v=>v.y))-0.5, Math.max(1,...V.map(v=>v.y))+0.5];
+    const W=420, H=Math.round(W*(r[3]-r[2])/(r[1]-r[0])), sx=x=>(x-r[0])/(r[1]-r[0])*W, sy=y=>H-(y-r[2])/(r[3]-r[2])*H;
+    let g = "";
+    for (let x=Math.ceil(r[0]); x<=r[1]; x++) g += `<line x1="${sx(x)}" y1="0" x2="${sx(x)}" y2="${H}" stroke="var(--line)" stroke-width="${x===0?1.6:.6}"/>`;
+    for (let y=Math.ceil(r[2]); y<=r[3]; y++) g += `<line x1="0" y1="${sy(y)}" x2="${W}" y2="${sy(y)}" stroke="var(--line)" stroke-width="${y===0?1.6:.6}"/>`;
+    if (w.shadow) { const a=V[w.shadow.of], b=V[w.shadow.on], bb=b.x*b.x+b.y*b.y, k=(a.x*b.x+a.y*b.y)/bb, px=k*b.x, py=k*b.y;
+      g += `<line x1="${sx(a.x)}" y1="${sy(a.y)}" x2="${sx(px)}" y2="${sy(py)}" stroke="var(--muted)" stroke-dasharray="4 4"/><line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(px)}" y2="${sy(py)}" stroke="var(--rc)" stroke-width="5" opacity=".75"/>`; }
+    V.forEach((v,i)=>{ const c=ROLE(v.role); g += `<defs><marker id="ah${i}" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="${c}"/></marker></defs><line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(v.x)}" y2="${sy(v.y)}" stroke="${c}" stroke-width="2.4" marker-end="url(#ah${i})"/><text x="${sx(v.x)+6}" y="${sy(v.y)-6}" style="fill:${c};font-weight:600">${esc(v.label||"")}</text>`; });
+    body = `<svg class="w" viewBox="-14 -14 ${W+28} ${H+28}" role="img" aria-label="${esc(w.title||"vectors")}">${g}</svg>`;
+  } else if (w.type === "dots") {
+    const cols = w.cols || 20, total = w.groups.reduce((s,g)=>s+g.count,0), rows = Math.ceil(total/cols), s=14;
+    let g="", k=0; w.groups.forEach(gr=>{ for(let n=0;n<gr.count;n++,k++) g += `<circle cx="${(k%cols)*s+s/2}" cy="${Math.floor(k/cols)*s+s/2}" r="${s*0.38}" fill="${ROLE(gr.role)}"/>`; });
+    body = `<svg class="w" viewBox="0 0 ${cols*s} ${rows*s}" style="max-width:${cols*s*1.6}px">${g}</svg><div class="legend">${w.groups.map(gr=>`<span><i class="sw" style="background:${ROLE(gr.role)}"></i>${inline(gr.label)}: ${gr.count}</span>`).join("")}</div>`;
+  } else if (w.type === "bars") {
+    const mx = Math.max(1e-9,...w.items.map(i=>Math.abs(i.value)));
+    body = '<div style="display:flex;flex-direction:column;gap:6px;min-width:260px">'+w.items.map(i=>`<div style="display:grid;grid-template-columns:minmax(5rem,9rem) 1fr auto;gap:8px;align-items:center;font-size:.88rem"><span>${inline(i.label)}</span><span style="height:14px;background:var(--cell);border-radius:3px;overflow:hidden"><i style="display:block;height:100%;width:${Math.abs(i.value)/mx*100}%;background:${ROLE(i.role)}"></i></span><span style="font-family:var(--mono)">${fmt(i.value)}${w.unit?" "+esc(w.unit):""}</span></div>`).join("")+'</div>';
+  } else if (w.type === "lines") {
+    const S = w.series, n = Math.max(...S.map(s=>s.values.length)), all = S.flatMap(s=>s.values), lo0 = Math.min(0,...all), hi0 = Math.max(...all) || 1;
+    const raw = (hi0-lo0)/4, mag = Math.pow(10, Math.floor(Math.log10(raw))), stp = [1,2,2.5,5,10].map(k=>k*mag).find(k=>k>=raw), lo = Math.floor(lo0/stp)*stp, hi = Math.ceil(hi0/stp)*stp;
+    const W=520,H=240,L=54,B=28,T=14,R=70, x=i=>L+i/(Math.max(1,n-1))*(W-L-R), y=v=>T+(1-(v-lo)/(hi-lo))*(H-T-B);
+    let g="";
+    for (let v=lo; v<=hi+1e-9; v+=stp){ g+=`<line x1="${L}" y1="${y(v)}" x2="${W-R}" y2="${y(v)}" stroke="var(--line)" stroke-width=".6"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${fmt(Math.round(v))}</text>`; }
+    const xs = w.x || [...Array(n).keys()];
+    xs.forEach((lab,i)=>{ if (n<=12 || i%Math.ceil(n/12)===0 || i===n-1) g+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${esc(lab)}</text>`; });
+    S.forEach(s=>{ const c=ROLE(s.role), last=s.values.length-1; g+=`<polyline fill="none" stroke="${c}" stroke-width="2.2" points="${s.values.map((v,i)=>x(i)+","+y(v)).join(" ")}"/><circle cx="${x(last)}" cy="${y(s.values[last])}" r="4" fill="${c}"/><text x="${x(last)+7}" y="${y(s.values[last])+4}" style="fill:${c};font-weight:600">${fmt(s.values[last])}</text>`; });
+    if (w.y_label) g+=`<text x="12" y="${T+(H-T-B)/2}" transform="rotate(-90 12 ${T+(H-T-B)/2})" text-anchor="middle">${esc(w.y_label)}</text>`;
+    if (w.x_label) g+=`<text x="${(L+W-R)/2}" y="${H+8}" text-anchor="middle">${esc(w.x_label)}</text>`;
+    body = `<svg class="w" viewBox="0 0 ${W} ${H+14}">${g}</svg><div class="legend">${S.map(s=>`<span><i class="sw" style="background:${ROLE(s.role)}"></i>${inline(s.label)}</span>`).join("")}</div>`;
+  } else if (w.type === "table") {
+    const hl = new Set((w.highlight||[]).map(p=>p.join(",")));
+    body = `<table class="wt">${w.head?"<tr>"+w.head.map(h=>"<th>"+inline(h)+"</th>").join("")+"</tr>":""}${w.rows.map((r,i)=>"<tr>"+r.map((c,j)=>j===0&&typeof c==="string"?"<th>"+inline(c)+"</th>":`<td class="${hl.has(i+","+j)?"hl":""}">${typeof c==="number"?fmt(c):inline(c)}</td>`).join("")+"</tr>").join("")}</table>`;
+  } else if (w.type === "timeline") {
+    body = '<ol style="list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--line);display:flex;flex-direction:column;gap:8px">'+w.events.map(e=>`<li><b>${esc(e.when)}</b> <span class="muted">·</span> ${inline(e.what)}</li>`).join("")+'</ol>';
+  } else if (w.type === "slider") {
+    body = `<label style="font-size:.9rem">${inline(w.label)}: <b data-sv>${fmt(w.value)}</b><input type="range" min="${w.min}" max="${w.max}" step="${w.step||1}" value="${w.value}" data-slider style="width:100%"></label>`;
+  } else body = '<p class="muted">(unknown widget '+esc(w.type)+')</p>';
+  } catch(e){ body = '<p class="muted">This picture could not be drawn.</p>'; }
+  return `<div class="widget" data-wtype="${esc(w.type)}">${head}${body}${foot}</div>`;
+}
+function widgets(list){ return (list||[]).map(widget).join(""); }
+function wireSliders(step, host){
+  (step.widgets||[]).forEach((w,i)=>{ if (w.type!=="slider"||!w.drives) return;
+    const el = host.querySelectorAll(".widget")[i], input = el.querySelector("[data-slider]"), drives = [].concat(w.drives);
+    const apply = ()=>{ const v = +input.value; el.querySelector("[data-sv]").textContent = fmt(v);
+      try { const redraw = new Set();
+        drives.forEach(d=>{ const target = step.widgets[d.widget], f = new Function("v","i","return "+d.expr);
+          const vals = Array.from({length:d.length},(_,i)=>+f(v,i).toFixed(2));
+          const path = d.target.split("."); let o = target; for (let k=0;k<path.length-1;k++) o = o[path[k]]; o[path[path.length-1]] = vals; redraw.add(d.widget); });
+        redraw.forEach(k=>{ host.querySelectorAll(".widget")[k].outerHTML = widget(step.widgets[k]); }); } catch(e){} };
+    input.addEventListener("input", apply); apply(); });
+}
+
+// ---------------- worked example ----------------
+function worked(ex, shown){
+  if (!ex) return "";
+  if (ex.markdown) return md(ex.markdown);
+  const steps = ex.steps||[], n = shown==null ? steps.length : shown;
+  let h = '<div class="worked">' + (ex.given? '<div class="st"><b>Given.</b> '+inline(ex.given)+'</div>':'');
+  steps.slice(0,n).forEach((s,i)=>{ h += `<div class="st"><b>Step ${i+1}.</b> ${inline(s.do)}${s.why?'<div class="why">Why: '+inline(s.why)+'</div>':''}</div>`; });
+  if (n >= steps.length) { if (ex.result) h += '<div class="st"><b>Result.</b> '+inline(ex.result)+'</div>'; if (ex.check) h += '<div class="st chk"><b>Check.</b> '+inline(ex.check)+'</div>'; }
+  return h + '</div>';
+}
+
+// ---------------- marking with Claude ----------------
+function design(lid){ return C.lessons.find(l=>l.id===lid).design; }
+async function mark(lid, which, prompt, answer){
+  const d = design(lid), test = which==="final" ? d.final_check : d.try_first;
+  const crit = (d.success_criteria||[]).map(s=>`- ${s.what} (tested by: ${s.how_tested})${s.common_mistake?` · common mistake [${s.common_mistake.kind||"other"}]: ${s.common_mistake.text}`:""}`).join("\n");
+  const input = `You mark one answer in a lesson of a course. Level: ${LV[C.course.level]}. Method: ${C.course.method}.
+Lesson goal: ${C.lessons.find(l=>l.id===lid).goal}
+${which==="final"?"Show you've got it":"Try first"} question:
+${prompt}
+
+Marking guide (never quote it to the learner):
+Pass standard: ${test.marking.pass}
+${test.marking.trap?"The trap (the natural wrong answer): "+test.marking.trap:""}
+${test.marking.explain_it_back?"Explain it back: "+test.marking.explain_it_back:""}
+Success criteria:
+${crit}
+
+The learner's answer:
+"""${answer}"""
+
+Return JSON only: {"verdict": "pass" | "partial" | "fail" | "trap", "right": "<one sentence: what is right in the answer, or empty>", "to_work_on": [{"what": "<what is missing, in plain words>", "kind": ${JSON.stringify(MISTAKES.concat([null]))}}], "feedback": "<two or three sentences to the learner>"}
+Rules: "trap" only when the answer is the trap. "pass" needs the right answer justified at the level. ${which==="final"?"After this test the learner may see the correct reasoning: the feedback may say what was missed.":"Teaching follows this test: the feedback must NOT give the right answer or the method; say only what holds and that the lesson will build the rest."} Plain words, no jargon.`;
+  return await sample.json(input, {modelTier:"default", cache:false});
+}
+async function markGuiding(lid, q, answer){
+  const input = `A learner answers one guiding question in a Socratic lesson (level ${LV[C.course.level]}). The question: ${q.prompt}
+Where the answer should lead (never reveal it): ${q.aim}
+The learner's answer: """${answer}"""
+Return JSON only: {"on_track": true|false, "reply": "<one or two sentences: confirm what is right; if off track, a nudge that does not give the aim away${q.hint?" (you may use this hint: "+q.hint+")":""}>"}`;
+  return await sample.json(input, {modelTier:"quick", cache:false});
+}
+
+// ---------------- views ----------------
+let view = {name:"home"};
+function render(){
+  if (view.name === "home") return renderHome();
+  if (view.name === "lesson") return renderLesson();
+}
+function renderHome(){
+  const L = C.lessons, st = L.map(lessonState), done = st.filter(s=>s.status==="done").length, nx = nextLesson();
+  const prepared = nx && LESSONS[nx.id];
+  const rows = L.map((l,i)=>{ const s = st[i].status, can = LESSONS[l.id], locked = !l.needs.every(n=>lessonState(L.find(x=>x.id===n)).status==="done");
+    return `<li class="lesson ${s}${nx&&nx.id===l.id?" next":""}"><span class="num">${l.number}</span><div class="body"><div class="ttl">${inline(l.title)}${l.key_idea?' <span class="star" title="Key idea">★</span>':""}</div><div class="sub">${KIND[l.kind]} · ${({"not-started":"Not started","in-progress":"In progress",done:"Done",review:"Review"})[s]}${st[i].level?" · "+LV[st[i].level]:""}${locked&&s==="not-started"?" · needs "+l.needs.map(n=>n.slice(1)).join(", "):""}</div></div>${can?`<button class="ghost" data-open="${l.id}">${s==="done"?"Again":s==="in-progress"?"Resume":"Start"}</button>`:'<span class="sub">not prepared</span>'}</li>`; }).join("");
+  $("#app").innerHTML = `
+  <header style="display:flex;flex-direction:column;gap:8px">
+    <span class="eyebrow">Course · ${LV[C.course.level]} · ${C.course.method==="socratic"?"Socratic":"Direct"}</span>
+    <h1>${inline(C.course.title)}</h1>
+    <p class="muted">${inline(C.course.goal)}</p>
+    <div class="facts"><span><b>${done}</b> of <b>${L.length}</b> lessons done</span><span>★ key ideas <b>${L.filter(l=>l.key_idea).length}</b></span></div>
+    <div class="bar"><i style="width:${100*done/L.length}%"></i></div>
+  </header>
+  <div class="card" style="border-color:var(--accent)">
+    ${nx ? `<span class="eyebrow">Next</span><h2>Lesson ${nx.number}: ${inline(nx.title)}${nx.key_idea?' <span class="star">★</span>':""}</h2>
+      ${prepared ? `<div><button class="primary big" data-open="${nx.id}">${lessonState(nx).status==="in-progress"?"Resume lesson":"Start lesson"}</button></div>`
+                 : `<p>This lesson is not prepared yet. Type <code>/continue</code> in your Claude chat: it brings in what you did here and prepares the next lessons.</p>`}`
+      : `<h2>Course complete</h2><p>Every lesson is done. Type <code>/progress</code> in chat for your overview.</p>`}
+  </div>
+  <section style="display:flex;flex-direction:column;gap:10px"><h2>Lessons</h2><ol class="map">${rows}</ol></section>
+  <section class="card"><h3>Why it matters</h3>${md(C.overview.why_it_matters)}<h3>The story</h3>${md("**Before.** "+C.story.before+"\n\n**The aha.** "+C.story.the_aha+"\n\n**What it solved.** "+C.story.what_it_solved)}</section>
+  ${!db?`<p class="banner">Your answers are kept in this browser only${sample?"":", and answers are marked when you type <code>/continue</code> in chat"}. On claude.ai they are saved with the course.</p>`:""}
+  <p id="note" class="muted" style="font-size:.85rem">${esc(toast)}</p>`;
+  document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openLesson(b.dataset.open));
+}
+
+// lesson runtime
+let R = null;
+function buildSteps(lid, path){
+  const P = LESSONS[lid], s = [];
+  (P.open||[]).forEach((x,i)=>s.push(Object.assign({phase:"open",tag:i===0?"Why it matters":"How we got here"}, x)));
+  const d = design(lid);
+  if (C.course.method==="socratic" && d.puzzle) s.push({phase:"open",tag:"Puzzle",kind:"text",title:"Puzzle",md:d.puzzle+"\n\n*Keep this question in mind; you do not need to answer it yet.*"});
+  s.push({phase:"try",tag:"Try first",kind:"test",which:"try",test:P.try_first});
+  if (path) (P.learn[path]||[]).forEach(x=>s.push(Object.assign({phase:"learn",tag:"Learn"}, x)));
+  if (path) s.push({phase:"final",tag:"Show you've got it",kind:"test",which:"final",test:P.final});
+  if (path) s.push({phase:"end",tag:"Done",kind:"end"});
+  return s;
+}
+function openLesson(lid){
+  const place = saved[lid];
+  R = {lid, path: place&&place.path||null, i: place&&place.i||0, ui:{}};
+  R.steps = buildSteps(lid, R.path);
+  if (R.i >= R.steps.length) R.i = 0;
+  if (!events.some(e=>e.lesson===lid && e.kind==="lesson-start") || lessonState(C.lessons.find(l=>l.id===lid)).status==="done") record({kind:"lesson-start", lesson:lid});
+  view = {name:"lesson"}; render(); window.scrollTo(0,0);
+}
+function go(i){ R.i = Math.max(0, Math.min(i, R.steps.length-1)); R.ui = {}; savePlace(R.lid, {i:R.i, path:R.path, ts:Date.now()}); render(); window.scrollTo(0,0); }
+const NOTES = `<div class="notes"><span>Not sure where to begin? Choose <b>Start from scratch</b> to be taught first.</span><span>A word you do not know? Ask in chat: <i>what does this word mean?</i></span></div>`;
+function renderLesson(){
+  const l = C.lessons.find(x=>x.id===R.lid), st = R.steps[R.i], pct = Math.round(100*R.i/Math.max(1,R.steps.length-1));
+  let body = "";
+  const ui = R.ui;
+  if (st.kind === "text") body = (st.level?`<span class="levelpill">Level: ${LV[st.level]}</span>`:"") + (st.title?`<h2>${inline(st.title)}</h2>`:"") + widgets(st.widgets) + md(st.md);
+  else if (st.kind === "worked") { ui.n = ui.n ?? 0; const total = (st.example.steps||[]).length;
+    body = (st.level?`<span class="levelpill">Level: ${LV[st.level]}</span>`:"") + `<h2>${inline(st.title||"Worked example")}</h2>` + widgets(st.widgets) + worked(st.example, ui.n) + (ui.n < total ? `<div><button class="ghost" data-act="wstep">Next step</button> <button class="ghost" data-act="wall">Show all</button></div>`:""); }
+  else if (st.kind === "guiding") body = `<h2>Question</h2>` + widgets(st.widgets) + md(st.prompt) + answerBox("g") + (ui.fb?ui.fb:`<div><button class="primary" data-act="guide">Send answer</button></div>`);
+  else if (st.kind === "check") body = (st.level?`<span class="levelpill">Level: ${LV[st.level]}</span>`:"") + `<h2>${st.your_turn?"Your turn":"Check"}</h2>` + widgets(st.widgets) + md(st.prompt) + answerBox("c", st.choices, st.answer!==undefined && typeof st.answer==="number") + (ui.fb||`<div><button class="primary" data-act="check">Check my answer</button></div>`);
+  else if (st.kind === "test") { const t = st.test;
+    body = `<h2>${st.which==="try"?"Try first":"Show you've got it"}</h2>` + widgets(t.widgets) + md(t.prompt) + (t.parts||[]).map(p=>`<div class="answer"><label for="p-${p.id}">${inline(p.ask)}</label>${p.form==="choice"?`<select id="p-${p.id}"><option value="">Choose…</option>${(p.choices||[]).map(c=>`<option>${esc(c)}</option>`).join("")}</select>`:p.form==="number"?`<input id="p-${p.id}" type="text" inputmode="decimal">`:`<textarea id="p-${p.id}"></textarea>`}</div>`).join("") + NOTES +
+      (ui.fb || `<div class="nav"><button class="primary" data-act="test">Send my answers</button>${st.which==="try"?'<button class="ghost" data-act="scratch">Start from scratch</button>':""}</div>`); }
+  else if (st.kind === "end") body = endScreen();
+  $("#app").innerHTML = `
+  <div class="topbar"><div class="row"><button class="ghost" data-act="home">← Course</button><span class="step-tag">${esc(st.tag||"")}</span></div>
+    <div class="row"><b style="font-size:.95rem">Lesson ${l.number}: ${inline(l.title)}${l.key_idea?' <span class="star">★</span>':""}</b><span class="muted" style="font-size:.8rem">${R.i+1} / ${R.steps.length}${R.path?"":"+"}</span></div>
+    <div class="bar"><i style="width:${pct}%"></i></div></div>
+  <div class="card">${body}</div>
+  <div class="nav"><button class="ghost" data-act="back" ${R.i===0?"disabled":""}>Back</button>${navNext(st)}</div>
+  <p id="note" class="muted" style="font-size:.85rem">${esc(toast)}</p>`;
+  restore(); bind(st);
+}
+function restore(){ const v = R.ui.vals||{}; Object.entries(v).forEach(([id,val])=>{ const el = document.getElementById(id); if (el) { el.value = val; if (R.ui.done) el.readOnly = true; } }); }
+function keep(ids){ R.ui.vals = Object.assign(R.ui.vals||{}, Object.fromEntries(ids.map(id=>[id, (document.getElementById(id)||{}).value||""]))); }
+function answerBox(id, choices, numeric){
+  if (choices) return `<div class="answer"><label for="a-${id}">Your answer</label><select id="a-${id}"><option value="">Choose…</option>${choices.map(c=>`<option>${esc(c)}</option>`).join("")}</select></div>`;
+  return `<div class="answer"><label for="a-${id}">Your answer</label>${numeric?`<input id="a-${id}" type="text" inputmode="decimal">`:`<textarea id="a-${id}"></textarea>`}</div>`;
+}
+function navNext(st){
+  const blocked = (st.kind==="test" && !R.ui.done) || (st.kind==="check" && !R.ui.done) || (st.kind==="guiding" && !R.ui.done);
+  if (st.kind==="end") return `<button class="primary" data-act="home">Back to the course</button>`;
+  return `<button class="${blocked?"ghost":"primary"}" data-act="next">${blocked?"Answer first":"Next"}</button>`;
+}
+function bind(st){
+  document.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>act(b.dataset.act, st));
+  wireSliders(st, document.querySelector(".card"));
+  document.querySelectorAll(".cell").forEach(c=>c.onclick=()=>note("Row "+c.dataset.cell.split(",")[0]+", column "+c.dataset.cell.split(",")[1]+": "+c.textContent));
+}
+function fbBox(cls, verdict, html){ return `<div class="fb ${cls}"><span class="v">${verdict}</span>${html}</div>`; }
+async function act(a, st){
+  const ui = R.ui;
+  if (a==="home") { view={name:"home"}; R=null; render(); return; }
+  if (a==="back") return go(R.i-1);
+  if (a==="next") { if ((st.kind==="test"||st.kind==="check"||st.kind==="guiding") && !ui.done) { note("Answer this step first. If you are stuck, choose Start from scratch or say so in your answer."); return; } return go(R.i+1); }
+  if (a==="wstep") { ui.n++; return renderLesson(); }
+  if (a==="wall") { ui.n = 999; return renderLesson(); }
+  if (a==="check") {
+    const v = ($("#a-c").value||"").trim(); if (!v) return note("Write your answer first."); keep(["a-c"]);
+    ui.tries = (ui.tries||0)+1;
+    let ok; if (typeof st.answer==="number") { const x = parseFloat(v.replace(/[, ]/g,"").replace("−","-")); ok = !isNaN(x) && Math.abs(x-st.answer) <= (st.tolerance ?? Math.abs(st.answer)*0.01+1e-9); }
+    else ok = v.toLowerCase().replace(/\s+/g," ") === String(st.answer).toLowerCase().replace(/\s+/g," ");
+    const known = (st.wrong||[]).find(w=> typeof w.value==="number" ? Math.abs(parseFloat(v.replace(/[, ]/g,""))-w.value) <= (st.tolerance ?? Math.abs(w.value)*0.01+1e-9) : String(w.value).toLowerCase()===v.toLowerCase());
+    await record({kind:"answer", lesson:R.lid, step: st.your_turn?"your-turn":"check", level: st.level||null, question: st.prompt, answer: v, verdict: ok?"pass":"fail", feedback: ok?"Right.":(known?known.says:"Not this one."), source:"app"});
+    if (ok || ui.tries>=2) { ui.done = true; ui.fb = fbBox(ok?"ok":"bad", ok?"Right.":"Here is the full solution.", (known&&!ok?md(known.says):"") + worked(st.solution)); }
+    else { ui.fb = fbBox("bad","Not yet.", (known?md(known.says):"") + '<p>Step back: here is the solution step by step. Then try once more.</p>' + worked(st.solution) + `<div><button class="primary" data-act="check">Check my new answer</button></div>`); }
+    return renderLesson();
+  }
+  if (a==="guide") {
+    const v = ($("#a-g").value||"").trim(); if (!v) return note("Write your answer first."); keep(["a-g"]);
+    let res = null;
+    if (sample) { ui.fb = fbBox("wait","Thinking…",""); renderLesson(); try { res = await markGuiding(R.lid, st, v); } catch(e){ res = null; } }
+    await record({kind:"answer", lesson:R.lid, step:"guiding-question", question: st.prompt, answer: v, verdict: res ? (res.on_track?"pass":"partial") : "unmarked", feedback: res?res.reply:"", source:"app"});
+    ui.done = true; ui.fb = res ? fbBox(res.on_track?"ok":"bad", res.on_track?"On track.":"Not quite.", md(res.reply)) : fbBox("wait","Saved.", "<p>Your answer is saved. Go on to the next question.</p>");
+    return renderLesson();
+  }
+  if (a==="scratch" || a==="test") {
+    const t = st.test, parts = t.parts||[];
+    let answer = "";
+    if (a==="test") { keep(parts.map(p=>"p-"+p.id)); const vals = parts.map(p=>[p, ($("#p-"+p.id).value||"").trim()]); if (vals.some(([,v])=>!v)) return note("Answer every part first (a short guess is fine).");
+      answer = vals.map(([p,v])=>`(${p.id}) ${v}`).join("\n"); }
+    const which = st.which;
+    let res = null;
+    if (a==="scratch") res = {verdict:"start-from-scratch", feedback:"You chose to be taught first. The lesson starts from the beginning.", to_work_on:[]};
+    else if (sample) { ui.fb = fbBox("wait","Marking your answer…","<p>This can take up to a minute.</p>"); renderLesson();
+      try { res = await mark(R.lid, which, t.prompt + "\n" + parts.map(p=>`(${p.id}) ${p.ask}`).join("\n"), answer); }
+      catch(e){ res = null; note(e && e.code==="not_granted" ? "Marking by Claude is switched off for this page; your answers are saved and marked when you type /continue." : "Marking failed; your answer is saved and will be marked when you type /continue."); } }
+    const verdict = res ? res.verdict : "unmarked";
+    await record({kind:"answer", lesson:R.lid, step: which==="try"?"try-first":"final-check", question: t.prompt, answer: answer || "(start from scratch)", verdict, feedback: res ? [res.right,res.feedback].filter(Boolean).join(" ") : "", to_work_on: res && res.to_work_on || [], source:"app"});
+    if (which==="try") {
+      R.path = verdict==="pass" ? "passed" : "not_passed";
+      R.steps = buildSteps(R.lid, R.path); ui.done = true;
+      ui.fb = res ? fbBox(verdict==="pass"?"ok":"bad", ({pass:"Passed.",partial:"Partly there.",fail:"Not yet.",trap:"That is the natural answer, and it does not hold.","start-from-scratch":"Let's build it up."})[verdict]||verdict,
+                 md(res.feedback||"") + ((res.to_work_on||[]).length?"<p><b>What to work on:</b></p>"+md((res.to_work_on||[]).map(w=>"- "+w.what).join("\n")):"") + "<p>Press Next to continue.</p>")
+                  : fbBox("wait","Saved.","<p>Your answer is saved. The lesson goes on to the teaching; Claude will mark this answer when you next type <code>/continue</code>.</p>");
+      savePlace(R.lid, {i:R.i, path:R.path, ts:Date.now()});
+    } else {
+      ui.done = true;
+      const pass = verdict==="pass";
+      const lvl = C.lessons.find(l=>l.id===R.lid).key_idea ? (pass ? C.course.level : null) : null;
+      if (res) await record({kind: pass?"lesson-end":"final-failed", lesson:R.lid, status: pass?"done":"in-progress", level_reached: lvl});
+      ui.fb = res ? fbBox(pass?"ok":"bad", pass?"You've got it.":"Not yet.", md(res.feedback||"") + (pass ? "" : "<p>This lesson needs another round on what is still missing, with a new case. Type <code>/continue</code> in your Claude chat: it prepares the round from your answers.</p>"))
+                  : fbBox("wait","Saved.","<p>Your answer is saved. Type <code>/continue</code> in chat to have it marked and the lesson closed.</p>");
+    }
+    return renderLesson();
+  }
+}
+function endScreen(){
+  const l = C.lessons.find(x=>x.id===R.lid), s = lessonState(l), L = C.lessons, i = L.indexOf(l), nx = nextLesson();
+  return `<h2>${s.status==="done"?"Lesson done":"End of the lesson"}</h2>
+  <p>${s.status==="done"?"Well done. Your answers are saved with the course.":"Your answers are saved. Type <code>/continue</code> in chat to have them marked and the lesson closed."}</p>
+  <p class="muted">In chat: <code>/practice ${l.number}</code> for three more solved exercises, <code>/progress</code> for your overview.</p>
+  ${nx && nx.id!==l.id ? (LESSONS[nx.id] ? `<div><button class="primary big" data-act="nextlesson" data-l="${nx.id}">Next lesson: ${inline(nx.title)}</button></div>` : `<p>The next lesson, <b>${inline(nx.title)}</b>, is prepared when you type <code>/continue</code> in chat.</p>`) : ""}`;
+}
+document.addEventListener("click", e=>{ const b = e.target.closest("[data-act=nextlesson]"); if (b) openLesson(b.dataset.l); });
+
+loadLocal(); render(); connect();
+})();
+</script>

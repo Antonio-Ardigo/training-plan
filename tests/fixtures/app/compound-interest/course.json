@@ -1,0 +1,1267 @@
+{
+  "schema": "course/1",
+  "course": {
+    "id": "compound-interest",
+    "title": "Why Compound Interest Outgrows Simple Interest (Socratic)",
+    "goal": "Explain, with numbers and pictures, why compound interest grows faster than simple interest.",
+    "goal_as_given": "Understand why compound interest grows faster than simple interest, at high school level. Do not ask me questions: accept your own overview and key ideas.",
+    "level": "high-school",
+    "method": "socratic",
+    "delivery": "app",
+    "created": "2026-11-14",
+    "app_url": null
+  },
+  "overview": {
+    "why_it_matters": "Every savings account, loan and credit card follows one of two rules for interest, and over long periods the two rules lead to very different amounts of money. Knowing why they differ, and not only that they do, lets you judge an offer, a debt or a savings plan for yourself instead of trusting the advertised rate.",
+    "what_you_will_learn": "The course starts from the old question of what to do with unpaid interest (Lesson 1). It then builds four ideas in order: interest is a rate applied to a base (Lesson 2), a fixed base gives equal steps (Lesson 3), a base that takes in its own interest gives interest on interest (Lesson 4), and the gap between the two widens every period (Lesson 5). Four applications follow: many years in one calculation (Lesson 6), doubling times (Lesson 7), starting early against starting big (Lesson 8) and monthly rates on debt (Lesson 9). A final comparison of two real-looking offers (Lesson 10) puts everything into one explanation.",
+    "principles_and_facts": "Four principles carry the course. *Interest is a share of a base*: a rate means nothing until you know what it is charged on. *Fixed base, equal steps*: charge always on the original sum and the total climbs a straight line. *Interest on interest*: leave the interest in, and it joins the base, so each period multiplies the balance. *Multiplying outruns adding*: the gap between the two is the interest earned by earlier interest, and it grows faster every period. The facts you rely on are few: what principal, simple interest and compounding mean, that rates are quoted per period, the Rule of 72 for doubling times, and which real products follow which rule.",
+    "you_will_be_able_to": [
+      "Work out simple and compound interest year by year and in one calculation",
+      "Point to the exact euros that make a compound balance larger than a simple one",
+      "Explain in plain words, with a picture, why the gap between the two widens over time",
+      "Estimate how long money or a debt takes to double",
+      "Decide between a simple and a compound offer for a given time span and justify the choice"
+    ],
+    "learner_notes": ""
+  },
+  "story": {
+    "before": "For most of recorded history, interest was a fixed charge per period on the sum lent, paid as it fell due. What to do with interest that was not paid was a contested matter: some lenders added it to the debt, and several legal systems, Roman law among them, restricted that practice.",
+    "the_aha": "It matters what the rate is charged on: interest that is left in becomes part of the sum that earns the next interest.",
+    "what_it_solved": "Long-term saving, lending and borrowing became calculable. Printed interest tables, in commercial use by the 1600s, let anyone find the value of a sum after many years, and the same reasoning now underlies savings accounts, loans, credit cards and pensions.",
+    "by_principle": [
+      {
+        "principle": "P1",
+        "before": "Interest was agreed case by case as a sum of money, which made loans of different sizes hard to compare.",
+        "what_it_solved": "Stating interest as so much per hundred per period gave one rule for loans of any size."
+      },
+      {
+        "principle": "P2",
+        "before": "Without a fixed rule for what the charge was based on, lender and borrower could disagree about what was owed after several periods.",
+        "what_it_solved": "A charge tied to the sum lent made the amount owed predictable for any length of loan."
+      },
+      {
+        "principle": "P3",
+        "before": "Interest was handed over in cash as it fell due, so money that was earned by a deposit sat idle unless its owner lent it out again by hand.",
+        "what_it_solved": "Writing interest into the account put it to work automatically, which is how savings accounts operate today."
+      },
+      {
+        "principle": "P4",
+        "before": "Lenders and savers judged long periods by rough feel, and needed printed tables because their feel was unreliable.",
+        "what_it_solved": "A clear comparison of the two kinds of growth lets people judge long-term savings and debts without a table."
+      }
+    ]
+  },
+  "principles": [
+    {
+      "id": "P1",
+      "name": "Interest is a share of a base",
+      "statement": "The interest for one period is the rate multiplied by the amount it is charged on (the base): the rate alone says nothing until you know the base.",
+      "formal": "$\\text{interest for one period} = r \\times \\text{base}$",
+      "needs": [
+        "Finding a percentage of an amount",
+        "Writing a percentage as a decimal"
+      ],
+      "key_idea": false,
+      "why_hard": null
+    },
+    {
+      "id": "P2",
+      "name": "Fixed base, equal steps",
+      "statement": "When interest is always charged on the original sum, every period adds the same amount, so the total rises in equal steps along a straight line.",
+      "formal": "$A = P\\,(1 + r\\,n)$",
+      "needs": [
+        "Finding a percentage of an amount",
+        "Reading a straight-line graph"
+      ],
+      "key_idea": false,
+      "why_hard": null
+    },
+    {
+      "id": "P3",
+      "name": "Interest on interest",
+      "statement": "When interest is added to the balance, it becomes part of the base, so the next period's interest is charged on the earlier interest too: each period multiplies the balance by the same factor.",
+      "formal": "$A = P\\,(1 + r)^n$",
+      "needs": [
+        "Finding a percentage of an amount",
+        "Powers with whole-number exponents"
+      ],
+      "key_idea": true,
+      "why_hard": "counter-intuitive, persistent misconception, load-bearing (6 later lessons need it)"
+    },
+    {
+      "id": "P4",
+      "name": "Multiplying outruns adding",
+      "statement": "Simple interest adds the same amount each period and compound interest multiplies by the same factor; the gap between them is exactly the interest earned on earlier interest, and it grows by more in every period than in the one before.",
+      "formal": "$P\\,(1+r)^n - P\\,(1+r\\,n) \\ge 0$, equal to $0$ for $n = 1$ and growing with $n$",
+      "needs": [
+        "Powers with whole-number exponents",
+        "Reading a straight-line graph",
+        "Using a calculator for powers"
+      ],
+      "key_idea": true,
+      "why_hard": "counter-intuitive, persistent misconception, load-bearing (4 later lessons need it)"
+    }
+  ],
+  "facts": [
+    {
+      "id": "F1",
+      "fact": "The principal is the sum originally lent or deposited, before any interest.",
+      "why_it_matters": "Without a name for the starting sum, the two kinds of interest cannot be told apart.",
+      "used_in": [
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L10"
+      ],
+      "verify": false
+    },
+    {
+      "id": "F2",
+      "fact": "An interest rate is quoted per period, per year unless stated otherwise, as a percentage; $r\\,\\% = r/100$ as a decimal.",
+      "why_it_matters": "Reading 5% as the number 5, or a yearly rate as a monthly one, makes every result wrong by a large factor.",
+      "used_in": [
+        "L2",
+        "L3",
+        "L4",
+        "L6",
+        "L9"
+      ],
+      "verify": false
+    },
+    {
+      "id": "F3",
+      "fact": "\"Simple interest\" means by definition that the interest of every period is charged on the principal only.",
+      "why_it_matters": "Without the definition, a contract that says \"simple interest\" cannot be turned into a calculation.",
+      "used_in": [
+        "L3",
+        "L5",
+        "L7",
+        "L8",
+        "L10"
+      ],
+      "verify": false
+    },
+    {
+      "id": "F4",
+      "fact": "\"Compound interest\" means by definition that the interest of each period is added to the balance at the end of that period (called compounding), once a year unless stated otherwise.",
+      "why_it_matters": "Without knowing when interest joins the balance, the base of the next period is unknown.",
+      "used_in": [
+        "L4",
+        "L5",
+        "L6",
+        "L7",
+        "L8",
+        "L10"
+      ],
+      "verify": false
+    },
+    {
+      "id": "F5",
+      "fact": "Rule of 72: at $r\\,\\%$ compound interest per year, money doubles in roughly $72 / r$ years (a good approximation for rates between about 2% and 12%).",
+      "why_it_matters": "Without it, a doubling time has to be found by trial and error with a calculator.",
+      "used_in": [
+        "L7"
+      ],
+      "verify": false
+    },
+    {
+      "id": "F6",
+      "fact": "Savings accounts and credit cards compound: unpaid interest is added to the balance. A bond that pays its interest out to the holder each year behaves like simple interest, because the base never grows.",
+      "why_it_matters": "Applying the wrong kind of interest to a real product gives the wrong amount.",
+      "used_in": [
+        "L3",
+        "L4",
+        "L9"
+      ],
+      "verify": false
+    },
+    {
+      "id": "F7",
+      "fact": "A credit card quotes a rate per month and adds unpaid interest to the balance every month, so a year has 12 compounding periods.",
+      "why_it_matters": "Treating the monthly rate as if it were charged once a year, or twelve times on the original debt only, understates what is owed.",
+      "used_in": [
+        "L9"
+      ],
+      "verify": false
+    }
+  ],
+  "background": [
+    {
+      "name": "Finding a percentage of an amount and writing a percentage as a decimal",
+      "note": "",
+      "lesson": null
+    },
+    {
+      "name": "Powers with whole-number exponents",
+      "note": "",
+      "lesson": null
+    },
+    {
+      "name": "Using a calculator for powers",
+      "note": "",
+      "lesson": null
+    },
+    {
+      "name": "Reading a straight-line graph",
+      "note": "",
+      "lesson": null
+    }
+  ],
+  "lessons": [
+    {
+      "id": "L1",
+      "number": 1,
+      "kind": "why",
+      "title": "A debt left unpaid",
+      "goal": "Discover why adding unpaid interest to a debt changed what lenders could collect.",
+      "area": "Motivation",
+      "difficulty": "low",
+      "principles": [],
+      "needs": [],
+      "key_idea": false,
+      "design": {
+        "context": "**Why it matters.** Every savings account, loan and credit card you will ever have follows one of two rules for interest, and which rule applies decides how much money changes hands. **How we got here.** For most of recorded history a loan carried a fixed charge per period on the sum lent. When a debtor missed a payment, the lender had to decide what to do with the unpaid interest: keep charging on the original sum only, or add the unpaid interest to the debt. Several legal systems, Roman law among them, restricted the second practice while allowing the first.",
+        "principle_statement": null,
+        "puzzle": "Two lenders in the same town charge the same rate, 20% a year. When a debtor pays nothing, the first keeps charging on the original sum only; the second adds the unpaid interest to the debt before charging again. The law of the town forbids the second practice and allows the first. The rate is the same: what could the lawmakers have been worried about?",
+        "try_first": {
+          "question": "A debtor borrows 100 silver coins at 20% a year and pays nothing for 3 years. (a) Lender One always charges interest on the original 100 coins. How many coins are owed after 3 years? (b) Lender Two adds each year's unpaid interest to the debt before charging the next year's interest. Is the amount owed after 3 years the same as, smaller than or larger than in (a)? Give your choice and one sentence saying where any difference comes from.",
+          "marking": {
+            "pass": "(a) 160 coins. (b) Larger (the exact value, 172.80 coins, is welcome but not required), with a reason that names the cause: Lender Two charges interest on unpaid interest as well as on the 100 coins.",
+            "trap": "\"The rate is the same, so both debts are the same: 160 coins.\" It treats the rate as the whole story and overlooks that the two lenders charge it on different amounts."
+          }
+        },
+        "guiding_questions": [
+          "How many coins of interest does Lender One charge in year 1? In year 2? In year 3?",
+          "At the end of year 1, how many coins does the debtor owe Lender Two in total?",
+          "Lender Two now charges 20% on that total. Is that more than, less than or the same as Lender One's charge for year 2?",
+          "Which coins is Lender Two charging interest on that Lender One is not?",
+          "Will that difference between the two lenders be bigger or smaller in year 3 than in year 2, and why?"
+        ],
+        "trap": null,
+        "aha": null,
+        "picture": null,
+        "visual": null,
+        "worked_example": null,
+        "levels": [],
+        "practice_task": "A debt of 50 coins at 10% a year is left unpaid for 2 years. Work out what is owed (a) when interest is always charged on the 50 coins and (b) when the first year's unpaid interest is added to the debt. Expected outcome: (a) 60 coins, (b) 60.50 coins; the half coin is 10% of the first year's 5 coins of interest.",
+        "success_criteria": [
+          {
+            "what": "The two historical practices differ in what the rate is charged on, not in the rate",
+            "from": "Motivation",
+            "how_tested": "Given one rate and two lenders, say what each one charges interest on",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "treats \"same rate\" as \"same debt\""
+            }
+          },
+          {
+            "what": "Adding unpaid interest to a debt makes the lender collect interest on interest",
+            "from": "Motivation",
+            "how_tested": "Point to the coins that only the second lender charges interest on",
+            "common_mistake": {
+              "kind": "steps-without-why",
+              "text": "computes a larger number but cannot say which coins caused it"
+            }
+          },
+          {
+            "what": "The difference appears only when interest is left unpaid",
+            "from": "Motivation",
+            "how_tested": "Say what happens to the difference when each year's interest is paid on time",
+            "common_mistake": {
+              "kind": "overstretching",
+              "text": "believes the second practice always costs more, even when nothing is left unpaid"
+            }
+          }
+        ],
+        "to_teach": "The two real practices for unpaid interest; what each charges the rate on; why the difference needs unpaid interest to exist. Pitfalls: [mixing-up] rate confused with amount of interest; [overstretching] \"the second lender always collects more\". Socratic teaching note: do not name \"simple\" or \"compound\" yet and give no formula; keep asking \"20% of what?\" until the learner points to the unpaid interest.",
+        "final_check": {
+          "question": "A farmer borrows 500 coins at 10% a year and pays nothing for 2 years. How many coins are owed (a) when interest is always charged on the 500 coins, and (b) when the first year's unpaid interest is added to the debt? Then explain: why are the two amounts different although the rate is the same, and what would happen to the difference if the farmer paid each year's interest as it fell due? Answer with two numbers and two sentences.",
+          "marking": {
+            "pass": "The Try first standard on this case: (a) 600 coins; (b) larger, 605 coins; the 5 extra coins are named as 10% interest on the first year's 50 coins of unpaid interest; and with interest paid on time the difference is zero, because the debt never rises above 500.",
+            "trap": null,
+            "explain_it_back": "Rebuild why two lenders with the same rate collect different amounts: say what each charges the rate on, and which coins make the difference."
+          }
+        }
+      },
+      "state": {
+        "status": "done",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": "chat",
+        "rounds": 0,
+        "started": "2026-11-14",
+        "finished": "2026-11-14",
+        "to_work_on": [],
+        "attempts": [
+          {
+            "at": "2026-11-14",
+            "step": "try-first",
+            "answer": "(a) 160 coins. 20% of 100 is 20 coins a year, and since Lender One always charges on the original 100, that's 3 × 20 = 60 coins of interest, so 100 + 60 = 160.\n\n(b) Larger. This is the same thing as the bank account from the last lesson, just as a debt: once the unpaid interest is added, the 20% is charged on the bigger amount, so the debt is multiplied by 1.2 each year. 100 × 1.2 × 1.2 × 1.2 = 172.8 coins, and the extra 12.8 coins is interest charged on the unpaid interest.",
+            "verdict": "pass",
+            "feedback": "160 coins, and larger (172.8) with the cause named: Lender Two charges interest on the unpaid interest as well as on the 100 coins.",
+            "source": "chat"
+          }
+        ],
+        "notes": "Taught in chat, right after Lesson 4. Passed Try first, so Learn and Show you've got it were skipped; no lesson notes and, as a why lesson, no practice book."
+      }
+    },
+    {
+      "id": "L2",
+      "number": 2,
+      "kind": "principle",
+      "title": "A rate needs a base",
+      "goal": "Discover why the same interest rate can produce different amounts of interest.",
+      "area": "Interest basics",
+      "difficulty": "low",
+      "principles": [
+        "P1"
+      ],
+      "needs": [],
+      "key_idea": false,
+      "design": {
+        "context": "**Why it matters.** Banks advertise rates, but what you receive or pay is an amount of money; this lesson gives you the link between the two. **How we got here.** Early lenders often stated interest as an amount per unit lent, such as so many coins per hundred per year, which is where the words \"per cent\" come from. Stating it this way let one rule serve loans of any size, but it also meant that the advertised figure was no longer a sum of money.",
+        "principle_statement": "Interest is a share of a base — The interest for one period is the rate multiplied by the amount it is charged on (the base): the rate alone says nothing until you know the base.",
+        "puzzle": "Two savers compare notes at the end of the year. One is proud of an account that pays 6%; the other has an account that pays only 3%. Yet the second saver received more interest. Nobody made a mistake. What must be true?",
+        "try_first": {
+          "question": "Account A holds €400 and pays 6% a year. Account B holds €900 and pays 3% a year. Which account earns more interest this year, and how much does each earn? Then state, in one sentence of your own, the rule you used to get the interest for one year.",
+          "marking": {
+            "pass": "States the rule in own words (interest = rate × the amount it is charged on) AND applies it: A earns €24, B earns €27, so B earns more AND explains why judging by the rate alone fails (a rate is a share, and a share of a larger amount can be larger).",
+            "trap": "\"A earns more, because 6% is higher than 3%.\" It compares the rates as if they were amounts of money and never asks what each rate is charged on."
+          }
+        },
+        "guiding_questions": [
+          "What does \"6%\" mean as a share of something? A share of what, here?",
+          "How many euros is 6% of €400?",
+          "How many euros is 3% of €900?",
+          "Which two numbers did you need each time before you could name an amount of interest?",
+          "Say in one sentence what a rate alone can and cannot tell you."
+        ],
+        "trap": null,
+        "aha": null,
+        "picture": null,
+        "visual": null,
+        "worked_example": {
+          "given": "An account holds €250 and pays 8% a year. Find the interest for one year.",
+          "steps": [
+            {
+              "do": "Name the base: the interest is charged on the €250 in the account.",
+              "why": "\"Why start with the base and not the rate?\" Because 8% is a share, and a share is not an amount until you say what it is a share of."
+            },
+            {
+              "do": "Write the rate as a decimal: 8% = 8/100 = 0.08.",
+              "why": "\"Why change its form?\" Per cent means per hundred; the decimal is the same share in a form you can multiply with."
+            },
+            {
+              "do": "Multiply rate by base: 0.08 × 250 = 20.",
+              "why": "\"Why multiply?\" Taking a share of an amount is a multiplication: 8 hundredths of 250."
+            }
+          ],
+          "result": "The interest for the year is €20.",
+          "check": "A second way: 1% of €250 is €2.50, and 8 × €2.50 = €20."
+        },
+        "levels": [],
+        "practice_task": "An account holds €1,200 and pays 5% a year. Find the interest for one year. Then find what base would earn €45 in a year at the same 5%. Expected outcome: €60, and a base of €900.",
+        "success_criteria": [
+          {
+            "what": "An amount of interest needs two things: a rate and a base",
+            "from": "Interest is a share of a base",
+            "how_tested": "Compare two accounts with different rates and different balances",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "compares rates as if they were amounts of money"
+            }
+          },
+          {
+            "what": "A percentage is used as a decimal multiplier of the base",
+            "from": "Interest is a share of a base",
+            "how_tested": "Compute one year's interest and confirm it a second way",
+            "common_mistake": {
+              "kind": "missing-background",
+              "text": "multiplies by 6 instead of 0.06, or cannot find a percentage of an amount"
+            }
+          }
+        ],
+        "to_teach": "The principle; the words principal, rate and base; a rate is per period. Limits: the principle covers one period only and says nothing yet about what the base is in later periods. Misunderstandings: [mixing-up] rate confused with amount; [missing-background] percentage to decimal. Socratic teaching note: answer every claim about interest with \"that percentage of what?\" rather than with the rule.",
+        "final_check": {
+          "question": "Account C holds €2,000 and pays 2% a year. Account D holds €700 and pays 5% a year. Which earns more interest this year, and how much does each earn? Then explain why the account with the lower rate can win, and say what would happen to D's interest if D's balance were twice as large. Answer with the amounts and two sentences.",
+          "marking": {
+            "pass": "The Try first standard on this case: states the rule AND applies it: C earns €40, D earns €35, so C earns more AND explains why judging by the rate alone fails; with twice the balance D would earn €70, twice as much, because the base doubled and the rate did not change.",
+            "trap": null,
+            "explain_it_back": "Rebuild why a rate alone cannot be compared: what a rate is a share of, and how the base turns it into an amount."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": null,
+        "rounds": 0,
+        "started": null,
+        "finished": null,
+        "to_work_on": [],
+        "attempts": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "L3",
+      "number": 3,
+      "kind": "principle",
+      "title": "Equal steps",
+      "goal": "Discover why interest charged on a fixed sum grows in equal steps.",
+      "area": "Simple interest",
+      "difficulty": "low",
+      "principles": [
+        "P2"
+      ],
+      "needs": [
+        "L2"
+      ],
+      "key_idea": false,
+      "design": {
+        "context": "**Why it matters.** Loans between friends, some short-term loans and bonds that pay their interest out all follow the rule of this lesson, and it is the baseline every other kind of growth is compared with. **How we got here.** The oldest and most common loan agreement fixed a charge per period on the sum lent, and the borrower paid that charge as it fell due. A bond works the same way today: the holder receives the interest each year, and the sum the interest is calculated on stays what it was.",
+        "principle_statement": "Fixed base, equal steps — When interest is always charged on the original sum, every period adds the same amount, so the total rises in equal steps along a straight line.",
+        "puzzle": "A bond pays its interest out to you once a year, in cash, and the sum the interest is calculated on is printed on the bond and never changes. You keep the cash in a drawer. If you plot the total in the drawer year after year, what shape do the points make, and how could you know that without calculating a single year?",
+        "try_first": {
+          "question": "You lend a friend €800 at 5% simple interest a year: by agreement, interest is always charged on the €800. Nothing is paid until the end. (1) How much are you owed in total after 4 years? (2) By how many euros does the amount owed rise during year 4, and how does that compare with the rise during year 1? Then state in one sentence the rule for how such a debt grows.",
+          "marking": {
+            "pass": "States the rule in own words (same base every year, so the same amount is added every year) AND applies it: €40 a year, €960 after 4 years, and the rise in year 4 equals the rise in year 1 AND explains why charging year 4's interest on the amount owed so far is wrong here (the agreement fixes the base at €800).",
+            "trap": "Charges each year's interest on the amount owed so far, so that year 4 costs 5% of €920 = €46 and the total comes out above €960. It feels natural because the debt really has grown; it ignores that the agreement fixes what the rate is charged on."
+          }
+        },
+        "guiding_questions": [
+          "What amount is the 5% charged on in year 1? How many euros is that?",
+          "By agreement, what amount is the 5% charged on in year 2? Has it changed?",
+          "So what can you say about the interest of year 3 and of year 4 without calculating them?",
+          "If every year adds the same number of euros, what does the amount owed look like on a graph against time?",
+          "Say in one sentence why the steps are equal."
+        ],
+        "trap": null,
+        "aha": null,
+        "picture": null,
+        "visual": null,
+        "worked_example": {
+          "given": "€300 is lent at 4% simple interest a year for 5 years. Find the amount owed at the end.",
+          "steps": [
+            {
+              "do": "Find one year's interest on the principal: 0.04 × 300 = 12.",
+              "why": "\"Why on 300?\" Simple interest is by definition charged on the principal only."
+            },
+            {
+              "do": "Note that every year has the same base, so every year adds €12: 5 × 12 = 60.",
+              "why": "\"Why may I just multiply by 5?\" Nothing that goes into the yearly calculation changes, so its result cannot change either."
+            },
+            {
+              "do": "Add the interest to the principal: 300 + 60 = 360.",
+              "why": "\"Why add the principal back?\" The borrower owes the sum lent as well as the charge for using it."
+            }
+          ],
+          "result": "€360 is owed after 5 years, reached in five equal steps of €12.",
+          "check": "A second way: $300 \\times (1 + 0.04 \\times 5) = 300 \\times 1.2 = 360$. And listing the years gives 312, 324, 336, 348, 360."
+        },
+        "levels": [],
+        "practice_task": "€1,500 is lent at 2% simple interest a year. Find the amount owed after 6 years, then find after how many years the amount owed reaches €1,800. Expected outcome: €30 a year, €1,680 after 6 years, and €1,800 after 10 years.",
+        "success_criteria": [
+          {
+            "what": "With a fixed base, every period adds the same amount",
+            "from": "Fixed base, equal steps",
+            "how_tested": "Compare the rise in the first year with the rise in a later year",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "charges later years on the amount owed so far"
+            }
+          },
+          {
+            "what": "Equal steps mean a straight line: total interest is proportional to time",
+            "from": "Fixed base, equal steps",
+            "how_tested": "Say what happens to the total interest when the time doubles",
+            "common_mistake": {
+              "kind": "maths-without-picture",
+              "text": "uses the formula but cannot say what the graph looks like or why"
+            }
+          }
+        ],
+        "to_teach": "The principle; the definition of simple interest; the formula as a summary of equal steps. Limits: it holds only while the base is kept fixed, by agreement or because the interest is paid out. Misunderstandings: [mixing-up] letting the base drift to the amount owed; [steps-without-why] using $P(1+rn)$ with no idea why it is linear. Socratic teaching note: ask \"what has changed in the calculation since last year?\" until the learner says \"nothing\".",
+        "final_check": {
+          "question": "€600 is lent at 7% simple interest a year, nothing paid until the end. (1) How much is owed after 3 years? (2) How does the rise during year 3 compare with the rise during year 1? Then explain why the graph of the amount owed against time is a straight line, and say what would happen to the total interest if the loan ran 6 years instead of 3. Answer with the amounts and two sentences.",
+          "marking": {
+            "pass": "The Try first standard on this case: states the rule AND applies it: €42 a year, €726 after 3 years, equal rises in year 1 and year 3 AND explains why the base does not move; the line is straight because every year adds the same €42, and over 6 years the total interest doubles to €252.",
+            "trap": null,
+            "explain_it_back": "Rebuild why the steps are equal: what the rate is charged on each year, and what that does to the graph."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": null,
+        "rounds": 0,
+        "started": null,
+        "finished": null,
+        "to_work_on": [],
+        "attempts": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "L4",
+      "number": 4,
+      "kind": "principle",
+      "title": "Interest that earns interest",
+      "goal": "Discover why interest left in an account makes each year's interest larger.",
+      "area": "Compound interest",
+      "difficulty": "low",
+      "principles": [
+        "P3"
+      ],
+      "needs": [
+        "L2"
+      ],
+      "key_idea": true,
+      "design": {
+        "context": "**Why it matters.** Almost every savings account works the way this lesson describes, so it decides what your own money does when you leave it alone. **How we got here.** Once banks kept running accounts for their customers, it became usual to write the year's interest into the account instead of handing it over in cash. The customer could leave it there, and the bank went on applying the advertised rate to whatever the account held.",
+        "principle_statement": "Interest on interest — When interest is added to the balance, it becomes part of the base, so the next period's interest is charged on the earlier interest too: each period multiplies the balance by the same factor.",
+        "puzzle": "A bank pays 10% a year and writes the interest into your account at the end of each year. You deposit once and then leave the account alone. Is two years at 10% the same thing as one payment of 20%? Decide, and say what you would have to know about the account to be sure.",
+        "try_first": {
+          "question": "You deposit €1,000 in an account that pays 10% a year. At the end of each year the bank adds the interest to the account, and you withdraw nothing. Predict (1) how many euros of interest the bank adds at the end of year 3 and (2) the balance after 3 years. Give two numbers and justify them in one or two sentences.",
+          "marking": {
+            "pass": "Gives the right answer, not the trap: €121 of interest in year 3 and a balance of €1,331 AND justifies it at High school level (each year's 10% is charged on the whole balance, which includes the interest already added) AND explains why €100 and €1,300 fail (they keep charging on €1,000 although the account holds more).",
+            "trap": "\"The rate is the same every year, so the interest is the same every year: 10% a year for 3 years is 30%.\" In Try first this gives €100 of interest in year 3 and a balance of €1,300. It feels right because nothing visible changes from year to year: same account, same rate, no new deposit."
+          }
+        },
+        "guiding_questions": [
+          "At the end of year 1, how much money is in the account?",
+          "The bank pays 10% on what the account holds. What does it hold at the start of year 2?",
+          "So how many euros is the interest of year 2? How many of those euros come from the original €1,000, and where do the rest come from?",
+          "By what single number is the balance multiplied from the start of a year to its end?",
+          "Is that number different in year 3? What does that give for the balance after 3 years?",
+          "Say in one sentence why the yearly interest grows although the rate does not."
+        ],
+        "trap": "\"The rate is the same every year, so the interest is the same every year: 10% a year for 3 years is 30%.\" In Try first this gives €100 of interest in year 3 and a balance of €1,300. It feels right because nothing visible changes from year to year: same account, same rate, no new deposit.",
+        "aha": "The rate stays the same, but it is charged on everything in the account, and the account now contains last year's interest.",
+        "picture": "A snowball rolling down a hill: on every turn it picks up a layer of snow in proportion to its present size, and the snow it has just picked up is part of the ball that picks up the next layer. Where it stops being true: a real snowball grows continuously and at a rate that depends on the snow, whereas the account grows in jumps, once per period, at a fixed rate; and a snowball cannot have part of its snow taken out each turn, whereas interest that is withdrawn stops earning.",
+        "visual": {
+          "objects": "three stacked bars for a deposit of €200 at 10%: year 0 (200), year 1 (220), year 2 (242). Each bar shows the principal block of 200; the year 1 and year 2 bars show interest-on-principal blocks of 20 each; the year 2 bar shows a thin sliver of 2 on top; one read-out \"interest this year = 10% of the whole bar\".",
+          "colour_roles": "blue = principal; orange = interest on the principal; green = interest on earlier interest.",
+          "steps": "(1) The year 0 bar appears: 200 in blue. (2) The year 1 bar appears with an orange block of 20 on top. (3) A bracket marks the whole year 1 bar, 220, as the new base. (4) The year 2 bar appears: 10% of the blue block gives another orange 20. (5) 10% of last year's orange block gives the green sliver of 2, and the read-out shows 242.",
+          "your_turn": "High school level, new case: €400 at 5% a year, interest added each year. Interest added in year 2: right value 21; wrong value 20 (the base was not updated: the trap); wrong value 41 (the total interest of both years was given instead of year 2's). Balance after 2 years: right value 441; wrong value 440 (5% taken twice on €400: the trap); wrong value 420 (only one year was added).",
+          "control": "the learner sets the number of years from 1 to 10. With 1 year there is no green at all; with each added year the green part of the last bar grows, while every orange block stays the same size."
+        },
+        "worked_example": {
+          "given": "€100 is deposited at 10% a year; the interest is added to the account at the end of each year. Find the balance after 2 years.",
+          "steps": [
+            {
+              "do": "Year 1: 10% of 100 = 10. The balance becomes 110.",
+              "why": "\"What is the base in year 1?\" Only the €100 deposited: there is nothing else in the account yet."
+            },
+            {
+              "do": "Year 2: 10% of 110 = 11. The balance becomes 121.",
+              "why": "\"Why 10% of 110 and not of 100?\" The bank pays on what the account holds, and it now holds last year's €10 as well."
+            },
+            {
+              "do": "Split the €11: 10% of the original 100 is 10, and 10% of last year's 10 is 1.",
+              "why": "\"Where exactly does the extra euro come from?\" It is interest earned by interest: nothing else in the account could have produced it."
+            }
+          ],
+          "result": "The balance is €121, not €120: the extra €1 is the interest on the first year's interest.",
+          "check": "A second way: each year multiplies the balance by 1.1, and $100 \\times 1.1 \\times 1.1 = 100 \\times 1.21 = 121$."
+        },
+        "levels": [],
+        "practice_task": "€500 is deposited at 4% a year, interest added each year, for 2 years. Find the interest of year 1, the interest of year 2 and the final balance, and say how many cents of year 2's interest are interest on interest. Expected outcome: €20, then €20.80, balance €540.80; 80 cents are interest on interest (4% of €20).",
+        "success_criteria": [
+          {
+            "what": "The base of each period is the whole balance, including interest already added",
+            "from": "Interest on interest, High school level",
+            "how_tested": "Predict the interest of a later year and say what it was charged on",
+            "common_mistake": {
+              "kind": "overstretching",
+              "text": "carries the fixed base of simple interest over to an account where interest is left in"
+            }
+          },
+          {
+            "what": "The growth of the yearly interest comes only from interest earned by earlier interest",
+            "from": "Interest on interest, High school level",
+            "how_tested": "Split one year's interest into a part from the principal and a part from earlier interest",
+            "common_mistake": {
+              "kind": "steps-without-why",
+              "text": "gets 121 by multiplying but cannot say where the extra euro came from"
+            }
+          },
+          {
+            "what": "Each period multiplies the balance by the same factor, 1 + rate",
+            "from": "Interest on interest, High school level",
+            "how_tested": "Give the single number that turns one year's balance into the next",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "adds 10% of the first balance every year instead of multiplying the current one"
+            }
+          }
+        ],
+        "to_teach": "The principle; the definition of compounding; the yearly factor $1 + r$; the split of a year's interest into interest on principal and interest on interest. Limits: it holds only while interest stays in the account; interest that is paid out does not compound. Misunderstandings that survive the aha: [mixing-up] \"compound interest has a higher rate\" (the rate is unchanged, the base grows); [overstretching] \"the interest grows by the same amount each year\" (the growth itself grows); [words-without-maths] says \"interest on interest\" but still computes 10% of the principal. Socratic teaching note: keep asking \"10% of what, exactly, this year?\"; show the picture only after the learner has stated the aha.",
+        "final_check": {
+          "question": "You deposit €2,000 in an account that pays 5% a year; the interest is added at the end of each year and you withdraw nothing. Predict (1) the interest added at the end of year 3 and (2) the balance after 3 years, and justify them. Then explain why the year 3 interest is not €100, and say what would happen to the yearly interest if you withdrew each year's interest as soon as it was added. Answer with two numbers and two or three sentences.",
+          "marking": {
+            "pass": "The Try first standard on this case: €110.25 of interest in year 3 and a balance of €2,315.25, not the trap (€100 and €2,300) AND a justification at High school level (5% is charged on a balance that already holds €205 of earlier interest) AND why the trap fails; with the interest withdrawn every year the base stays at €2,000 and the interest stays at €100 a year.",
+            "trap": null,
+            "explain_it_back": "Rebuild why the yearly interest grows while the rate stays fixed: what the base is each year, and where the extra amount comes from."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "attempts": []
+      }
+    },
+    {
+      "id": "L5",
+      "number": 5,
+      "kind": "principle",
+      "title": "The widening gap",
+      "goal": "Discover why the gap between compound and simple interest widens every period.",
+      "area": "Comparing growth",
+      "difficulty": "low",
+      "principles": [
+        "P4"
+      ],
+      "needs": [
+        "L3",
+        "L4"
+      ],
+      "key_idea": true,
+      "design": {
+        "context": "**Why it matters.** Whether you are choosing a savings product or a loan, the question is rarely what happens next year; it is what happens over ten, twenty or thirty years. **How we got here.** By the 1600s merchants and lenders were using printed tables that listed, year by year, what a sum would become under each kind of interest. Tables were needed because people who dealt with money every day still found it hard to judge long periods in their heads.",
+        "principle_statement": "Multiplying outruns adding — Simple interest adds the same amount each period and compound interest multiplies by the same factor; the gap between them is exactly the interest earned on earlier interest, and it grows by more in every period than in the one before.",
+        "puzzle": "Two accounts start with the same sum and the same rate; one pays simple interest, the other compound. After the first year their balances are identical. Somebody concludes: \"Then they are really the same thing, give or take a little.\" What would you have to look at to find out whether \"a little\" stays little?",
+        "try_first": {
+          "question": "Two accounts each start with €1,000 at 10% a year. One pays simple interest, the other compound interest, added yearly. After 10 years the simple account holds €2,000 and the compound account holds about €2,594, so the compound account is about €594 ahead. Predict how far ahead it will be after 30 years: about €1,800, about €5,000 or about €13,000? Give your choice and justify it in one or two sentences. You may use a calculator.",
+          "marking": {
+            "pass": "Gives the right answer, not the trap: about €13,000 (simple €4,000, compound about €17,449, gap about €13,449) AND justifies it at High school level (each year the compound account earns 10% of a balance that is already far larger, so the lead itself grows by more each year) AND explains why \"three times €594\" fails (it assumes the lead grows by equal amounts, which is how simple interest behaves).",
+            "trap": "\"The lead grows at a steady pace: three times as long, three times the lead, so about €1,800.\" It feels right because the first ten years are the only evidence in view, and over a short stretch the compound account does look as if it were pulling ahead by a similar amount each year."
+          }
+        },
+        "guiding_questions": [
+          "How many euros does the simple account gain in year 11? In year 30?",
+          "How many euros does the compound account gain in year 11, starting from about €2,594?",
+          "So by how much does the lead grow in year 11 alone? Compare that with the lead's average growth per year over the first 10 years.",
+          "As the compound balance keeps rising, what happens to its yearly gain, and to the amount by which the lead grows each year?",
+          "Which euros in the compound account earn interest that the simple account never pays? What happens to their number over time?",
+          "Say in one sentence why the lead cannot grow at a steady pace."
+        ],
+        "trap": "\"The lead grows at a steady pace: three times as long, three times the lead, so about €1,800.\" It feels right because the first ten years are the only evidence in view, and over a short stretch the compound account does look as if it were pulling ahead by a similar amount each year.",
+        "aha": "The simple account climbs by the same step every year, while the compound account's step is a share of its own height, so every year its step is bigger and the gap widens faster.",
+        "picture": "Two staircases that start on the same floor. On the first, every step has the same height. On the second, each step is a fixed fraction taller than the one before. For the first few steps you could not tell them apart; many steps later the second staircase is far above the first, and still pulling away. Where it stops being true: real rates change over the years and real accounts have deposits and withdrawals, so no real balance follows either staircase exactly; and the picture says nothing about the first step, where the two are exactly equal, not just close.",
+        "visual": {
+          "objects": "one chart for €400 at 25% a year over years 0 to 3: the simple balances 400, 500, 600, 700 as dots joined by a straight line; the compound balances 400, 500, 625, 781.25 as dots joined by a curve; a vertical bar between the two dots in each year with its length written beside it: 0, 25, 81.25.",
+          "colour_roles": "blue = simple interest; orange = compound interest; green = the gap between them.",
+          "steps": "(1) The blue dots appear one by one, each 100 above the last. (2) The orange dots appear; in year 1 the orange dot lands exactly on the blue one. (3) In year 2 the first green bar appears, 25 long. (4) In year 3 the green bar is 81.25 long. (5) The two green bars are placed side by side to show that the gap grew by 25 and then by 56.25.",
+          "your_turn": "High school level, new case: €800 at 10% a year, simple against compound. Gap after 2 years: right value 8; wrong value 0 (no interest on interest was counted, so the two were taken to be equal); wrong value 168 (the compound account's total interest was given instead of the gap). Gap after 3 years: right value 24.80; wrong value 16 (the gap was taken to grow by a steady 8 a year: the trap); wrong value 8 (the gap was taken to stay as it was).",
+          "control": "the learner sets the number of years from 1 to 30. The blue line keeps its slope; the orange curve bends upward, and the green bar for the last year grows faster with every year added."
+        },
+        "worked_example": {
+          "given": "€400 at 25% a year for 3 years, once with simple interest and once with compound interest added yearly. Find the gap between the two balances after each year.",
+          "steps": [
+            {
+              "do": "Simple: 25% of 400 is 100 every year. Balances: 500, 600, 700.",
+              "why": "\"Why the same 100 each time?\" The base is fixed at the principal, so nothing in the calculation changes."
+            },
+            {
+              "do": "Compound: multiply by 1.25 each year. Balances: 500, 625, 781.25.",
+              "why": "\"Why multiply instead of adding 100?\" The 25% is charged on the whole balance, so each year turns the balance into 1.25 times itself."
+            },
+            {
+              "do": "Subtract year by year: the gap is 0, then 25, then 81.25. It grew by 25 in year 2 and by 56.25 in year 3.",
+              "why": "\"Why is there no gap after year 1, and why does it then speed up?\" In year 1 there is no earlier interest to earn anything. After that, the interest on earlier interest is itself left in the account and earns interest."
+            }
+          ],
+          "result": "After 3 years the compound account is €81.25 ahead, and the gap is growing by more each year: 0, then 25, then 56.25.",
+          "check": "A second way, from the meaning of the gap: in year 2 the compound account holds 100 more than the principal, and 25% of 100 is 25. In year 3 it holds 225 more than the principal, and 25% of 225 is 56.25. 25 + 56.25 = 81.25."
+        },
+        "levels": [],
+        "practice_task": "Make a table for €1,000 at 5% a year over 3 years with three columns: simple balance, compound balance, gap. Expected outcome: simple 1,050, 1,100, 1,150; compound 1,050, 1,102.50, 1,157.63 (rounded); gap 0, 2.50, 7.63.",
+        "success_criteria": [
+          {
+            "what": "The gap is exactly the interest earned on earlier interest, and it is zero after the first period",
+            "from": "Multiplying outruns adding, High school level",
+            "how_tested": "Compute the gap after one and after two periods and say which euros produced it",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "thinks compound interest is ahead from the first period, or that it has a higher rate"
+            }
+          },
+          {
+            "what": "The gap grows by more in each period than in the one before",
+            "from": "Multiplying outruns adding, High school level",
+            "how_tested": "Given the gap after some years, choose a realistic gap after three times as long",
+            "common_mistake": {
+              "kind": "overstretching",
+              "text": "extends the gap in proportion to time, as if it grew in equal steps"
+            }
+          },
+          {
+            "what": "Adding gives a straight line and multiplying gives a curve that bends upward",
+            "from": "Multiplying outruns adding, High school level",
+            "how_tested": "Sketch both balances against time and mark the gap",
+            "common_mistake": {
+              "kind": "maths-without-picture",
+              "text": "can fill in the table but cannot say what the two graphs look like"
+            }
+          }
+        ],
+        "to_teach": "The principle; the year-by-year comparison table; the gap as interest on earlier interest; straight line against upward-bending curve. Limits: over one period there is no difference at all, and over a few periods at a low rate the difference is small. Misunderstandings that survive the aha: [overstretching] \"compound is always much bigger\" (not over short times); [overstretching] \"the gap grows by a fixed amount each year after the first\"; [mixing-up] \"the compound account wins because its rate is higher\". Socratic teaching note: ask \"how much does each account gain this year?\" for two widely separated years before any graph is shown.",
+        "final_check": {
+          "question": "Two debts of €5,000 each carry 8% a year and nothing is repaid. One is charged simple interest, the other compound interest, added yearly. After 9 years the simple debt is €8,600 and the compound debt is about €9,995, so the compound debt is about €1,395 larger. Predict how much larger it will be after 27 years: about €4,200, about €12,000 or about €24,000? Justify your choice. Then explain why the gap does not simply triple, and say what would happen to the gap if the borrower paid each year's interest when it fell due. A calculator is allowed.",
+          "marking": {
+            "pass": "The Try first standard on this case: about €24,000 (simple €15,800, compound about €39,940, gap about €24,140), not the trap (about €4,200) AND a justification at High school level (each year's compound interest is 8% of a debt that is already far larger) AND why tripling fails; with every year's interest paid on time there is no unpaid interest to charge on, both debts stay at €5,000 and the gap is zero.",
+            "trap": null,
+            "explain_it_back": "Rebuild why the gap widens faster and faster: what each account gains per year, and which euros the simple account never pays interest on."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": null,
+        "rounds": 0,
+        "started": null,
+        "finished": null,
+        "to_work_on": [],
+        "attempts": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "L6",
+      "number": 6,
+      "kind": "concept",
+      "title": "Many years in one step",
+      "goal": "Discover how one multiplication replaces many year-by-year compound interest steps.",
+      "area": "Compound interest",
+      "difficulty": "low",
+      "principles": [
+        "P3"
+      ],
+      "needs": [
+        "L4"
+      ],
+      "key_idea": false,
+      "design": {
+        "context": "**Why it matters.** Working out a balance year by year is fine for three years and hopeless for thirty; this lesson gives you a way to reach any year directly. **How we got here.** Before calculators, anyone who needed the value of a sum after many years of interest looked it up in a printed book of interest tables, which were in commercial use by the 1600s. Somebody had to compute every entry of those tables, and that work was only practical because of a regularity in how such a balance grows.",
+        "principle_statement": null,
+        "puzzle": "To find a compound balance after 40 years you could do 40 calculations, each one feeding the next. A clerk claims to get the same result with a single calculation on a pocket calculator. What must the clerk have noticed about the 40 steps?",
+        "try_first": {
+          "question": "€3,000 is deposited at 4% a year, with the interest added yearly, and left for 5 years. Find the balance after 5 years using as few calculations as you can, and show the calculation you used. Give the balance to the nearest euro.",
+          "marking": {
+            "pass": "Balance within €1 of €3,649.96, obtained from the repeated factor: $3000 \\times 1.04^5$ (or five multiplications by 1.04 recognised as one power).",
+            "trap": "\"Five years at 4% is 20%, so 3,000 × 1.20 = €3,600.\" It adds the rates, which is the simple-interest calculation and leaves out all interest on interest."
+          }
+        },
+        "guiding_questions": [
+          "By what number is the balance multiplied during one year at 4%?",
+          "Is that number different in year 2, or in year 5?",
+          "Write the balance after 2 years as the starting sum times something. Then after 3 years.",
+          "What is a short way of writing the same number multiplied by itself 5 times?",
+          "Write the balance after 5 years as one calculation and work it out."
+        ],
+        "trap": null,
+        "aha": null,
+        "picture": null,
+        "visual": null,
+        "worked_example": null,
+        "levels": [],
+        "practice_task": "€200 is deposited at 3% a year, interest added yearly, for 10 years. Write the balance as one calculation and work it out. Expected outcome: $200 \\times 1.03^{10} \\approx$ €268.78.",
+        "success_criteria": [
+          {
+            "what": "A year of compound interest is one multiplication by 1 + rate",
+            "from": "Interest on interest",
+            "how_tested": "Give the yearly factor for a stated rate",
+            "common_mistake": {
+              "kind": "missing-background",
+              "text": "uses 1.4 or 0.04 instead of 1.04 as the factor"
+            }
+          },
+          {
+            "what": "The same factor repeated n times is a power: balance = principal × (1 + rate)^n",
+            "from": "Interest on interest",
+            "how_tested": "Find a balance after several years in one calculation",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "multiplies the rate by the number of years, which is the simple-interest calculation"
+            }
+          },
+          {
+            "what": "The power is a summary of the year-by-year steps, not a different rule",
+            "from": "Interest on interest",
+            "how_tested": "Explain why the one-step result equals the year-by-year result",
+            "common_mistake": {
+              "kind": "steps-without-why",
+              "text": "types the formula into a calculator but cannot say what the exponent counts"
+            }
+          }
+        ],
+        "to_teach": "The yearly factor; repeated multiplication as a power; $A = P(1+r)^n$ with n counting compounding periods; rounding money to cents only at the end. Pitfalls: [mixing-up] $1 + rn$ in place of $(1+r)^n$; [missing-background] the factor for r% is $1 + r/100$; [steps-without-why] the exponent. Socratic teaching note: have the learner write the balance after 1, 2 and 3 years as products before asking \"what is the short way to write that?\"",
+        "final_check": {
+          "question": "€750 is deposited at 6% a year, interest added yearly, and left for 8 years. Find the balance in one calculation, to the nearest euro. Then explain why eight year-by-year steps can be replaced by a single power, and say what would happen to the interest earned if the rate were doubled to 12%: would it double? Answer with the calculation, the balance and two sentences.",
+          "marking": {
+            "pass": "The Try first standard on this case: balance within €1 of €1,195.39 from $750 \\times 1.06^8$; the explanation says every year multiplies by the same 1.06, so eight years multiply by $1.06^8$; at 12% the balance is about €1,856.97, so the interest is about €1,107 against about €445: more than double.",
+            "trap": null,
+            "explain_it_back": "Rebuild how the single power comes out of the year-by-year steps, and say what the exponent counts."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": null,
+        "rounds": 0,
+        "started": null,
+        "finished": null,
+        "to_work_on": [],
+        "attempts": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "L7",
+      "number": 7,
+      "kind": "concept",
+      "title": "How long to double?",
+      "goal": "Discover why compound growth doubles in equal times while simple growth slows.",
+      "area": "Comparing growth",
+      "difficulty": "medium",
+      "principles": [
+        "P3",
+        "P4"
+      ],
+      "needs": [
+        "L4",
+        "L5"
+      ],
+      "key_idea": false,
+      "design": {
+        "context": "**Why it matters.** \"How long until my money doubles?\" is the quickest way to feel what a rate means, and it lets you compare offers without a table. **How we got here.** Merchants asked this question long before calculators existed, and rules of thumb for answering it appeared in printed arithmetic books by the late 1400s. A rule of thumb was needed because the direct calculation meant trying one year after another.",
+        "principle_statement": null,
+        "puzzle": "A saver watches an account grow from €1,000 to €2,000 and notes how long it took. The saver now waits for €4,000, which needs twice as many euros of growth as the first stage did. Will the second stage take longer than the first, the same time, or less? Does the answer depend on the kind of interest?",
+        "try_first": {
+          "question": "€1,000 is deposited at 6% a year. (1) With compound interest added yearly, about how many years does it take to reach €2,000, and about how many more years to go from €2,000 to €4,000? (2) With simple interest at 6%, how many years to reach €2,000, and how many more to reach €4,000? Give four numbers of years (whole years are enough) and one sentence on why the two kinds of interest behave differently. A calculator is allowed.",
+          "marking": {
+            "pass": "Compound: about 12 years (11 to 13 accepted) for the first doubling and about 12 more for the second. Simple: about 17 years (16 to 17) to reach €2,000 and about 33 more (33 to 34) to reach €4,000. The reason given: a compound balance is multiplied by the same factor in equal times whatever its size, while simple interest adds a fixed €60 a year, so twice as many euros take twice as long.",
+            "trap": "\"Going from €2,000 to €4,000 needs twice as much growth, so it takes about twice as long in both cases.\" True for simple interest; for compound interest it overlooks that the larger balance earns proportionally more each year."
+          }
+        },
+        "guiding_questions": [
+          "With compound interest, by what factor is the balance multiplied over 12 years at 6%? Try it on a calculator.",
+          "Does that factor depend on whether the balance at the start of those 12 years is €1,000 or €2,000?",
+          "So how long does the step from €2,000 to €4,000 take with compound interest?",
+          "With simple interest, how many euros are added each year? How many years to add €1,000, and how many to add a further €2,000?",
+          "Say in one sentence why equal times give equal factors for one kind of interest and equal amounts for the other."
+        ],
+        "trap": null,
+        "aha": null,
+        "picture": null,
+        "visual": null,
+        "worked_example": null,
+        "levels": [],
+        "practice_task": "Use the Rule of 72 to estimate how long money takes to double at 4% a year compound, then check the estimate with a calculator. Expected outcome: 72 / 4 = 18 years; $1.04^{18} \\approx 2.026$, so the estimate is good.",
+        "success_criteria": [
+          {
+            "what": "With compound interest, equal times multiply the balance by equal factors, so every doubling takes the same time",
+            "from": "Interest on interest",
+            "how_tested": "Give the time for a second doubling once the first is known",
+            "common_mistake": {
+              "kind": "overstretching",
+              "text": "expects each doubling to take longer because more euros are needed"
+            }
+          },
+          {
+            "what": "With simple interest, equal times add equal amounts, so each doubling takes twice as long as the one before",
+            "from": "Multiplying outruns adding",
+            "how_tested": "Find the times to reach twice and four times the principal",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "applies a doubling time to simple interest as if it repeated"
+            }
+          },
+          {
+            "what": "The Rule of 72 estimates the compound doubling time",
+            "from": "Interest on interest",
+            "how_tested": "Estimate a doubling time and check it with a calculator",
+            "common_mistake": {
+              "kind": "steps-without-why",
+              "text": "applies 72 / r to simple interest or treats the estimate as exact"
+            }
+          }
+        ],
+        "to_teach": "Doubling time; why it is constant under compounding; the Rule of 72 as an estimate with a limited range; simple interest doubles once in 100 / r years and then slows. Pitfalls: [overstretching] the Rule of 72 used for simple interest or for very high rates; [mixing-up] equal factors against equal amounts. Socratic teaching note: ask \"does the calculator care how big the starting balance was?\" before stating that the doubling time is constant.",
+        "final_check": {
+          "question": "€500 is deposited at 9% a year. (1) With compound interest added yearly, about how many years does one doubling take, and roughly what is the balance after 24 years? (2) With simple interest at 9%, what is the balance after 24 years? Then explain why every compound doubling takes the same time while simple growth needs longer for each doubling. Answer with a number of years, two balances and two sentences. A calculator is allowed.",
+          "marking": {
+            "pass": "The Try first standard on this case: about 8 years per doubling (7 to 9 accepted); 24 years is three doublings, so roughly €4,000 (exactly €3,955.54; €3,900 to €4,000 accepted); simple interest gives €1,580. The explanation: equal times multiply a compound balance by equal factors whatever its size, while simple interest adds a fixed €45 a year.",
+            "trap": null,
+            "explain_it_back": "Rebuild why a compound balance doubles in equal times: what one stretch of years does to the balance, and why its size does not matter."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": null,
+        "rounds": 0,
+        "started": null,
+        "finished": null,
+        "to_work_on": [],
+        "attempts": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "L8",
+      "number": 8,
+      "kind": "concept",
+      "title": "Time in the exponent",
+      "goal": "Discover why years of compounding can outweigh a larger starting sum.",
+      "area": "Long-term saving",
+      "difficulty": "medium",
+      "principles": [
+        "P3",
+        "P4"
+      ],
+      "needs": [
+        "L4",
+        "L5"
+      ],
+      "key_idea": false,
+      "design": {
+        "context": "**Why it matters.** The most common money question young people are asked is whether it is worth saving a little now or better to wait and save more later. **How we got here.** As long-term saving schemes and pension funds spread during the 1800s and 1900s, ordinary people, not only merchants, had to decide when to begin putting money aside. Advice on that decision had to weigh two things against each other: how much is put in, and how long it stays.",
+        "principle_statement": null,
+        "puzzle": "One person puts a sum aside at 20 and never adds to it. Another waits until 40 and then puts aside twice as much, at the same rate. Both look at their accounts at 60. Who would you expect to have more, and what would you need to compare to be sure?",
+        "try_first": {
+          "question": "Asha deposits €2,000 at age 20. Ben deposits €4,000 at age 40. Both accounts pay 6% a year compound, interest added yearly, and neither person adds or withdraws anything. Who has more at age 60, and roughly how much does each have (to the nearest €100)? Justify your answer in one or two sentences. A calculator is allowed.",
+          "marking": {
+            "pass": "Asha has more: about €20,600 (exactly €20,571.44) against Ben's about €12,800 (€12,828.54), each within €100. The justification: Asha's money is multiplied by 1.06 forty times and Ben's only twenty times; Asha's extra twenty years multiply her balance by about 3.2, which is more than the factor 2 by which Ben's deposit is larger.",
+            "trap": "\"Ben has more: he put in twice as much, and Asha's twenty extra years of 6% cannot make up for €2,000.\" It weighs the extra years as if they added a fixed amount, when they multiply."
+          }
+        },
+        "guiding_questions": [
+          "By what factor does 6% compound multiply a balance over 20 years? Use a calculator.",
+          "For how many years is Asha's money in the account, and Ben's?",
+          "What does Asha's account hold at age 40, the day Ben makes his deposit?",
+          "From age 40 on, both balances are multiplied by the same factor. So who is ahead at 60, and what decided it?",
+          "Would your answer be the same if the extra 20 years multiplied a balance by less than 2?"
+        ],
+        "trap": null,
+        "aha": null,
+        "picture": null,
+        "visual": null,
+        "worked_example": null,
+        "levels": [],
+        "practice_task": "At 7% a year compound, compare €500 left for 20 years with €1,000 left for 10 years. Expected outcome: about €1,934.84 against about €1,967.15: nearly equal, because at 7% money roughly doubles in 10 years, so ten extra years are worth about as much as doubling the deposit.",
+        "success_criteria": [
+          {
+            "what": "Extra years multiply a compound balance; they do not add a fixed amount",
+            "from": "Interest on interest",
+            "how_tested": "Compare an early small deposit with a later large one",
+            "common_mistake": {
+              "kind": "overstretching",
+              "text": "judges extra years as extra equal steps, as in simple interest"
+            }
+          },
+          {
+            "what": "An earlier deposit wins when the factor earned in the extra years exceeds the ratio of the deposits",
+            "from": "Multiplying outruns adding",
+            "how_tested": "State what has to be compared with what, and compare it",
+            "common_mistake": {
+              "kind": "steps-without-why",
+              "text": "computes both balances but cannot say what decided the outcome"
+            }
+          },
+          {
+            "what": "With simple interest the same comparison can come out the other way",
+            "from": "Multiplying outruns adding",
+            "how_tested": "Redo a comparison with simple interest and explain the change",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "assumes an early start wins under any kind of interest"
+            }
+          }
+        ],
+        "to_teach": "Time as the exponent; comparing the growth factor of the extra years with the ratio of the deposits; the same case under simple interest. Pitfalls: [overstretching] \"starting early always wins\" (not if the extra years multiply by less than the deposit ratio); [steps-without-why] two balances with no comparison of factors. Socratic teaching note: ask \"what is in Asha's account on the day Ben starts?\" before any formula for 40 years is used.",
+        "final_check": {
+          "question": "Carla deposits €1,000 and leaves it for 30 years. Dev deposits €3,000 and leaves it for 15 years. Both accounts pay 8% a year compound, interest added yearly. Who ends with more, and roughly how much does each have (to the nearest €100)? Then explain what decided the outcome, and say what would happen if both accounts paid 8% simple interest instead. Answer with two balances and two or three sentences. A calculator is allowed.",
+          "marking": {
+            "pass": "The Try first standard on this case: Carla has more, about €10,100 (€10,062.66) against Dev's about €9,500 (€9,516.51), each within €100. The explanation: Carla's extra 15 years multiply her balance by about 3.17, which is more than the factor 3 by which Dev's deposit is larger. With simple interest Carla would have €3,400 and Dev €6,600, so Dev would win, because extra years then add equal steps instead of multiplying.",
+            "trap": null,
+            "explain_it_back": "Rebuild why the smaller, earlier deposit can win: what the extra years do to it, and what that has to be compared with."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": null,
+        "rounds": 0,
+        "started": null,
+        "finished": null,
+        "to_work_on": [],
+        "attempts": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "L9",
+      "number": 9,
+      "kind": "concept",
+      "title": "Monthly compounding",
+      "goal": "Discover why a monthly rate costs more than twelve times itself per year.",
+      "area": "Borrowing",
+      "difficulty": "medium",
+      "principles": [
+        "P1",
+        "P3"
+      ],
+      "needs": [
+        "L2",
+        "L4"
+      ],
+      "key_idea": false,
+      "design": {
+        "context": "**Why it matters.** The same mechanism that grows savings also grows debts, and credit cards apply it every month instead of every year. **How we got here.** Credit cards, which spread widely in the second half of the 1900s, state their charge as a rate per month on the balance left unpaid. Borrowers found such offers hard to compare with yearly rates, and in 1968 the United States passed the Truth in Lending Act, which obliges lenders to disclose the cost of credit in a standard yearly form; many other countries have similar rules.",
+        "principle_statement": null,
+        "puzzle": "A credit card charges 1.5% a month on whatever is left unpaid. A customer who pays nothing for a year wants to know the yearly cost and proposes a quick route to it. What does the customer need to know about how the card treats last month's unpaid interest before any quick route can be trusted?",
+        "try_first": {
+          "question": "A credit card charges 1.5% a month on the unpaid balance, and unpaid interest is added to the balance every month. A balance of €2,000 is left unpaid for 12 months, with nothing bought and nothing paid. How much is owed after the 12 months (to the nearest euro), and what percentage of the €2,000 is the year's interest (to one decimal place)?",
+          "marking": {
+            "pass": "Owed: within €1 of €2,391.24, from $2000 \\times 1.015^{12}$; the year's interest is about 19.6% of the €2,000 (19.5% to 19.6% accepted), not 18%.",
+            "trap": "\"1.5% a month is 12 × 1.5% = 18% a year, so €2,360 is owed.\" It multiplies the rate by the number of months, which charges every month on the original €2,000 and leaves out the interest on the unpaid interest."
+          }
+        },
+        "guiding_questions": [
+          "What is the period of this rate, and how many such periods are there in a year?",
+          "What is owed after month 1? On what amount is month 2's interest charged?",
+          "By what number is the balance multiplied each month?",
+          "How many times is that multiplication applied in a year, and how do you write that as one calculation?",
+          "Compare your result with 12 × 1.5%. Which euros account for the difference?"
+        ],
+        "trap": null,
+        "aha": null,
+        "picture": null,
+        "visual": null,
+        "worked_example": null,
+        "levels": [],
+        "practice_task": "A store card charges 1% a month on the unpaid balance, added monthly. €1,000 is left unpaid for 12 months. Find what is owed and the year's interest as a percentage of the €1,000. Expected outcome: $1000 \\times 1.01^{12} \\approx$ €1,126.83, about 12.7% rather than 12%.",
+        "success_criteria": [
+          {
+            "what": "The exponent counts compounding periods, and the rate must be the rate for one such period",
+            "from": "Interest on interest",
+            "how_tested": "Set up the calculation for a monthly rate over a year",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "uses the monthly rate with a yearly count of 1, or a yearly count with a monthly rate"
+            }
+          },
+          {
+            "what": "Twelve times the monthly rate understates the yearly cost when unpaid interest is added monthly",
+            "from": "Interest on interest",
+            "how_tested": "Compare the true yearly percentage with 12 × the monthly rate",
+            "common_mistake": {
+              "kind": "overstretching",
+              "text": "multiplies the rate by the number of periods, as for simple interest"
+            }
+          },
+          {
+            "what": "The extra cost is interest on the unpaid interest of earlier months",
+            "from": "Interest is a share of a base",
+            "how_tested": "Say what the rate is charged on in month 2",
+            "common_mistake": {
+              "kind": "steps-without-why",
+              "text": "gets the right amount but cannot say what makes it exceed 18%"
+            }
+          }
+        ],
+        "to_teach": "Rates per period; monthly compounding as the same principle with 12 periods a year; the effective yearly cost against 12 × the monthly rate; that the difference grows with the rate and with time. Pitfalls: [mixing-up] period of the rate against period of the count; [overstretching] simple-interest scaling of a monthly rate. Socratic teaching note: ask \"what is owed on the first day of month 2?\" and let the learner carry it forward.",
+        "final_check": {
+          "question": "A store card charges 3% a month on the unpaid balance, added monthly. A balance of €600 is left unpaid for 12 months. How much is owed (to the nearest euro), and what percentage of the €600 is the year's interest (to one decimal place)? Then explain why this is more than 36%, and say what would be owed if the balance stayed unpaid for 24 months instead of 12. A calculator is allowed.",
+          "marking": {
+            "pass": "The Try first standard on this case: within €1 of €855.46 from $600 \\times 1.03^{12}$; the year's interest is about 42.6% of the €600, not 36%. The explanation: from month 2 on, the 3% is charged on unpaid interest as well as on the €600. After 24 months about €1,219.68 is owed: the debt has roughly doubled.",
+            "trap": null,
+            "explain_it_back": "Rebuild why the yearly cost exceeds twelve times the monthly rate: what is charged in month 2 that was not charged in month 1."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": null,
+        "rounds": 0,
+        "started": null,
+        "finished": null,
+        "to_work_on": [],
+        "attempts": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "L10",
+      "number": 10,
+      "kind": "capstone",
+      "title": "Which offer wins, and when?",
+      "goal": "Explain and decide between a simple and a compound offer over different time spans.",
+      "area": "Putting it together",
+      "difficulty": "high",
+      "principles": [
+        "P1",
+        "P2",
+        "P3",
+        "P4"
+      ],
+      "needs": [
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L6"
+      ],
+      "key_idea": false,
+      "design": {
+        "context": "**Why it matters.** Real offers rarely differ in one thing only: one may have the higher rate and the other the better rule, and you have to say which matters for the time you have in mind. **How we got here.** Savers have long been offered both kinds of product side by side: bonds that pay their interest out, and accounts that add it to the balance. Comparing them fairly has always required more than reading the two advertised rates.",
+        "principle_statement": null,
+        "puzzle": "A relative offers you a gift of money in one of two forms: a bond with the higher rate that pays simple interest, or an account with the lower rate that pays compound interest. \"It depends how long you leave it,\" says a friend. How can the answer to \"which is better?\" depend on time at all?",
+        "try_first": {
+          "question": "You may put €2,000 into one of two offers and must leave it untouched. Offer S pays 6% a year simple interest. Offer C pays 4% a year compound interest, added yearly. (1) Which offer gives more after 10 years, and how much does each give? (2) Which gives more after 25 years, and how much does each give? Then explain in two or three sentences why the answer changes between 10 and 25 years. Amounts to the nearest euro; a calculator is allowed.",
+          "marking": {
+            "pass": "After 10 years S wins: €3,200 against about €2,960 (€2,960.49). After 25 years C wins: about €5,332 (€5,331.67) against €5,000. All four amounts within €1. The explanation uses both rules: S adds the same €120 every year, a straight line; C's yearly interest starts lower, at €80, but is charged on a growing balance, so it grows every year and in time overtakes, after which the compound balance pulls further ahead.",
+            "trap": "\"6% is more than 4%, so offer S is better however long the money stays.\" It compares the rates and ignores that the two rates are charged on different bases as the years pass."
+          }
+        },
+        "guiding_questions": [
+          "How many euros does offer S add in year 1? In year 25?",
+          "How many euros does offer C add in year 1? What is that interest charged on in later years?",
+          "Can C's yearly interest ever exceed S's €120? What balance would C need for that?",
+          "Once C adds more per year than S, what happens to the distance between them?",
+          "Compute both offers at 10 years and at 25 years. What changed in between?",
+          "Explain to someone who has not seen the numbers why a lower rate can win in the long run."
+        ],
+        "trap": null,
+        "aha": null,
+        "picture": null,
+        "visual": null,
+        "worked_example": null,
+        "levels": [],
+        "practice_task": "Make a year-by-year comparison of €100 at 10% simple interest and €100 at 7% compound interest, and find the first year in which the compound balance is ahead. Expected outcome: after 10 years it is €200 against about €196.72; after 11 years €210 against about €210.49, so year 11 is the first.",
+        "success_criteria": [
+          {
+            "what": "Each offer is computed with its own rule: equal steps for simple, a repeated factor for compound",
+            "from": "Fixed base, equal steps; Interest on interest",
+            "how_tested": "Compute both offers at two different times",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "applies one formula to both offers"
+            }
+          },
+          {
+            "what": "The better offer can change with time, because one grows by equal amounts and the other by equal factors",
+            "from": "Multiplying outruns adding",
+            "how_tested": "Say which offer wins at a short and at a long time, and why the answer changes",
+            "common_mistake": {
+              "kind": "overstretching",
+              "text": "decides by the rate alone, or assumes compound always wins"
+            }
+          },
+          {
+            "what": "The whole argument can be told in words: what each rate is charged on, year after year",
+            "from": "Interest is a share of a base",
+            "how_tested": "Explain the result to someone who has not seen the numbers",
+            "common_mistake": {
+              "kind": "words-without-maths",
+              "text": "says \"interest on interest\" without tying it to the base or to any number"
+            }
+          },
+          {
+            "what": "If the compound account's interest is withdrawn each year, it behaves like simple interest",
+            "from": "Interest on interest",
+            "how_tested": "Predict what happens when the interest is not left in",
+            "common_mistake": {
+              "kind": "steps-without-why",
+              "text": "treats \"compound\" as a property of the product instead of a result of leaving interest in"
+            }
+          }
+        ],
+        "to_teach": "Combining the four principles on one comparison: base, equal steps, repeated factor, widening gap; the crossover time; explaining it in plain words. Pitfalls: [overstretching] \"compound always wins\" or \"the higher rate always wins\"; [mixing-up] one formula for both offers; [words-without-maths] slogans without the base. Socratic teaching note: ask the learner to explain to an imagined friend first, and return to the calculation only where the explanation breaks.",
+        "final_check": {
+          "question": "You may put €1,500 into one of two offers and must leave it untouched. Offer S pays 8% a year simple interest. Offer C pays 5% a year compound interest, added yearly. Which offer gives more after 10 years, which after 30 years, and how much does each give at both times (to the nearest euro)? Then explain why the answer changes, and say what would happen to offer C if you withdrew its interest every year instead of leaving it in. Answer with four amounts and three or four sentences. A calculator is allowed.",
+          "marking": {
+            "pass": "The Try first standard on this case: after 10 years S wins, €2,700 against about €2,443 (€2,443.34); after 30 years C wins, about €6,483 (€6,482.91) against €5,100; all four within €1. The explanation uses both rules: S adds €120 every year; C starts at €75 a year but is charged on a growing balance and overtakes. With C's interest withdrawn every year its base stays at €1,500, it pays €75 a year like simple interest at 5%, and it loses to S at every time.",
+            "trap": null,
+            "explain_it_back": "Rebuild the whole argument: what each offer's rate is charged on year after year, why one grows in equal steps and the other by equal factors, and why that lets the lower rate win in time."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": null,
+        "rounds": 0,
+        "started": null,
+        "finished": null,
+        "to_work_on": [],
+        "attempts": [],
+        "notes": ""
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "overview.md",
+      "kind": "overview",
+      "lesson": null,
+      "title": "Course overview",
+      "updated": "2026-11-14"
+    },
+    {
+      "path": "lessons/04-interest-that-earns-interest/lesson.json",
+      "kind": "lesson-content",
+      "lesson": "L4",
+      "title": "Lesson 4, prepared for the app",
+      "updated": "2026-11-14"
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-11-14",
+      "event": "Course created"
+    },
+    {
+      "at": "2026-11-14",
+      "event": "Lesson 4 started"
+    },
+    {
+      "at": "2026-11-14",
+      "event": "Lesson 4 done"
+    },
+    {
+      "at": "2026-11-14",
+      "event": "Lesson 1 started"
+    },
+    {
+      "at": "2026-11-14",
+      "event": "Lesson 1 done"
+    }
+  ]
+}

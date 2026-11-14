@@ -42,7 +42,7 @@
 | Exercise | `practice_task` |
 | Anticipated CTQs: CTQ, Source, Mastery Test, Common Failure Mode | `success_criteria[{what, from, how_tested, common_mistake{kind, text}}]` |
 | Teach Topics | `to_teach` |
-| Final Test | `final_check.question`; `final_check.marking.pass` repeats the Pass Criteria standard on the new case; a Socratic course adds `explain_it_back` |
+| Final Test | `final_check.question`; `final_check.marking.pass` asks for the same standard on the new case, without copying Try first's values (lesson-flow works out the right values of the new case when it marks); a Socratic course adds `explain_it_back` |
 | Estimated Depth | dropped: the course has one level |
 
 Failure-mode tags become common-mistake kinds: conflation → `mixing-up`, overgeneralization → `overstretching`, missing-prerequisite → `missing-background`, procedural-without-conceptual → `steps-without-why`, verbal-without-formal → `words-without-maths`, formal-without-intuitive → `maths-without-picture`. A mistake written in another form keeps its text with `kind: null`.

@@ -21,7 +21,7 @@ Installed this way, each command carries the plugin's name: `/training-plan:lear
 
 To try the plugin from a local copy without installing it, start Claude Code with `claude --plugin-dir <path to this folder>`.
 
-## Four commands
+## Commands
 
 | Command | Does |
 |---|---|
@@ -29,6 +29,7 @@ To try the plugin from a local copy without installing it, start Claude Code wit
 | `/continue [lesson] [level] [chat]` | Runs your next lesson, picks up an interrupted one where you stopped, or runs the lesson you name |
 | `/practice <lesson or idea> [level]` | Three fresh, fully solved exercises, added to the lesson's practice book |
 | `/progress [notes [words]]` | Where you stand across all your courses, or a list or search of your lesson notes |
+| `/course` | Opens your course app, rebuilding it with the next lessons prepared |
 
 Examples:
 
@@ -62,7 +63,9 @@ Examples:
 | Show you've got it | A new case. If it does not pass, **another round** on what is still missing (at most two) |
 | Close | The lesson is saved as done or for review, with your **lesson notes** and a **practice book** of solved exercises |
 
-By default a lesson is taught on an interactive **lesson page**: the objects of the subject drawn with their real numbers, a check after each explanation that replays the worked solution step by step after a wrong answer. Add `chat` to learn in chat instead. Every step is saved as it happens, so an interrupted lesson resumes where you stopped.
+**The course app.** On claude.ai each course gets one interactive page: the course map with a **Continue** button, and each lesson one step per screen, with the subject's objects drawn from their real numbers (matrices, arrows, dots, bars, growth curves, tables, timelines, sliders). Your answers are marked on the page: checks by the page itself, with the worked solution replayed step by step after a wrong answer; Try first, guiding questions and Show you've got it by Claude, asked from the page. Every answer is saved. Typing `/continue` in chat brings your work into the course and prepares the next lessons. `/course` opens or rebuilds the app.
+
+Add `chat` to learn in chat instead. Every step is saved as it happens, so an interrupted lesson resumes where you stopped.
 
 **Every worked solution ends with a Check** that confirms the result a second way.
 
@@ -78,7 +81,11 @@ Each course has its own folder. One file, `course.json`, holds the whole course:
     03-soft-lookup/
       notes.md           lesson notes, when the lesson taught something
       practice.md        practice book: fully solved exercises, added to over time
-      page.html          the lesson page, when the lesson was taught on a page
+      lesson.json        the lesson prepared for the course app
+      page.html          a single lesson page, when the lesson was taught on one
+  app/
+    index.html           the course app (published as one page)
+    local.html           the same app, to open in a browser
 ```
 
 Your **progress** (lessons done, key ideas held, strengths, mistakes that recur) is computed from all your courses whenever you ask, so it is never out of date.
@@ -101,7 +108,9 @@ Every rule lives in exactly one skill. Commands and agents point to skills; they
 | `course-design` | Designing a course from a goal, for both methods |
 | `lesson-flow` | Running a lesson from Open to Close, with every variation (Socratic, key idea, start from scratch, page or chat, resuming, another round) |
 | `explaining` | How explanations, worked examples, levels, checks, step back, go deeper, idea maps, lesson notes and practice books are written |
-| `visual-explainer` | How a lesson page is built |
+| `course-app` | The course app: the page template, building it, publishing it, and bringing your answers back into `course.json` |
+| `lesson-content` | The format of a prepared lesson (`lesson.json`) and the widgets the app can draw |
+| `visual-explainer` | How a single lesson page is built, when the app is not used |
 | `progress` | The progress report and the notes search |
 | `technical-training-manual` | Accessory: writes a step-by-step technical training manual as a PDF, in US corporate-manual style |
 

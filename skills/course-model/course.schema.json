@@ -295,7 +295,8 @@
                   "level": { "enum": [null, "high-school", "masters", "advanced"] },
                   "question": { "type": "string" },
                   "answer": { "type": "string" },
-                  "verdict": { "enum": ["pass", "partial", "fail", "trap", "skipped", "start-from-scratch"] },
+                  "verdict": { "enum": ["pass", "partial", "fail", "trap", "skipped", "start-from-scratch", "unmarked"], "description": "unmarked: answered in the course app when Claude could not mark it there; lesson-flow marks it at /continue." },
+                  "id": { "type": "string", "description": "The event id of an answer given in the course app, so it is merged only once." },
                   "feedback": { "type": "string" },
                   "source": { "enum": ["chat", "app", "converted"] }
                 }

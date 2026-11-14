@@ -25,15 +25,16 @@ Section 2 lists what changes for each method, kind of lesson and delivery. Secti
 ### Getting ready
 
 1. **Find the course** as course-model section 6 says. A course folder or `course.json` named in the request wins. Otherwise look for `*/course.json` and `course.json` in the working folder; with several, list their titles and ask. With none but a version 3 course file (`*_training_plan.md`), convert it (course-model section 7), tell the learner in one line that it was converted and the old file kept, and go on with the new course. With neither, tell the learner to create a course first.
-2. **Read the method** from `course.method` (`socratic` or `direct`) and the level from `course.level`.
-3. **Choose the lesson** from the request:
+2. **Bring in the course app.** If `course.app_url` is set, first bring in what the learner did on the app since the last time (course-app skill, section 4): new answers, lessons started or closed, answers left `unmarked` (mark them now, section 3). Then choose the lesson with that state.
+3. **Read the method** from `course.method` (`socratic` or `direct`) and the level from `course.level`.
+4. **Choose the lesson** from the request:
    - a number ("2", "lesson 2"): that lesson;
    - words: the lesson whose title or goal matches best;
    - nothing: the next lesson (`python3 course.py next-lesson <course>/course.json`, or course-model section 5 by hand);
    - unclear: show the lesson list and ask.
-4. **Read the extra words** of the request: `chat` (deliver in chat), a level name (High school, Master's or Advanced; see Level named in the command), `visual` or `graphic` (accepted; they change nothing).
-5. **A lesson already done**: ask "Lesson <N> is done. Do it again?" On yes, start it like a new lesson. Earlier attempts stay in `attempts`; set `rounds` to 0.
-6. **A lesson in progress** was interrupted: see Resuming an interrupted lesson (section 2.5).
+5. **Read the extra words** of the request: `chat` (deliver in chat), a level name (High school, Master's or Advanced; see Level named in the command), `visual` or `graphic` (accepted; they change nothing).
+6. **A lesson already done**: ask "Lesson <N> is done. Do it again?" On yes, start it like a new lesson. Earlier attempts stay in `attempts`; set `rounds` to 0.
+7. **A lesson in progress** was interrupted: see Resuming an interrupted lesson (section 2.5).
 
 ### Step 1. Open
 
@@ -262,7 +263,9 @@ A key idea goes back in at the first level not held. A key idea whose levels sto
 
 By default the learner works on one lesson page from the first minute to the last. The **visual-explainer** skill builds the page. This section says when it is built, what comes back and how it is read. Chat carries only what the page cannot do: judging written answers, word definitions, go deeper, and the few lines that hand the learner back to the page.
 
-**The whole lesson on the page.** When a published page can ask the model a question and save data the lesson can read back, build all three stages at once (visual-explainer: "the whole lesson on the page").
+**The course app (the default where pages can be published).** When a published page can ask Claude and save data the lesson can read back, the lesson runs in the **course app** (course-app skill): one page for the whole course, where each lesson was prepared in advance as a `lesson.json` (lesson-content skill). `/continue` then does not run the lesson in chat: it brings in the learner's work (Getting ready, step 2), makes sure the next two lessons are prepared, rebuilds and republishes the app, and gives the link with the lesson to open. Everything this skill says about each step still holds; the prepared lesson must follow it, and the app saves each answer as an attempt.
+
+**The whole lesson on one page** (when the app cannot be used but a single page can ask and save): build all three stages at once (visual-explainer: "the whole lesson on the page").
 
 - Because the teaching is built before the learner answers, it covers all the guiding questions and every success criterion. The page quotes the learner's Try first answer where the teaching begins.
 - The page checks answers in place and saves every answer, the number of tries, the written statements and the verdicts.

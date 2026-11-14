@@ -1,7 +1,7 @@
 {
   "name": "training-plan",
-  "version": "4.0.0",
-  "description": "Learn any subject through a course of short lessons: try first, learn only what your attempt showed you need, then show you've got it on a new case. Courses are pitched at High school, Master's or Advanced level, Socratic by default, and teach the hardest ideas (key ideas) through an aha moment and then level by level, with fully worked examples. Lessons run on an interactive page by default and every step is saved in one course.json per course. Commands: /learn, /continue, /practice, /progress. Also ships an accessory skill that writes PDF technical training manuals in US corporate-manual style.",
+  "version": "4.1.0",
+  "description": "Learn any subject through a course of short lessons: try first, learn only what your attempt showed you need, then show you've got it on a new case. Courses are pitched at High school, Master's or Advanced level, Socratic by default, and teach the hardest ideas (key ideas) through an aha moment and then level by level, with fully worked examples. Lessons run in a course app, one interactive page per course, and every step is saved in one course.json per course. Commands: /learn, /continue, /practice, /progress. Also ships an accessory skill that writes PDF technical training manuals in US corporate-manual style.",
   "author": {
     "name": "Anton Ardigo"
   },

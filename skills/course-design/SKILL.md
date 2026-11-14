@@ -279,6 +279,8 @@ A course that fails a row is incomplete. Check every row in `course.json`; fix t
 
 ## 5. What to tell the learner
 
+If the course is delivered on a page (`course.delivery` is `app`) and pages can be published here, first prepare Lessons 1 and 2 (lesson-content skill) and build and publish the course app (course-app skill, sections 2 and 3); the link goes at the top of the summary.
+
 After the course is written and checked, show:
 
 - the course goal;

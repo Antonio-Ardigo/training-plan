@@ -9,6 +9,8 @@ Progress is **computed, never stored**. Every fact it uses is already in the cou
 
 ## 1. Compute
 
+For a course with an app (`course.app_url`), first bring in what the learner did there (course-app skill, section 4), so the report includes it.
+
 Run `python3 <course-model folder>/tools/course.py progress <folder>` from the folder the learner works in. It finds every `course.json` up to three folders down and returns:
 
 | Field | Meaning |

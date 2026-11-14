@@ -1,0 +1,301 @@
+{
+  "schema": "lesson/1",
+  "lesson": "L4",
+  "prepared": "2026-11-14",
+  "open": [
+    {
+      "kind": "text",
+      "title": "Why it matters",
+      "md": "Almost every savings account works the way this lesson describes, so it decides what your own money does when you leave it alone."
+    },
+    {
+      "kind": "text",
+      "title": "How we got here",
+      "md": "Once banks kept running accounts for their customers, it became usual to write the year's interest into the account instead of handing it over in cash. The customer could leave it there, and the bank went on applying the advertised rate to whatever the account held.",
+      "widgets": [
+        {
+          "type": "timeline",
+          "events": [
+            {
+              "when": "Before",
+              "what": "Interest is paid out in cash; the sum lent stays the same."
+            },
+            {
+              "when": "Running accounts",
+              "what": "The year's interest is written into the account."
+            },
+            {
+              "when": "Today",
+              "what": "Savings accounts add the interest and keep charging the rate on the whole balance."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "try_first": {
+    "prompt": "You deposit €1,000 in an account that pays 10% a year. At the end of each year the bank adds the interest to the account, and you withdraw nothing. Predict (1) how many euros of interest the bank adds at the end of year 3 and (2) the balance after 3 years. Give two numbers and justify them in one or two sentences.",
+    "parts": [
+      {
+        "id": "a",
+        "ask": "Interest added at the end of year 3, in euros (a number)",
+        "form": "number"
+      },
+      {
+        "id": "b",
+        "ask": "Balance after 3 years, in euros (a number)",
+        "form": "number"
+      },
+      {
+        "id": "c",
+        "ask": "Why, in one or two sentences",
+        "form": "text"
+      }
+    ]
+  },
+  "learn": {
+    "not_passed": [
+      {
+        "kind": "guiding",
+        "prompt": "At the end of year 1, how much money is in the account?",
+        "aim": "€1,100: the deposit plus €100 of interest.",
+        "hint": "Add the year's interest to the deposit."
+      },
+      {
+        "kind": "guiding",
+        "prompt": "The bank pays 10% on what the account holds. What does it hold at the start of year 2?",
+        "aim": "€1,100: the base of year 2 includes year 1's interest.",
+        "hint": "What did the bank just write into the account?"
+      },
+      {
+        "kind": "guiding",
+        "prompt": "So how many euros is the interest of year 2? How many of those euros come from the original €1,000, and where do the rest come from?",
+        "aim": "€110: €100 from the €1,000 and €10 from last year's €100 of interest.",
+        "hint": "Split the €110 into two pieces."
+      },
+      {
+        "kind": "guiding",
+        "prompt": "By what single number is the balance multiplied from the start of a year to its end?",
+        "aim": "1.1, every year.",
+        "hint": "Compare the balance at the start and end of a year."
+      },
+      {
+        "kind": "guiding",
+        "prompt": "Is that number different in year 3? What does that give for the balance after 3 years?",
+        "aim": "No: multiply by 1.1 again, €1,331 after 3 years, €121 of interest in year 3.",
+        "hint": "Use the same multiplier."
+      },
+      {
+        "kind": "guiding",
+        "prompt": "Say in one sentence why the yearly interest grows although the rate does not.",
+        "aim": "The rate is charged on everything in the account, which now includes earlier interest.",
+        "hint": "What does the 10% apply to?"
+      },
+      {
+        "kind": "text",
+        "title": "The aha",
+        "md": "**The rate stays the same, but it is charged on everything in the account, and the account now contains last year's interest.**\n\nA snowball rolling down a hill: on every turn it picks up a layer of snow in proportion to its present size, and the snow it has just picked up is part of the ball that picks up the next layer. Where it stops being true: a real snowball grows continuously and at a rate that depends on the snow, whereas the account grows in jumps, once per period, at a fixed rate; and a snowball cannot have part of its snow taken out each turn, whereas interest that is withdrawn stops earning.",
+        "widgets": [
+          {
+            "type": "bars",
+            "title": "€200 at 10%: what the bank pays on",
+            "items": [
+              {
+                "label": "Year 0",
+                "value": 200,
+                "role": "a"
+              },
+              {
+                "label": "Year 1",
+                "value": 220,
+                "role": "b"
+              },
+              {
+                "label": "Year 2",
+                "value": 242,
+                "role": "c"
+              }
+            ],
+            "unit": "€",
+            "note": "Interest each year is 10% of the whole bar: 20, then 22."
+          }
+        ]
+      },
+      {
+        "kind": "worked",
+        "title": "Worked example",
+        "example": {
+          "given": "€100 is deposited at 10% a year; the interest is added to the account at the end of each year. Find the balance after 2 years.",
+          "steps": [
+            {
+              "do": "Year 1: 10% of 100 = 10. The balance becomes 110.",
+              "why": "\"What is the base in year 1?\" Only the €100 deposited: there is nothing else in the account yet."
+            },
+            {
+              "do": "Year 2: 10% of 110 = 11. The balance becomes 121.",
+              "why": "\"Why 10% of 110 and not of 100?\" The bank pays on what the account holds, and it now holds last year's €10 as well."
+            },
+            {
+              "do": "Split the €11: 10% of the original 100 is 10, and 10% of last year's 10 is 1.",
+              "why": "\"Where exactly does the extra euro come from?\" It is interest earned by interest: nothing else in the account could have produced it."
+            }
+          ],
+          "result": "The balance is €121, not €120: the extra €1 is the interest on the first year's interest.",
+          "check": "A second way: each year multiplies the balance by 1.1, and $100 \\times 1.1 \\times 1.1 = 100 \\times 1.21 = 121$."
+        },
+        "level": "high-school"
+      },
+      {
+        "kind": "text",
+        "title": "Compound against simple",
+        "md": "Drag the rate and watch the two balances of €1,000 move apart.",
+        "widgets": [
+          {
+            "type": "lines",
+            "title": "Balance of €1,000 over 5 years",
+            "series": [
+              {
+                "label": "Interest added each year (compound)",
+                "role": "c",
+                "values": [
+                  1000.0,
+                  1100.0,
+                  1210.0,
+                  1331.0,
+                  1464.1,
+                  1610.51
+                ]
+              },
+              {
+                "label": "Interest paid out (simple)",
+                "role": "a",
+                "values": [
+                  1000,
+                  1100,
+                  1200,
+                  1300,
+                  1400,
+                  1500
+                ]
+              }
+            ],
+            "x": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "x_label": "year",
+            "y_label": "€"
+          },
+          {
+            "type": "slider",
+            "label": "Rate (%)",
+            "min": 1,
+            "max": 20,
+            "value": 10,
+            "drives": [
+              {
+                "widget": 0,
+                "target": "series.0.values",
+                "length": 6,
+                "expr": "1000*Math.pow(1+v/100,i)"
+              },
+              {
+                "widget": 0,
+                "target": "series.1.values",
+                "length": 6,
+                "expr": "1000+1000*v/100*i"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "check",
+        "your_turn": true,
+        "level": "high-school",
+        "prompt": "€400 at 5% a year, interest added each year. How many euros of interest are added in year 2? (a number)",
+        "answer": 21,
+        "tolerance": 0.01,
+        "wrong": [
+          {
+            "value": 20,
+            "says": "€20 is 5% of the original €400: the €20 of year 1's interest was left out of the base."
+          },
+          {
+            "value": 420,
+            "says": "€420 is the balance after year 1, not the interest of year 2."
+          }
+        ],
+        "solution": {
+          "given": "€400 at 5% a year, interest added each year.",
+          "steps": [
+            {
+              "do": "Year 1: 5% of 400 = 20; balance 420.",
+              "why": "The base is the deposit."
+            },
+            {
+              "do": "Year 2: 5% of 420 = 21.",
+              "why": "The base now includes year 1's €20."
+            }
+          ],
+          "result": "€21 of interest in year 2.",
+          "check": "€20 from the €400, plus €1 = 5% of last year's €20."
+        }
+      }
+    ],
+    "passed": [
+      {
+        "kind": "text",
+        "title": "You have it",
+        "md": "**The rate stays the same, but it is charged on everything in the account, and the account now contains last year's interest.**\n\nA snowball rolling down a hill: on every turn it picks up a layer of snow in proportion to its present size, and the snow it has just picked up is part of the ball that picks up the next layer. Where it stops being true: a real snowball grows continuously and at a rate that depends on the snow, whereas the account grows in jumps, once per period, at a fixed rate; and a snowball cannot have part of its snow taken out each turn, whereas interest that is withdrawn stops earning."
+      },
+      {
+        "kind": "worked",
+        "title": "One worked case for reference",
+        "example": {
+          "given": "€100 is deposited at 10% a year; the interest is added to the account at the end of each year. Find the balance after 2 years.",
+          "steps": [
+            {
+              "do": "Year 1: 10% of 100 = 10. The balance becomes 110.",
+              "why": "\"What is the base in year 1?\" Only the €100 deposited: there is nothing else in the account yet."
+            },
+            {
+              "do": "Year 2: 10% of 110 = 11. The balance becomes 121.",
+              "why": "\"Why 10% of 110 and not of 100?\" The bank pays on what the account holds, and it now holds last year's €10 as well."
+            },
+            {
+              "do": "Split the €11: 10% of the original 100 is 10, and 10% of last year's 10 is 1.",
+              "why": "\"Where exactly does the extra euro come from?\" It is interest earned by interest: nothing else in the account could have produced it."
+            }
+          ],
+          "result": "The balance is €121, not €120: the extra €1 is the interest on the first year's interest.",
+          "check": "A second way: each year multiplies the balance by 1.1, and $100 \\times 1.1 \\times 1.1 = 100 \\times 1.21 = 121$."
+        }
+      }
+    ]
+  },
+  "final": {
+    "prompt": "You deposit €2,000 in an account that pays 5% a year; the interest is added at the end of each year and you withdraw nothing. Predict (1) the interest added at the end of year 3 and (2) the balance after 3 years, and justify them. Then explain why the year 3 interest is not €100, and say what would happen to the yearly interest if you withdrew each year's interest as soon as it was added. Answer with two numbers and two or three sentences.",
+    "parts": [
+      {
+        "id": "a",
+        "ask": "Interest added at the end of year 3, in euros",
+        "form": "number"
+      },
+      {
+        "id": "b",
+        "ask": "Balance after 3 years, in euros",
+        "form": "number"
+      },
+      {
+        "id": "c",
+        "ask": "Why the year-3 interest is not €100, and what happens if each year's interest is withdrawn",
+        "form": "text"
+      }
+    ]
+  }
+}

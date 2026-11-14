@@ -19,4 +19,6 @@ Design and write the course by following the **course-design** skill from start 
 - The level is the one named in the goal; otherwise ask once (High school, Master's or Advanced). In a run where you cannot ask, use Master's and say so.
 - Never overwrite an existing course without asking.
 
-End with the summary the course-design skill describes and the next step: `/continue` starts Lesson 1.
+When lessons are delivered on a page, the course-design skill prepares Lessons 1 and 2 and publishes the course app (**course-app** skill) before the summary.
+
+End with the summary the course-design skill describes and the next step: the app's link, or `/continue` to start Lesson 1 in chat.

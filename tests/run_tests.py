@@ -87,6 +87,42 @@ try:
 finally:
     shutil.rmtree(tmp)
 
+# 6. course app: a prepared lesson, building the app, bringing answers back
+APPFIX = os.path.join(ROOT, "tests", "fixtures", "app")
+tmp = tempfile.mkdtemp()
+try:
+    shutil.copytree(os.path.join(APPFIX, "compound-interest"), os.path.join(tmp, "ci"))
+    cj = os.path.join(tmp, "ci", "course.json")
+    code, out = run("check-lesson", os.path.join(tmp, "ci", "lessons", "04-interest-that-earns-interest", "lesson.json"))
+    check(code == 0, "the prepared lesson has the lesson-content shape")
+    code, out = run("build-app", cj)
+    page = open(os.path.join(tmp, "ci", "app", "index.html"), encoding="utf-8").read()
+    data = page.split('id="course-data">', 1)[1].split("</script>", 1)[0]
+    check(code == 0 and "__COURSE_DATA__" not in page and "__COURSE_TITLE__" not in page, "build-app fills the template")
+    check('"L4"' in data and json.loads(data)["course"]["course"]["id"] == "compound-interest", "the app embeds the course and the prepared lesson")
+    check(not page.lstrip().lower().startswith("<!doctype"), "app/index.html is a page body for publishing")
+    check(open(os.path.join(tmp, "ci", "app", "local.html"), encoding="utf-8").read().lower().startswith("<!doctype html>"), "app/local.html is a complete document")
+    code, out = run("merge-activity", cj, os.path.join(APPFIX, "activity.json"))
+    first = json.loads(out.splitlines()[0])
+    code2, out2 = run("merge-activity", cj, os.path.join(APPFIX, "activity.json"))
+    second = json.loads(out2.splitlines()[0])
+    c = json.load(open(cj, encoding="utf-8"))
+    s = next(l for l in c["lessons"] if l["id"] == "L4")["state"]
+    check(code == 0 and first["merged_answers"] == 10 and second["merged_answers"] == 0, "merge-activity brings 10 answers in, once")
+    check(s["status"] == "done" and s["level_reached"] == "high-school" and s["attempts"][0]["verdict"] == "trap",
+          "the lesson is closed as done, at High school, with Try first judged as the trap")
+    code, out = run("validate", cj, "--files")
+    check(code == 0, "the course is still valid after the merge")
+    # the database read returns documents as {id, data, version}: merge-activity accepts that shape too
+    shutil.copytree(os.path.join(APPFIX, "compound-interest"), os.path.join(tmp, "ci2"))
+    wrapped = [{"id": e["id"], "data": e, "version": 1} for e in json.load(open(os.path.join(APPFIX, "activity.json"), encoding="utf-8"))]
+    wp = os.path.join(tmp, "wrapped.json")
+    json.dump(wrapped, open(wp, "w", encoding="utf-8"))
+    code, out = run("merge-activity", os.path.join(tmp, "ci2", "course.json"), wp)
+    check(code == 0 and json.loads(out.splitlines()[0])["merged_answers"] == 10, "merge-activity reads the database's {id, data} shape")
+finally:
+    shutil.rmtree(tmp)
+
 # 5. lint
 PROMPTS = []
 for d in ("commands", "agents", "skills"):

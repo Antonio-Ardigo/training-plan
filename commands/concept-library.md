@@ -9,6 +9,8 @@ allowed_tools:
   - Grep
 ---
 
+> **Storage (version 3.5).** Lesson notes now live in each course folder as `lessons/<NN-slug>/notes.md` and are listed in `course.json` under `files` (kind `notes`); see the course-model skill. Where this file says `concept-*.md`, read those notes too. A link added between notes is written into both notes files; nothing else is stored.
+
 You are managing the **concept library** -- a collection of concept files generated during `/run-session` Teach phases.
 
 The user wants to: **$ARGUMENTS**
@@ -87,7 +89,7 @@ Search across all concept files for keyword matches in titles, tags, and content
 Construct a recommended learning path between two concepts by analyzing concept files, training plans, and prerequisite relationships.
 
 **Workflow:**
-1. Use Glob to find all `concept-*.md` and `*_training_plan.md` files
+1. Use Glob to find all lesson notes (`*/lessons/*/notes.md`, listed with kind `notes` in each course's `course.json`) and, for 3.x plans not yet converted, `concept-*.md` and `*_training_plan.md` files
 2. Read frontmatter and content from each concept file to extract:
    - Prerequisites (from concept maps: `requires` relationships)
    - Related concepts (from concept maps: `rests on`, `enables` relationships)

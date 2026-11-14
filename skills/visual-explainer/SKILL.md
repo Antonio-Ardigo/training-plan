@@ -3,6 +3,8 @@ name: visual-explainer
 description: Deliver a whole training-plan session as an interactive page instead of chat text. This is the default delivery of /run-session. Builds one page per session in three stages (the opening question and Initial Test, the teaching with the Socratic chain on the picture, the Final Test) with live objects, colour by role, a check after each explanation, a climb through the levels for hard-core principles, and answers and results blocks the session reads back.
 ---
 
+> **Storage (version 3.10).** A course is stored in one file, `course.json`, as the **course-model** skill defines (Glob `**/skills/course-model/SKILL.md`). The page is written to `lessons/<NN-slug>/page.html` in the course folder and listed in `files` (kind `lesson-page`); a stage waiting for answers is recorded in the lesson's `state.saved`, not in a checkpoint file; every answer that comes back is appended to `state.attempts`. Where this file names a plan, a sub-goal, a blueprint, a checkpoint or a transcript, use the matching part of `course.json` (see the course-model skill). The course-model skill wins wherever the two disagree.
+
 # Visual Explainer -- Domain Knowledge
 
 Some principles are easier to see than to read: a matrix whose rows and columns mean different things, a vector that rotates, a probability that is a share of a grid. This skill turns a session into one interactive page, from the opening question to the Final Test. It is the default delivery: the learner gets chat text only by asking for `chat`, or when no page can be delivered. It changes how the session is delivered. It does not change what is taught, the order, or how the session is judged.

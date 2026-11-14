@@ -6,49 +6,46 @@ allowed_tools:
   - Write
   - Edit
   - Glob
-  - Bash(rm:*)
+  - Bash(python3:*)
 ---
 
 You are running an interactive **Test-Teach-Test (TTT)** learning session.
 
 The user wants to work on: **$ARGUMENTS**
 
-## Step 0: Find the Training Plan
+## Step 0: Find the Course
 
-Use Glob to find `*_training_plan.md` or `*-socratic_training_plan.md` in the current directory. Read the file. If no plan exists, tell the user to run `/create-training-plan` or `/socratic-training-plan` first. If more than one plan matches, ask the learner which one to use.
+The course lives in one file, `course.json`, described by the **course-model** skill (Glob `**/skills/course-model/SKILL.md`; read it before the first write). Find the course as its section 6 says:
+- A course folder or `course.json` named in the input, else the `*/course.json` (or `course.json`) in the current directory. If several exist, list their titles and ask.
+- None, but a 3.x plan (`*_training_plan.md`) exists: convert it with `python3 <path>/course.py convert <plan>.md` (or by hand, following the skill's `convert-3x.md`), tell the learner in one line that the plan was converted and the old file kept, and continue with the new course.
+- Neither: tell the user to run `/create-training-plan` first.
 
-**Detect Socratic mode from the plan's method heading:**
-- A `## Pedagogical Method: Socratic Discovery` section means a **Socratic plan**. Set a mental flag: `SOCRATIC = true`. All subsequent phases MUST follow the Socratic execution rules described below.
-- A `## Pedagogical Method: Test-Teach-Test` section means a standard plan, even though that section mentions the Socratic command.
-- Only when the plan has no method heading (plans created before the section existed), fall back to the file name: a name ending in `-socratic_training_plan.md` is a Socratic plan.
+Read `course.json`. The words this file uses map to its fields: the **plan** is the course; a **sub-goal** SG-N is lesson `LN`; its **blueprint** is the lesson's `design` (Initial Test → `try_first`, Pass Criteria → `try_first.marking.pass`, Final Test → `final_check`, Anticipated CTQs → `success_criteria`, Tempting answer → `trap`, Insight → `aha`, Picture → `picture`, Visual design → `visual`, Level ladder → `levels`, Worked Example (foundational) → `worked_example`, Exercise → `practice_task`, Teach Topics → `to_teach`, Discovery Question → `puzzle`, Socratic Guidance Chain → `guiding_questions`); the **Target level** and every Estimated Depth are `course.level`; the **Principle Extraction** table is `principles`; the **Prerequisite Graph** is the lessons' `needs` with `background`.
+
+**Socratic mode:** `course.method` is `socratic`. Set a mental flag: `SOCRATIC = true`. All subsequent phases MUST follow the Socratic execution rules described below.
+
+**Every change this session makes goes into `course.json`** as the course-model skill's section 3 describes, followed by validation and a fresh `overview.md` (`course.py validate` and `render-overview` when Python is available). The session writes no plan file, no checkpoint file, no transcript and no learner profile.
 
 ## Step 1: Identify the Target Sub-Goal
 
 From the user's input (`$ARGUMENTS`), determine which sub-goal to run:
-- If they gave a number (e.g., "SG-2" or "2"), use that sub-goal
+- If they gave a number (e.g., "2", "lesson 2" or "SG-2"), use that lesson
 - If they gave a keyword (e.g., "unit rate" or "contingency"), match it to the closest sub-goal
-- If unclear, show the sub-goals table and ask them to pick one
-- If the sub-goal is already marked "complete", confirm they want to re-do it
+- If they gave nothing, take the next lesson (`course.py next-lesson`, or the rule in the course-model skill section 5)
+- If unclear, show the lesson list and ask them to pick one
+- If the lesson's `state.status` is `done`, confirm they want to re-do it
 - **Delivery.** The whole session is graphic by default: the Initial Test, the Teach phase and the Final Test are delivered on one interactive page, in three stages (see Phase 3, Graphic delivery of the whole session). If the input contains the word `chat`, or the learner asks for chat at any point, run the rest of the session in chat text. The words `visual` and `graphic` are accepted and change nothing.
-- If the input also names a level (High school, Master's or Advanced), run this session at that level instead of the blueprint's Estimated Depth: re-pitch the blueprint's tests to that level (same scenario family, that level's tools) and take a hard-core climb up to it. The plan file is not changed. Say so, and note the session's level in the Progress Log.
+- If the input also names a level (High school, Master's or Advanced), run this session at that level instead of the blueprint's Estimated Depth: re-pitch the blueprint's tests to that level (same scenario family, that level's tools) and take a hard-core climb up to it. The course design is not changed. Say so, and note the session's level in `state.notes`.
 
-## Step 1.5: Check for Existing Checkpoint
+## Step 1.5: Check for a Saved Place
 
-Use Glob to look for `<topic>_checkpoint_SG<N>.md` in the current directory (where `<topic>` and `<N>` match the current plan and sub-goal).
+If the lesson's `state.status` is `in-progress`, the lesson was interrupted:
+1. Show the learner what was already done: `state.step` (the saved place), the attempts so far, what to work on, and `state.saved` (blocks taught, levels held, a check waiting for an answer).
+2. Ask: "Lesson <N> was interrupted at <step>. Pick up where you stopped?"
+   - If YES: continue at the saved place.
+   - If NO: set the state back to `not-started` with no attempts, and start fresh.
 
-A checkpoint whose phase is `CLOSED` belongs to a finished session: treat it as no checkpoint.
-
-If a checkpoint file exists:
-1. Read it
-2. Show the learner a summary of what was already completed:
-   - Which phases were finished
-   - The current phase marker
-   - Key results so far (initial test result, gaps found, teach blocks delivered)
-3. Ask: "A previous session for this sub-goal was interrupted at [phase name]. Resume from where you left off?"
-   - If YES: skip to the next phase after the checkpoint marker
-   - If NO: delete the checkpoint file and start the session fresh
-
-If no checkpoint exists, proceed normally.
+Otherwise set `status: in-progress`, `step: try-first`, `started: <today>` and `delivery` before presenting the Initial Test.
 
 ## Step 2: Run the TTT Session
 
@@ -59,12 +56,12 @@ Follow this protocol EXACTLY:
 Every session opens with this, before the Discovery Question and before the Initial Test. It takes one or two minutes.
 
 1. **Why it matters**: what this sub-goal lets the learner do, and where it sits in the course (one or two sentences).
-2. **Historical context**: the real situation this idea came out of: what was done before, where it broke down, who changed it and when. Take it from the blueprint's `Context`, the plan's Breakthrough and its Motivation & Course Overview. Names and dates only when certain.
+2. **Historical context**: the real situation this idea came out of: what was done before, where it broke down, who changed it and when. Take it from the lesson's `design.context`, the course's `story` and its `overview`. Names and dates only when certain.
 
 Rules:
 - It sets the scene and stops before the idea: it states no answer to the session's questions and solves no test case.
 - It is true. No invented method, no simplified history presented as fact.
-- A blueprint with no `Context` (a plan created before the field existed): write one from the Breakthrough and the Motivation & Course Overview, and say so.
+- A lesson with no `design.context` (a course created or converted before the field existed): write one from the course's `story` and `overview`, save it in `design.context`, and say so.
 - In graphic delivery it is the first steps of the page: a "Why this matters" step and a "How we got here" step the learner can operate (a timeline, a before and after), then the first question.
 
 ### Phase 1: INITIAL TEST
@@ -74,7 +71,7 @@ Present the practical case from the session blueprint. In graphic delivery (the 
 Rules:
 - **Context first, then the test.** Phase 0 has set the scene. Add nothing more: no theory, no hint, no warm-up exercise.
 - **A clear question.** Each part asks one thing and says in what form the answer is expected. Rewrite a blueprint question that does not, keeping what it tests.
-- **A true case.** If a blueprint case rests on an invented method or on a statement that is not true outside the toy example, replace it with the real case from the history and note the change in the Progress Log.
+- **A true case.** If a blueprint case rests on an invented method or on a statement that is not true outside the toy example, replace it with the real case from the history, and note the change in `state.notes`.
 - Start directly with the scenario and task
 - Format it clearly with a header and the task in bold
 - Wait for the learner to respond -- do NOT continue until they answer
@@ -118,7 +115,7 @@ If the learner writes "not familiar":
      > "You indicated you're not familiar with this topic. The prerequisite knowledge (**[concept]**) is not currently covered in your training plan. You can:
      > - **A)** Add a prerequisite session on [concept] and run it first
      > - **B)** Continue with a full concept explanation as-is"
-     If A: save checkpoint, add prerequisite SG to plan (update Sub-Goals, Prerequisite Graph, Sequence), run it, then resume.
+     If A: save the place, add a background lesson to the course (a new lesson of kind `background` with its own design, added to this lesson's `needs`, and the matching `background` entry pointing to it), run it, then resume.
      If B: proceed to step 3.
 3. Deliver a **Full 7-Section Concept Explanation** for the sub-goal's topic at the blueprint's depth level, then re-present the Initial Test. This does NOT count as an adaptation loop.
    - **For a hard-core principle**, deliver the climb (Phase 3) from the High school rung instead of the 7-section explanation. The learner made no prediction, so do not name the Tempting answer and do not solve the Initial Test case: give the Insight, the Picture and the foundational worked example, then the higher rungs. Then re-present the Initial Test.
@@ -129,8 +126,8 @@ If the term-clarifier returns a **PLAN-REVISION-REQUEST** (critical missing prer
 > "During this test, you asked about **[term]** which is a foundational concept not currently covered in your training plan. You can:
 > - **A)** Add a prerequisite session on [concept] and run it before retrying this test
 > - **B)** Continue with the current session as-is"
-If A: save checkpoint, add the prerequisite sub-goal to the plan (update Sub-Goals table, Prerequisite Graph, and Sequence), then run the new prerequisite session. After it completes, resume this session from the checkpoint.
-If B: continue normally, note the gap in the learner profile.
+If A: save the place, add a background lesson to the course (kind `background`, added to this lesson's `needs`, with the matching `background` entry pointing to it), then run it. After it completes, resume this session from the saved place; the checkpoint.
+If B: continue normally, and add the missing background to `state.to_work_on` (kind `missing-background`).
 
 Example:
 > **Practical Case -- SG-3: Unit-Rate Estimation**
@@ -146,7 +143,7 @@ Example:
 >
 > *If any term in this question is unclear, ask for a **clarification** — I will explain the term without helping you solve the problem.*
 
-**Checkpoint:** After the learner responds, write `<topic>_checkpoint_SG<N>.md` with the initial test case and learner response. Set `## Current Phase: EVALUATE`.
+**Save:** After the learner responds, append the attempt (`step: try-first`, the full answer) to `state.attempts`; the verdict is filled in at EVALUATE.
 
 ### Phase 2: EVALUATE
 
@@ -167,7 +164,7 @@ Note which of these the answer shows:
 
 When the learner fell for it, say that the answer does not hold and name the gap, but keep the right answer for the reveal that opens the climb in Phase 3.
 
-Set the **start rung** of the climb and write it in the checkpoint's Evaluation section:
+Set the **start rung** of the climb and write it in `state.saved`:
 - Fell for it, or you are unsure which case applies -> High school
 - A [formal-without-intuitive] gap (the symbols are handled, the idea is missing) -> High school
 - Has the idea, not the level (a [verbal-without-formal] gap) -> the first rung above High school
@@ -195,7 +192,7 @@ Classify each gap using the CTQ failure mode taxonomy:
 - "Gap [missing-prerequisite]: unfamiliar with WBS needed for cost classification"
 - "Gap: arithmetic error in unit conversion" (simple gap -- no deeper conceptual issue)
 
-**Checkpoint:** Update `<topic>_checkpoint_SG<N>.md` with evaluation results and classified gap list. Set `## Current Phase: TEACH` (or `RECORD` if PASS).
+**Save:** Set the Try first attempt's verdict (`pass`, `partial`, `fail`, or `trap` when the learner gave the tempting answer) and feedback, write the classified gaps to `state.to_work_on` (with the common-mistake kind), and set `state.step` to `learn` (or `record` if PASS).
 
 ### Phase 3: TEACH
 
@@ -265,7 +262,7 @@ Unless the session runs in `chat` delivery, the learner works on ONE interactive
 - **Stage 1 shows nothing that teaches.** No hint, no expected answer, no designed wrong path named, no part of the picture that the test asks the learner to work out. The given values of the test are drawn as objects the learner can read and operate.
 - **The Socratic chain on the page.** Each Guidance Chain question appears alone, tied to the part of the picture it is about, and the next one appears only after an answer. Put each question as something to do on the picture wherever the question allows it: a value to enter, an object to move, a cell to pick, a choice among answers a learner would really give. A wrong answer is not corrected: the page shows what that answer predicts on the picture, lets the prediction fail, and asks again. The concept is never stated before the last question. After the last question the learner writes the idea in their own words in a text box; only then does the consolidation open. The learner's statement goes into the results block and is judged in chat.
 - **Content.** Each block holds exactly what Steps 1-3, the climb and the Socratic Teach Protocol above prescribe. For a hard-core principle use the blueprint's Visual design; for any other block choose the objects from the worked example. The Teach stage quotes the learner's own answer to the Initial Test. Check the page's numbers against the blueprint's solved exercises before delivering it.
-- **Deliver.** Write the page to `<topic>_visual_SG<N>.html`, publish it when the environment can, tell the learner in two or three lines what the stage is, and wait. Save the checkpoint with the stage marked `stage <N> delivered, answers pending`.
+- **Deliver.** Write the page to `lessons/<NN-slug>/page.html` in the course folder and list it in `files` (kind `lesson-page`), publish it when the environment can, tell the learner in two or three lines what the stage is, and wait. Set `state.saved` to `stage <N> delivered, answers pending`.
 - **Read what comes back.** Evaluate an answers block exactly as a chat answer (Phase 2, Phase 5), in a few lines of chat. Read a results block as the visual-explainer skill's table says (correct at the first try: held; correct after the replay: held after a re-explanation one level down, or after a bridge on a climb; not solved: a persistent gap, or the climb stopped there), judge the learner's written statement of the idea, and confirm with ONE short question in chat on the highest rung reported or on the hardest check; a wrong answer means it is not held. The level reached, the Final Test's level and the status then follow the rules above.
 - **Chat stays available.** Term clarifications, the deep-dive offer and any question the learner asks are answered in chat. A learner may also answer any stage directly in chat.
 - **Fall back.** If the page cannot be built or opened, say so and run that phase in chat. Record the delivery as `chat`.
@@ -315,7 +312,7 @@ For EACH identified gap:
 - Each question narrows the search space WITHOUT giving the answer
 - The deep-dive option still applies (mention once after first block)
 
-**Checkpoint:** After EACH teaching block and Quick Check, update `<topic>_checkpoint_SG<N>.md` with the completed block (including format used: abbreviated/full/comparison/ladder). Update `## Current Phase: TEACH (Gap N of M completed)`. During a climb, update the checkpoint after each rung instead, with `## Current Phase: TEACH (Rung <level> completed)`, so that a resumed session continues at the next rung. After the final block, set `## Current Phase: CONCEPT_MAP_OFFER`.
+**Save:** After EACH teaching block and Quick Check, append the check as an attempt (`step: check`, or `your-turn` with its `level` in a climb) and record in `state.saved` which blocks are done, the format used (abbreviated/full/comparison/ladder) and, in a climb, the levels held so far. Update `state.level_reached` as each level is held.
 
 ### Phase 3.5: OPTIONAL CONCEPT MAP
 
@@ -329,7 +326,7 @@ After all teaching is delivered and Quick Checks passed, but BEFORE the Final Te
 
 This step is OPTIONAL. The session works identically without it. Do NOT push the learner to accept -- one brief offer is sufficient.
 
-**Checkpoint:** Update checkpoint. Set `## Current Phase: FINAL_TEST`. If a concept map was generated, include it in the checkpoint.
+**Save:** Set `state.step` to `final-check`.
 
 ### Phase 4: FINAL TEST
 
@@ -360,7 +357,7 @@ In graphic delivery (the default) the Final Test is stage 3 of the session's pag
 
 Wait for the learner to respond.
 
-**Checkpoint:** After the learner responds, update checkpoint with final test case and response. Set `## Current Phase: EVALUATE_FINAL`.
+**Save:** After the learner responds, append the attempt (`step: final-check`, the full answer).
 
 ### Phase 5: EVALUATE FINAL
 
@@ -372,110 +369,39 @@ Wait for the learner to respond.
 - A loop after a failed Final Test re-enters the climb at the first rung not held, not at the start.
 - **When the climb stopped short**, the Final Test was given at the level reached. Whatever its result, run no further loop: the Status is `needs-review`, and the Score records the level reached against the session's level (for example "High school of Master's"). Tell the learner what they now hold and which rung to come back to.
 
-**Checkpoint:** Update checkpoint with final evaluation. Set `## Current Phase: RECORD`.
+**Save:** Set the final attempt's verdict and feedback; after another round, add 1 to `state.rounds`. Set `state.step` to `record`.
 
 ### Phase 6: RECORD
 
-Do the following, in this order. If the session is resumed during RECORD, skip any step whose result already exists.
+Do the following, in this order. If the session is resumed during RECORD, skip any step whose result already exists. Every path below is inside the course folder; `<NN-slug>` is the lesson's folder name (two-digit number and title slug, see the course-model skill).
 
-**A) Update the training plan file** using the Edit tool:
-- Change the sub-goal's Status from "pending" to "complete" (or "needs-review")
-- Update the Score column
-- Add a Progress Log entry:
+**A) Close the lesson in `course.json`** (course-model skill, section 3, "The lesson ends"):
+- `state.status`: `done`, or `review` when the Final Test was not passed or a key idea stopped below the course level
+- `state.step` and `state.saved`: `null`; `state.finished`: today
+- `state.level_reached` for a key idea (High school / Master's / Advanced as `high-school` / `masters` / `advanced`, or `below-high-school`)
+- `state.to_work_on`: mark each item `resolved` when the Final Test showed it fixed
+- `state.notes`: one or two lines (the delivery, the worked example's role, anything to revisit later)
+- `history`: one line, `Lesson <N> done` or `Lesson <N> needs review`
+The attempts, with the learner's answers in full, are already in `state.attempts`: they are the record of the session.
 
-```markdown
-### SG-<N> -- <Completed/Needs Review> <date>
-- Initial Test: <PASS/PARTIAL/FAIL> (<details>)
-- Gaps found: <list with failure mode tags, or "none">
-- Teach Phase: <N explanations delivered (N abbreviated, N full, N comparison, N ladder), or "skipped -- no gaps">
-- Final Test: <PASS/FAIL> (<details>)
-- Loops: <0/1/2>
-- Level reached: <High school / Master's / Advanced, or "below High school"> (session level: <level>)
-- Delivery: <chat / visual (<page filename>)>
-- Concept Map: <generated (standard/deep) / not generated>
-- Concept File: <filename or "none">
-- Exercise Book: <filename, or "none" for a Motivation or Verification sub-goal>
-- Worked Example: <delivered as reinforcement / delivered as teaching / N/A (not a Core Principle SG)>
-- Notes: <brief observations>
-```
+**B) Lesson notes** (if teaching occurred): write `lessons/<NN-slug>/notes.md` using the concept-explainer skill's export format (front matter, all teaching content, the idea map if one was made, the success criteria, the lesson context).
+- For a climb: the reveal, each level's explanation, and each "your turn" exercise with its worked solution. The solved examples that live in the lesson design are referenced by level, not copied. A level written for this session (above the course level) is included in full.
+- If no teaching occurred (learner passed the Initial Test), skip this step. A recap after a pass on a key idea is not teaching; an accepted climb or next level up is.
 
-**B) Write a session transcript** to `<topic>_session_SG<N>.md`:
-
-```markdown
-# Session Transcript: SG-<N> -- <title>
-Date: <date>
-
-## Motivation and Historical Context
-<what Phase 0 said: why it matters, the historical context; and, if the blueprint had no Context, that it was written in the session>
-
-## Initial Test
-**Case:** <what was presented>
-**Learner response:** <what they said>
-**Evaluation:** <PASS/PARTIAL/FAIL>
-**Gaps identified:** <list with failure mode classifications>
-
-## Teach Phase
-### Gap: <name> [<failure mode>]
-**Format:** <abbreviated/full/comparison/ladder>
-**Delivery:** <chat / visual: <page filename>, with the results block the learner returned>
-**Content:** <summary of what was taught -- for full explanations, summarize the 7 sections; for a climb, the start rung and what the reveal showed>
-**Quick Check:** <question> -> Learner: <answer> -> <correct/incorrect>
-**Rungs:** <for a climb only, one line per rung: <level> -- your turn: <question> -> Learner: <answer> -> <held/bridge/not held>>
-**Deep-dive:** <if requested, summary of expanded principle>
-
-(repeat for each gap)
-
-## Concept Map
-(if generated -- otherwise omit this section entirely)
-
-## Final Test
-**Case:** <what was presented>
-**Learner response:** <what they said>
-**Evaluation:** <PASS/FAIL>
-
-## Result
-Status: <complete/needs-review>
-Loops: <0/1/2>
-Level reached: <High school / Master's / Advanced, or "below High school"> (session level: <level>)
-```
-
-**C) Update the learner profile.** Read `learner_profile.md` from the current directory (create it if it does not exist). Update according to the learner-analytics skill's Update Rules:
-1. Update or add the plan row in the Plans table
-2. If Initial Test was PASS with zero gaps, add to Strengths
-3. For each gap found, update Gap Patterns (increment existing or add new, noting failure mode)
-4. Add a Session History entry
-
-**D) Export concept file** (if teaching occurred):
-Write a concept file to the current directory using the concept-explainer skill's export format.
-- Filename: `concept-<domain>-<sg-topic>.md` (kebab-case)
-- Contains: YAML frontmatter (type: ttt-session, session, plan, level, tags) + all teaching content + concept map (if generated) + aggregated CTQ table + session context
-- For a climb: the reveal, each rung's explanation, and each "your turn" exercise with its worked solution. The solved exercises that live in the plan are referenced by sub-goal and rung, not copied. A rung written for this session (above the plan's Target level) is included in full.
-- If no teaching occurred (learner passed Initial Test), skip this step. A recap after a pass on a hard-core principle is not teaching; an accepted climb or next level up is.
-
-**E) Write the exercise book** (Core Principle, Key Concept and Tools sub-goals only):
-Add a session set to `<topic>_artefact_SG<N>_exercises.md`, following the concept-explainer skill's Exercise Book Format.
-- 2 fully solved exercises for each level from High school up to the sub-goal's Estimated Depth: one standard, one with a twist
+**C) Practice book** (Principle, Concept and Tool lessons only): add a set to `lessons/<NN-slug>/practice.md`, following the concept-explainer skill's Exercise Book Format.
+- 2 fully solved exercises for each level from High school up to the course level: one standard, one with a twist
 - Statements first, worked solutions after; every solution complete and ending with a Check
-- No exercise repeats a test case, a solved exercise in the plan, or an exercise from this session
-- If the blueprint has an `Exercise`, it opens the set at the sub-goal's level, solved
+- No exercise repeats a test case, a worked example in the lesson design, or an exercise from this session
+- If the design has a `practice_task`, it opens the set at the course level, solved
 - If the file already exists, append the set. Never overwrite it.
 - Write it whether or not teaching occurred: it is practice material, not a record of the session
-- For a Motivation or Verification sub-goal, skip this step
+- For a Why-it-matters or Capstone lesson, skip this step
 
-**F) Other deliverable artefacts** (only when the work calls for one):
-If the sub-goal work naturally yielded a reusable output (a filled-in template, a worked calculation sheet, a checklist, a reference the learner built), write it to `<topic>_artefact_SG<N>_<slug>.md`. Most sessions produce none.
+**D) Other files** (only when the work calls for one): a reusable output the learner built (a filled-in template, a calculation sheet, a checklist) goes to `lessons/<NN-slug>/<slug>.md`. Most sessions produce none.
 
-**G) Register every artefact this session wrote** in the plan's `## Artefacts Register`, using the Edit tool: one row for the transcript, the concept file, the exercise book, the visual page if one was delivered (type `visual`) and any other deliverable. Add a row for `learner_profile.md` too (type `profile`, Source `—`) if the register does not list it yet: a profile created by this session was not there when the plan was written. A file that is already listed is not listed twice.
+**E) List every file this session wrote** in `files` (kind `notes`, `practice`, `lesson-page` or `other`, with the lesson id, a plain title and today's date), then validate `course.json` and regenerate `overview.md`. A file already listed only has its `updated` date changed.
 
-| Artefact | Type | Source | Path | Status |
-|----------|------|--------|------|--------|
-| <name> | transcript / concept-file / deliverable / profile | SG-<N> | <relative path> | current |
-
-If the plan has no Artefacts Register (a plan created before it existed), skip this step.
-
-**H) Delete the checkpoint file.** The session is complete and the final transcript supersedes the checkpoint. Remove `<topic>_checkpoint_SG<N>.md`. This comes last among the writes, so that an interrupted RECORD can be resumed. Delete it with `rm` (Bash). If no tool can delete it, overwrite it with a single line `## Current Phase: CLOSED`; Step 1.5 treats a CLOSED checkpoint as no checkpoint.
-
-**I) Suggest next step:** Tell the learner which sub-goal to run next (the next pending one in sequence). Mention `/worked-exercises SG-<N>` for more solved practice on this sub-goal, `/training-status` for overall progress and `/concept-library` to browse saved concept files.
+**F) Suggest the next step:** the next lesson (`course.py next-lesson`). Mention `/worked-exercises <N>` for more solved practice on this lesson and `/training-status` for overall progress. If the learner asks for a readable record of the session, write `lessons/<NN-slug>/record.md` from the attempts and list it (kind `record`).
 
 ## Important Rules
 
@@ -489,13 +415,12 @@ If the plan has no Artefacts Register (a plan created before it existed), skip t
 - ALWAYS assess gap complexity before choosing teaching format (abbreviated vs full vs comparison)
 - ALWAYS use CTQ failure mode taxonomy when naming gaps in EVALUATE
 - ALWAYS wait for learner responses at: Initial Test, each Quick Check, Final Test
-- ALWAYS update the plan file and write the transcript at the end
-- ALWAYS check for an existing checkpoint file before starting -- offer to resume if one exists
-- ALWAYS write/update the checkpoint after each phase completes
-- ALWAYS delete the checkpoint file after a successful RECORD phase
-- ALWAYS update the learner profile during RECORD
+- ALWAYS close the lesson in `course.json` at the end (RECORD)
+- ALWAYS check the lesson's saved place before starting -- offer to resume if it is in progress
+- ALWAYS save the lesson's state in `course.json` after each phase completes
+- NEVER write a plan file, checkpoint file, transcript or learner profile: the course lives in `course.json`
 - ALWAYS export a concept file during RECORD if teaching occurred
-- ALWAYS write the exercise book during RECORD for a Core Principle, Key Concept or Tools sub-goal, and ALWAYS register every artefact the session wrote in the plan's Artefacts Register
+- ALWAYS add a practice set during RECORD for a Principle, Concept or Tool lesson, and ALWAYS list every file the session wrote in the course's `files`
 - For a hard-core principle, NEVER warn the learner about the Tempting answer before the Initial Test, and NEVER skip the reveal when they fall for it
 - In a climb, a rung has at most two exercises; a climb that stops short is recorded with the level reached and is not an adaptation loop
 - MENTION the deep-dive option once after the first teaching block -- never repeat the offer

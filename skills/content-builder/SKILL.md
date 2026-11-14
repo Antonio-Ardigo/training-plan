@@ -2,6 +2,8 @@
 description: "Gap-targeted teaching content generation for training sessions. Use when generating teaching material during the Teach phase of a TTT session, when the user asks to explain a concept, teach me about a topic, what did I get wrong, fill a learning gap, when a gap involves distinguishing two concepts, or when the learner requests a deep-dive into a taught principle."
 ---
 
+> **Storage (version 3.5).** A course is stored in one file, `course.json`, as the **course-model** skill defines (Glob `**/skills/course-model/SKILL.md`). Where this file mentions a training plan file and its sections, a checkpoint file, a session transcript, a learner profile, a progress log, an artefacts register, an exercise book or a concept file, read and write the matching part of `course.json` or the course folder instead: plan → `course.json`; sub-goal SG-N → lesson `LN`; blueprint → the lesson's `design`; status, scores, progress log, checkpoint → the lesson's `state`; artefacts register → `files`; transcript → `state.attempts`; exercise book → `lessons/<NN-slug>/practice.md`; concept file → `lessons/<NN-slug>/notes.md`; learner profile → progress computed on request. The course-model skill wins wherever the two disagree.
+
 # Content Builder -- Domain Knowledge
 
 Reference knowledge for generating targeted, gap-filling teaching content within TTT sessions. Delegates to the concept-explainer skill for the full explanation methodology and CTQ framework.

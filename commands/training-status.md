@@ -1,20 +1,23 @@
 ---
 name: training-status
-description: Show cross-plan learning analytics -- completion rates, strengths, gap patterns, and session history
+description: Show learning progress across all courses -- completion, strengths, recurring mistakes and what to do next
 allowed_tools:
   - Read
   - Glob
+  - Bash(python3:*)
 ---
 
-You are generating a learning analytics summary from the learner's profile.
+You are generating a learning analytics summary across the learner's courses.
 
-## Step 1: Read the Profile
+## Step 1: Compute Progress
 
-Use Glob to find `learner_profile.md` in the current directory. If it does not exist, tell the user: "No learner profile found. Complete at least one /run-session to create your profile."
+Progress is not stored: it is computed from every course, as the **course-model** skill (Glob `**/skills/course-model/SKILL.md`, section 5) describes. When `python3` is available, run `python3 <path>/course.py progress .` and use its output. Otherwise read every `*/course.json` below the current directory and count the same things by hand.
 
-## Step 2: Read All Training Plans
+A 3.x plan (`*_training_plan.md`) with no course yet is converted first (course-model skill, section 7), so that it counts. If there is no course at all, tell the user: "No course found. Create one with /create-training-plan."
 
-Use Glob to find all `*_training_plan.md` files. Read each one to get current sub-goal statuses (the profile may be slightly behind if the user edited plans manually).
+## Step 2: Read Each Course
+
+For each course, from `course.json`: lessons done of total and in review; key ideas done; the last activity (latest `finished` date or `history` entry); the next lesson; each lesson's `state.attempts` (Try first verdicts, rounds) and `state.to_work_on` (kinds of common mistake).
 
 ## Step 3: Generate the Report
 
@@ -24,29 +27,29 @@ Present the analytics summary in this format:
 # Training Status
 
 ## Overview
-- Plans: <N> (<N complete>, <N in-progress>)
-- Sub-goals: <completed>/<total> (<percentage>%)
-- Sessions completed: <N>
-- Average loops per session: <N>
-- Strength ratio: <N>% (passed Initial Test with zero gaps)
+- Courses: <N> (<N complete>, <N in progress>)
+- Lessons: <done>/<total> (<percentage>%)
+- Lessons done: <N>
+- Average extra rounds per lesson: <N>
+- Strength ratio: <N>% (passed Try first with nothing to work on)
 
-## Plans
+## Courses
 
-| Plan | Status | Progress | Last Session |
+| Course | Status | Progress | Last activity |
 |------|--------|----------|-------------|
 | <name> | <in-progress/complete> | <N/M> (<pct>%) | <date> |
 
-## Strengths (passed Initial Test with zero gaps)
+## Strengths (passed Try first with nothing to work on)
 
-| Topic | Sub-Goal | Plan | Date |
+| Topic | Lesson | Course | Date |
 |-------|----------|------|------|
 | ... | ... | ... | ... |
 
 <If no strengths: "No topics mastered on first attempt yet.">
 
-## Gap Patterns
+## Recurring mistakes
 
-| Pattern | Occurrences | Persistence | Plans |
+| Kind of mistake | Occurrences | Persistence | Courses |
 |---------|-------------|-------------|-------|
 | <pattern> | <N> | <persistent/occasional> | <list> |
 
@@ -56,13 +59,13 @@ Present the analytics summary in this format:
 ## Recommendations
 
 <Based on the data, provide 2-3 actionable recommendations:
-- Which sub-goal to tackle next (the next pending one in sequence)
+- Which lesson to take next (the course's next lesson)
 - Which gap patterns to address proactively
-- Whether to revisit any "needs-review" sub-goals>
+- Whether to revisit any lesson in review>
 ```
 
 ## Step 4: Present to User
 
 Display the report inline (do NOT save it to a file -- it is a live view, not an artifact). Offer the user to:
-- Run `/run-session SG-<N>` for the recommended next sub-goal
-- Re-run a specific "needs-review" session
+- Run `/run-session <N>` for the recommended next lesson
+- Re-run a lesson in review

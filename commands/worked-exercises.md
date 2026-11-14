@@ -6,6 +6,7 @@ allowed_tools:
   - Write
   - Edit
   - Glob
+  - Bash(python3:*)
 ---
 
 You are producing a set of **fully solved exercises** for practice.
@@ -18,7 +19,7 @@ From `$ARGUMENTS`:
 - **What**: a sub-goal ("SG-3", "3") or a concept in words ("change of basis", "contingency")
 - **Level** (optional): if the input contains a level name (High school, Master's or Advanced, in any capitalisation, with or without the apostrophe), that is the level
 
-Use Glob to find `*_training_plan.md` in the current directory and read it. If several match, ask which one to use.
+Find the course as the **course-model** skill says (Glob `**/skills/course-model/SKILL.md`, section 6): a `*/course.json` in the current directory (ask if several), converting a 3.x `*_training_plan.md` first if that is all there is. Read `course.json`. A sub-goal SG-N is lesson `LN`; its blueprint is the lesson's `design`; the Estimated Depth is `course.level`.
 
 - **A sub-goal number, or words that match a sub-goal**: work from that sub-goal's blueprint (its principle, its CTQs, its Estimated Depth). Default level: the sub-goal's Estimated Depth.
 - **A concept that matches no sub-goal, or no plan at all**: work from the concept as stated. Default level: the plan's Target level, or Master's when there is no plan.
@@ -26,11 +27,11 @@ Use Glob to find `*_training_plan.md` in the current directory and read it. If s
 
 ## Step 2: Check Before Showing Solutions
 
-If the request maps to a sub-goal whose Status is still `pending`, say so before going on: these exercises come with full solutions, and reading them first makes that sub-goal's Initial Test less informative. Offer to run `/run-session SG-<N>` first, and continue with the exercises if the learner prefers them now.
+If the request maps to a lesson whose `state.status` is still `not-started`, say so before going on: these exercises come with full solutions, and reading them first makes that sub-goal's Initial Test less informative. Offer to run `/run-session SG-<N>` first, and continue with the exercises if the learner prefers them now.
 
 ## Step 3: Write the Set
 
-If the sub-goal already has an exercise book, `<topic>_artefact_SG<N>_exercises.md`, read it so that nothing is repeated.
+If the lesson already has a practice book, `lessons/<NN-slug>/practice.md` in the course folder, read it so that nothing is repeated.
 
 Write an on-request set following the concept-explainer skill's **Exercise Book Format**:
 - 3 exercises at the chosen level, graded from standard to demanding
@@ -43,13 +44,9 @@ Never invent a value you are not sure of: mark it `(verify)`.
 
 ## Step 4: Save and Register
 
-**With a sub-goal:** append the set to `<topic>_artefact_SG<N>_exercises.md`. Create the file if it does not exist; never overwrite an earlier set. If the file is new and the plan has an Artefacts Register, add a row for it with the Edit tool:
+**With a lesson:** append the set to `lessons/<NN-slug>/practice.md` in the course folder (`<NN-slug>` is the lesson's folder: two-digit number and title slug, see the course-model skill). Create the file if it does not exist; never overwrite an earlier set. List it in the course's `files` (kind `practice`, the lesson id, title `Practice book`, today's date) or update its `updated` date, add a `history` line, then validate `course.json` and regenerate `overview.md`. Do not change the lesson's status.
 
-| Artefact | Type | Source | Path | Status |
-|----------|------|--------|------|--------|
-| Exercise book: SG-<N> | deliverable | SG-<N> | <topic>_artefact_SG<N>_exercises.md | current |
-
-**With no plan, or no matching sub-goal:** write the set to `exercises-<concept-in-kebab-case>.md` in the current directory, appending if it exists.
+**With no course, or no matching lesson:** write the set to `exercises-<concept-in-kebab-case>.md` in the current directory, appending if it exists.
 
 ## Step 5: Present the Exercises
 

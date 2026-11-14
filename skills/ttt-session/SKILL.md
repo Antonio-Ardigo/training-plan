@@ -2,6 +2,8 @@
 description: "Test-Teach-Test session design and execution. Use when the user asks to run a session, start a learning session, test me on a topic, practice a skill, assess my knowledge, design a TTT learning cycle, or execute an adaptive test-teach-test loop for a sub-goal."
 ---
 
+> **Storage (version 3.5).** A course is stored in one file, `course.json`, as the **course-model** skill defines (Glob `**/skills/course-model/SKILL.md`). Where this file mentions a training plan file and its sections, a checkpoint file, a session transcript, a learner profile, a progress log, an artefacts register, an exercise book or a concept file, read and write the matching part of `course.json` or the course folder instead: plan → `course.json`; sub-goal SG-N → lesson `LN`; blueprint → the lesson's `design`; status, scores, progress log, checkpoint → the lesson's `state`; artefacts register → `files`; transcript → `state.attempts`; exercise book → `lessons/<NN-slug>/practice.md`; concept file → `lessons/<NN-slug>/notes.md`; learner profile → progress computed on request. The course-model skill wins wherever the two disagree.
+
 # TTT Session -- Domain Knowledge
 
 Reference knowledge for designing and executing Test-Teach-Test learning sessions.

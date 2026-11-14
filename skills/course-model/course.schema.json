@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "course/1",
+  "title": "Course",
+  "description": "The only source of truth for one course: its design, its state, its files and its history. Text fields are Markdown and may contain LaTeX between $ signs.",
+  "type": "object",
+  "required": ["schema", "course", "overview", "story", "principles", "facts", "background", "lessons", "files", "history"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "course/1" },
+    "course": {
+      "type": "object",
+      "required": ["id", "title", "goal", "goal_as_given", "level", "method", "delivery", "created"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+        "title": { "type": "string" },
+        "goal": { "type": "string", "description": "The refined goal, at most 15 words." },
+        "goal_as_given": { "type": "string", "description": "The goal exactly as the learner typed it." },
+        "level": { "enum": ["high-school", "masters", "advanced"] },
+        "method": { "enum": ["socratic", "direct"] },
+        "delivery": { "enum": ["app", "chat"] },
+        "created": { "type": "string", "format": "date" },
+        "app_url": { "type": ["string", "null"] },
+        "converted_from": { "type": ["string", "null"], "description": "Path of the 3.x plan this course was converted from." }
+      }
+    },
+    "overview": {
+      "type": "object",
+      "required": ["why_it_matters", "what_you_will_learn", "you_will_be_able_to"],
+      "additionalProperties": false,
+      "properties": {
+        "why_it_matters": { "type": "string" },
+        "what_you_will_learn": { "type": "string" },
+        "principles_and_facts": { "type": "string", "description": "Short digest for the overview. Generated from principles and facts when empty." },
+        "you_will_be_able_to": { "type": "array", "items": { "type": "string" } },
+        "learner_notes": { "type": "string", "description": "Anything the learner asked to change in the overview." }
+      }
+    },
+    "story": {
+      "type": "object",
+      "required": ["before", "the_aha", "what_it_solved", "by_principle"],
+      "additionalProperties": false,
+      "properties": {
+        "before": { "type": "string" },
+        "the_aha": { "type": "string" },
+        "what_it_solved": { "type": "string" },
+        "by_principle": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["principle", "before", "what_it_solved"],
+            "additionalProperties": false,
+            "properties": {
+              "principle": { "type": "string", "pattern": "^P[0-9]+$" },
+              "before": { "type": "string" },
+              "what_it_solved": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "principles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "statement", "key_idea"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^P[0-9]+$" },
+          "name": { "type": "string" },
+          "statement": { "type": "string" },
+          "formal": { "type": "string" },
+          "needs": { "type": "array", "items": { "type": "string" }, "description": "Background knowledge this principle relies on." },
+          "key_idea": { "type": "boolean", "description": "One of the hardest principles: taught through the trap, the aha and the levels." },
+          "why_hard": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "fact", "used_in"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^F[0-9]+$" },
+          "fact": { "type": "string" },
+          "why_it_matters": { "type": "string" },
+          "used_in": { "type": "array", "items": { "type": "string", "pattern": "^L[0-9]+$" } },
+          "verify": { "type": "boolean", "description": "True when the value should be checked against a source." }
+        }
+      }
+    },
+    "background": {
+      "type": "array",
+      "description": "Knowledge the course assumes and does not teach.",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "note": { "type": "string" },
+          "lesson": { "type": ["string", "null"], "pattern": "^L[0-9]+$", "description": "A background lesson added to the course for it." }
+        }
+      }
+    },
+    "lessons": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/lesson" }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "kind", "title", "updated"],
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string", "description": "Relative to the course folder." },
+          "kind": { "enum": ["overview", "lesson-content", "lesson-page", "notes", "practice", "record", "app", "old-plan", "other"] },
+          "lesson": { "type": ["string", "null"], "pattern": "^L[0-9]+$" },
+          "title": { "type": "string" },
+          "updated": { "type": "string", "format": "date" }
+        }
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["at", "event"],
+        "additionalProperties": false,
+        "properties": {
+          "at": { "type": "string", "format": "date" },
+          "event": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "mistake_kind": {
+      "enum": ["mixing-up", "overstretching", "missing-background", "steps-without-why", "words-without-maths", "maths-without-picture"]
+    },
+    "worked_example": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string" },
+        "given": { "type": "string" },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["do"],
+            "additionalProperties": false,
+            "properties": { "do": { "type": "string" }, "why": { "type": "string" } }
+          }
+        },
+        "result": { "type": "string" },
+        "check": { "type": "string" },
+        "markdown": { "type": "string", "description": "Used only when a converted example could not be split into parts." }
+      }
+    },
+    "test": {
+      "type": "object",
+      "required": ["question", "marking"],
+      "additionalProperties": false,
+      "properties": {
+        "question": { "type": "string" },
+        "marking": {
+          "type": "object",
+          "required": ["pass"],
+          "additionalProperties": false,
+          "properties": {
+            "pass": { "type": "string", "description": "What a passing answer contains, with the right values." },
+            "trap": { "type": ["string", "null"], "description": "The wrong answer the test is designed to provoke: the trap of a key idea, or the designed wrong path of a Socratic lesson. Allowed in any lesson." },
+            "explain_it_back": { "type": ["string", "null"], "description": "Socratic courses: what the learner must reconstruct." }
+          }
+        }
+      }
+    },
+    "lesson": {
+      "type": "object",
+      "required": ["id", "number", "kind", "title", "goal", "difficulty", "principles", "needs", "key_idea", "design", "state"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^L[0-9]+$" },
+        "number": { "type": "integer", "minimum": 1 },
+        "kind": { "enum": ["why", "principle", "concept", "tool", "capstone", "background"] },
+        "title": { "type": "string" },
+        "goal": { "type": "string" },
+        "area": { "type": "string" },
+        "difficulty": { "enum": ["low", "medium", "high"] },
+        "principles": { "type": "array", "items": { "type": "string", "pattern": "^P[0-9]+$" } },
+        "needs": { "type": "array", "items": { "type": "string", "pattern": "^L[0-9]+$" } },
+        "key_idea": { "type": "boolean" },
+        "design": {
+          "type": "object",
+          "required": ["try_first", "final_check", "success_criteria"],
+          "additionalProperties": false,
+          "properties": {
+            "context": { "type": ["string", "null"], "description": "The lesson's opening, shown before any question: why it matters (one or two sentences) and the real historical context (two to four sentences). States no answer to the lesson's tests." },
+            "principle_statement": { "type": ["string", "null"] },
+            "puzzle": { "type": ["string", "null"], "description": "Socratic: the question that makes the learner feel the gap." },
+            "try_first": { "$ref": "#/$defs/test" },
+            "guiding_questions": { "type": "array", "items": { "type": "string" } },
+            "trap": { "type": ["string", "null"], "description": "Key idea: the natural, confident, wrong answer, and why it feels right." },
+            "aha": { "type": ["string", "null"], "description": "Key idea: the one sentence that makes it click." },
+            "picture": { "type": ["string", "null"], "description": "Key idea: one picture or analogy, and where it stops being true." },
+            "visual": {
+              "type": ["object", "null"],
+              "additionalProperties": false,
+              "properties": {
+                "objects": { "type": "string" },
+                "colour_roles": { "type": "string" },
+                "steps": { "type": "string" },
+                "your_turn": { "type": "string" },
+                "control": { "type": "string" }
+              }
+            },
+            "worked_example": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/worked_example" }] },
+            "levels": {
+              "type": "array",
+              "description": "Key idea: one solved example for each level above High school, up to the course level.",
+              "items": {
+                "type": "object",
+                "required": ["level", "example"],
+                "additionalProperties": false,
+                "properties": {
+                  "level": { "enum": ["masters", "advanced"] },
+                  "example": { "$ref": "#/$defs/worked_example" }
+                }
+              }
+            },
+            "practice_task": { "type": ["string", "null"] },
+            "success_criteria": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["what", "how_tested"],
+                "additionalProperties": false,
+                "properties": {
+                  "what": { "type": "string" },
+                  "from": { "type": "string" },
+                  "how_tested": { "type": "string" },
+                  "common_mistake": {
+                    "type": ["object", "null"],
+                    "required": ["kind", "text"],
+                    "additionalProperties": false,
+                    "properties": { "kind": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/mistake_kind" }] }, "text": { "type": "string" } }
+                  }
+                }
+              }
+            },
+            "to_teach": { "type": "string" },
+            "final_check": { "$ref": "#/$defs/test" }
+          }
+        },
+        "state": {
+          "type": "object",
+          "required": ["status", "attempts"],
+          "additionalProperties": false,
+          "properties": {
+            "status": { "enum": ["not-started", "in-progress", "done", "review"] },
+            "step": { "enum": [null, "try-first", "learn", "check", "final-check", "record"], "description": "The saved place while in progress." },
+            "saved": { "type": ["string", "null"], "description": "Free notes needed to resume: blocks taught, level reached so far, pending check." },
+            "level_reached": { "enum": [null, "below-high-school", "high-school", "masters", "advanced"] },
+            "delivery": { "enum": [null, "app", "chat"] },
+            "rounds": { "type": "integer", "minimum": 0, "description": "Extra rounds after a failed final check (at most 2)." },
+            "started": { "type": ["string", "null"], "format": "date" },
+            "finished": { "type": ["string", "null"], "format": "date" },
+            "to_work_on": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["what"],
+                "additionalProperties": false,
+                "properties": {
+                  "what": { "type": "string" },
+                  "kind": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/mistake_kind" }] },
+                  "resolved": { "type": "boolean" }
+                }
+              }
+            },
+            "attempts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["at", "step", "verdict"],
+                "additionalProperties": false,
+                "properties": {
+                  "at": { "type": "string", "format": "date" },
+                  "step": { "enum": ["try-first", "check", "final-check", "guiding-question", "your-turn"] },
+                  "level": { "enum": [null, "high-school", "masters", "advanced"] },
+                  "question": { "type": "string" },
+                  "answer": { "type": "string" },
+                  "verdict": { "enum": ["pass", "partial", "fail", "trap", "skipped", "start-from-scratch"] },
+                  "feedback": { "type": "string" },
+                  "source": { "enum": ["chat", "app", "converted"] }
+                }
+              }
+            },
+            "notes": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -364,8 +364,37 @@ def progress(dirs):
             tries = [a for a in l["state"]["attempts"] if a["step"] == "try-first"]
             if l["state"]["status"] == "done" and tries and tries[0]["verdict"] == "pass":
                 strong.append(f"{c['course']['title']}: Lesson {l['number']}, {l['title']}")
-    return {"courses": courses, "recurring_mistakes": {MISTAKE_NAMES[k]: v for k, v in mistakes.items() if len(v) >= 2},
-            "all_mistakes": {MISTAKE_NAMES[k]: v for k, v in mistakes.items()}, "passed_first_time": strong}
+    done_all = [l for path in sorted(found) for l in _safe_lessons(path) if l["state"]["status"] in ("done", "review")]
+    rounds = [l["state"].get("rounds", 0) for l in done_all]
+    to_work = [{"course": c_["title"], "lesson": w_[0], "what": w_[1]["what"], "kind": MISTAKE_NAMES.get(w_[1].get("kind"), None),
+                "resolved": w_[1].get("resolved", False)} for c_, w_ in _open_items(found)]
+    return {"summary": {"courses": len(courses), "courses_complete": sum(1 for c_ in courses if c_["done"] == c_["total"]),
+                        "lessons_done": sum(c_["done"] for c_ in courses), "lessons_total": sum(c_["total"] for c_ in courses),
+                        "average_extra_rounds": round(sum(rounds) / len(rounds), 2) if rounds else 0,
+                        "strength_ratio": round(len(strong) / len(done_all), 2) if done_all else 0},
+            "courses": courses,
+            "recurring_mistakes": {MISTAKE_NAMES[k]: v for k, v in mistakes.items() if len(v) >= 2},
+            "persistent_mistakes": [MISTAKE_NAMES[k] for k, v in mistakes.items() if len(v) >= 3],
+            "all_mistakes": {MISTAKE_NAMES[k]: v for k, v in mistakes.items()},
+            "passed_first_time": strong, "to_work_on": to_work}
+
+
+def _safe_lessons(path):
+    try:
+        return load(path).get("lessons", [])
+    except (OSError, json.JSONDecodeError):
+        return []
+
+
+def _open_items(found):
+    for path in sorted(found):
+        try:
+            c = load(path)
+        except (OSError, json.JSONDecodeError):
+            continue
+        for l in c.get("lessons", []):
+            for w in l["state"].get("to_work_on", []):
+                yield c["course"], (l["number"], w)
 
 
 # ---------------------------------------------------------------- 3.x conversion

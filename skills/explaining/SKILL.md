@@ -131,7 +131,7 @@ Every item in what to work on is named with the common mistake it shows, where o
 
 ## 7. Success criteria
 
-Success criteria (`design.success_criteria`) say what the learner must be able to do to hold a lesson. Each has four parts: **what** the learner can do, **from** (the principle or level it comes from), **how it is tested**, and the **common mistake** (kind and one line).
+Success criteria (`design.success_criteria`) say what the learner must be able to do to hold a lesson. Each has four parts: **what** the learner can do, **from** (the principle or level it comes from), **how it is tested**, and the **common mistake** (kind and one line). The course-design skill writes them into the lesson design. Use the design's criteria. Write new ones only for what the design does not cover (a full explanation of a background point, a go deeper, an explanation outside a lesson), by these rules:
 
 - Each one is checkable. "Can work out the entropy of a simple system from its number of microstates" is a success criterion. "Understand entropy" is not.
 - Trace them from the principles ("Energy is conserved" gives "Can track energy across heat, work and internal energy in a closed system") and from the key innovations ("Earned value" gives "Can compute CPI and SPI from earned value, planned value and actual cost").

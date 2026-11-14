@@ -137,15 +137,7 @@ Rules:
 - After a wrong method, step back one level (`SKILL.md` section 5). A level has at most two exercises.
 - In a Socratic course the learner reaches the aha through the guiding questions. The picture and the solved examples come only after the learner has stated the idea. At each higher level the learner first attempts the statement ("How would you write that as an equation?", "What would a proof have to show?"); then it is confirmed and the solved example follows.
 
-### Writing the trap, the aha and the picture
-
-These rules apply when a key idea's design is written.
-
-- **The trap**: the answer a capable person gives before knowing the idea, with the reason it feels right. If no such answer exists, the idea is not a key idea.
-- **The aha**: read it alone. It makes the failure look obvious in hindsight.
-- **The picture**: concrete and familiar at High school. State its limit. Every analogy breaks somewhere, and an unstated limit becomes the next mistaken belief.
-- **The first worked example**: remove everything not needed to see the aha.
-- **The solved example of each higher level**: the same idea seen with that level's tools. It is not a harder calculation at the level below.
+The trap, the aha, the picture and the solved examples are written when the course is designed, by the course-design skill (Step 11). A solved example written here, for a level above the course level, follows the same rule: the same idea seen with that level's tools, never a harder calculation at the level below.
 
 ## Recap (a key idea held at Try first)
 

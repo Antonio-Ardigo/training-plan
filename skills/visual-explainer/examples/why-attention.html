@@ -72,7 +72,7 @@ table.t{border-collapse:collapse;font:400 .85rem var(--mono)} table.t td,table.t
 </style>
 <div class="page">
 <header style="display:flex;flex-direction:column;gap:10px">
-  <span class="eyebrow">SG-1 · Motivation</span>
+  <span class="eyebrow">Lesson 1 · Why it matters</span>
   <h1>Why attention</h1>
   <p class="muted">A model reads a long text and must connect two words that are far apart. Two designs do this in very different ways. About 10 minutes, then three short checks.</p>
   <ul class="chips" id="chips"></ul>
@@ -181,7 +181,7 @@ function check(k){const c=CH[k],fb=$('#f'+k);let v;
   save();paint()}
 function paint(){const names={1:'Check 1 (path length)',2:'Check 2 (cost)',3:'Check 3 (found by content)'};
   $('#chips').innerHTML=[1,2,3].map(k=>`<li class="${st[k]?.ok?'on':''}">Check ${k}</li>`).join('');
-  $('#results').value=['VISUAL SESSION RESULTS','Sub-goal: SG-1 Why attention',...[1,2,3].map(k=>{const r=st[k];return names[k]+': '+(!r?'not attempted':r.ok?`correct, ${r.tries} ${r.tries>1?'tries':'try'}`:`not solved, ${r.tries} ${r.tries>1?'tries':'try'}`)}),'Checks solved: '+[1,2,3].filter(k=>st[k]?.ok).length+' of 3'].join('\n')}
+  $('#results').value=['LESSON PAGE RESULTS','Lesson 1: Why attention',...[1,2,3].map(k=>{const r=st[k];return names[k]+': '+(!r?'not attempted':r.ok?`correct, ${r.tries} ${r.tries>1?'tries':'try'}`:`not solved, ${r.tries} ${r.tries>1?'tries':'try'}`)}),'Checks solved: '+[1,2,3].filter(k=>st[k]?.ok).length+' of 3'].join('\n')}
 document.addEventListener('click',e=>{const k=e.target.dataset?.c;if(k)check(+k)});
 [1,2].forEach(k=>$('#c'+k).addEventListener('keydown',e=>{if(e.key==='Enter')check(k)}));
 $('#dist').oninput=path;$('#keep').oninput=path;$('#n').oninput=cost;

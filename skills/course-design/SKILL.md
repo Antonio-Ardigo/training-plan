@@ -98,7 +98,7 @@ A principle is easier to grasp and remember as the answer to a problem. The stor
 - `by_principle`: one entry per principle, with its id, `before` (the earlier view or practice it replaced, and how that failed) and `what_it_solved`. The principle's statement is its aha, so the entry adds only the before and the after.
 - It is the real history. Name people and dates only when you are certain of them; otherwise describe the change without names.
 - A topic with no single historical moment (a practical skill, a tool, a procedure): `before` is how the work is done without this knowledge, and where that breaks down.
-- A story, not a lesson: no derivations, formulas or worked steps.
+- It tells a story. It holds no derivations, formulas or worked steps.
 - The story is never reused as a test case.
 - *Socratic only:* the story names *what* was found. It never tells the reasoning that leads there and never describes a lesson's designed wrong path.
 
@@ -178,7 +178,7 @@ Design every lesson; none is left without a design. Every test is written at the
 | `try_first.marking.trap` | Key idea; *Socratic only*, every lesson that has one | The wrong answer the test is built to provoke. For a key idea, a copy of `design.trap`. Otherwise `null` |
 | `guiding_questions` | *Socratic only*, all | 3 to 6 questions (Step 12). Empty in a Direct course |
 | `worked_example` | Principle (required), key idea | A fully solved example in the simplest case that makes the principle visible: `given`; 2 to 4 `steps`, each with `do` and `why`, every step shown, concrete numbers; `result`; `check`, which confirms the result a second way. *Socratic only:* phrase each `why` as the answer to a question the learner would ask at that step. Other lessons: `null` |
-| `practice_task` | All | A short, concrete, self-contained exercise the learner can do in 5 to 10 minutes, with clear instructions and the expected outcome. It is practice, not a test, and differs from both tests |
+| `practice_task` | All | A short, concrete, self-contained exercise the learner can do in 5 to 10 minutes, with clear instructions and the expected outcome. It is practice. It differs from both tests |
 | `success_criteria` | All | 2 to 4 entries (1 or 2 for a principle lesson; for a key idea, at least one per level from High school up to the course level, the level named in `from`). Each has `what` must be understood, `from` (the principle or part it comes from), `how_tested`, and `common_mistake` with its `kind`: `mixing-up`, `overstretching`, `missing-background`, `steps-without-why`, `words-without-maths` or `maths-without-picture` |
 | `to_teach` | All | What the lesson teaches if Try first shows it is needed: the concepts and the known pitfalls, each tagged with its common-mistake kind, and what to teach again when that mistake appears. Principle lesson: the principle, its limits and the usual misunderstandings. Key idea: the misunderstandings that survive the aha. Notes from Step 3. *Socratic only:* a teaching note that prefers a leading question to a statement ("What operation on ψ gives a non-negative number that sums to 1?" rather than "The Born rule states P = \|ψ\|²") |
 | `final_check` | All | `question`: a different case that tests the same competencies. `marking.pass`: the Try first standard applied to the new case. *Socratic only:* the question has at least one part that asks "why" or "what would happen if", and `marking.explain_it_back` says what the learner must rebuild. Direct: `explain_it_back` is `null` |

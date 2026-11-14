@@ -118,7 +118,7 @@ Rules:
 - If the topic has no single historical moment (a practical skill, a tool, a procedure), "before" is how the work is done *without* this knowledge and where that breaks down
 - Tell a story, not a lesson: no derivations, no formulas, no worked steps. Those belong to the sessions.
 - Name people and dates only when you are certain of them; otherwise describe the shift without attribution
-- Do not reuse the Breakthrough story as a test case: the SG-1 Motivation tests must use different cases
+- The Breakthrough is the real history. The Motivation sub-goal (SG-1) builds its questions and tests on that same history: they ask the learner to predict or explain what the earlier approaches really do, never to recite the story, and never on an invented substitute
 
 ### Step 2: Decompose into Sub-Goals
 
@@ -196,6 +196,7 @@ For each sub-goal, design a TTT session blueprint. Every test is written at the 
 
 #### Standard blueprint (Key Concept, Tools, Motivation, Verification SGs):
 
+- **Context**: the session's opening, shown BEFORE the Discovery Question or the Initial Test. Two short parts. *Why it matters*: one or two sentences on what this sub-goal lets the learner do. *Historical context*: two to four sentences on the real situation this idea came out of: what was done before, where it broke down, who changed it and when (names and dates only when certain). It sets the scene and stops before the idea itself: it states no answer to the session's questions, and names no mechanism, formula or conclusion that its tests ask the learner to find. Write the Context after the tests, and check it against them.
 - **Initial Test**: A practical case the learner must solve immediately (no theory first). Describe the scenario and the task.
 - **Pass Criteria**: Concrete, measurable threshold (e.g., "identifies 8 of 10 categories", "calculation within 5%")
 - **Estimated Depth**: the plan's Target level (High school / Master's / Advanced)
@@ -227,7 +228,7 @@ A hard-core blueprint is a Core Principle blueprint with an aha design and a lev
 - **Tempting answer**: the natural, confident, wrong answer to the Initial Test, and why it feels right
 - **Insight**: the one sentence that makes it click. It reframes the situation; it does not recite the formal statement.
 - **Picture**: one picture or analogy that carries the Insight, and where it stops being true
-- **Visual design**: how the principle is shown on an interactive page, for sessions run with visual delivery. Five parts, as the visual-explainer skill defines them: **Objects** (what is drawn, kept tiny, with exact values), **Colour roles** (one colour per role, at most three), **Steps** (the order in which the objects appear, one sentence each), **Your-turn inputs** (for each rung: what the learner enters, the right value, and the two most likely wrong values with what each reveals) and **Control** (the one thing the learner can change, and what it shows). Design it from the Picture and the solved exercises. It adds no teaching content of its own.
+- **Visual design**: how the principle is shown on an interactive page, for sessions run with visual delivery. Five parts, as the visual-explainer skill defines them: **Objects** (what is drawn, kept tiny, with exact values), **Colour roles** (one colour per role, at most three), **Steps** (the order in which the objects appear, one sentence each), **Your-turn inputs** (for each rung: what the learner enters, the right value, and the two most likely wrong values with what each reveals) and **Control** (the one thing the learner can change, and what it shows). Design it from the Picture and the solved exercises, but every Your-turn input uses a NEW case: values used nowhere else in the plan, so that its answer is not already shown in a solved exercise. It adds no teaching content of its own.
 - **Worked Example (foundational)**: as in a Core Principle blueprint. Here it is also the smallest example of the Insight, and the solved exercise of the High school rung.
 - **Level ladder**: one fully solved exercise for each level above High school, up to the Target level. In a High school plan there is no rung above the foundational worked example: keep the field and write "none: the foundational worked example is the only rung". Each is the same idea seen with that level's tools, not a harder calculation at the level below. Same format as the worked example: Given, every step with its "Why", Result, and a Check that confirms the result a second way.
 - **Initial Test**: a practical case at the Target level in which the natural approach leads to the Tempting answer. Ask the learner to predict and to justify. Do not warn, and do not hint that the obvious answer is wrong.
@@ -247,6 +248,13 @@ If the learner profile indicated strengths or gap patterns relevant to a sub-goa
 - **Profile note (gap pattern):** "Learner has recurring gap in [pattern] -- include proactive Quick Check in Teach Topics even if not identified in Initial Test"
 
 **Key facts in tests:** when a test or exercise depends on a fact, that fact must be in the Key Facts table from Step 1.8. If it is missing, add it.
+
+**Test quality rules** (every Discovery Question, test, check and Guidance Chain question):
+- **A clear question.** Each question asks one thing, says plainly what is asked, and says in what form the answer is expected (a number, a choice, one sentence). A reader who knows the answer must be able to tell that it answers the question. No question depends on guessing what the author had in mind.
+- **A true case.** A case is built on something that really was done or really is done: a method that was in use, a real system's behaviour, a real engineering decision. Never invent a method nobody uses in order to knock it down. Every statement the case makes must be true outside the toy example; when a toy simplifies, say what was simplified.
+- **The Motivation sub-goal uses the real history.** Its questions and tests are built on the actual problem the topic solved, as the Breakthrough tells it, with the earlier approaches named as they were. Its questions ask the learner to predict or explain what those real approaches do, not to recite the story.
+
+**Every blueprint, of every kind, starts with a `Context` field** (defined above), written before its other fields.
 
 ### Step 3.5: Compose the Motivation / VOC Overview
 
@@ -285,7 +293,7 @@ The course is stored as **one file**, `course.json`, in a folder named after the
 | Key facts (Step 1.8) | `facts[]`: `F1`... with `used_in` lesson ids and `verify` for values to check |
 | External prerequisites (Step 2.5) | `background[]` |
 | Sub-goals, in order (Step 2) | `lessons[]`: `L1`, `L2`... numbered in the recommended order, with `kind` (Motivation → `why`, Core Principle → `principle`, Key Concept → `concept`, Tools → `tool`, Verification → `capstone`), title, goal, area, difficulty, principles, `needs` (the lessons each one depends on, from the prerequisite graph), `key_idea` |
-| Each blueprint (Step 3) | that lesson's `design`: Initial Test and Pass Criteria → `try_first.question` and `try_first.marking.pass`; Final Test → `final_check`; Anticipated CTQs → `success_criteria` (the failure-mode tag becomes `common_mistake.kind`: conflation → `mixing-up`, overgeneralization → `overstretching`, missing-prerequisite → `missing-background`, procedural-without-conceptual → `steps-without-why`, verbal-without-formal → `words-without-maths`, formal-without-intuitive → `maths-without-picture`); Exercise → `practice_task`; Teach Topics → `to_teach`; the principle → `principle_statement`; the worked example → `worked_example` (`given`, `steps` with `do` and `why`, `result`, `check`) |
+| Each blueprint (Step 3) | that lesson's `design`: Initial Test and Pass Criteria → `try_first.question` and `try_first.marking.pass`; Final Test → `final_check`; Anticipated CTQs → `success_criteria` (the failure-mode tag becomes `common_mistake.kind`: conflation → `mixing-up`, overgeneralization → `overstretching`, missing-prerequisite → `missing-background`, procedural-without-conceptual → `steps-without-why`, verbal-without-formal → `words-without-maths`, formal-without-intuitive → `maths-without-picture`); Exercise → `practice_task`; Teach Topics → `to_teach`; the `Context` (why it matters, historical context) → `context`; the principle → `principle_statement`; the worked example → `worked_example` (`given`, `steps` with `do` and `why`, `result`, `check`) |
 | Each hard-core blueprint | also `trap` (the tempting answer, also copied to `try_first.marking.trap`), `aha` (the insight), `picture`, `visual` (objects, colour_roles, steps, your_turn, control) and `levels` (one `{level, example}` per level above High school up to the course level) |
 | Every lesson's state | `{"status": "not-started", "attempts": []}` |
 | Files | `files[]`: one row for `overview.md` (kind `overview`) |
@@ -301,7 +309,10 @@ Confirm each row below in `course.json`. Where a row fails, fix the file and val
 |---------|--------------|
 | Core principles identification | Every principle has exactly one lesson of kind `principle`, and every principle lesson names a principle |
 | Key facts identification | `facts` has at least one entry, and every `used_in` names an existing lesson |
-| Motivation | `overview` has its four parts filled in, and Lesson 1 is of kind `why` |
+| Motivation | `overview` has its four parts filled in, Lesson 1 is of kind `why` and is built on the real history, and every lesson has a `design.context` (why it matters, historical context) that gives no answer away |
+| Test quality | Every question asks one thing and says what form the answer takes; every case is something really done, with no invented method to knock down |
+| Context gives nothing away | Read each lesson's `design.context` against its own puzzle, Try first and final check: the context names the problem and the history, and states none of the answers (no mechanism, formula, number or conclusion the tests ask the learner to find) |
+| Novel cases | No Your-turn input, exercise or test reuses a case whose answer is worked out elsewhere in the course |
 | Breakthrough | `story` has `before`, `the_aha` and `what_it_solved`, and one `by_principle` row per principle |
 | Method | `course.method` is `direct`, and every lesson has `try_first` and `final_check` |
 | Levels | `course.level` is set, and every test and pass standard is written for that level |
@@ -338,6 +349,6 @@ After writing the file, present a summary:
 - The Target level is fixed for the plan: every sub-goal, test and pass criterion is written for it, and nothing above it is written into the plan
 - Do NOT overwrite an existing course without asking (Step 4)
 - Do NOT skip the session blueprint for any sub-goal
-- Practical cases must be realistic scenarios, not abstract questions
+- Practical cases must be real: built on something that was or is really done, never on an invented method. Every question must be clear: one thing asked, the form of the answer stated
 - The course id should be a short kebab-case slug derived from the goal (e.g., `cost-estimation`, `python-data-analysis`)
 - Every sub-goal dependency must trace to the prerequisite graph -- no intuited dependencies

@@ -28,6 +28,7 @@
 | 3.x field | `lessons[].design` |
 |---|---|
 | title | `lessons[].title` |
+| Context (why it matters, historical context; plans from 3.8) | `context` |
 | Principle | `principle_statement` |
 | Discovery Question | `puzzle` |
 | Initial Test + Pass Criteria | `try_first.question`, `try_first.marking.pass` |

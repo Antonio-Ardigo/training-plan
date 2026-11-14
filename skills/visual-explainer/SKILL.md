@@ -1,11 +1,13 @@
 ---
 name: visual-explainer
-description: Deliver the Teach phase of a training-plan session as an interactive page instead of chat text. This is the default delivery of /run-session, for every gap and for hard-core principles. Builds one page per session with live objects, colour by role, a check after each explanation, a climb through the levels for hard-core principles, and a results block the session reads back.
+description: Deliver a whole training-plan session as an interactive page instead of chat text. This is the default delivery of /run-session. Builds one page per session in three stages (the opening question and Initial Test, the teaching with the Socratic chain on the picture, the Final Test) with live objects, colour by role, a check after each explanation, a climb through the levels for hard-core principles, and answers and results blocks the session reads back.
 ---
+
+> **Storage (version 3.10).** A course is stored in one file, `course.json`, as the **course-model** skill defines (Glob `**/skills/course-model/SKILL.md`). The page is written to `lessons/<NN-slug>/page.html` in the course folder and listed in `files` (kind `lesson-page`); a stage waiting for answers is recorded in the lesson's `state.saved`, not in a checkpoint file; every answer that comes back is appended to `state.attempts`. Where this file names a plan, a sub-goal, a blueprint, a checkpoint or a transcript, use the matching part of `course.json` (see the course-model skill). The course-model skill wins wherever the two disagree.
 
 # Visual Explainer -- Domain Knowledge
 
-Some principles are easier to see than to read: a matrix whose rows and columns mean different things, a vector that rotates, a probability that is a share of a grid. This skill turns the Teach phase of a session into one interactive page. It is the default delivery: the learner gets chat text only by asking for `chat`, or when no page can be delivered. It changes how the Teach phase is delivered. It does not change what is taught, the order, or how the session is judged.
+Some principles are easier to see than to read: a matrix whose rows and columns mean different things, a vector that rotates, a probability that is a share of a grid. This skill turns a session into one interactive page, from the opening question to the Final Test. It is the default delivery: the learner gets chat text only by asking for `chat`, or when no page can be delivered. It changes how the session is delivered. It does not change what is taught, the order, or how the session is judged.
 
 `/run-session` holds the session flow. The concept-explainer skill's Level Ladder holds the content rules for the climb. This skill holds the rules for the page.
 
@@ -13,15 +15,66 @@ Some principles are easier to see than to read: a matrix whose rows and columns 
 
 | Phase | Chat delivery | Visual delivery (default) |
 |-------|---------------|-----------------|
-| Initial Test | chat | **chat** (unchanged: the answer needs judging) |
-| Evaluate | chat | chat |
-| Teach: the climb | chat | **the page** |
-| Teach: other gaps | chat | **the page**, one section per gap |
+| Discovery Question, Initial Test | chat | **the page, stage 1**: the picture, the question, the test, answer boxes |
+| Evaluate | chat | chat, in a few lines |
+| Teach: Socratic Guidance Chain | chat | **the page, stage 2**: one question at a time on the picture |
+| Teach: the climb | chat | **the page, stage 2** |
+| Teach: other gaps | chat | **the page, stage 2**, one section per gap |
 | Clarifications, deep-dive, questions | chat | chat |
-| Final Test | chat | **chat** (unchanged) |
+| Final Test | chat | **the page, stage 3** |
 | Record | files | files, plus the page |
 
-The tests stay in chat because they ask for written reasoning, and only the session can judge it. The page teaches and checks numeric or multiple-choice answers; it does not decide whether the learner has mastered the sub-goal.
+The page shows, asks, checks and saves. It checks numeric and multiple-choice answers itself, and has written reasoning judged in place against the blueprint's pass criteria. The session confirms the result from the saved record when the learner returns.
+
+### The whole session on the page (no copying)
+
+The learner should be able to go from the first question to the result of the Final Test without leaving the page and without copying anything into chat. Build the page this way whenever the environment lets a published page (a) ask the model a question and (b) save data the session can read back (in Claude artifacts: the `sample` and `db` capabilities).
+
+- **One step on screen at a time.** The picture stays pinned at the top; below it is a single step with one thing to do and one button. A progress line says "Step N of M". No stage tabs, no long scroll, no sections to hunt for. Each step's feedback appears in place, then a Next button.
+- **Answers are checked where they are given.** Choices, values and operations on the picture are checked by the page's own code. Written answers (the learner's statement of the idea, the open parts of a test) are sent to the model from the page with the blueprint's pass criteria as the rubric; the reply is a verdict plus at most two or three sentences, shown in place. In a Socratic step the reply to a weak statement is one narrowing question, never the idea itself.
+- **Everything is saved by the page**, after every step: each answer, the number of tries, the written statements and the verdicts. The session reads this record when the learner comes back; nothing is pasted.
+- **It opens with motivation and history.** The first two steps are "Why this matters" and "How we got here": the real situation before the idea, as something to operate (a timeline with what each approach solved and where it broke down, or a before and after), with names and dates only when certain. They give no answer to the session's questions. The first question comes after them.
+- **Clear questions, true cases.** Each step asks one thing and says what form the answer takes. Each case is something really done; the page never invents a method in order to knock it down, and never states as fact something true only in its toy example.
+- **All three stages are built at once** and follow each other on the page: the opening question and Initial Test, the discovery and consolidation, the Final Test with its result. After a failed Final Test the page offers it again (at most twice) on the same page. Because the teaching cannot be built from an answer not yet given, it covers the blueprint's whole Guidance Chain and every anticipated CTQ; the learner's own Initial Test answer is quoted by the page where the teaching begins.
+- **A wrong answer never blocks.** The page reacts visibly to every answer: a wrong choice is marked and its feedback appears at once. The first wrong answer gets a hint that says what to look at or what to compute. From then on a button, "Show me the answer and go on", is always there: it marks the right answer, explains it, and opens Next. An operation step (sliders, a drag) shows its hint from the start and offers to set a working state. A written answer that is judged insufficient can always be passed with "Go on". A shown answer is saved as shown, so the session knows it was not found unaided and treats it as a gap, not as a pass.
+- **Going back.** Every step has a Back button. A finished step reopens with the learner's answer, its feedback and the picture as it was, and the learner may change the answer. A step that is not finished keeps Next disabled.
+- **Contents.** A Contents button, always visible, opens an index of the session's steps with their state (done, next, locked) and lets the learner jump to any step already reached. Below it, the course's sub-goals with this session marked, so the learner sees where the session sits in the course.
+- **Manual.** A Manual button, always visible, opens a reference document the page writes from the session: the case, one section per finished step stating what was found with the page's own numbers, the specification and worked example, the learner's own statement and test answers with their feedback, a glossary of the session's terms, and the learner's notes. A section appears only when its step is finished, so the manual never gives an answer away; the page says how many sections are filled. The learner can save it as a file and copy its text.
+- **Notes.** Each step has a small "My note for this step" box. Notes are saved and are added to the manual.
+- **Pick up where you stopped.** On opening, the page reads the saved record BEFORE it shows any step or writes anything, then goes to the first unfinished step. Until the record has been read, the page writes nothing: a freshly loaded page must never overwrite saved progress. If the record cannot be read within a few seconds, start from step 1 and say so.
+- **Next is never a dead button.** Next is always clickable. On a finished step it looks ready and opens the next step. On an unfinished step it looks waiting; pressing it does not move, but says in one line what is still to do on this step and brings up the way forward (the hint and "Show me the answer and go on"). A greyed-out button that does nothing when pressed is not allowed.
+- **Progress toward a target is shown live.** A step with a target the learner reaches by operating the picture (sliders, dragging) shows how close the learner is at every moment ("2 of 3 nearest items are electronics, a little more Phones"), not only success.
+- **Nothing is lost.** Save at every change of step and when the tab is hidden, and keep an instant copy in the browser as well as the shared record; on opening, use whichever is newer. Revisiting a step never overwrites what its record says (for example whether the answer was shown).
+- **The model's feedback never gives the answer away.** A judging prompt tells the model to name what is right and ask one guiding question about what is missing, never to state the correct values or write a model answer, because the learner can retry. When a statement misses several points, the prompt says which one to ask about first.
+- **A failed final test offers a retry first**: the result screen shows "Try the final test again" with the answers kept, and says that the learner may also stop and have it recorded as it is.
+- **Next always moves forward.** Next is enabled only when the current step is finished and always opens the step after it; it never jumps backwards because another step looks unfinished. Only Contents limits a jump to the steps already reached.
+- **Help without leaving.** A small "A word is unclear?" box asks the model for a term clarification under the term-clarifier's rules (the term only, no help with the exercise). A "not familiar" button on a test opens the full explanation on a case that is not the test's.
+- **The end screen** gives the result and one line: the session is saved, and writing `done` in chat records it and proposes the next session.
+- **The session's part.** When the learner returns, read the saved record, confirm or correct the page's verdicts against the pass criteria (the session's judgement is final), and go to RECORD. Do not ask the learner to repeat anything the record holds.
+- **Fall back** to the staged page with answers and results blocks, described next, only when the page cannot ask the model or cannot save. Say which is missing.
+
+### The three stages (fall-back: answers come back through chat)
+
+The page is one file, delivered again at the same address as each stage is added. Earlier stages stay on the page, collapsed.
+
+| Stage | Contains | Must not contain |
+|-------|----------|------------------|
+| 1. Opening | Why it matters and the historical context; the picture with the given values as live objects; the Discovery Question (Socratic plans); the Initial Test, one answer box per part; the "not familiar" and "clarification" notes; the answers block | Any hint, expected answer, named wrong path, or part of the picture the test asks the learner to work out |
+| 2. Teach | The sections described below; the results block | The answer to a check before the learner submits |
+| 3. Final Test | The same picture with the new case's values; the Final Test, one answer box per part, Part B in a Socratic session; the two notes; the answers block | Anything from stage 2 left open beside the test: collapse it |
+
+**One picture for the session.** When the plan has a course diagram, or the blueprint a `Diagram focus` line, all three stages are drawn on that diagram with the named part lit and the rest dimmed or covered. A test's given values are placed on the diagram where they belong.
+
+**The answers block** is plain text with a Copy button, like the results block:
+
+```
+SESSION ANSWERS
+Sub-goal: SG-<N> <title> | <Initial Test / Final Test>
+(a) <the learner's text>
+(b) <the learner's text>
+```
+
+A learner who writes "not familiar" or asks for a clarification does so in chat.
 
 ## What the Page Contains
 
@@ -43,7 +96,13 @@ When the learner declared "not familiar", leave out parts 2 and 3's failing assu
 
 When the climb starts above High school, the page still shows parts 3 and 4 in short form, and the tabs start at the start rung.
 
-In a **Socratic session** the page is built only after the learner has stated the Insight in chat. It then carries parts 4 to 7.
+In a **Socratic session** stage 2 opens with the Guidance Chain on the picture, and parts 4 to 7 stay closed until the learner has written the Insight in their own words:
+
+- One question on screen at a time, beside the part of the picture it is about. The next appears only after an answer.
+- Each question is put as something to do wherever it allows: a value to enter, an object to move, a cell to pick, a choice among answers a learner would really give. An open question gets a text box.
+- A wrong answer is not corrected. The page shows what that answer predicts on the picture, lets the prediction fail, and asks again. No question states the concept or contains its own answer.
+- After the last question, a text box: "Say the idea in your own words." Submitting it opens parts 4 to 7. The text goes into the results block as `Stated idea: <text>`, with one line per chain question (`Q<n>: <answer>, <N> tries`), and is judged in chat.
+- Parts 2 and 3 (the quoted prediction and its failure) are shown before the chain, without the Insight: they are the tension.
 
 ### Sections for other gaps
 
@@ -55,6 +114,8 @@ A gap that is not a hard-core principle gets a shorter section, with the same co
 | Full | The same, plus the key formula with each symbol tied to an object on the page, the conceptual map as a small diagram, one check per CTQ (at most three) |
 | Comparison | The two concepts side by side on the same case, the cells where they differ outlined, one check that needs the distinction |
 | "Not familiar" | The full explanation of the sub-goal's topic on a case that is NOT the Initial Test case, then one check per CTQ |
+
+In a Socratic session each of these sections also opens with its Guidance Chain, by the rules above, and the worked example and checks open after the learner's own statement.
 
 The blueprint has no Visual design for these. Choose the objects from the block's worked example, with the table "Which widget for which field" below, and keep to one control per section. A Motivation sub-goal has no formula: show the before and the after of the topic as two things the learner can operate and compare.
 
@@ -102,7 +163,7 @@ A subject with no natural picture gets a page with a worked table and step-by-st
 - One control, not a dashboard.
 
 **Form**
-- One page per session. No external data and no libraries the page cannot work without. It must read on a phone (about 400 px wide) without sideways scrolling, in light and dark themes.
+- One page per session, in three stages. No external data and no libraries the page cannot work without. It must read on a phone (about 400 px wide) without sideways scrolling, in light and dark themes.
 - Short sentences beside the objects. The page is not a chat explanation pasted into boxes: if a paragraph needs more than three sentences, it belongs in chat.
 - Progress is remembered in the browser as a convenience only. The results block is what counts.
 
@@ -135,12 +196,13 @@ The block is the learner's own report, so confirm it with one short question in 
 
 1. Write the page to `<topic>_visual_SG<N>.html` in the working folder.
 2. If the environment has a tool that publishes a page and returns a link, publish with it and follow that tool's page rules. Otherwise write a complete HTML document and tell the learner to open the file in a browser.
-3. In chat, say in two or three lines what the page is, how long it takes, and that the results block comes back to chat. Then wait.
-4. If no page can be delivered (no file access, or the learner cannot open one), say so and teach the climb in chat. Record the delivery as `chat`.
+3. In chat, say in two or three lines what the stage is, how long it takes, and that the answers block or the results block comes back to chat. Then wait.
+4. After each stage is read, add the next stage to the same file and deliver it again at the same address.
+5. If no page can be delivered (no file access, or the learner cannot open one), say so and run that phase in chat. Record the delivery as `chat`.
 
 ## Example
 
-`examples/query-vs-key.html` is a complete page for one principle: in self-attention, the query and key matrices receive different gradients even when they start identical. Read it for the structure and the amount of text, not to copy its subject. It was built to stand alone, so it asks for a prediction itself; a page built in a session quotes the learner's answer to the Initial Test instead.
+`examples/query-vs-key.html` is a complete page for one principle: in self-attention, the query and key matrices receive different gradients even when they start identical. Read it for the structure and the amount of text, not to copy its subject. It was built to stand alone, so it asks for a prediction itself and shows only the Teach stage; a page built in a session has the three stages and quotes the learner's answer to the Initial Test.
 
 `examples/why-attention.html` is a page for a Motivation sub-goal with no formula: a "not familiar" explanation of why attention replaced recurrent reading, with three things to operate (distance, selection by content, cost) and three checks.
 

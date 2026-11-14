@@ -200,6 +200,7 @@
           "required": ["try_first", "final_check", "success_criteria"],
           "additionalProperties": false,
           "properties": {
+            "context": { "type": ["string", "null"], "description": "The lesson's opening, shown before any question: why it matters (one or two sentences) and the real historical context (two to four sentences). States no answer to the lesson's tests." },
             "principle_statement": { "type": ["string", "null"] },
             "puzzle": { "type": ["string", "null"], "description": "Socratic: the question that makes the learner feel the gap." },
             "try_first": { "$ref": "#/$defs/test" },

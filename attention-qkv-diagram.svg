@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" font-family="Helvetica, Arial, sans-serif">
+  <title>Course diagram: attention for the token Apple in "Love Apple Phones"</title>
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 z" fill="#e8eef5"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="700" fill="#0d1017"/>
+
+  <!-- captions -->
+  <g font-size="24" font-weight="bold" font-style="italic">
+    <text x="30" y="250"><tspan fill="#e6e08a" font-style="normal">Query: </tspan><tspan fill="#8fd3ff">How similar are you to me?</tspan></text>
+    <text x="30" y="360"><tspan fill="#e6e08a" font-style="normal">Key: </tspan><tspan fill="#8fd3ff">What do I have to offer?</tspan></text>
+    <text x="30" y="470"><tspan fill="#e6e08a" font-style="normal">Values: </tspan><tspan fill="#8fd3ff">Relevant information</tspan></text>
+  </g>
+
+  <text x="870" y="70" fill="#ffffff" font-size="28" font-weight="bold" font-style="italic" text-anchor="middle">“Love Apple Phones”</text>
+
+  <!-- three query-key pairs -->
+  <g font-size="20" font-weight="bold">
+    <g id="p1">
+      <text x="640" y="135" fill="#5fe0d0">Q<tspan font-size="13" dy="5">Apple</tspan></text>
+      <rect x="630" y="150" width="90" height="26" fill="#5fe0d0"/>
+      <rect x="735" y="150" width="26" height="90" fill="#f2b84b"/>
+      <text x="772" y="205" fill="#f2b84b">K<tspan font-size="13" dy="5">Love</tspan></text>
+      <circle cx="675" cy="240" r="24" fill="none" stroke="#8fd3ff" stroke-width="3"/>
+      <text x="675" y="246" fill="#8fd3ff" font-size="15" text-anchor="middle">s₁</text>
+    </g>
+    <g id="p2">
+      <text x="835" y="135" fill="#5fe0d0">Q<tspan font-size="13" dy="5">Apple</tspan></text>
+      <rect x="825" y="150" width="90" height="26" fill="#5fe0d0"/>
+      <rect x="930" y="150" width="26" height="90" fill="#f2b84b"/>
+      <text x="967" y="205" fill="#f2b84b">K<tspan font-size="13" dy="5">Apple</tspan></text>
+      <circle cx="870" cy="240" r="24" fill="none" stroke="#8fd3ff" stroke-width="3"/>
+      <text x="870" y="246" fill="#8fd3ff" font-size="15" text-anchor="middle">s₂</text>
+    </g>
+    <g id="p3">
+      <text x="1030" y="135" fill="#5fe0d0">Q<tspan font-size="13" dy="5">Apple</tspan></text>
+      <rect x="1020" y="150" width="90" height="26" fill="#5fe0d0"/>
+      <rect x="1125" y="150" width="26" height="90" fill="#f2b84b"/>
+      <text x="1120" y="268" fill="#f2b84b">K<tspan font-size="13" dy="5">Phones</tspan></text>
+      <circle cx="1065" cy="240" r="24" fill="none" stroke="#8fd3ff" stroke-width="3"/>
+      <text x="1065" y="246" fill="#8fd3ff" font-size="15" text-anchor="middle">s₃</text>
+    </g>
+  </g>
+
+  <!-- arrows into softmax -->
+  <g stroke="#e8eef5" stroke-width="2.5" marker-end="url(#a)">
+    <line x1="690" y1="272" x2="790" y2="332"/>
+    <line x1="870" y1="270" x2="870" y2="332"/>
+    <line x1="1050" y1="272" x2="950" y2="332"/>
+  </g>
+  <rect x="750" y="340" width="240" height="40" fill="#ffffff"/>
+  <text x="870" y="367" fill="#0d1017" font-size="20" text-anchor="middle">Softmax</text>
+  <g stroke="#e8eef5" stroke-width="2.5" marker-end="url(#a)">
+    <line x1="790" y1="386" x2="690" y2="446"/>
+    <line x1="870" y1="386" x2="870" y2="446"/>
+    <line x1="950" y1="386" x2="1050" y2="446"/>
+  </g>
+
+  <!-- weights -->
+  <g font-size="16" font-weight="bold" text-anchor="middle">
+    <circle cx="675" cy="476" r="24" fill="#ffffff"/><text x="675" y="482" fill="#0d1017">x₁</text>
+    <circle cx="870" cy="476" r="24" fill="#ffffff"/><text x="870" y="482" fill="#0d1017">x₂</text>
+    <circle cx="1065" cy="476" r="24" fill="#ffffff"/><text x="1065" y="482" fill="#0d1017">x₃</text>
+  </g>
+  <g fill="#ffffff" font-size="22" font-weight="bold" text-anchor="middle">
+    <text x="675" y="530">∗</text><text x="870" y="530">∗</text><text x="1065" y="530">∗</text>
+  </g>
+  <g fill="#e6e08a" font-size="30" font-weight="bold" text-anchor="middle">
+    <text x="772" y="565">+</text><text x="967" y="565">+</text><text x="560" y="565">=</text>
+  </g>
+
+  <!-- values -->
+  <g font-size="20" font-weight="bold" text-anchor="middle" fill="#e58fd0">
+    <rect x="630" y="543" width="90" height="26" fill="#e58fd0"/>
+    <rect x="825" y="543" width="90" height="26" fill="#e58fd0"/>
+    <rect x="1020" y="543" width="90" height="26" fill="#e58fd0"/>
+    <text x="675" y="605">V<tspan font-size="13" dy="5">Love</tspan></text>
+    <text x="870" y="605">V<tspan font-size="13" dy="5">Apple</tspan></text>
+    <text x="1065" y="605">V<tspan font-size="13" dy="5">Phones</tspan></text>
+  </g>
+
+  <!-- output -->
+  <text x="440" y="568" fill="#7dea9c" font-size="38" font-weight="bold" text-anchor="middle">E′<tspan font-size="22" dy="8">Apple</tspan></text>
+
+  <!-- legend -->
+  <g font-size="14" fill="#9aa7b5">
+    <rect x="30" y="640" width="16" height="16" fill="#5fe0d0"/><text x="54" y="653">Query (the asker)</text>
+    <rect x="220" y="640" width="16" height="16" fill="#f2b84b"/><text x="244" y="653">Key (the offer)</text>
+    <rect x="390" y="640" width="16" height="16" fill="#e58fd0"/><text x="414" y="653">Value (what is passed on)</text>
+    <text x="640" y="653">sⱼ: score   xⱼ: weight   E′: new embedding of Apple</text>
+  </g>
+</svg>

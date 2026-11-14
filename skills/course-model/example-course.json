@@ -120,6 +120,7 @@
       "needs": [],
       "key_idea": false,
       "design": {
+        "context": "**Why it matters.** Search engines, recommendation lists and photo apps all need one number that says how well two lists of features match. **How we got here.** Before vectors were used for this, matching was done by counting shared keywords: a document either contained a word or it did not, and how strongly it was about that word was lost.",
         "principle_statement": null,
         "puzzle": "You and two friends rate three kinds of film from −2 (hate) to +2 (love), in the order action, comedy, horror. You: (2, 1, −2). Ana: (2, 2, −1). Ben: (−2, 1, 2). Who should choose tonight's film for you? Now the hard part: describe a rule a computer could follow to answer the same question for 1,000 friends, giving one number per friend.",
         "try_first": {
@@ -210,6 +211,7 @@
       "needs": [],
       "key_idea": false,
       "design": {
+        "context": "**Why it matters.** Multiply-and-add is the rule every match score in this course is built from. **How we got here.** Weighted scoring by multiplying each feature by its weight and adding was in use long before computers, for example in grading schemes and in physics, where the work done by a force is computed from the force and the movement along each direction.",
         "principle_statement": "Multiply-and-add scoring — Multiply the two vectors component by component and add: each product is a vote, positive when the components agree in sign, negative when they disagree, zero when either is zero.",
         "puzzle": "You need one operation on two numbers that gives a large positive result when both are large with the same sign (including both negative), a negative result when their signs differ, and nothing when either is zero. Adding fails the second test, subtracting fails the first. What is left?",
         "try_first": {
@@ -311,6 +313,7 @@
       ],
       "key_idea": true,
       "design": {
+        "context": "**Why it matters.** The picture of a shadow tells you at a glance whether two directions agree, disagree or have nothing to do with each other. **How we got here.** In mechanics, only the part of a push that lies along the direction of motion does work; engineers drew that part as a projection long before the same idea was used to compare lists of numbers.",
         "principle_statement": "The shadow — The dot product equals the length of one vector's shadow on the other's line, multiplied by the other's length: only the part lying along the other vector counts.",
         "puzzle": "A heavy drawer can only slide straight in and out. You push it three times with exactly the same strength: straight in, at a slant, and flat against its side. Predict how far it moves each time, and say what number you would give each push to describe how much it achieved.",
         "try_first": {

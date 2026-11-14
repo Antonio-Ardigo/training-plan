@@ -34,7 +34,7 @@ From the user's input (`$ARGUMENTS`), determine which sub-goal to run:
 - If they gave nothing, take the next lesson (`course.py next-lesson`, or the rule in the course-model skill section 5)
 - If unclear, show the lesson list and ask them to pick one
 - If the lesson's `state.status` is `done`, confirm they want to re-do it
-- **Delivery.** The Teach phase is delivered as an interactive page by default (see Phase 3, Visual delivery). If the input contains the word `chat`, or the learner asks for chat at any point, teach in chat for the rest of the session. The word `visual` is accepted and changes nothing.
+- **Delivery.** The whole session is graphic by default: the Initial Test, the Teach phase and the Final Test are delivered on one interactive page, in three stages (see Phase 3, Graphic delivery of the whole session). If the input contains the word `chat`, or the learner asks for chat at any point, run the rest of the session in chat text. The words `visual` and `graphic` are accepted and change nothing.
 - If the input also names a level (High school, Master's or Advanced), run this session at that level instead of the blueprint's Estimated Depth: re-pitch the blueprint's tests to that level (same scenario family, that level's tools) and take a hard-core climb up to it. The course design is not changed. Say so, and note the session's level in `state.notes`.
 
 ## Step 1.5: Check for a Saved Place
@@ -51,12 +51,27 @@ Otherwise set `status: in-progress`, `step: try-first`, `started: <today>` and `
 
 Follow this protocol EXACTLY:
 
-### Phase 1: INITIAL TEST
+### Phase 0: MOTIVATION AND HISTORICAL CONTEXT
 
-Present the practical case from the session blueprint.
+Every session opens with this, before the Discovery Question and before the Initial Test. It takes one or two minutes.
+
+1. **Why it matters**: what this sub-goal lets the learner do, and where it sits in the course (one or two sentences).
+2. **Historical context**: the real situation this idea came out of: what was done before, where it broke down, who changed it and when. Take it from the lesson's `design.context`, the course's `story` and its `overview`. Names and dates only when certain.
 
 Rules:
-- **No preamble.** No "Let's learn about X." No theory. No warm-up.
+- It sets the scene and stops before the idea: it states no answer to the session's questions and solves no test case.
+- It is true. No invented method, no simplified history presented as fact.
+- A lesson with no `design.context` (a course created or converted before the field existed): write one from the course's `story` and `overview`, save it in `design.context`, and say so.
+- In graphic delivery it is the first steps of the page: a "Why this matters" step and a "How we got here" step the learner can operate (a timeline, a before and after), then the first question.
+
+### Phase 1: INITIAL TEST
+
+Present the practical case from the session blueprint. In graphic delivery (the default) it is presented as stage 1 of the session's page, not as chat text: build and deliver the page first, and say in chat only what the page is and that the answers block comes back. Every rule below applies to the page as it applies to chat.
+
+Rules:
+- **Context first, then the test.** Phase 0 has set the scene. Add nothing more: no theory, no hint, no warm-up exercise.
+- **A clear question.** Each part asks one thing and says in what form the answer is expected. Rewrite a blueprint question that does not, keeping what it tests.
+- **A true case.** If a blueprint case rests on an invented method or on a statement that is not true outside the toy example, replace it with the real case from the history, and note the change in `state.notes`.
 - Start directly with the scenario and task
 - Format it clearly with a header and the task in bold
 - Wait for the learner to respond -- do NOT continue until they answer
@@ -232,17 +247,26 @@ The climb goes rung by rung, from the start rung set in Phase 2 to the session's
   - Wrong again: the climb **stops**. The level reached is the last rung held, or "below High school" if none was.
 - A rung has at most two exercises. A stopped climb is not an adaptation loop.
 
-**Phase 3: visual delivery (the default)**
+**Graphic delivery of the whole session (the default)**
 
-Unless the session runs in `chat` delivery, the whole Teach phase is delivered as ONE interactive page, following the visual-explainer skill. The page changes how the teaching is delivered and nothing else: the Initial Test, the evaluation, the Final Test and RECORD are unchanged and stay in chat, and the content of each block is exactly what Steps 1-3 and the climb above prescribe.
+Unless the session runs in `chat` delivery, the learner works on ONE interactive page from the first minute to the last, following the visual-explainer skill. The page is built in three stages and delivered again at the same address after each stage. Chat carries only what a page cannot do: judging written answers, clarifications, and the few lines that hand the learner back to the page.
 
-- **What goes on the page.** Every teaching block of the session, in order, one section per gap: an abbreviated, full or comparison explanation with its worked example, and the climb of a hard-core principle with one tab per rung. Each Quick Check and each "your turn" becomes a check on the page. A "not familiar" explanation is delivered the same way, and does not solve the Initial Test case.
-- **Build.** Build the page from the blueprint and from the learner's own answer to the Initial Test, which the page quotes. For a hard-core principle use the blueprint's Visual design; for any other block, or a blueprint with no Visual design, choose the objects from the worked example as the visual-explainer skill describes. Check the page's numbers against the blueprint's solved exercises before delivering it.
-- **Deliver.** Write the page to `lessons/<NN-slug>/page.html` in the course folder, publish it when the environment can, tell the learner in two or three lines what it is, and wait. Write the page to the lesson folder and list it in `files` (kind `lesson-page`); set `state.saved` to `page delivered, results pending`.
-- **Read the results.** The learner returns the page's results block. Read each check as the visual-explainer skill's table says (correct at the first try: held; correct after the replay: held after a re-explanation one level down, or after a bridge on a climb; not solved: a persistent gap, or the climb stopped there). Confirm with ONE short question in chat, on the highest rung reported or on the hardest check; a wrong answer means it is not held. The level reached, the Final Test's level and the status then follow the rules above.
-- **Chat stays available.** Term clarifications, the deep-dive offer and any question the learner asks are answered in chat. In a Socratic session the Guidance Chain stays in chat, and the page is built only after the learner has stated the Insight or the resolution; it then carries the picture, the solved exercises and the checks.
-- **Fall back.** If the page cannot be built or opened, say so and teach in chat. Record the delivery as `chat`.
-- Mention the deep-dive option once, after the first rung.
+| Stage | Built when | The page shows | What comes back to chat |
+|-------|-----------|----------------|-------------------------|
+| 1. Opening | At the start of the session, before anything else | Why it matters and the historical context (Phase 0), then the session's picture, the Discovery Question (Socratic plans), the Initial Test with one answer box per part, and the two mandatory notes | The **answers block** |
+| 2. Teach | After the Initial Test is evaluated | One section per gap. In a Socratic session each section opens with the Guidance Chain on the picture, then the learner's own statement of the idea, then the consolidation (picture, solved example, checks). The climb of a hard-core principle has one tab per rung. | The **results block** |
+| 3. Final Test | After the results block is read and confirmed | The Final Test on the same picture, with one answer box per part (and Part B in a Socratic session), and the two mandatory notes | The **answers block** |
+
+- **No copying, no chat during the session.** Wherever a published page can ask the model a question and save data the session can read back, build the page as the visual-explainer skill's "The whole session on the page" describes: all three stages at once, one step on screen at a time under a pinned picture, written answers judged in place against the blueprint's pass criteria, everything saved by the page. Next is never a dead button: on an unfinished step it says what is left to do and shows the way forward. A wrong answer never blocks the page: a hint after the first wrong answer, then always a "Show me the answer and go on" button, with a shown answer saved as shown and counted as a gap. The page also gives a Back button on every step, a Contents index of the steps and of the course, a Manual that grows with the finished steps and can be saved as a file, a note box per step, and it reopens at the first unfinished step. The learner returns to chat only at the end, writes `done`, and the session reads the saved record, confirms the verdicts and goes to RECORD. The three-stage table above, with its answers and results blocks, is the fall-back for an environment where the page can neither ask nor save.
+- **The picture.** When the plan has a course diagram or a `Diagram focus` line for the sub-goal, every stage is drawn on that diagram, with the named part lit and the rest dimmed or covered. Otherwise choose the objects as the visual-explainer skill describes. The same picture is used in all three stages.
+- **Stage 1 shows nothing that teaches.** No hint, no expected answer, no designed wrong path named, no part of the picture that the test asks the learner to work out. The given values of the test are drawn as objects the learner can read and operate.
+- **The Socratic chain on the page.** Each Guidance Chain question appears alone, tied to the part of the picture it is about, and the next one appears only after an answer. Put each question as something to do on the picture wherever the question allows it: a value to enter, an object to move, a cell to pick, a choice among answers a learner would really give. A wrong answer is not corrected: the page shows what that answer predicts on the picture, lets the prediction fail, and asks again. The concept is never stated before the last question. After the last question the learner writes the idea in their own words in a text box; only then does the consolidation open. The learner's statement goes into the results block and is judged in chat.
+- **Content.** Each block holds exactly what Steps 1-3, the climb and the Socratic Teach Protocol above prescribe. For a hard-core principle use the blueprint's Visual design; for any other block choose the objects from the worked example. The Teach stage quotes the learner's own answer to the Initial Test. Check the page's numbers against the blueprint's solved exercises before delivering it.
+- **Deliver.** Write the page to `lessons/<NN-slug>/page.html` in the course folder and list it in `files` (kind `lesson-page`), publish it when the environment can, tell the learner in two or three lines what the stage is, and wait. Set `state.saved` to `stage <N> delivered, answers pending`.
+- **Read what comes back.** Evaluate an answers block exactly as a chat answer (Phase 2, Phase 5), in a few lines of chat. Read a results block as the visual-explainer skill's table says (correct at the first try: held; correct after the replay: held after a re-explanation one level down, or after a bridge on a climb; not solved: a persistent gap, or the climb stopped there), judge the learner's written statement of the idea, and confirm with ONE short question in chat on the highest rung reported or on the hardest check; a wrong answer means it is not held. The level reached, the Final Test's level and the status then follow the rules above.
+- **Chat stays available.** Term clarifications, the deep-dive offer and any question the learner asks are answered in chat. A learner may also answer any stage directly in chat.
+- **Fall back.** If the page cannot be built or opened, say so and run that phase in chat. Record the delivery as `chat`.
+- Mention the deep-dive option once, after the first rung or the first block.
 
 After the climb and any other blocks, proceed to Phase 3.5.
 
@@ -329,6 +353,8 @@ This tests whether the learner can reconstruct the reasoning chain, not just app
 
 The Term Clarification Protocol applies identically during the Final Test.
 
+In graphic delivery (the default) the Final Test is stage 3 of the session's page.
+
 Wait for the learner to respond.
 
 **Save:** After the learner responds, append the attempt (`step: final-check`, the full answer).
@@ -381,13 +407,15 @@ The attempts, with the learner's answers in full, are already in `state.attempts
 
 - ALWAYS append the "not familiar" note AND the "clarification" note at the end of EVERY test (Initial Test and Final Test) -- these two notes are NON-NEGOTIABLE
 - NEVER reveal expected answers or "Watch for" hints BEFORE the learner responds -- this applies to ALL questions (Initial Test, Quick Checks, Final Test). Present the question, wait, THEN show the answer -- for a Quick Check, as a complete worked solution ending with a Check.
-- NEVER teach before testing -- the Initial Test ALWAYS comes first
+- ALWAYS open with motivation and historical context (Phase 0), then test before teaching: Phase 0 sets the scene and gives no answer, and the Initial Test comes before any explanation of the idea
+- NEVER present a question that is unclear or a case built on an invented method: fix it first
+- Unless the session runs in `chat`, ALWAYS open with the page: the Discovery Question and the Initial Test are never sent as chat text when a page can be delivered
 - NEVER skip evaluation -- always explicitly state PASS/FAIL with reasons and failure mode classifications
 - NEVER combine multiple gaps into one explanation -- one gap, one concept explanation
 - ALWAYS assess gap complexity before choosing teaching format (abbreviated vs full vs comparison)
 - ALWAYS use CTQ failure mode taxonomy when naming gaps in EVALUATE
 - ALWAYS wait for learner responses at: Initial Test, each Quick Check, Final Test
-- ALWAYS update the plan file and write the transcript at the end
+- ALWAYS close the lesson in `course.json` at the end (RECORD)
 - ALWAYS check the lesson's saved place before starting -- offer to resume if it is in progress
 - ALWAYS save the lesson's state in `course.json` after each phase completes
 - NEVER write a plan file, checkpoint file, transcript or learner profile: the course lives in `course.json`

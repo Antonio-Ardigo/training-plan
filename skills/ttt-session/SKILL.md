@@ -88,7 +88,8 @@ When running a session, follow this exact protocol:
 Present the practical case from the session blueprint to the learner.
 
 Rules:
-- No preamble, no warm-up, no theory introduction
+- The session has opened with motivation and historical context (Phase 0 of `/run-session`): why the sub-goal matters and the real situation it came out of, with no answer given. After that: no theory, no hint, no warm-up
+- Every question is clear (one thing asked, the form of the answer stated) and every case is real (never an invented method)
 - Present the scenario and the task directly
 - Ask the learner to respond
 - Wait for the learner's response before proceeding
@@ -263,8 +264,8 @@ A Core Principle blueprint that has a Tempting answer, an Insight and a Picture 
 - **Not passed**: the climb, taught as one block (format `ladder`), from the start rung the answer shows (fell for it, or unsure: High school) to the session's level. The High school rung is the reveal. Every rung ends with "your turn", which is that rung's Quick Check. A method failure gets a short bridge one level down and one new exercise; a second failure stops the climb.
 - **Final Test**: at the session's level, or at the level reached when the climb stopped short. A stopped climb is recorded as `needs-review` with the level reached and uses no adaptation loop. A loop after a failed Final Test re-enters the climb at the first rung not held.
 - **"Not familiar"**: the climb from High school with no Tempting answer named, then the Initial Test again.
-- **Visual delivery (the default)**: the whole Teach phase is delivered as one interactive page built by the visual-explainer skill: one section per gap, and the climb of a hard-core principle with one tab per rung, from the blueprint's Visual design. Both tests stay in chat. The learner returns the page's results block, the session confirms it with one question, and the level reached follows from it. The page is written to `<topic>_visual_SG<N>.html` and registered. `/run-session SG-N chat`, or asking for chat, switches the session to chat text; so does a page that cannot be delivered.
-- **Socratic plans**: the same rungs, reached through questions. The Insight comes from the Guidance Chain; the Picture and the solved exercises come only after the learner has stated the idea.
+- **Graphic delivery (the default)**: the whole session is delivered on one interactive page built by the visual-explainer skill, in three stages: the Discovery Question and Initial Test, the Teach phase (one section per gap, and the climb of a hard-core principle with one tab per rung, from the blueprint's Visual design), and the Final Test. The learner goes through the whole session on the page, one step at a time, without copying anything into chat: answers are checked in place and saved by the page, and the session reads the record and confirms it when the learner writes `done`. Where a page can neither ask the model nor save, the learner returns an answers block after each test and a results block after the Teach stage. The page is written to `<topic>_visual_SG<N>.html` and registered. `/run-session SG-N chat`, or asking for chat, switches the session to chat text; so does a page that cannot be delivered.
+- **Socratic plans**: the same rungs, reached through questions. The Insight comes from the Guidance Chain, which in graphic delivery runs on the page, one question at a time on the picture; the Picture and the solved exercises open only after the learner has stated the idea.
 
 A Core Principle blueprint without those fields is handled as before: its worked example is shown as reinforcement on a pass, and as the primary teaching content otherwise.
 

@@ -169,6 +169,8 @@ def check_rules(c, folder=None, check_files=False):
     for l in lessons:
         d = l["design"]
         tag = f"{l['id']} ({l['title']})"
+        if not d.get("context"):
+            warnings.append(f"{tag}: no context (why it matters, historical context); the lesson writes one when it opens")
         if l["kind"] == "principle" and not d.get("worked_example"):
             errors.append(f"{tag}: a principle lesson needs a worked example")
         we = d.get("worked_example")
@@ -641,6 +643,7 @@ def convert(plan_path, out_dir=None):
         principle_field = f.get("Principle", "")
         statement = principle_field if principle_field and principle_field not in ("—", "-") else None
         design = {
+            "context": f.get("Context") or None,
             "principle_statement": statement,
             "puzzle": f.get("Discovery Question") or None,
             "try_first": {"question": f.get("Initial Test", ""),
@@ -811,7 +814,8 @@ def convert(plan_path, out_dir=None):
         if len(r) >= 4:
             registered.append((r[0], r[1].strip().lower(), r[2], r[3].strip("` ")))
     for name in os.listdir(plan_dir):
-        if name.startswith(topic_prefix + "_") and name != base and not any(name == x[3] for x in registered):
+        if (name.startswith(topic_prefix + "_") or name.startswith(stem + "_")) and name != base \
+                and not name.endswith("_training_plan.md") and not any(name == x[3] for x in registered):
             registered.append((name, "", "", name))
     for label, typ, source, path in registered:
         src = os.path.join(plan_dir, path)
@@ -822,11 +826,12 @@ def convert(plan_path, out_dir=None):
             continue
         if "_checkpoint_" in low and lesson:
             ck = open(src, encoding="utf-8").read() if os.path.exists(src) else ""
-            phase = re.search(r"Current Phase:\s*([A-Z_]+)", ck)
+            phase = re.search(r"Current Phase:\s*([^\n]+)", ck)
             step = {"INITIAL_TEST": "try-first", "EVALUATE": "try-first", "TEACH": "learn", "CONCEPT_MAP_OFFER": "learn",
                     "FINAL_TEST": "final-check", "EVALUATE_FINAL": "final-check", "RECORD": "record"}
-            if lesson["state"]["status"] == "not-started":
-                lesson["state"].update({"status": "in-progress", "step": step.get(phase.group(1) if phase else "", "learn"),
+            token = phase.group(1).strip().split()[0].strip("`*.,;:") if phase else ""
+            if lesson["state"]["status"] == "not-started" and phase and token.upper() != "CLOSED":
+                lesson["state"].update({"status": "in-progress", "step": step.get(token, "learn"),
                                         "saved": ck[:4000]})
             continue
         if "_session_" in low:

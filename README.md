@@ -23,7 +23,7 @@ To try the plugin from a local copy without installing it, start Claude Code wit
 
 ## How It Works
 
-0. **Defaults:** plans are Socratic (you reach each concept through questions) and sessions teach on an interactive page. Add `direct` when creating a plan for direct explanation, and `chat` when running a session for chat text
+0. **Defaults:** plans are Socratic (you reach each concept through questions) and sessions are graphic from start to finish: the opening question, both tests and the teaching all run on one interactive page. Add `direct` when creating a plan for direct explanation, and `chat` when running a session for chat text
 1. You provide a learning goal and a **target level**: High school, Master's or Advanced (the plugin asks if you do not say)
 2. The plugin identifies the domain's **core principles** and **key facts**, records the topic's **breakthrough** (what the situation was before the key intuition, and what the topic solved), flags the **hard core** (the principles that are hardest to grasp), and decomposes the goal into testable sub-goals with CTQ mastery criteria, all written for your level. It also writes a plan-level **Motivation & Course Overview (VOC)** — a bird's-eye view of the course, its core principles and key facts, and what you'll be able to do on completion. You can edit this overview, and your feedback on it can restructure the plan. You can also change the hard-core list.
 3. For each sub-goal, you run a TTT session:
@@ -47,7 +47,7 @@ Every plan, standard or Socratic, carries five elements, each in a fixed place. 
 | **Key facts identification** | What must simply be known (definitions, constants, conventions), each tied to the sub-goals that use it | `Key Facts` |
 | **Motivation** | Why the topic matters and where the course leads | `Motivation & Course Overview (VOC)`, plus the Motivation sub-goal |
 | **Breakthrough** | What the situation was before the key intuition, and what the topic solved | `Breakthrough` |
-| **Test-Teach-Test / Socratic** | How every session runs: test first, teach only the gaps, test again, by direct explanation or by Socratic discovery | `Pedagogical Method`, plus the tests in every blueprint |
+| **Test-Teach-Test / Socratic** | How every session runs: motivation and historical context, then test, teach only the gaps, test again, by direct explanation or by Socratic discovery | `Pedagogical Method`, plus the tests in every blueprint |
 
 ## Levels and the Hard Core
 
@@ -67,7 +67,7 @@ Every plan, standard or Socratic, carries five elements, each in a fixed place. 
 
 A learner who passes the test outright gets a short recap and the offer of the full climb or the next level up.
 
-**Visual delivery (the default).** The Teach phase of every session is delivered as an interactive page instead of chat text: the subject's objects drawn with their real numbers (matrices as coloured grids, an arrow you rotate, a grid of cases), coloured by role, with a check after each explanation that replays the worked solution step by step after a wrong answer. A hard-core principle gets its climb on the page, one tab per level, from the `Visual design` the plan wrote for it. Both tests stay in chat. When you finish the page you paste its results block back, and the session records what you reached. To learn from chat text instead, add `chat` (`/run-session SG-3 chat`) or ask for chat during the session.
+**Graphic delivery (the default).** Every session runs on one interactive page instead of chat text, in three stages: the Discovery Question and Initial Test, the teaching, and the Final Test. The page shows the subject's objects drawn with their real numbers (matrices as coloured grids, an arrow you rotate, a grid of cases), coloured by role, with a check after each explanation that replays the worked solution step by step after a wrong answer. A hard-core principle gets its climb on the page, one tab per level, from the `Visual design` the plan wrote for it. In a Socratic plan the chain of questions runs on the page too, one question at a time on the picture, and the explanation opens only after you have written the idea in your own words. When a plan has a course diagram, every stage is drawn on it. You go through the whole session on the page, one step at a time, without copying anything into chat: your answers are checked where you give them and saved by the page. You can go back to any finished step, open a Contents index, write a note on any step, and open a Manual that the page writes as you go and that you can save as a file. At the end you write `done` in chat and the session is recorded. To learn from chat text instead, add `chat` (`/run-session SG-3 chat`) or ask for chat during the session.
 
 **Fully worked exercises** come four ways: in every explanation; inside the plan, for each hard-core principle; in an exercise book written after each session; and on demand with `/worked-exercises`. Every solution ends with a check that confirms the result a second way.
 

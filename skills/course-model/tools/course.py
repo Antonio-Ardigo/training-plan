@@ -9,6 +9,8 @@ Python 3.8+, standard library only. Every command is also described in words in
   course.py next-lesson PATH/course.json          the lesson to do next, as JSON
   course.py progress [DIR ...]                    report over every course found
   course.py convert PLAN.md [--out DIR]           convert a 3.x plan, keep the old files
+  course.py example                               print example-course.json (the shape to copy)
+  course.py schema                                print course.schema.json
 """
 import datetime as _dt
 import json
@@ -860,6 +862,11 @@ def main(argv):
         print(__doc__)
         return 0
     cmd, args = argv[1], argv[2:]
+    if cmd in ("example", "schema"):
+        name = "example-course.json" if cmd == "example" else "course.schema.json"
+        with open(os.path.join(HERE, "..", name), encoding="utf-8") as f:
+            sys.stdout.write(f.read())
+        return 0
     if cmd == "validate":
         errors, warnings = validate(args[0], "--files" in args)
         for w in warnings:

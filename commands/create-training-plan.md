@@ -267,7 +267,7 @@ Rules:
 
 ### Step 4: Write the Course
 
-The course is stored as **one file**, `course.json`, in a folder named after the course, with a generated outline beside it. Before writing, Read three files of the **course-model** skill (Glob `**/skills/course-model/SKILL.md`): `SKILL.md` (layout and rules), `course.schema.json` (every field and allowed value) and `example-course.json` (a complete, valid three-lesson course). **Use exactly the field names and nesting of `example-course.json`; never invent a field or rename one.** Do not write a Markdown plan file.
+The course is stored as **one file**, `course.json`, in a folder named after the course, with a generated outline beside it. Before writing, load the **course-model** skill (the Skill tool, `training-plan:course-model`; or Read `**/skills/course-model/SKILL.md`) and get its two reference files: `example-course.json` (a complete, valid three-lesson course) and `course.schema.json` (every field and allowed value). Read them from the skill's folder, or print them with `python3 <skill folder>/tools/course.py example` and `... schema` when reading the folder is not allowed. **Use exactly the field names and nesting of `example-course.json`; never invent a field or rename one.** Do not write a Markdown plan file.
 
 1. **Choose the folder.** The course id is a short lowercase slug of the topic (`cost-estimation`, `transformer-attention`). If `<course-id>/course.json` already exists, do not overwrite it: ask whether to replace it or to keep both (keep both by adding a suffix such as `-2` to the new id).
 2. **Write `<course-id>/course.json`** with the Write tool. Put what Steps 1 to 3.5 produced into these fields:

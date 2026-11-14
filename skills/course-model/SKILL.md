@@ -46,7 +46,7 @@ Without Python, do the same work by hand, following this file and the schema exa
 
 ## 3. Writing `course.json`
 
-- **Copy the shape.** `example-course.json` in this folder is a complete, valid course (three lessons: a why-it-matters lesson, a principle lesson and a key-idea lesson, Socratic method). Use its field names and nesting exactly. A direct-method course has the same shape with `puzzle: null` and empty `guiding_questions`. Never invent, rename or add a field: the schema rejects unknown fields.
+- **Copy the shape.** `example-course.json` in this folder is a complete, valid course. If the file cannot be read directly, print it with `python3 <this folder>/tools/course.py example` (and the schema with `... schema`). It has three lessons: a why-it-matters lesson, a principle lesson and a key-idea lesson, Socratic method). Use its field names and nesting exactly. A direct-method course has the same shape with `puzzle: null` and empty `guiding_questions`. Never invent, rename or add a field: the schema rejects unknown fields.
 - **Read before you write.** Read the whole file, change only the fields the step owns, write the whole file back as UTF-8 JSON with two-space indentation. Never keep a second copy of a field anywhere else.
 - **After every write:** validate, then regenerate `overview.md`. A failed validation is fixed before anything else happens.
 - **Dates** are `YYYY-MM-DD`. Every change a learner would care about adds one line to `history` (`Lesson 3 done`, `Course created`, `Lesson 2 converted from 3.x`).
@@ -91,6 +91,7 @@ Add each file to `files` when it is written: `path`, `kind` (`overview`, `lesson
 - `needs` names existing lessons, never the lesson itself, and never forms a circle.
 - Each principle is taught by exactly one lesson of kind `principle`. A key-idea lesson teaches a principle marked `key_idea`.
 - A principle lesson has a worked example. Every worked example ends with a `check`: the result confirmed a second way.
+- `try_first.marking.trap` may be set in any lesson: the wrong answer the test is designed to provoke (in a Socratic course, the designed wrong path). `design.trap` is the key idea's trap and belongs to key ideas only.
 - A key-idea lesson has `trap`, `aha`, `picture`, a worked example (the High school level) and exactly one example in `levels` for each level above High school up to the course level: none for a High school course, `masters` for a Master's course, `masters` then `advanced` for an Advanced course. It should have a `visual`. Other lessons have none of these fields.
 - In a Socratic course every lesson has a `puzzle` and 3 to 6 `guiding_questions`.
 - Every lesson has at least one success criterion. Every fact is used in at least one lesson.

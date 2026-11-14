@@ -174,7 +174,7 @@
           "additionalProperties": false,
           "properties": {
             "pass": { "type": "string", "description": "What a passing answer contains, with the right values." },
-            "trap": { "type": ["string", "null"], "description": "The tempting wrong answer, for a key idea." },
+            "trap": { "type": ["string", "null"], "description": "The wrong answer the test is designed to provoke: the trap of a key idea, or the designed wrong path of a Socratic lesson. Allowed in any lesson." },
             "explain_it_back": { "type": ["string", "null"], "description": "Socratic courses: what the learner must reconstruct." }
           }
         }

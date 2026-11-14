@@ -31,11 +31,11 @@ To try the plugin from a local copy without installing it, start Claude Code wit
    - **Teach** -- get principle-first concept explanations for your gaps (adaptive: abbreviated for simple gaps, full 7-section with LaTeX, Worked Examples, and CTQ for complex gaps, comparison for conflation, a climb through the levels for hard-core principles, delivered on an interactive page by default)
    - **Test** -- prove mastery with a new case
 4. Every explanation pairs a solved example with an exercise you attempt and then see solved in full
-5. Each Teach phase generates a concept file documenting what was taught, and each session adds fully solved exercises to that sub-goal's **exercise book**
-6. Sessions save checkpoints -- if interrupted, resume from where you left off
-7. A learner profile tracks your progress, strengths, and gap patterns across all plans
+5. Each lesson that teaches writes **lesson notes**, and each lesson adds fully solved exercises to its **practice book**
+6. Every step is saved in the course -- if interrupted, you resume where you stopped
+7. Your progress, strengths and recurring mistakes are computed across all your courses
 8. A concept library tracks your learning artifacts across all sessions
-9. An **Artefacts Register** in each plan is a visible anchor listing every artefact the course produces (transcripts, concept files, exercise books and other deliverables), updated as sessions run
+9. Every file a course writes is listed in its `course.json` and in the generated `overview.md`
 
 ## What Every Plan Includes
 
@@ -146,22 +146,27 @@ Building the PDF needs Node.js (KaTeX, Playwright and pdf-lib), a Chromium brows
 ## Architecture
 
 - **3 agents**: `training-planner` (orchestrator), `term-clarifier` (defines a term during a test without leaking the answer), `user-testing` (QA)
-- **8 skills**: `goal-decomposer`, `ttt-session`, `content-builder`, `concept-explainer`, `visual-explainer` (the interactive page that delivers the Teach phase), `concept-map`, `learner-analytics`, and the accessory skill `technical-training-manual`
+- **9 skills**: `course-model` (the course data file: schema, rules, glossary, conversion of old plans), `goal-decomposer`, `ttt-session`, `content-builder`, `concept-explainer`, `visual-explainer` (the interactive page that delivers the Teach phase), `concept-map`, `learner-analytics`, and the accessory skill `technical-training-manual`
 - **7 commands**: `/create-training-plan`, `/socratic-training-plan`, `/run-session`, `/worked-exercises`, `/training-status`, `/concept-library`, `/user-testing`
 
 ## Output Files
 
-| File | Content |
-|------|---------|
-| `<topic>_training_plan.md` | Plan + progress tracking |
-| `<topic>-socratic_training_plan.md` | Socratic plan + progress tracking |
-| `<topic>_session_SG<N>.md` | Session transcript per sub-goal |
-| `<topic>_checkpoint_SG<N>.md` | In-progress session checkpoint (deleted on completion) |
-| `<topic>_artefact_SG<N>_exercises.md` | Exercise book: fully solved exercises for a sub-goal, per level, added to after each session and by `/worked-exercises` (registered in the plan's Artefacts Register) |
-| `<topic>_visual_SG<N>.html` | The interactive page that delivered a session's Teach phase (registered in the plan's Artefacts Register) |
-| `<topic>_artefact_SG<N>_<slug>.md` | Any other deliverable artefact produced by a session when the work yields one (registered in the plan's Artefacts Register) |
-| `learner_profile.md` | Persistent learner profile across all plans |
-| `concept-<domain>-<topic>.md` | Concept file from Teach phase (per session with gaps) |
+Each course lives in its own folder. One file, `course.json`, holds the whole course: its design, the state of every lesson, the list of files and the history. Everything else is generated from it or listed in it, so no fact is stored twice. The format is defined by the `course-model` skill (`skills/course-model/`: schema, rules, glossary and a helper tool).
+
+```
+<course-id>/
+  course.json            the only source of truth
+  overview.md            generated outline for reading (never shows tests or solutions)
+  lessons/
+    03-soft-lookup/
+      notes.md           lesson notes, when the lesson taught something
+      practice.md        practice book: fully solved exercises, added to over time
+      page.html          the lesson page, when the lesson was taught on a page
+```
+
+There are no checkpoint files (an interrupted lesson's saved place is in `course.json`), no transcripts (every answer is kept in the lesson's attempts; a readable record is written on request), no separate register and no learner profile (`/training-status` computes progress from all courses).
+
+**Plans from version 3.4 and earlier** (`<topic>_training_plan.md` and its files) are converted the first time a command finds them: the course folder is created beside the plan, the plan's transcripts, concept files, exercise books and pages are copied into it, and the old files are left untouched. `python3 skills/course-model/tools/course.py convert <plan>.md` does the same by hand.
 
 ## Concept-Builder Methodology
 

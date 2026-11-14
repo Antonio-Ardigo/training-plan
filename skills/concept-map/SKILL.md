@@ -2,6 +2,8 @@
 description: "Concept map generation for training plan topics. Use when the user asks to map concepts, visualize concept relationships, see how topics connect, generate a concept map for a training plan argument, create a knowledge map, show dependencies between concepts, or map all concepts in a domain with links to the training plan's main concepts."
 ---
 
+> **Storage (version 3.5).** A course is stored in one file, `course.json`, as the **course-model** skill defines (Glob `**/skills/course-model/SKILL.md`). Where this file mentions a training plan file and its sections, a checkpoint file, a session transcript, a learner profile, a progress log, an artefacts register, an exercise book or a concept file, read and write the matching part of `course.json` or the course folder instead: plan → `course.json`; sub-goal SG-N → lesson `LN`; blueprint → the lesson's `design`; status, scores, progress log, checkpoint → the lesson's `state`; artefacts register → `files`; transcript → `state.attempts`; exercise book → `lessons/<NN-slug>/practice.md`; concept file → `lessons/<NN-slug>/notes.md`; learner profile → progress computed on request. The course-model skill wins wherever the two disagree.
+
 # Concept Map -- Domain Knowledge
 
 Reference knowledge for generating concept maps that visualize how all concepts within a given argument relate to each other and to the training plan's main concepts (Core Principles and Key Concepts).

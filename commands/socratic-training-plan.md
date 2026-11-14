@@ -53,13 +53,13 @@ Then set the plan's **Target level**: the level the whole course is pitched at.
 
 ### Step 1.5: Check Learner Profile
 
-Use Glob to look for `learner_profile.md` in the current directory.
+Compute the learner's progress as the course-model skill describes (`python3 <path>/course.py progress .` when Python is available; otherwise read every `*/course.json` below the current folder). A 3.x `learner_profile.md`, if present, counts too.
 
-If found, read it and note:
+If any course exists, note:
 - **Known strengths**: Topics the learner has mastered (passed Initial Test with zero gaps). If any relate to this new goal, plan harder initial tests for those sub-goals.
 - **Gap patterns**: Recurring weaknesses. If any relate to this new goal, note them in the Teach Topics of relevant session blueprints so they get proactive coverage.
 
-If no profile exists, proceed normally. The profile will be created after the first /run-session.
+If there is no earlier course, proceed normally.
 
 Pass these notes forward to Step 3 (Design Session Blueprints) so the blueprints reflect what is already known about the learner.
 
@@ -272,260 +272,49 @@ Write four parts:
 Rules:
 - This is a plan-level overview, **distinct from the SG-1 Motivation session blueprint** (which stays a Socratic TTT session on "why this matters").
 - Keep it informative — **not** teaching content, no test, no theory. (The overview names *what* is discovered; it does not spoil the Discovery Questions.)
-- It goes near the top of the plan file (see Step 4 template), so the learner sees the big picture before the details.
+- It is stored in `overview` (Step 4) and shown at the top of `overview.md`, so the learner sees the big picture before the details.
 
-### Step 4: Write the Plan File
+### Step 4: Write the Course
 
-First use Glob to check whether `<topic>-socratic_training_plan.md` already exists in the current directory. If it does, do not overwrite it: ask the learner whether to replace it or to keep both. To keep both (and whenever you cannot ask), put the level in the name, `<topic>-hs`, `<topic>-msc` or `<topic>-adv`, and use that as the `<topic>` of this plan.
+The course is stored as **one file**, `course.json`, in a folder named after the course, with a generated outline beside it. Read the **course-model** skill (Glob `**/skills/course-model/SKILL.md`) and its schema `course.schema.json` before writing: they define every field, the folder layout and the rules. Do not write a Markdown plan file.
 
-Use the Write tool to create `<topic>-socratic_training_plan.md` in the current directory. Use this exact format:
+1. **Choose the folder.** The course id is a short lowercase slug of the topic (`cost-estimation`, `transformer-attention`). If `<course-id>/course.json` already exists, do not overwrite it: ask whether to replace it or to keep both (keep both by adding a suffix such as `-2` to the new id).
+2. **Write `<course-id>/course.json`** with the Write tool. Put what Steps 1 to 3.5 produced into these fields:
 
-```markdown
-# Training Plan: <Title> (Socratic)
-Generated: <date> | Status: in-progress | Target level: <High school/Master's/Advanced>
+| What you designed | Field in `course.json` |
+|---|---|
+| The learner's goal as typed / the refined goal (Step 1) | `course.goal_as_given` / `course.goal` |
+| The level (Step 1) | `course.level`: `high-school`, `masters` or `advanced` |
+| The method | `course.method`: `socratic` |
+| Delivery | `course.delivery`: `app` (lessons on a page), or `chat` if the learner asked for chat |
+| The overview (Step 3.5) | `overview`: `why_it_matters`, `what_you_will_learn`, `principles_and_facts`, `you_will_be_able_to` |
+| The breakthrough (Step 1.9) | `story`: `before`, `the_aha`, `what_it_solved`, and one `by_principle` row per principle |
+| Principle extraction (Step 1.75) | `principles[]`: `P1`... with name, statement, formal, needs |
+| The hard core (Step 2.75) | `key_idea: true` and `why_hard` on those principles |
+| Key facts (Step 1.8) | `facts[]`: `F1`... with `used_in` lesson ids and `verify` for values to check |
+| External prerequisites (Step 2.5) | `background[]` |
+| Sub-goals, in order (Step 2) | `lessons[]`: `L1`, `L2`... numbered in the recommended order, with `kind` (Motivation → `why`, Core Principle → `principle`, Key Concept → `concept`, Tools → `tool`, Verification → `capstone`), title, goal, area, difficulty, principles, `needs` (the lessons each one depends on, from the prerequisite graph), `key_idea` |
+| Each blueprint (Step 3) | that lesson's `design`: Initial Test and Pass Criteria → `try_first.question` and `try_first.marking.pass`; Final Test → `final_check`; Anticipated CTQs → `success_criteria` (the failure-mode tag becomes `common_mistake.kind`: conflation → `mixing-up`, overgeneralization → `overstretching`, missing-prerequisite → `missing-background`, procedural-without-conceptual → `steps-without-why`, verbal-without-formal → `words-without-maths`, formal-without-intuitive → `maths-without-picture`); Exercise → `practice_task`; Teach Topics → `to_teach`; the principle → `principle_statement`; the worked example → `worked_example` (`given`, `steps` with `do` and `why`, `result`, `check`); the Discovery Question → `puzzle`; the Socratic Guidance Chain → `guiding_questions`; the reconstruct-the-reasoning part of the Final Test → `final_check.marking.explain_it_back` |
+| Each hard-core blueprint | also `trap` (the tempting answer, also copied to `try_first.marking.trap`), `aha` (the insight), `picture`, `visual` (objects, colour_roles, steps, your_turn, control) and `levels` (one `{level, example}` per level above High school up to the course level) |
+| Every lesson's state | `{"status": "not-started", "attempts": []}` |
+| Files | `files[]`: one row for `overview.md` (kind `overview`) |
+| History | `history[]`: `{"at": "<today>", "event": "Course created"}` |
 
-## Learning Goal
-<User's original input>
-
-## SMART Goal
-<15-word refined statement>
-
-## Pedagogical Method: Socratic Discovery
-
-Each session follows a **Question → Tension → Resolution → Test** arc:
-
-1. **Discovery Question** — a scenario that creates genuine puzzlement. The learner must *feel* the gap before any concept is introduced.
-2. **Tension** — the learner's natural first attempt fails or is incomplete. This is designed, not accidental.
-3. **Resolution** — the concept emerges as the *only* way to resolve the tension. It is not presented as a fact to memorize but as an inevitability.
-4. **Test** — the learner demonstrates they can reconstruct the reasoning, not just repeat the answer.
-
-**Socratic Guidance Chains** are provided in each blueprint: sequences of 3-6 questions the instructor asks if the learner is stuck. Each question narrows the search space without giving the answer. The chain is designed so that answering the last question makes the conclusion inescapable.
-
-**The arc is a form of Test-Teach-Test.** Attempt each test cold, before reading its blueprint:
-
-| Test-Teach-Test | In this plan |
-|-----------------|--------------|
-| Test | Discovery Question and Initial Test: the first attempt meets the **tension** |
-| Teach | Socratic Guidance Chain: the **resolution** is derived through questions, not explained |
-| Test | Final Test, including its "reconstruct the reasoning" part |
-
-## Motivation & Course Overview (VOC)
-> _Editable by the learner. This is the course's bird's-eye view and
-> voice-of-customer anchor. If you change anything here, tell me — your
-> feedback may restructure the plan (re-decomposition of sub-goals)._
-
-**Why this matters:** <1-3 sentences — real-world stakes and relevance>
-
-**Bird's-eye view of the course:** <2-4 sentences — what the course covers
-end to end and how the sub-goals connect into one arc>
-
-**Core principles & key facts:** <plain-language digest of the 3-5 core
-principles from Principle Extraction and the most load-bearing facts from Key Facts>
-
-**What you'll be able to do on completion:** <bulleted concrete capabilities
-tied to the SMART Goal and the Verification sub-goal(s)>
-
-## Breakthrough
-> _The story behind the topic: what the situation was before the key
-> intuition, and what the topic solved._
-
-**Before the intuition:** <1-2 sentences — what people did or believed, and where it broke down>
-
-**The intuition:** <1-2 sentences — the insight that changed the picture, in plain language>
-
-**What it solved:** <1-2 sentences — what became possible that was not possible before>
-
-| Principle | Before the intuition | What it solved |
-|-----------|----------------------|----------------|
-| <principle name> | <the earlier view or practice it replaced, and how it failed> | <what it made possible> |
-
-## Principle Extraction
-
-| Principle | Statement | Formally | Prerequisites |
-|-----------|-----------|---------|---------------|
-| <name> | <sentence> | <LaTeX or —> | <prior knowledge> |
-
-## Hard Core
-> _The principles that are hardest to grasp. Each is taught through an aha
-> moment and a climb through the levels, with a solved exercise at every rung.
-> If this list looks wrong to you, tell me which principle to add or remove._
-
-| Principle | Why it is hard | Taught in |
-|-----------|----------------|-----------|
-| <principle name> | <counter-intuitive / new abstraction / persistent misconception / load-bearing> | SG-<N> |
-
-(If no principle qualifies, write "No principle in this plan is hard-core." in place of the table.)
-
-## Key Facts
-> _What this course relies on you simply knowing. Values marked `(verify)`
-> should be checked against a source before you rely on them._
-
-| # | Key Fact | Why it matters | Used in |
-|---|----------|----------------|---------|
-| KF-1 | <one fact, with its value and unit> | <what goes wrong without it> | SG-<N>, ... |
-
-## Sub-Goals
-
-| # | Axis | Sub-Goal | Domain | Difficulty | Depth | Principle | Status | Score |
-|---|------|----------|--------|-----------|-------|-----------|--------|-------|
-| SG-1 | Motivation | Discover <statement> | <domain> | low | <HS/MSc/Adv> | — | pending | - |
-| SG-2 | Core Principle | Discover <statement> | <domain> | low | <HS/MSc/Adv> | <principle> | pending | - |
-| ... | ... | ... | ... | ... | ... | ... | ... | ... |
-
-_Depth is the plan's Target level in every row: HS = High school, MSc = Master's, Adv = Advanced._
-
-## Prerequisite Graph
-
-<Goal> (core)
-  requires:
-    <External> (prerequisite) ← CHECK learner profile
-  rests on:
-    <Principle> (principle) → SG-X
-      led to:
-        <Principle> (principle) → SG-Y
-
-## Sequence
-<dependency notes derived from prerequisite graph>
-
-## Session Blueprints
-> _Session designs. Run a sub-goal's session before reading its blueprint: the
-> questions and tests work best unseen. The solved exercises are there to study afterwards._
-
-### SG-1: <Motivation short title>
-- **Discovery Question:** <puzzlement-creating scenario>
-- **Initial Test:** <practical case with designed tension>
-- **Pass Criteria:** <measurable threshold>
-- **Estimated Depth:** <Target level>
-- **Principle:** —
-- **Socratic Guidance Chain (if stuck):**
-  1. <narrowing question>
-  2. <narrowing question>
-  3. <narrowing question — conclusion becomes inescapable>
-- **Anticipated CTQs:**
-  | CTQ | Source | Mastery Test | Common Failure Mode |
-  |-----|--------|-------------|---------------------|
-  | <what must be understood> | <concept> | <verification task> | <failure pattern> |
-- **Teach Topics:** <concepts, exercises, pitfalls with CTQ failure mode tags + Socratic teaching notes>
-- **Final Test:** <different case with "reconstruct the reasoning" component>
-
-### SG-2: <Core Principle short title>
-- **Principle:** <principle name> — <principle statement>
-- **Worked Example (foundational):**
-  **Given:** <simplest possible scenario>
-  **Step 1:** <operation>
-  > **Why:** <answer to the question the learner would naturally ask>
-  **Step 2:** <operation>
-  > **Why:** <answer to natural question>
-  **Result:** <answer with interpretation — stated as an inevitability>
-  > **Check:** <the result confirmed a second way>
-- **Discovery Question:** <puzzle that only this principle resolves>
-- **Initial Test:** <simple scenario with a "wrong path" that reveals the insight when it fails>
-- **Pass Criteria:** Can state the principle in own words AND apply it AND explain why the alternative fails
-- **Estimated Depth:** <Target level>
-- **Socratic Guidance Chain (if stuck):**
-  1. <narrowing question>
-  2. <narrowing question>
-  3. <narrowing question>
-  4. <conclusion becomes inescapable>
-- **Anticipated CTQs:**
-  | CTQ | Source | Mastery Test | Common Failure Mode |
-  |-----|--------|-------------|---------------------|
-  | <what must be understood> | <principle> | <verification task> | <failure pattern> |
-- **Teach Topics:** <the principle, boundary conditions, Socratic teaching notes>
-- **Final Test:** <different scenario with "reconstruct the reasoning" component>
-
-### SG-3: <Hard-core principle short title>
-- **Principle:** <principle name> — <principle statement>
-- **Tempting answer:** <the natural, confident, wrong answer the designed wrong path leads to, and why it feels right>
-- **Insight:** <the one sentence the Guidance Chain leads the learner to say>
-- **Picture:** <one picture or analogy, and where it stops being true>
-- **Visual design:** <Objects (tiny, with exact values) · Colour roles · Steps · Your-turn inputs for each rung (the right value and the two most likely wrong ones) · Control>
-- **Worked Example (foundational):**
-  **Given:** <the smallest case in which the Insight is visible, with concrete numbers>
-  **Step 1:** <operation>
-  > **Why:** <answer to the question the learner would naturally ask>
-  **Step 2:** <operation>
-  > **Why:** <answer to natural question>
-  **Result:** <answer with interpretation — stated as an inevitability>
-  > **Check:** <the result confirmed a second way>
-- **Level ladder:** <one solved exercise for each level above High school, up to the Target level; in a High school plan write "none: the foundational worked example is the only rung">
-  **Master's solved exercise** (not in a High school plan)
-  **Given:** <the same idea, in the field's notation>
-  **Step 1:** <operation>
-  > **Why:** <answer to natural question>
-  **Result:** <answer with interpretation>
-  > **Check:** <the result confirmed a second way>
-  **Advanced solved exercise** (only in an Advanced plan)
-  **Given:** <the same idea in full generality: a proof, a derivation or a non-standard case>
-  **Step 1:** <operation>
-  > **Why:** <answer to natural question>
-  **Result:** <answer with interpretation>
-  > **Check:** <the result confirmed a second way>
-- **Discovery Question:** <puzzle that only this principle resolves>
-- **Initial Test:** <case whose wrong path is the Tempting answer: predict and justify>
-- **Pass Criteria:** Gives the right answer, not the tempting one, AND justifies it at the Target level AND explains why the tempting answer fails
-- **Estimated Depth:** <Target level>
-- **Socratic Guidance Chain (if stuck):**
-  1. <narrowing question>
-  2. <narrowing question>
-  3. <narrowing question>
-  4. <the learner states the Insight>
-- **Anticipated CTQs:**
-  | CTQ | Source | Mastery Test | Common Failure Mode |
-  |-----|--------|-------------|---------------------|
-  | <what must be understood at this rung> | <principle>, <level> rung | <verification task> | <failure pattern> |
-- **Teach Topics:** <the principle, boundary conditions, the misunderstandings that survive the Insight, Socratic teaching notes>
-- **Final Test:** <different case in which the same tempting reasoning is again available, with "reconstruct the reasoning" component>
-
-### SG-N: <Key Concept short title>
-- **Discovery Question:** <puzzlement-creating scenario>
-- **Initial Test:** <practical case with designed tension>
-- **Pass Criteria:** <measurable threshold>
-- **Estimated Depth:** <Target level>
-- **Principle:** <principle name>
-- **Socratic Guidance Chain (if stuck):**
-  1. <narrowing question>
-  2. <narrowing question>
-  3. <narrowing question>
-- **Anticipated CTQs:**
-  | CTQ | Source | Mastery Test | Common Failure Mode |
-  |-----|--------|-------------|---------------------|
-  | <what must be understood> | <concept> | <verification task> | <failure pattern> |
-- **Teach Topics:** <concepts, exercises, pitfalls with CTQ failure mode tags + Socratic teaching notes>
-- **Final Test:** <different case with "reconstruct the reasoning" component>
-
-(repeat for every sub-goal — Core Principle SGs include the Worked Example field, others do not; only the principles listed in `## Hard Core` use the hard-core form)
-
-## Artefacts Register
-> _Visible anchor for every artefact this course produces. Seeded at plan
-> creation and updated as sessions run — each artefact is reusable context._
-
-| Artefact | Type | Source | Path | Status |
-|----------|------|--------|------|--------|
-| <plan title> | plan | — | <topic>-socratic_training_plan.md | current |
-
-## Progress Log
-(updated by /run-session)
-```
-
-Seed the **Artefacts Register** with the plan file itself. If a `learner_profile.md`
-exists in the directory, add a row for it too (`profile` type). Session artefacts
-(transcripts, concept files, and any deliverables) are appended by `/run-session`
-during its RECORD phase.
+3. **Validate and render.** If `python3` is available, run the course-model tool: `python3 <path>/course.py validate <course-id>/course.json --files`, fix every error it reports and run it again until it passes, then `python3 <path>/course.py render-overview <course-id>/course.json`. Without Python, check the rules in section 4 of the course-model skill yourself and write `overview.md` as its section 5 describes. The overview never contains tests, marking guides or worked solutions.
 
 ### Step 4.5: Check the Required Elements
 
-Read back the file you just wrote: from the top through the Sub-Goals table, the blueprint headings and their field names, and each hard-core blueprint in full. Confirm each row below. Where a row fails, fix the file with the Edit tool and check that row again.
+Confirm each row below in `course.json`. Where a row fails, fix the file and validate again.
 
 | Element | Present when |
 |---------|--------------|
-| Core principles identification | Every row of `## Principle Extraction` has exactly one Core Principle row in `## Sub-Goals`, and every Core Principle row names a principle from that table |
-| Key facts identification | `## Key Facts` has at least one row, and every `Used in` cell names sub-goals that exist |
-| Motivation | `## Motivation & Course Overview (VOC)` has its four parts filled in, and SG-1 is on the Motivation axis |
-| Breakthrough | `## Breakthrough` has its three labelled parts filled in and one table row for each principle in `## Principle Extraction` |
-| Method | `## Pedagogical Method: Socratic Discovery` is present with its four-step arc and its Test-Teach-Test table, and every blueprint has a Discovery Question, an Initial Test, a Socratic Guidance Chain and a Final Test |
-| Levels | The header line has a `Target level:` of High school, Master's or Advanced, and every Depth cell and every Estimated Depth is that level |
-| Hard core | `## Hard Core` is present. Every principle it lists has, in its Core Principle blueprint, a Tempting answer, an Insight, a Picture, a Visual design, a foundational worked example and one solved exercise for each level above High school up to the Target level, each ending with a Check. No other blueprint has those fields. No test reuses a solved exercise's case. |
+| Core principles identification | Every principle has exactly one lesson of kind `principle`, and every principle lesson names a principle |
+| Key facts identification | `facts` has at least one entry, and every `used_in` names an existing lesson |
+| Motivation | `overview` has its four parts filled in, and Lesson 1 is of kind `why` |
+| Breakthrough | `story` has `before`, `the_aha` and `what_it_solved`, and one `by_principle` row per principle |
+| Method | `course.method` is `socratic`, and every lesson has `try_first` and `final_check`, and every lesson has a `puzzle` and 3 to 6 `guiding_questions` |
+| Levels | `course.level` is set, and every test and pass standard is written for that level |
+| Hard core | At least one principle has `key_idea: true` unless no principle passed the gate (then say so). Every key-idea lesson has `trap`, `aha`, `picture`, `visual`, a worked example and the right `levels` for the course level, each example ending with a `check`. No other lesson has these fields. No test reuses a worked example's case |
 
 ### Step 5: Confirm to the User
 
@@ -543,7 +332,8 @@ After writing the file, present a summary:
 - The suggested starting sub-goal
 - Any learner profile notes that influenced the plan
 - The result of the required-elements check (Step 4.5), one line per element
-- Remind the user to run `/run-session SG-<N>` to start learning
+- Where the course is: `<course-id>/course.json`, with the readable outline in `<course-id>/overview.md`
+- Remind the user to run `/run-session 1` (or the number of the suggested lesson) to start learning
 
 **VOC feedback → restructure rule:** If the learner revises the Motivation & Course Overview (or gives feedback on it), re-evaluate whether the current sub-goal decomposition still matches the stated scope and outcomes. If it no longer matches, **offer to re-decompose (restructure) the plan** using the normal decomposition rules — update the Sub-Goals table, Prerequisite Graph, and Sequence, the Breakthrough and Hard Core rows if the principles changed, and the Key Facts `Used in` column — then refresh the VOC digest so it stays consistent with the revised plan and re-run the check in Step 4.5.
 
@@ -555,12 +345,12 @@ After writing the file, present a summary:
 - The plan names and motivates; it does not explain or derive. The Breakthrough section and the Key Facts table are orientation: state them, never teach from them.
 - Do NOT skip the required-elements check (Step 4.5): a plan missing one of its required elements is incomplete
 - The Target level is fixed for the plan: every sub-goal, test and pass criterion is written for it, and nothing above it is written into the plan
-- Do NOT overwrite an existing plan file without asking (Step 4)
+- Do NOT overwrite an existing course without asking (Step 4)
 - Do NOT skip the session blueprint for any sub-goal
 - Every blueprint MUST include a Discovery Question and a Socratic Guidance Chain
 - Discovery Questions must create genuine tension — not just ask "what do you know about X?"
 - Socratic Guidance Chains must narrow progressively — the last question should make the answer inescapable
 - Initial Tests should have a designed "wrong path" that reveals the concept's necessity
 - Final Tests must include a "reconstruct the reasoning" or "explain why" component
-- The `<topic>` in the filename should be a short kebab-case slug with `-socratic` suffix
+- The course id should be a short kebab-case slug derived from the goal (e.g., `bayes-medical-tests`); the method is recorded in `course.method`, not in the name
 - Every sub-goal dependency must trace to the prerequisite graph -- no intuited dependencies

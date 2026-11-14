@@ -1,106 +1,86 @@
-# Principles -- Why Test-Teach-Test Works
+# Principles: Why Try First, Learn, Show You've Got It
 
-## The Core Insight
+## The core idea
 
-TTT inverts the traditional lecture-then-test model. By testing first, the learner's actual knowledge state is measured before any instruction is delivered. Teaching is then gap-driven -- only what the learner doesn't already know gets taught. This produces faster learning, stronger retention, and immediate evidence of mastery.
+Most teaching explains first and tests after. This plugin turns that round. Each lesson starts with **Try first**: a real case the learner attempts before any explanation. The attempt shows what the learner already holds and what is missing. **Learn** then teaches only what is missing, one item at a time. **Show you've got it** checks, on a new case, that the learning carries over. The result is faster learning, stronger memory and clear evidence of what was learned.
 
-## Cognitive Science Foundations
+## What the research says
 
-### 1. The Testing Effect (Retrieval Practice)
+### 1. Trying to recall builds memory (the testing effect)
 
-Attempting to retrieve information from memory strengthens that memory far more than re-reading or passive review. The Initial Test forces the learner to retrieve and apply knowledge before any teaching occurs -- even a failed attempt improves subsequent learning.
+Pulling something out of memory strengthens it far more than reading it again. Try first makes the learner recall and apply before any teaching; even a failed attempt makes the teaching that follows work better.
 
-**How TTT uses it:** Initial Test, Quick Checks, and Final Test create 3+ retrieval events per session. Each retrieval strengthens the memory trace.
+**In a lesson:** Try first, the checks after each explanation and Show you've got it give at least three recalls per lesson.
 
-*Reference: Roediger & Karpicke (2006). Test-enhanced learning.*
+*Roediger & Karpicke (2006). Test-enhanced learning.*
 
-### 2. Desirable Difficulty
+### 2. Effort helps (desirable difficulty)
 
-Learning that requires effort produces stronger, more durable memories than learning that feels easy. Fluent reading of theory feels productive but encodes weakly. Struggling with a practical case feels harder but encodes deeply.
+Learning that takes effort lasts longer than learning that feels easy. Reading theory fluently feels productive but sticks poorly. Struggling with a real case feels harder and sticks.
 
-**How TTT uses it:** The practical-first approach is deliberately harder than reading theory first. The learner confronts difficulty immediately, which triggers deeper cognitive processing.
+**In a lesson:** the case comes before the theory, on purpose.
 
-*Reference: Bjork (1994). Memory and metamemory considerations in the training of human beings.*
+*Bjork (1994). Memory and metamemory considerations in the training of human beings.*
 
-### 3. Transfer-Appropriate Processing
+### 3. Learn the way you will be tested (transfer-appropriate processing)
 
-Performance is best when the conditions of learning match the conditions of assessment. If you will be tested with practical cases, you should learn through practical cases.
+People perform best when they learned in the same way they are tested. Both tests of a lesson are real cases, and Show you've got it uses a different case from Try first, so it measures transfer, not memory of one example.
 
-**How TTT uses it:** Both the Initial Test and Final Test are practical cases -- the learner practices in the same mode they will be assessed. The Final Test uses a different scenario to verify transfer, not memorization.
+### 4. Teach only what is missing
 
-### 4. Gap-Driven Teaching
+Teaching what the learner already knows wastes time and attention. Judging Try first names exactly **what to work on**; Learn gives one explanation for each item and nothing else.
 
-Instruction is most effective when it targets specific deficits rather than covering material uniformly. Teaching what the learner already knows wastes time and attention. Teaching only what is missing is both faster and more engaging.
+### 5. Recall again, spaced out
 
-**How TTT uses it:** The EVALUATE phase identifies named, specific gaps. The TEACH phase delivers one teaching block per gap. Nothing more, nothing less.
+Recalling the same idea several times, with other activity in between, strengthens it more than recalling it several times in a row. In a lesson, Try first, each check and Show you've got it are separated by new material; another round adds one more recall.
 
-### 5. Spaced Retrieval Practice
+## Five learning risks
 
-Retrieving the same knowledge at multiple points -- separated by intervening activity -- strengthens retention more than massed practice. Each retrieval event in a TTT session is separated by new information (teaching blocks, new scenarios).
+These risks come from research on learning while working with AI assistants (DrCatHicks, learning-opportunities).
 
-**How TTT uses it:** The learner retrieves knowledge at the Initial Test, at each Quick Check during teaching, and again at the Final Test. Adaptation loops add further spaced retrieval.
+| Risk | What happens | How the lesson guards against it |
+|---|---|---|
+| **Plausible but wrong** | The learner produces answers that sound right and are not | Judging names what to work on, with the kind of common mistake; a check follows every explanation |
+| **Fluency illusion** | Reading feels like understanding, but the learner cannot apply it | Try first exposes it at once: nothing is taught before the lesson's test, and no test uses a case the course has already solved |
+| **Cramming** | Fast learning, fast forgetting | Lessons spread the practice; another round adds spacing inside a lesson |
+| **Not knowing what you know** | The learner misjudges their own understanding | The pass standard decides, not the learner's feeling |
+| **Passive review** | Re-reading instead of recalling | Every step asks the learner to produce something: solve a case, answer a check, solve a new case |
 
-## Five Learning Risks and How TTT Addresses Them
+## Design decisions that follow
 
-These risks are identified in research on developer learning during AI-assisted coding (DrCatHicks, learning-opportunities).
+- **No theory before Try first.** Explaining first would remove the useful difficulty and the recall. A short opening says why the lesson matters and where the idea came from, and gives no answer away.
+- **A check after each explanation.** Each check is a recall that fixes what was just taught.
+- **A new case in Show you've got it.** The same case would test memory; a new one tests transfer.
+- **At most two more rounds.** After two, the missing piece is usually background the lesson cannot supply, and marking the lesson for review helps more than repeating it.
+- **One item, one explanation.** Merging several missing items into one explanation makes them interfere; one at a time lets each settle.
 
-| Risk | Description | How TTT Mitigates |
-|------|-------------|-------------------|
-| **Generation Effect Gaps** | Learner generates plausible but wrong answers without feedback | EVALUATE phase explicitly names gaps; Quick Checks catch remaining errors after each teaching block |
-| **Fluency Illusion** | Learner feels they understand from reading but cannot apply | Initial Test exposes this immediately -- nothing is taught in a session before its test, and no test uses a case the plan has already solved |
-| **Spacing Effect** | Cramming produces fast forgetting | Multiple sub-goals spread practice; adaptation loops add spacing within sessions |
-| **Metacognitive Blindness** | Learner cannot accurately judge what they know | Pass criteria provide an objective measure -- the criteria decide, not the learner's self-assessment |
-| **Reduced Retrieval Practice** | Passive review instead of active recall | Every phase requires active production: solve a case, answer Quick Checks, solve another case |
+## What every course contains, and why
 
-## Design Implications
+1. **Principles.** A learner who holds the principles can rebuild the details; one who holds only details cannot. The three to five principles are found before any lesson is written, and every lesson traces back to one.
+2. **Facts to know.** Principles are reasoned from; facts are simply known. Listing them separates what to memorise from what to understand, and keeps a test of reasoning from failing on a missing constant.
+3. **Why it matters.** People put effort into what they can see the use of. A course opens with why the topic matters and what the learner will be able to do. *Hulleman & Harackiewicz (2009). Promoting interest and performance in high school science classes.*
+4. **The story.** An idea is easier to grasp and remember as the answer to a real problem. A course records what the situation was before the key idea, the aha, and what it solved.
+5. **A stated method.** In the Direct method, the lesson explains after Try first. In the Socratic method (the default), guiding questions lead the learner to state the idea themselves, on the same Try first → Learn → Show you've got it cycle. What learners work out, they remember better than what they are told. *Slamecka & Graf (1978). The generation effect.*
 
-These principles explain specific TTT design decisions:
+## Teaching the key ideas ★
 
-- **No preamble before Initial Test**: Presenting theory first would eliminate desirable difficulty and bypass the testing effect. The test must come first.
-- **Quick Checks after each teaching block**: Each Quick Check is a retrieval event that strengthens the just-taught concept. Skipping them loses a critical learning opportunity.
-- **Different scenario in Final Test**: Same scenario would test memorization. Different scenario tests transfer -- the learner must apply the concept in a new context.
-- **Maximum 2 adaptation loops**: Diminishing returns after 2 loops indicate the gap may require prerequisite knowledge the session cannot provide. Flagging for review is more productive than infinite retry.
-- **One gap, one teaching block**: Combining gaps into a single explanation creates interference. Sequential, focused blocks let each concept consolidate before the next is introduced.
-
-## Plan Design Principles
-
-The sections above explain how a *session* runs. These explain what every *plan* contains, and why. Plan creation checks for all five after writing the file.
-
-**1. Core principles identification.** A learner who holds the principles can rebuild the details; one who holds only the details cannot. So the 3-5 core principles are identified before any sub-goal is written, and every sub-goal traces back to one.
-
-**2. Key facts identification.** Principles are reasoned from; facts are simply known. Listing the few facts a course relies on tells the learner what to memorise and what to understand, and keeps a test of reasoning from failing on a missing constant.
-
-**3. Motivation.** People put effort into what they can see the use of. A plan opens with why the topic matters and what the learner will be able to do, before any detail.
-
-*Reference: Hulleman & Harackiewicz (2009). Promoting interest and performance in high school science classes.*
-
-**4. Breakthrough.** A concept is easier to understand and remember as the answer to a problem than as a free-standing statement. A plan records what the situation was before the key intuition, and what the topic solved.
-
-**5. Test-Teach-Test, by explanation or by discovery.** Every plan states its method. A standard plan explains after the test; a Socratic plan leads the learner to derive the concept, on the same test-teach-test cycle. What a learner works out is remembered better than what they are told.
-
-*Reference: Slamecka & Graf (1978). The generation effect: Delineation of a phenomenon.*
-
-## Teaching the Hard Core
-
-Some principles resist being told. They contradict intuition, need a new abstraction, or run into a misconception that survives correction, and once grasped they change how the rest of the subject looks. A plan flags these principles and designs their explanation before the session.
-
-*Reference: Meyer & Land (2003). Threshold concepts and troublesome knowledge.*
+Some principles resist being told. They contradict intuition, need a new abstraction, or meet a mistaken belief that survives correction; once grasped, they change how the rest of the subject looks. A course marks these as **key ideas** and designs their teaching in advance. *Meyer & Land (2003). Threshold concepts and troublesome knowledge.*
 
 | Design decision | Why |
-|-----------------|-----|
-| **Predict, fail, then reveal** | An explanation lands when the learner has just met the problem it solves. A test built so that the natural approach fails creates that moment, and the explanation starts from the learner's own answer. |
-| **One insight, one picture, the smallest example** | An aha is a reframing, and a reframing fits in a sentence. One picture carries it; the picture's limit is stated so that it does not become the next misconception. |
-| **A climb from High school to the plan's level** | Concrete first, formal second, general last. Each rung keeps what the rung below got right and adds one layer. |
-| **A solved example, then "your turn", at every rung** | Studying a worked example and then solving a similar problem builds skill better than solving problems unaided, most of all for a learner new to the material. |
-| **A failed rung drops one level** | When the formalism has outrun the intuition, repeating the formalism does not help. |
-| **Every solution ends with a Check** | A wrong solution presented with confidence teaches the wrong thing. A second route to the result catches it. |
+|---|---|
+| **The trap first, then the aha moment** | An explanation lands when the learner has just met the problem it solves. Try first is built so that the natural answer fails, and the teaching starts from the learner's own answer. |
+| **One aha, one picture, the smallest example** | An aha is a new way of seeing, and it fits in a sentence. One picture carries it; its limit is stated so it does not become the next mistaken belief. |
+| **Level by level, from High school up** | Concrete first, formal next, general last. Each level keeps what the level below got right and adds one layer. |
+| **A solved example, then Your turn, at each level** | Studying a worked example and then solving a similar problem builds skill better than solving unaided, most of all for a newcomer. |
+| **A wrong method: step back one level** | When the formalism has outrun the intuition, repeating the formalism does not help. |
+| **Every solution ends with a Check** | A wrong solution shown with confidence teaches the wrong thing. A second route to the result catches it. |
 
-*References: Kapur (2008). Productive failure. Schwartz & Bransford (1998). A time for telling. Fyfe, McNeil, Son & Goldstone (2014). Concreteness fading in mathematics and science instruction. Sweller & Cooper (1985). The use of worked examples as a substitute for problem solving in learning algebra.*
+*Kapur (2008). Productive failure. Schwartz & Bransford (1998). A time for telling. Fyfe, McNeil, Son & Goldstone (2014). Concreteness fading in mathematics and science instruction. Sweller & Cooper (1985). The use of worked examples as a substitute for problem solving in learning algebra.*
 
-## Test First, Even With Solutions in the Plan
+## Try first, even though the course holds solutions
 
-A plan holds more than a list of tests: an overview, a breakthrough story, key facts and, for hard-core principles, solved exercises. The test-first rule still holds, for three reasons:
+A course holds more than tests: an overview, the story, facts to know and, for key ideas, solved examples. Trying first still works, because:
 
-- The top of a plan names and motivates; it does not explain, and it never states the tempting answer to a test.
-- No test is built on a case the plan has already solved.
-- A note above the blueprints asks the learner to run a session before reading its blueprint. A learner who reads ahead loses the surprise, not the measurement: the test still shows whether they can apply the idea to a new case.
+- What the learner reads before a lesson (`overview.md`) names and motivates; it never shows a test, a marking guide, a solution or a trap.
+- No test is built on a case the course has already solved.
+- A learner who reads the lesson design ahead loses the surprise, not the measurement: Try first still shows whether they can apply the idea to a new case.

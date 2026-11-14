@@ -51,7 +51,7 @@ Do the steps in order. Each says which part of `course.json` it fills.
 
 ### Step 3. Read earlier progress → notes for Step 10 and the summary
 
-Compute the learner's progress as course-model section 5 describes: `python3 <course-model>/tools/course.py progress .` when Python is available, otherwise read every `*/course.json` below the working folder. A `learner_profile.md` from version 3.x counts too. With no earlier course, skip this step.
+Get the learner's progress from the **progress** skill (section 4 says what it passes to course design): it is computed from every `course.json` below the working folder, after converting any course from version 3. With no earlier course, skip this step.
 
 Note three things for later steps:
 

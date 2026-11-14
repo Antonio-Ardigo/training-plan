@@ -57,9 +57,10 @@ Without Python, do the same work by hand, following this file and the schema exa
 
 | Part | Written when | Written by |
 |---|---|---|
-| `course`, `overview`, `story`, `principles`, `facts`, `background`, every lesson's `design` | The course is designed | the course-creation command |
-| `overview.learner_notes`, design changes the learner asks for | The learner edits the course | the command handling the request, then the re-check of the design rules |
-| a lesson's `state` | Each step of a lesson | the session command, at each step |
+| `course`, `overview`, `story`, `principles`, `facts`, `background`, every lesson's `design` | The course is designed | the course-design skill |
+| `overview.learner_notes`, design changes the learner asks for | The learner edits the course | the course-design skill (changes section), then the re-check of the design rules |
+| a lesson's `design.context`, only when it is empty | The lesson opens and the course has none (a course made or converted before the field existed) | the lesson-flow skill, which says so to the learner |
+| a lesson's `state` | Each step of a lesson | the lesson-flow skill, at each step |
 | `files` | A file is written or removed | whoever writes the file, in the same change |
 | `history` | Any of the above | whoever made the change |
 
@@ -113,7 +114,7 @@ Add each file to `files` when it is written: `path`, `kind` (`overview`, `lesson
 
 ## 7. Converting a 3.x plan
 
-Run `course.py convert <plan>.md`. It creates `<course-id>/` beside the plan, writes `course.json` and `overview.md`, and **copies** the plan's transcripts, concept files, exercise books and pages into the lesson folders. The old plan and its files are never changed or deleted; the course lists the plan as `old-plan`. A plan already converted (a course whose `converted_from` names it) is not converted again.
+Run `course.py convert <plan>.md`. It creates `<course-id>/` beside the plan, writes `course.json` and `overview.md`, and **copies** the plan's session records, notes, solved exercises and pages into the lesson folders. The old plan and its files are never changed or deleted; the course lists the plan as `old-plan`. A plan already converted (a course whose `converted_from` names it) is not converted again.
 
 What each part of a 3.x plan becomes is listed in `convert-3x.md`. Without Python, follow that table by hand.
 

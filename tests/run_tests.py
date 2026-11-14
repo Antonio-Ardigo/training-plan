@@ -113,7 +113,8 @@ for p in PROMPTS:
         continue
     text = open(p, encoding="utf-8").read()
     text = re.sub(r"(?s)<!-- older-names -->.*?<!-- /older-names -->", "", text)
-    text = re.sub(r"(?ms)^#+ Older names\n.*?(?=^#|\Z)", "", text)
+    text = re.sub(r"(?ms)^#+ (?:\d+\.\s*)?Older names[^\n]*\n.*?(?=^#|\Z)", "", text)
+    text = re.sub(r"(?m)^\*\*Older names[^\n]*(?:\n(?!\n)[^\n]*)*", "", text)
     hits = sorted({pat for pat in REMOVED if re.search(pat, text)})
     if hits:
         offenders[rel] = hits

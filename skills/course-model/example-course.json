@@ -143,7 +143,7 @@
         "visual": null,
         "worked_example": null,
         "levels": [],
-        "practice_task": null,
+        "practice_task": "List four things you would like a music app to compare between two songs, and say for each one how you would give it a number from 0 to 10. Expected outcome: four named features, each with a rule for scoring it.",
         "success_criteria": [
           {
             "what": "A match needs to be one number so that many candidates can be ranked",
@@ -252,7 +252,7 @@
           ]
         },
         "levels": [],
-        "practice_task": null,
+        "practice_task": "Your taste is t = (2, 1, 0) for (beat, melody, lyrics). Score the songs a = (3, 0, 5) and b = (1, 4, 0) by multiplying and adding, and say which one matches better. Expected outcome: t·a = 6, t·b = 6, a tie, reached by different features.",
         "success_criteria": [
           {
             "what": "Each product is a vote whose sign shows agreement and whose size shows strength",
@@ -361,7 +361,7 @@
           ]
         },
         "levels": [],
-        "practice_task": null,
+        "practice_task": "Take b = (0, 3) on the y-axis and a = (4, 2). Draw a's shadow on b's line, read its length, and give a·b. Then check by components. Expected outcome: shadow 2, a·b = 2 × 3 = 6, and 4 × 0 + 2 × 3 = 6.",
         "success_criteria": [
           {
             "what": "Only the part of a along b enters a·b; the sideways part contributes nothing",

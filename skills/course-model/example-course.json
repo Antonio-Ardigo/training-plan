@@ -1,0 +1,431 @@
+{
+  "schema": "course/1",
+  "course": {
+    "id": "dot-product",
+    "title": "Why the Dot Product Measures a Match (Socratic)",
+    "goal": "Explain, with pictures and numbers, why the dot product measures how well two vectors match.",
+    "goal_as_given": "Understand why a dot product measures how well two vectors match, at high school level. Do not ask me questions: accept your own overview and hard-core list.",
+    "level": "high-school",
+    "method": "socratic",
+    "delivery": "app",
+    "created": "2026-11-14",
+    "app_url": null
+  },
+  "overview": {
+    "why_it_matters": "Whenever a machine decides that two things are \"alike\" (a song and your taste, a search query and a web page, a push and the direction something can move), it almost always does so with a dot product. Knowing *why* that one small calculation measures a match turns a memorised formula into a tool you can trust, question and use in physics, data and geometry.",
+    "what_you_will_learn": "The course starts from the need for a single \"match number\" (SG-1), then builds the four ideas that explain it: products of components act as votes (SG-2), only the part of one vector lying along the other counts (SG-3), the sign says whether the vectors agree, ignore or oppose each other (SG-4), and length has to be taken out to leave a pure match score (SG-5). Four applications follow: the two ways of computing agree (SG-6), angles from components (SG-7), work done by a force (SG-8) and long lists of numbers (SG-9). A final teach-back (SG-10) puts everything into one explanation.",
+    "principles_and_facts": "Four principles carry the course. *Multiply-and-add scoring*: each pair of components casts a vote, and the votes are added. *The shadow*: the dot product sees only the part of one vector that lies along the other. *Sign and zero*: positive, zero and negative results mean agreeing, perpendicular and opposing directions. *Length versus direction*: the raw number mixes size with alignment, and dividing by both lengths leaves a score between −1 and 1. The facts you rely on are few: the component formula itself, the fact that the result is one number, how the angle between vectors is measured, five cosine values, the name \"cosine similarity\", the length of a list of numbers, and the definition of work.",
+    "you_will_be_able_to": [
+      "Compute a dot product from components and say what each term contributes",
+      "Draw the shadow picture and read the dot product from it",
+      "Tell from the sign alone whether two vectors agree, are perpendicular or oppose each other"
+    ]
+  },
+  "story": {
+    "before": "To compare two directions, people drew them and measured the angle, or worked through triangle trigonometry case by case. That is slow, needs a picture, and cannot be done at all for lists of more than three numbers.",
+    "the_aha": "One simple piece of arithmetic on the components, multiply in pairs and add, already contains the geometry: it says how much of one vector lies along the other.",
+    "what_it_solved": "\"How alike are these two?\" became a calculation that needs no drawing and works for any number of components. Physics got a one-line rule for the useful part of a force, and computing got a way to compare texts, songs and images by the million.",
+    "by_principle": [
+      {
+        "principle": "P1",
+        "before": "Lists were compared by eye or by ad-hoc rules, which gave no single number and broke down as the lists grew.",
+        "what_it_solved": "One rule gives one number for any two lists of the same length."
+      },
+      {
+        "principle": "P2",
+        "before": "The effect of a slanted push or pull was found by drawing triangles for each new situation.",
+        "what_it_solved": "The \"useful part\" of any vector along any direction became a single reusable idea."
+      }
+    ]
+  },
+  "principles": [
+    {
+      "id": "P1",
+      "name": "Multiply-and-add scoring",
+      "statement": "Multiply the two vectors component by component and add: each product is a vote, positive when the components agree in sign, negative when they disagree, zero when either is zero.",
+      "formal": "$a\\cdot b = a_1b_1 + a_2b_2$",
+      "needs": [
+        "Coordinates in the plane",
+        "multiplying signed numbers"
+      ],
+      "key_idea": false,
+      "why_hard": null
+    },
+    {
+      "id": "P2",
+      "name": "The shadow",
+      "statement": "The dot product equals the length of one vector's shadow on the other's line, multiplied by the other's length: only the part lying along the other vector counts.",
+      "formal": "$a\\cdot b = (\\text{shadow of } a \\text{ on } b)\\times\\lvert b\\rvert$",
+      "needs": [
+        "Right angles and perpendicular lines",
+        "Pythagoras' theorem"
+      ],
+      "key_idea": true,
+      "why_hard": "counter-intuitive, new abstraction, load-bearing (SG-4, SG-5, SG-6, SG-8 and SG-10 depend on it)"
+    }
+  ],
+  "facts": [
+    {
+      "id": "F1",
+      "fact": "The dot product of $(a_1, a_2)$ and $(b_1, b_2)$ is defined as $a_1b_1 + a_2b_2$; longer lists add one product per extra component.",
+      "why_it_matters": "Without the definition no score can be computed.",
+      "used_in": [
+        "L2"
+      ],
+      "verify": false
+    },
+    {
+      "id": "F2",
+      "fact": "The result of a dot product is a single number, not a vector.",
+      "why_it_matters": "Treating the result as an arrow makes \"bigger\" and \"positive or negative\" meaningless.",
+      "used_in": [
+        "L2",
+        "L3"
+      ],
+      "verify": false
+    }
+  ],
+  "background": [
+    {
+      "name": "Coordinates in the plane and arithmetic with signed numbers",
+      "note": "",
+      "lesson": null
+    },
+    {
+      "name": "Right angles, perpendicular lines and Pythagoras' theorem",
+      "note": "",
+      "lesson": null
+    },
+    {
+      "name": "Cosine of an angle, including angles from 90° to 180°",
+      "note": "",
+      "lesson": null
+    },
+    {
+      "name": "Use of a calculator for square roots and inverse cosine",
+      "note": "",
+      "lesson": null
+    }
+  ],
+  "lessons": [
+    {
+      "id": "L1",
+      "number": 1,
+      "kind": "why",
+      "title": "Why a match number is worth having",
+      "goal": "Discover why one number that scores a match between two lists is worth having.",
+      "area": "Motivation",
+      "difficulty": "low",
+      "principles": [],
+      "needs": [],
+      "key_idea": false,
+      "design": {
+        "principle_statement": null,
+        "puzzle": "You and two friends rate three kinds of film from −2 (hate) to +2 (love), in the order action, comedy, horror. You: (2, 1, −2). Ana: (2, 2, −1). Ben: (−2, 1, 2). Who should choose tonight's film for you? Now the hard part: describe a rule a computer could follow to answer the same question for 1,000 friends, giving one number per friend.",
+        "try_first": {
+          "question": "A music app stores your taste as (pop, rock, jazz) = (2, −1, 0): you love pop, mildly dislike rock and do not care about jazz. Three songs are described the same way: A = (2, −1, 2), B = (−2, 1, 0), C = (1, 0, 2). Invent a rule that turns \"your taste and one song\" into a single number, apply it to the three songs, and rank them. Then name one situation outside music where the same rule would be useful. (Designed tension: counting equal entries, or adding up differences, either ignores how strong a preference is or lets jazz, which you do not care about, change the result.)",
+          "marking": {
+            "pass": "The rule gives one number per song and has all three properties: it rises when you and the song agree, it falls when you disagree, and jazz does not affect it. Ranking is A, then C, then B. One sensible use outside music is named.",
+            "trap": null
+          }
+        },
+        "guiding_questions": [
+          "Ana and Ben each give exactly one rating identical to yours. Does \"count the identical ratings\" separate them? What does it miss?",
+          "For one category, you say +2. Which should score higher: a friend who says +2 or one who says +1? And a friend who says −2?",
+          "Song A and song C differ a lot in jazz. Should that change their scores for you? What must your rule do with a category where your own rating is 0?",
+          "You need one operation on two numbers that is large when both are large with the same sign, negative when the signs differ, and zero when either is zero. Which operation does that?",
+          "Once every category has its own small score, how do you turn them into one number?"
+        ],
+        "trap": null,
+        "aha": null,
+        "picture": null,
+        "visual": null,
+        "worked_example": null,
+        "levels": [],
+        "practice_task": null,
+        "success_criteria": [
+          {
+            "what": "A match needs to be one number so that many candidates can be ranked",
+            "from": "Motivation",
+            "how_tested": "Rank three candidates and say why a table of differences would not do",
+            "common_mistake": {
+              "kind": "words-without-maths",
+              "text": "describes \"similar\" without producing a number"
+            }
+          },
+          {
+            "what": "A good rule rewards agreement, punishes opposition and ignores what you do not care about",
+            "from": "Motivation",
+            "how_tested": "List the three properties and test a proposed rule against each",
+            "common_mistake": {
+              "kind": "overstretching",
+              "text": "accepts any rule that happens to rank this one case correctly"
+            }
+          },
+          {
+            "what": "The same need appears outside this one example",
+            "from": "Motivation",
+            "how_tested": "Name a second domain and say what the two lists are",
+            "common_mistake": {
+              "kind": "steps-without-why",
+              "text": "can score songs but cannot say what else is a \"list\""
+            }
+          }
+        ],
+        "to_teach": "The need for a single ranking number; the three properties a match rule must have; examples of lists (taste profiles, forces, directions, word counts). Pitfalls: [overgeneralization] \"any rule that ranks these three songs correctly is good\"; [conflation] \"similar\" taken to mean \"equal entry by entry\". Socratic teaching note: do not name the dot product in this session; ask \"what would your rule do if…\" until the learner's own rule has the three properties.",
+        "final_check": {
+          "question": "A garden app describes a garden as (sun, wetness, wind) = (2, −1, 0) and three plants by what they like: X = (2, −2, 1), Y = (−1, 2, 2), Z = (1, 1, −2). Give each plant one number and rank them. Then explain why you chose your rule: what would go wrong with \"count the entries that have the same sign\", and what would happen to the ranking if the garden's wind value were ignored altogether? (Expected with a multiply-and-add rule: X = 6, Z = 1, Y = −4; wind already contributes nothing.)",
+          "marking": {
+            "pass": "The same standard as Try first, on this new case: The rule gives one number per song and has all three properties: it rises when you and the song agree, it falls when you disagree, and jazz does not affect it. Ranking is A, then C, then B. One sensible use outside music is named.",
+            "trap": null,
+            "explain_it_back": "Rebuild the reasoning that leads to the idea, in your own words."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": null,
+        "rounds": 0,
+        "started": null,
+        "finished": null,
+        "to_work_on": [],
+        "attempts": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "L2",
+      "number": 2,
+      "kind": "principle",
+      "title": "Votes that add up",
+      "goal": "Discover why multiplying components in pairs and adding rewards agreement and punishes disagreement.",
+      "area": "Arithmetic of vectors",
+      "difficulty": "low",
+      "principles": [
+        "P1"
+      ],
+      "needs": [],
+      "key_idea": false,
+      "design": {
+        "principle_statement": "Multiply-and-add scoring — Multiply the two vectors component by component and add: each product is a vote, positive when the components agree in sign, negative when they disagree, zero when either is zero.",
+        "puzzle": "You need one operation on two numbers that gives a large positive result when both are large with the same sign (including both negative), a negative result when their signs differ, and nothing when either is zero. Adding fails the second test, subtracting fails the first. What is left?",
+        "try_first": {
+          "question": "Two students mark how strongly they agree (+) or disagree (−) with two statements. Priya: (2, −3). Quentin: (1, −2). Compute one number for how well their opinions match and say what each part of your calculation means. A classmate adds each pair instead of multiplying and gets 3 + (−5) = −2, \"so they disagree\". Who is right, and why? (Wrong path: adding pairs; it reports a mismatch for two people who are on the same side of both statements.)",
+          "marking": {
+            "pass": "Can state the principle in own words AND apply it (score 2 + 6 = 8) AND explain why the alternative fails (adding cannot tell \"both negative\" from \"disagree\").",
+            "trap": null
+          }
+        },
+        "guiding_questions": [
+          "On statement 2 both students are against. Should that count for or against their match?",
+          "What does adding −3 and −2 give? Does its sign fit your answer to question 1?",
+          "What does multiplying −3 by −2 give? And if one of them had been +2 instead?",
+          "If Quentin had no opinion (0) on a statement, what should that statement contribute? Which operation gives that?",
+          "You now have one number per statement. How do you get a single score, and what is it here?"
+        ],
+        "trap": null,
+        "aha": null,
+        "picture": null,
+        "visual": null,
+        "worked_example": {
+          "given": "a = (3, 2) and b = (4, −1). Find a·b and say what each term means.",
+          "result": "a·b = 10, a single positive number: on balance the two vectors agree, mostly because of their first components.",
+          "check": "Swap the order: b·a = 4 × 3 + (−1) × 2 = 12 − 2 = 10. The same votes are cast, so the score cannot depend on who is called a and who b.",
+          "steps": [
+            {
+              "do": "Multiply the first components: 3 × 4 = 12.",
+              "why": "\"Why multiply and not add?\" Because a product is large only when *both* numbers are large and of the same sign. Both first components are positive: a vote of +12 for \"these match\"."
+            },
+            {
+              "do": "Multiply the second components: 2 × (−1) = −2.",
+              "why": "\"What does the minus sign say?\" The two second components point opposite ways, so this pair votes against the match, but weakly, because both numbers are small."
+            },
+            {
+              "do": "Add the votes: 12 + (−2) = 10.",
+              "why": "\"Why add?\" Each component has had its say; one number is needed, and adding lets a strong agreement outweigh a weak disagreement."
+            }
+          ]
+        },
+        "levels": [],
+        "practice_task": null,
+        "success_criteria": [
+          {
+            "what": "Each product is a vote whose sign shows agreement and whose size shows strength",
+            "from": "Multiply-and-add scoring",
+            "how_tested": "Given a·b written out, say which component helps most and which hurts",
+            "common_mistake": {
+              "kind": "steps-without-why",
+              "text": "computes the total but cannot interpret a single term"
+            }
+          },
+          {
+            "what": "The result is one number, and the order of the vectors does not matter",
+            "from": "Multiply-and-add scoring",
+            "how_tested": "Compute a·b and b·a and explain why they agree",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "writes the answer as a vector of products, (12, −2)"
+            }
+          }
+        ],
+        "to_teach": "The principle; a zero component silences its vote; the two lists must have the same number of components, in the same order. Misunderstandings: [conflation] dot product confused with multiplying entry by entry and stopping there; [overgeneralization] \"a positive score means every component agrees\". Socratic teaching note: ask \"which sign should this pair contribute?\" before any multiplication is done.",
+        "final_check": {
+          "question": "Rosa: (−1, 4). Sam: (3, 2). Compute their match score. Then reconstruct the reasoning: on which statement do they disagree, and how does the calculation show it? What would the score become if Sam had no opinion on statement 1, and why does it go up? (Expected: −3 + 8 = 5; with Sam = (0, 2) it becomes 8.)",
+          "marking": {
+            "pass": "The same standard as Try first, on this new case: Can state the principle in own words AND apply it (score 2 + 6 = 8) AND explain why the alternative fails (adding cannot tell \"both negative\" from \"disagree\").",
+            "trap": null,
+            "explain_it_back": "Rebuild the reasoning that leads to the idea, in your own words."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": null,
+        "rounds": 0,
+        "started": null,
+        "finished": null,
+        "to_work_on": [],
+        "attempts": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "L3",
+      "number": 3,
+      "kind": "principle",
+      "title": "Only the part along the other counts",
+      "goal": "Discover that the dot product counts only the part of one vector along the other.",
+      "area": "Geometry of vectors",
+      "difficulty": "low",
+      "principles": [
+        "P2"
+      ],
+      "needs": [
+        "L2"
+      ],
+      "key_idea": true,
+      "design": {
+        "principle_statement": "The shadow — The dot product equals the length of one vector's shadow on the other's line, multiplied by the other's length: only the part lying along the other vector counts.",
+        "puzzle": "A heavy drawer can only slide straight in and out. You push it three times with exactly the same strength: straight in, at a slant, and flat against its side. Predict how far it moves each time, and say what number you would give each push to describe how much it achieved.",
+        "try_first": {
+          "question": "A cart stands on straight rails that run east; the rail direction is r = (1, 0). Three ropes pull on it: P = (4, 0), with strength 4; Q = (4, 3), with strength 5; R = (0, 6), with strength 6. Predict the order of the three dot products r·P, r·Q and r·R, from largest to smallest, and justify your prediction. Then compute them.",
+          "marking": {
+            "pass": "Gives the right answer, not the tempting one (r·P = r·Q = 4 and r·R = 0), AND justifies it at High school level (only the part of each pull along the rails counts) AND explains why the tempting answer fails (strength spent sideways moves nothing along the rails).",
+            "trap": "\"The stronger pull gives the bigger dot product.\" In the Initial Test this ranks the pulls R, Q, P by strength (6, 5, 4). It feels right because a longer vector is \"more\" of everything, and because in everyday life pulling harder always seems to help."
+          }
+        },
+        "guiding_questions": [
+          "The cart can move only along the rails. Rope R pulls straight north with strength 6. How far east does the cart go?",
+          "So how much did R's strength of 6 contribute to r·R? What does that say about judging by length alone?",
+          "Split Q = (4, 3) into a pull east and a pull north. What are the two pieces?",
+          "Which of the two pieces can the rails \"feel\", and what does the other piece achieve?",
+          "Compare Q's eastward piece with P. What must r·Q be, compared with r·P?",
+          "Say in one sentence which part of a vector the dot product counts."
+        ],
+        "trap": "\"The stronger pull gives the bigger dot product.\" In the Initial Test this ranks the pulls R, Q, P by strength (6, 5, 4). It feels right because a longer vector is \"more\" of everything, and because in everyday life pulling harder always seems to help.",
+        "aha": "The dot product sees only the part of one vector that lies along the other; whatever points sideways is invisible to it.",
+        "picture": "Light shines straight down onto the line of b, at right angles to it. Vector a casts a shadow on that line, and the dot product is the shadow's length times the length of b. Where it stops being true: a real shadow is never negative, but when a leans backwards its shadow falls behind the tail and has to be counted as negative; and a real shadow depends on where the sun is, whereas here the light is always at right angles to b.",
+        "visual": {
+          "objects": "a grid with origin O; vector b = (2, 0) on a faint line extended both ways; vector a = (3, 4) from the same tail; a dashed drop line from (3, 4) to (3, 0); the shadow segment from (0, 0) to (3, 0); one read-out \"a·b = shadow × length of b\".",
+          "colour_roles": "blue = vector a; orange = vector b and its line; green = the shadow and every number derived from it.",
+          "steps": "(1) b appears on its line. (2) a appears from the same tail. (3) The drop line falls from the tip of a at right angles to b's line. (4) The shadow lights up in green with its length. (5) The read-out multiplies the shadow by the length of b.",
+          "your_turn": "(inputs (High school rung) shadow of a on b's line: right value 3; wrong value 5 (the full length of a was used, so the sideways part was not discarded); wrong value 4 (the sideways part was taken instead of the part along b). Then a·b: right value 6; wrong value 10 (the two lengths were multiplied, so direction was ignored); wrong value 3 (the shadow was not multiplied by the length of b).",
+          "control": "the learner drags the tip of a. Moving it straight up or down leaves the shadow and the dot product unchanged; moving it parallel to b changes both."
+        },
+        "worked_example": {
+          "given": "a = (3, 4), which has length 5, and b = (2, 0), which lies along the x-axis and has length 2. Find a·b from a drawing.",
+          "result": "a·b = 6. The length of a, which is 5, never entered the calculation: only its 3 units along b did.",
+          "check": "By components: 3 × 2 + 4 × 0 = 6. And replacing a by (3, −7), which has the same shadow, gives 3 × 2 + (−7) × 0 = 6 again.",
+          "steps": [
+            {
+              "do": "Draw both vectors from the same point and drop a line from the tip of a, at right angles, onto the line of b. It lands at (3, 0).",
+              "why": "\"Why at right angles?\" Because that splits a into a part along b and a part sideways to b with nothing left over: (3, 4) = (3, 0) + (0, 4)."
+            },
+            {
+              "do": "Read the shadow: the segment from (0, 0) to (3, 0) has length 3.",
+              "why": "\"What happened to the 4?\" It points straight across b. It has no part along b at all, so it has nothing to contribute."
+            },
+            {
+              "do": "Multiply the shadow by the length of b: 3 × 2 = 6.",
+              "why": "\"Why multiply by the length of b?\" The shadow says how much of a goes b's way; b's own length says how much b there is to match with."
+            }
+          ]
+        },
+        "levels": [],
+        "practice_task": null,
+        "success_criteria": [
+          {
+            "what": "Only the part of a along b enters a·b; the sideways part contributes nothing",
+            "from": "The shadow, High school rung",
+            "how_tested": "Change the sideways part of a and predict the new dot product",
+            "common_mistake": {
+              "kind": "overstretching",
+              "text": "\"longer vector, larger dot product\""
+            }
+          },
+          {
+            "what": "The dot product is the shadow multiplied by the length of the other vector, not the shadow alone",
+            "from": "The shadow, High school rung",
+            "how_tested": "Given a shadow of 3 on a vector of length 2, state the dot product",
+            "common_mistake": {
+              "kind": "mixing-up",
+              "text": "dot product confused with the shadow itself"
+            }
+          },
+          {
+            "what": "Either vector may be the one that casts the shadow; the product is the same",
+            "from": "The shadow, High school rung",
+            "how_tested": "For a = (3, 4), b = (2, 0), find b's shadow on a (1.2) and check 1.2 × 5 = 6",
+            "common_mistake": {
+              "kind": "maths-without-picture",
+              "text": "accepts a·b = b·a but cannot see it in the picture"
+            }
+          }
+        ],
+        "to_teach": "The principle; splitting a vector into a part along and a part across another; the shadow counted as negative when it falls behind the tail (taken up in SG-4); the symmetry of the picture. Misunderstandings that survive the Insight: [conflation] \"the dot product *is* the shadow\" (true only when the other vector has length 1); [overgeneralization] \"sideways parts reduce the score\" (they add nothing, they do not subtract). Socratic teaching note: keep asking \"which part of this pull can the rails feel?\"; show the Picture only after the learner has stated the Insight.",
+        "final_check": {
+          "question": "A conveyor belt carries crates north; its direction is d = (0, 2). Three workers push a crate: A = (0, 3), B = (4, 3), C = (5, 0). Predict the order of d·A, d·B and d·C, justify it, then compute. Reconstruct the reasoning: B pushes with strength 5 and A with strength 3; explain what B's extra strength buys. What would happen to d·B if B's sideways part doubled, giving (8, 3)? (Expected: d·A = d·B = 6, d·C = 0; with (8, 3) still 6.)",
+          "marking": {
+            "pass": "The same standard as Try first, on this new case: Gives the right answer, not the tempting one (r·P = r·Q = 4 and r·R = 0), AND justifies it at High school level (only the part of each pull along the rails counts) AND explains why the tempting answer fails (strength spent sideways moves nothing along the rails).",
+            "trap": null,
+            "explain_it_back": "Rebuild the reasoning that leads to the idea, in your own words."
+          }
+        }
+      },
+      "state": {
+        "status": "not-started",
+        "step": null,
+        "saved": null,
+        "level_reached": null,
+        "delivery": null,
+        "rounds": 0,
+        "started": null,
+        "finished": null,
+        "to_work_on": [],
+        "attempts": [],
+        "notes": ""
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "overview.md",
+      "kind": "overview",
+      "lesson": null,
+      "title": "Course overview",
+      "updated": "2026-11-14"
+    }
+  ],
+  "history": [
+    {
+      "at": "2026-11-14",
+      "event": "Course created"
+    }
+  ]
+}

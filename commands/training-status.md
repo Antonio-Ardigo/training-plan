@@ -4,6 +4,7 @@ description: Show learning progress across all courses -- completion, strengths,
 allowed_tools:
   - Read
   - Glob
+  - Bash(python3:*)
 ---
 
 You are generating a learning analytics summary across the learner's courses.

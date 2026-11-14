@@ -6,6 +6,7 @@ allowed_tools:
   - Write
   - Edit
   - Glob
+  - Bash(python3:*)
 ---
 
 You are running an interactive **Test-Teach-Test (TTT)** learning session.

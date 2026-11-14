@@ -6,6 +6,7 @@ allowed_tools:
   - Write
   - Edit
   - Glob
+  - Bash(python3:*)
 ---
 
 You are producing a set of **fully solved exercises** for practice.

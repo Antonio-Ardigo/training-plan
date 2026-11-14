@@ -7,7 +7,7 @@ description: The data model of a course - course.json, the only place where a co
 
 A **course** is one learning goal, taught in numbered **lessons**. Everything about it lives in one file, `course.json`. Every other file is either generated from it or listed in it. Nothing is stored twice.
 
-The schema is `course.schema.json` in this skill's folder. It is authoritative for field names and allowed values. This file gives the rules the schema cannot express. The words the learner sees are in `glossary.md`.
+The schema is `course.schema.json` in this skill's folder, and `example-course.json` is a small valid course to copy the shape from. It is authoritative for field names and allowed values. This file gives the rules the schema cannot express. The words the learner sees are in `glossary.md`.
 
 ## 1. Folder layout
 
@@ -46,6 +46,7 @@ Without Python, do the same work by hand, following this file and the schema exa
 
 ## 3. Writing `course.json`
 
+- **Copy the shape.** `example-course.json` in this folder is a complete, valid course (three lessons: a why-it-matters lesson, a principle lesson and a key-idea lesson, Socratic method). Use its field names and nesting exactly. A direct-method course has the same shape with `puzzle: null` and empty `guiding_questions`. Never invent, rename or add a field: the schema rejects unknown fields.
 - **Read before you write.** Read the whole file, change only the fields the step owns, write the whole file back as UTF-8 JSON with two-space indentation. Never keep a second copy of a field anywhere else.
 - **After every write:** validate, then regenerate `overview.md`. A failed validation is fixed before anything else happens.
 - **Dates** are `YYYY-MM-DD`. Every change a learner would care about adds one line to `history` (`Lesson 3 done`, `Course created`, `Lesson 2 converted from 3.x`).

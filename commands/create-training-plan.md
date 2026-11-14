@@ -6,6 +6,7 @@ allowed_tools:
   - Write
   - Edit
   - Glob
+  - Bash(python3:*)
   - Skill
 ---
 
@@ -266,7 +267,7 @@ Rules:
 
 ### Step 4: Write the Course
 
-The course is stored as **one file**, `course.json`, in a folder named after the course, with a generated outline beside it. Read the **course-model** skill (Glob `**/skills/course-model/SKILL.md`) and its schema `course.schema.json` before writing: they define every field, the folder layout and the rules. Do not write a Markdown plan file.
+The course is stored as **one file**, `course.json`, in a folder named after the course, with a generated outline beside it. Before writing, Read three files of the **course-model** skill (Glob `**/skills/course-model/SKILL.md`): `SKILL.md` (layout and rules), `course.schema.json` (every field and allowed value) and `example-course.json` (a complete, valid three-lesson course). **Use exactly the field names and nesting of `example-course.json`; never invent a field or rename one.** Do not write a Markdown plan file.
 
 1. **Choose the folder.** The course id is a short lowercase slug of the topic (`cost-estimation`, `transformer-attention`). If `<course-id>/course.json` already exists, do not overwrite it: ask whether to replace it or to keep both (keep both by adding a suffix such as `-2` to the new id).
 2. **Write `<course-id>/course.json`** with the Write tool. Put what Steps 1 to 3.5 produced into these fields:
@@ -290,7 +291,7 @@ The course is stored as **one file**, `course.json`, in a folder named after the
 | Files | `files[]`: one row for `overview.md` (kind `overview`) |
 | History | `history[]`: `{"at": "<today>", "event": "Course created"}` |
 
-3. **Validate and render.** If `python3` is available, run the course-model tool: `python3 <path>/course.py validate <course-id>/course.json --files`, fix every error it reports and run it again until it passes, then `python3 <path>/course.py render-overview <course-id>/course.json`. Without Python, check the rules in section 4 of the course-model skill yourself and write `overview.md` as its section 5 describes. The overview never contains tests, marking guides or worked solutions.
+3. **Validate and render.** Run the course-model tool with Bash: `python3 <skill folder>/tools/course.py validate <course-id>/course.json --files`. Fix every error it reports and run it again until it prints `OK`. Then run `python3 <skill folder>/tools/course.py render-overview <course-id>/course.json`. Only if Bash or Python is unavailable: compare every field name in your file with `example-course.json` and the schema, check the rules in section 4 of the course-model skill yourself, write `overview.md` as its section 5 describes, and tell the learner that the course was checked by hand. The overview never contains tests, marking guides or worked solutions.
 
 ### Step 4.5: Check the Required Elements
 

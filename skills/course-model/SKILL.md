@@ -46,7 +46,7 @@ Without Python, do the same work by hand, following this file and the schema exa
 
 ## 3. Writing `course.json`
 
-- **Copy the shape.** `example-course.json` in this folder is a complete, valid course. If the file cannot be read directly, print it with `python3 <this folder>/tools/course.py example` (and the schema with `... schema`). It has three lessons: a why-it-matters lesson, a principle lesson and a key-idea lesson, Socratic method). Use its field names and nesting exactly. A direct-method course has the same shape with `puzzle: null` and empty `guiding_questions`. Never invent, rename or add a field: the schema rejects unknown fields.
+- **Copy the shape.** `example-course.json` in this folder is a complete, valid course. If the file cannot be read directly, print it with `python3 <this folder>/tools/course.py example` (and the schema with `... schema`). It has three lessons: a why-it-matters lesson, a principle lesson and a key-idea lesson, in the Socratic method. Use its field names and nesting exactly. A direct-method course has the same shape with `puzzle: null` and empty `guiding_questions`. Never invent, rename or add a field: the schema rejects unknown fields.
 - **Read before you write.** Read the whole file, change only the fields the step owns, write the whole file back as UTF-8 JSON with two-space indentation. Never keep a second copy of a field anywhere else.
 - **After every write:** validate, then regenerate `overview.md`. A failed validation is fixed before anything else happens.
 - **Dates** are `YYYY-MM-DD`. Every change a learner would care about adds one line to `history` (`Lesson 3 done`, `Course created`, `Lesson 2 converted from 3.x`).

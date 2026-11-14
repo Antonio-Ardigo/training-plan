@@ -4,13 +4,13 @@
     "name": "Anton Ardigo"
   },
   "metadata": {
-    "description": "Learning plans built on Test-Teach-Test, with an aha-first explanation of the hardest principles at High school, Master's or Advanced level."
+    "description": "Courses for any learning goal: try first, learn what is missing, show you've got it, with key ideas taught through an aha moment, at High school, Master's or Advanced level."
   },
   "plugins": [
     {
       "name": "training-plan",
       "source": "./",
-      "description": "Generate a training plan for any learning goal, pitched at High school, Master's or Advanced level. Hard principles are taught through a failed prediction, one insight and a climb through the levels, with fully worked exercises. Includes a Socratic mode, session checkpoints, a learner profile and a concept library. Also includes a skill that writes PDF technical training manuals.",
+      "description": "Create a course for any learning goal, pitched at High school, Master's or Advanced level, Socratic by default. Lessons start with Try first, teach only what is missing and end with Show you've got it; the hardest ideas are taught through an aha moment and level by level, with fully worked examples. Lessons run on an interactive page, every step is saved in one course.json, and progress is computed across courses. Also includes a skill that writes PDF technical training manuals.",
       "category": "education"
     }
   ]

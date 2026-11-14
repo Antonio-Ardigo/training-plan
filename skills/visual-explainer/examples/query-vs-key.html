@@ -279,7 +279,7 @@ function paint(){
     dep:'<b>You predicted it depends on the target.</b> It nearly never does. The updates match only if dS happens to be symmetric, and row-wise softmax breaks that for almost any target.'}[st.pred]||'';
   $('#chips').innerHTML=[['Prediction',done],...ORDER.map(k=>[EX[k].name,st.ex[k]?.ok])].map(([n,on])=>`<li class="${on?'on':''}">${n}</li>`).join('');
   const P={same:'stay identical (the tempting answer, wrong)',diff:'they separate (right)',dep:'depends on the target (wrong)'};
-  $('#results').value=['VISUAL SESSION RESULTS','Principle: Query vs Key (self-attention)','Prediction: '+(P[st.pred]||'not made'),'Reason given: '+(st.why||'none'),
+  $('#results').value=['LESSON PAGE RESULTS','Principle: Query vs Key (self-attention)','Prediction: '+(P[st.pred]||'not made'),'Reason given: '+(st.why||'none'),
     ...ORDER.map(k=>{const r=st.ex[k];return EX[k].name+': '+(!r?'not attempted':(r.ok?`correct, ${r.tries} ${r.tries>1?'tries':'try'}`:`not solved, ${r.tries} ${r.tries>1?'tries':'try'}`)+(r.shown?', worked solution replayed':''))}),
     'Level reached: '+reached()].join('\n');
 }

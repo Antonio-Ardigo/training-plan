@@ -113,6 +113,13 @@ try:
           "the lesson is closed as done, at High school, with Try first judged as the trap")
     code, out = run("validate", cj, "--files")
     check(code == 0, "the course is still valid after the merge")
+    # the database read returns documents as {id, data, version}: merge-activity accepts that shape too
+    shutil.copytree(os.path.join(APPFIX, "compound-interest"), os.path.join(tmp, "ci2"))
+    wrapped = [{"id": e["id"], "data": e, "version": 1} for e in json.load(open(os.path.join(APPFIX, "activity.json"), encoding="utf-8"))]
+    wp = os.path.join(tmp, "wrapped.json")
+    json.dump(wrapped, open(wp, "w", encoding="utf-8"))
+    code, out = run("merge-activity", os.path.join(tmp, "ci2", "course.json"), wp)
+    check(code == 0 and json.loads(out.splitlines()[0])["merged_answers"] == 10, "merge-activity reads the database's {id, data} shape")
 finally:
     shutil.rmtree(tmp)
 

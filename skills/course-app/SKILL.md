@@ -41,7 +41,7 @@ Without a publishing tool: tell the learner to open `app/local.html` in a browse
 ## 4. Sync: bring the learner's work into `course.json`
 
 Do this at the start of every `/continue` and `/progress` when `course.app_url` is set:
-1. Read the page's `activity` collection (on claude.ai: the `ArtifactData` tool, action `list`, with the artifact's url) and write the documents, as a JSON list, to a temporary file.
+1. Read the page's `activity` collection (on claude.ai: the `ArtifactData` tool, action `list` with the artifact's url, `query.limit` 1000, and `out_dir` to save the documents as files when there are many) and write the documents, as one JSON list, to a temporary file. Either shape works: the events themselves, or the `{id, data, version}` records the read returns.
 2. Run `python3 <course-model>/tools/course.py merge-activity <course>/course.json <file>`. It appends every new answer to its lesson's `attempts` (once: the event id is kept), adds what to work on, starts and closes lessons, sets the level reached, and regenerates `overview.md`. Running it twice changes nothing.
 3. It reports `unmarked` answers: mark each now, as lesson-flow section 3 says, and write the verdict into that attempt. It reports `closed` lessons: write their lesson notes and practice book (lesson-flow, Close) if the app did not.
 4. A lesson the app left `in-progress` with `step: learn` after `final-failed` continues in chat or on the page with another round.

@@ -691,8 +691,9 @@ def convert(plan_path, out_dir=None):
             "success_criteria": crit,
             "to_teach": f.get("Teach Topics", ""),
             "final_check": {"question": f.get("Final Test", ""),
-                            "marking": {"pass": "The same standard as Try first, on this new case: "
-                                        + (f.get("Pass Criteria", "") or "the lesson's success criteria."),
+                            "marking": {"pass": "The same standard as Try first, applied to this new case: the idea stated in "
+                                        "the learner's own words and applied correctly at the course level, with the right values for this "
+                                        "case worked out from its own data (Try first's numbers do not apply here).",
                                         "trap": None,
                                         "explain_it_back": ("Rebuild the reasoning that leads to the idea, in your own words."
                                                             if socratic else None)}},
